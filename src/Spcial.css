@@ -1,0 +1,248 @@
+/* .sidebar ul li:hover i {
+  animation: spin 1.0s linear;
+} */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* card hover effects  */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.button_1 {
+  padding: 10px 20px;
+  background-color: var(--gray-colour);
+}
+
+.heading {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.sub_heading {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sub_mini_heading {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* all forms ki title css */
+.title-section h2 {
+   margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+
+}
+
+/* form lo buttons */
+
+.dialog-title{
+  color: var(--red-color);
+}
+
+
+/* icons colours */
+
+/* Actions */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* edit viwe delete Buttons */
+
+.delete-btn {
+  color: var(--btn-red-colour);
+  border-radius: 8px;
+  transition: 0.3s;
+  border: none;
+  font-size: 17px;
+}
+.edit-btn {
+  color: var(--orange-colour);
+  border-radius: 8px;
+  transition: 0.3s;
+  border: none;
+    font-size: 17px;
+   
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  transform: scale(1.15);
+}
+.view-btn {
+  color: var(--gray-colour);
+  border-radius: 8px;
+  transition: 0.3s;
+  border: none;
+    font-size: 17px;
+}
+
+.view-btn:hover {
+  transform: scale(1.15);
+}
+
+/* Image */
+img {
+  border-radius: 8px;
+  object-fit: cover;
+}
+.button-section button{
+   margin-top:30px;
+  padding:15px 15px;
+  border:none;
+  border-radius:7px;
+  background:var(--red-color);
+  color:var(--wight-color);
+  cursor:pointer; 
+}
+
+/* create and update BUTTONS */
+.button-group {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+ 
+}
+.btn-create{
+  border-radius: 10px;
+  border: none;
+}
+
+
+
+.btn-back {
+ background: var(--gray-colour);
+  color: white;
+     padding: 14px 28px;
+    font-size: 16px;
+    margin-top: 25px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+}
+
+/* ======================================================================================================= */
+/* ================= SweetAlert ================= */
+
+.swal2-popup{
+    width:340px !important;
+    padding:28px !important;
+    border-radius:18px !important;
+    font-family:Poppins,sans-serif !important;
+    box-shadow:0 15px 35px rgba(100,1,1,.15) !important;
+}
+
+.swal2-title{
+    color:#333 !important;
+    font-size:24px !important;
+    font-weight:700 !important;
+}
+
+.swal2-html-container{
+    color:#666 !important;
+    font-size:15px !important;
+    margin:10px 0 20px !important;
+}
+
+.swal2-icon{
+    transform:scale(1.1);
+    margin-bottom:10px !important;
+}
+
+/* Success */
+
+.success-popup{
+    border-top:5px solid var(--red-color);
+}
+
+.success-popup .swal2-timer-progress-bar{
+    background:var(--red-color) !important;
+}
+
+/* Error */
+
+.error-popup{
+    border-top:5px solid #dc3545;
+}
+
+.error-popup .swal2-timer-progress-bar{
+    background:#dc3545 !important;
+}
+
+/* Buttons */
+
+.success-btn,
+.error-btn{
+
+    background:var(--red-color) !important;
+
+    color:#fff !important;
+
+    border:none !important;
+
+    border-radius:8px !important;
+
+    padding:10px 28px !important;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.success-btn:hover,
+.error-btn:hover{
+
+    background:#7d0202 !important;
+
+    transform:translateY(-2px);
+}
+
+/* Success Icon Color */
+
+.swal2-success{
+    border-color:var(--red-color) !important;
+}
+
+.swal2-success [class^="swal2-success-line"]{
+    background:var(--red-color) !important;
+}
+
+
+.swal2-success-ring{
+    border:4px solid rgba(152, 30, 8, 0.342) !important;
+}
+
+/* active inactive */
+.active {
+
+  background: rgba(247, 105, 77, 0.274);
+  color: rgb(101, 2, 2);
+
+}
+
+.inactive {
+
+  background: rgba(255, 0, 0, 0.205);
+  color:var(--red-color);
+
+}

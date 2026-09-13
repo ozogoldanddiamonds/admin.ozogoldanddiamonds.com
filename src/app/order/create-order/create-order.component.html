@@ -1,0 +1,688 @@
+<!-- ========================= -->
+<!-- BILLING HEADER -->
+<!-- ========================= -->
+
+<div class="billing-header mb-4">
+
+    <div class="row align-items-center">
+
+        <!-- Logo -->
+
+        <div class="col-md-2 text-center">
+
+            <img src="assets/Images/logo2.png" class="company-logo" alt="Logo">
+
+        </div>
+
+        <!-- Company -->
+
+
+        <!-- Title -->
+
+        <div class="col-md-8 ">
+
+            <h1 class="billing-title">
+
+                CREATE BILLING
+
+            </h1>
+
+            <span class="billing-subtitle">
+
+                Jewellery Billing System
+
+            </span>
+            <!-- Right Empty -->
+        <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="container-fluid py-4 billing-page">
+
+    <form [formGroup]="orderForm" (ngSubmit)="createOrder()">
+
+
+        <div class="bill-shell">
+
+
+            <!-- ========================= -->
+            <!-- ORDER ITEMS -->
+            <!-- ========================= -->
+            <!-- PRODUCT -->
+            <div class="row">
+
+                <div class="col-md-5">
+
+                    <div class="card bill-card">
+
+                        <div class="card-header bg-danger text-white">
+                            <span class="header-bar"></span>
+                            Product & Variant Details
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row align-items-end g-3">
+
+                                <!-- SKU -->
+                                <div class="col-md-7">
+
+                                    <label class="form-title">
+
+                                        Search SKU
+
+                                    </label>
+
+                                    <ng-select class="bill-select" [items]="filteredVariants" bindLabel="sku"
+                                        bindValue="_id" [searchable]="true" [clearable]="true" [virtualScroll]="true"
+                                        appendTo="body" formControlName="variant" placeholder="Enter SKU"(open)="loadAllSkus()"
+                                        (search)="onSearch($event)" (change)="onVariantChange()">
+
+                                        <ng-template ng-option-tmp let-item="item">
+
+                                            <div class="sku-item">
+
+                                                <div class="sku-code">
+                                                    {{item.sku}}
+                                                </div>
+
+                                                <div class="sku-info">
+                                                    {{item.product.name}} |
+                                                    {{item.metalPurity}}
+                                                </div>
+
+                                            </div>
+
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </div>
+
+                                <div class="col-md-2">
+
+                                    <label class="form-title">
+
+                                        Qty
+
+                                    </label>
+
+                                    <input type="number" class="form-control qty-box" formControlName="quantity">
+
+                                </div>
+
+                                <div class="col-md-3 d-flex align-items-end">
+
+                                    <button class="btn add-btn w-100" type="button" (click)="addItem()">
+
+                                        <!-- <i class="fa fa-plus me-2"></i> -->
+
+                                        Add
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-7">
+                    <div class="details-sku">
+                        <div class="card mt-4" *ngIf="selectedProduct">
+
+                            <div class="card-header bg-danger text-white">
+                                <span class="header-bar"></span>
+
+                                Product & Variant Details
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+
+                                    <!-- Image -->
+
+
+                                    <div class="col-lg-3 text-center">
+
+                                        <img [src]="selectedProduct.images[0]" class="img-fluid rounded shadow"
+                                            style="height:120px;width:120px;object-fit:cover;">
+
+                                    </div>
+
+
+                                    <!-- Product Details -->
+
+                                    <div class="col-lg-9">
+
+                                        <div class="details-container">
+
+                                            <!-- <div class="detail-item">
+            <span class="label">Product</span>
+            <span class="value">{{selectedProduct.name}}</span>
+        </div> -->
+
+                                            <div class="detail-item">
+                                                <span class="label">Product Type</span>
+                                                <span class="value">{{selectedProduct.productType}}</span>
+                                            </div>
+
+                                            <ng-container *ngIf="selectedVariant">
+                                                <div class="detail-item">
+                                                    <span class="label">Purity</span>
+                                                    <span class="value">{{selectedVariant.metalPurity}}</span>
+                                                </div>
+
+                                                <div class="detail-item">
+                                                    <span class="label">SKU</span>
+                                                    <span class="value">{{selectedVariant.sku}}</span>
+                                                </div>
+
+
+
+                                                <div class="detail-item">
+                                                    <span class="label">Metal</span>
+                                                    <span class="value">{{selectedVariant.metalType}}</span>
+                                                </div>
+
+                                                <!-- <div class="detail-item">
+                <span class="label">Color</span>
+                <span class="value">{{selectedVariant.metalColor}}</span>
+            </div> -->
+
+                                                <!-- <div class="detail-item">
+                <span class="label">Gross Weight</span>
+                <span class="value">{{selectedVariant.grossWeight}} g</span>
+            </div> -->
+
+                                                <div class="detail-item">
+                                                    <span class="label">Net Weight</span>
+                                                    <span class="value">{{selectedVariant.netWeight}} g</span>
+                                                </div>
+
+                                                <div class="detail-item">
+                                                    <span class="label">Size</span>
+                                                    <span class="value">{{selectedVariant.size}}</span>
+                                                </div>
+
+                                                <!-- <div class="detail-item">
+                <span class="label">Making Charge</span>
+                <span class="value">₹ {{selectedVariant.makingCharges}}</span>
+            </div> -->
+
+                                            </ng-container>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- PRODUCT PREVIEW -->
+                    <!-- ========================= -->
+
+
+                </div>
+            </div>
+
+            <div class="card mt-4">
+
+                <div class="card-header">
+                    <span class="header-bar"></span>
+
+                    <h5 class="mb-0">
+
+                        Order Items
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-0">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-hover mb-0">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>#</th>
+
+                                    <th>Image</th>
+
+                                    <th>Product</th>
+
+                                    <th>Variant</th>
+
+                                    <th>Qty</th>
+
+                                    <th>Metal Value</th>
+
+                                    <!-- <th>Making</th> -->
+
+                                    <th>GST</th>
+
+                                    <th>Total</th>
+
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr *ngFor="let item of cartItems; let i=index">
+
+                                    <td>{{i+1}}</td>
+
+                                    <td>
+
+                                        <img [src]="item.image" width="60" height="60"
+                                            style="object-fit:cover;border-radius:8px;">
+
+                                    </td>
+
+                                    <td>
+
+                                        {{item.productName}}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{item.variantName}}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{item.quantity}}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{item.metalValue | currency:'INR'}}
+
+                                    </td>
+
+                                    <!-- <td>
+
+                                        {{item.makingCharge | currency:'INR'}}
+
+                                    </td> -->
+
+                                    <td>
+
+                                        {{item.gstAmount | currency:'INR'}}
+
+                                        <br>
+
+                                        <h5>
+
+                                            {{item.gstPercentage}} %
+
+                                        </h5>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{item.totalPrice | currency:'INR'}}
+
+                                    </td>
+
+                                    <td>
+
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <!-- View Button -->
+                                            <button class="btn btn-info btn-sm action-btn" type="button"
+                                                (click)="viewItem(item)">
+
+                                                <i class="fa fa-eye"></i>
+
+                                            </button>
+
+                                            <!-- Remove Button -->
+                                            <button class="btn btn-danger btn-sm action-btn" type="button"
+                                                (click)="removeItem(i)">
+
+                                                <i class="fa fa-trash"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr *ngIf="cartItems.length==0">
+
+                                    <td colspan="10" class="text-center">
+
+                                        No Products Added
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+            <!-- ========================= -->
+            <!-- VARIANT DETAILS -->
+            <!-- ========================= -->
+
+            <!-- ========================= -->
+            <!-- PAYMENT + SUMMARY -->
+            <!-- ========================= -->
+
+            <div class="row mt-4">
+
+                <!-- PAYMENT -->
+
+                <div class="col-lg-5">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <span class="header-bar"></span>
+
+                            <h5> Payment Details</h5>
+
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <label>
+
+                                    Payment Method
+
+                                </label>
+
+                                <select class="form-select" formControlName="paymentMethod">
+
+                                    <option value="CASH">
+
+                                        Cash
+
+                                    </option>
+
+                                    <option value="UPI">
+
+                                        UPI
+
+                                    </option>
+
+                                    <option value="CARD">
+
+                                        Card
+
+                                    </option>
+
+                                    <option value="NETBANKING">
+
+                                        Net Banking
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div>
+
+                                <label>
+
+                                    Notes
+
+                                </label>
+
+                                <textarea rows="4" class="form-control" formControlName="notes">
+
+                        </textarea>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SUMMARY -->
+
+                <div class="col-lg-7">
+                    <!-- ========================= -->
+                    <!-- CUSTOMER + PRODUCT -->
+                    <!-- ========================= -->
+
+                    <div class="row">
+
+                        <!-- CUSTOMER -->
+
+                        <div class="col-12">
+
+                            <div class="card bill-card mb-4">
+
+                                <div class="card-header">
+                                    <span class="header-bar"></span>
+
+                                    <h5>
+
+                                        Customer Details
+
+                                    </h5>
+
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Name</label>
+
+                                            <input type="text" class="form-control" formControlName="customerName">
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Phone</label>
+
+                                            <input type="text" class="form-control" formControlName="customerPhone">
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Email</label>
+
+                                            <input type="email" class="form-control" formControlName="customerEmail">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="card">
+
+                        <div class="card-header">
+                            <span class="header-bar"></span>
+                            <h5> Order Summary</h5>
+
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <table class="table table-borderless">
+
+                                <tr>
+
+                                    <th>
+
+                                        Sub Total
+
+                                    </th>
+
+                                    <td class="text-end">
+
+                                        {{subTotal | currency:'INR'}}
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        Discount
+
+                                    </th>
+
+                                    <td class="text-end">
+
+                                        {{discount | currency:'INR'}}
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        GST
+
+                                    </th>
+
+                                    <td class="text-end">
+
+                                        {{gst | currency:'INR'}}
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>
+
+                                        Shipping
+
+                                    </th>
+
+                                    <td class="text-end">
+
+                                        ₹0
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="table-warning">
+
+                                    <th>
+
+                                        Grand Total
+
+                                    </th>
+
+                                    <th class="text-end">
+
+                                        {{grandTotal | currency:'INR'}}
+
+                                    </th>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- BUTTONS -->
+            <!-- ========================= -->
+
+            <div class="row mt-4">
+
+                <div class="col text-end">
+                    <button type="button" class="btn btn-primary" *ngIf="orderSummary?._id">
+
+                        Print Invoice
+
+                    </button>
+
+                    <button type="button" class="btn btn-secondary me-2" (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+
+
+                    <button type="submit" class="btn-create">
+
+                        Create Order
+
+                    </button>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

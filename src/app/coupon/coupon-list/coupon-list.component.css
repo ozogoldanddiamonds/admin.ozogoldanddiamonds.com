@@ -1,0 +1,98 @@
+.category-container {
+  padding: 30px;
+ 
+  min-height: 100vh;
+}
+
+/* Top Row */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.title-section h2 {
+  font-size: 26px;
+  color:var(--red-color);
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.title-section p {
+  color:var( --gray-colour);
+    font-size: 16px;
+}
+
+
+
+/* Search */
+.search-row {
+  margin-bottom: 30px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+/* Table Card */
+.table-row {
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Table */
+table {
+  width: 100%;
+}
+
+th {
+  color:var(--red-color) !important;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+td {
+  color: #333;
+  font-size: 15px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.view-btn i {
+  color: #666;
+  font-size: 20px;
+}
+
+.edit-btn i {
+  color: var(--orange-colour);
+  font-size: 20px;
+}
+
+.delete-btn i {
+  color:var(--btn-red-colour);
+  font-size: 20px;
+}
+
+/* Remove button backgrounds */
+.view-btn,
+.edit-btn,
+.delete-btn {
+  background: transparent;
+}
+
+/* Paginator */
+mat-paginator {
+  border-top: 1px solid #eee;
+}

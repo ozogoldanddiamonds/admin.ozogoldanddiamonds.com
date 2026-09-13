@@ -1,0 +1,278 @@
+/* Container */
+.container {
+    padding: 20px;
+}
+
+/* Title */
+.title-section {
+    margin-bottom: 20px;
+}
+
+.title-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Card */
+.category-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Layout */
+.form-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.left-section {
+    flex: 1;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs */
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #d4af37;
+}
+
+/* Buttons */
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+/* Save Button */
+.btn-create {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--red-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Back Button */
+.btn-back {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #555;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-create:hover,
+.btn-back:hover {
+    opacity: 0.9;
+}
+
+/* =========================
+   PRODUCT NG SELECT
+   ========================= */
+
+::ng-deep .product-select {
+    width: 100%;
+    display: block;
+}
+
+
+::ng-deep .product-select .ng-select-container {
+
+    width: 100%;
+
+    height: 54px;
+    min-height: 54px;
+
+    padding: 0 14px;
+
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+
+    background: #fff;
+
+    box-shadow: none;
+
+    box-sizing: border-box;
+}
+
+
+/* Focus */
+
+::ng-deep .product-select.ng-select-focused .ng-select-container {
+
+    border-color: #4caf50;
+
+    box-shadow: none;
+}
+
+
+/* Selected Product */
+
+::ng-deep .product-select .ng-value {
+
+    font-size: 14px;
+    color: #333;
+}
+
+
+/* Placeholder */
+
+::ng-deep .product-select .ng-placeholder {
+
+    color: #999;
+    font-size: 14px;
+}
+
+
+/* Search Input */
+
+::ng-deep .product-select .ng-input>input {
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: none !important;
+    outline: none !important;
+
+    font-size: 14px !important;
+
+    background: transparent !important;
+}
+
+
+/* =========================
+   DROPDOWN
+   ========================= */
+
+::ng-deep .product-select .ng-dropdown-panel {
+
+    margin-top: 4px;
+
+    border: 1px solid #dcdcdc;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Options */
+
+::ng-deep .product-select .ng-dropdown-panel .ng-option {
+
+    padding: 12px 14px;
+
+    font-size: 14px;
+}
+
+
+/* Hover */
+
+::ng-deep .product-select .ng-dropdown-panel .ng-option:hover {
+
+    background: #f5f7fb;
+}
+
+
+/* Selected */
+
+::ng-deep .product-select .ng-dropdown-panel .ng-option-selected {
+
+    background: #eaf7ec;
+
+    color: #2e7d32;
+}
+
+
+/* =========================
+   PRODUCT NOT FOUND
+   ========================= */
+
+::ng-deep .product-not-found {
+
+    padding: 18px;
+
+    text-align: center;
+
+    color: #666;
+}
+
+
+::ng-deep .product-not-found strong {
+
+    display: block;
+
+    color: #333;
+
+    font-size: 15px;
+
+    margin-bottom: 6px;
+}
+
+
+::ng-deep .product-not-found div {
+
+    font-size: 13px;
+
+    color: #888;
+
+    margin-bottom: 10px;
+}
+
+
+/* Add Product Button */
+
+::ng-deep .add-product-btn {
+
+    background: #4caf50;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 7px 14px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #fff;
+
+    cursor: pointer;
+}
+
+
+::ng-deep .add-product-btn:hover {
+
+    background: #388e3c;
+
+}

@@ -1,0 +1,78 @@
+<h2 mat-dialog-title class="dialog-title">
+
+  <i class="fa fa-folder-open me-2"></i>
+
+  Category Details
+
+</h2>
+
+<div mat-dialog-content>
+
+  <div class="details-card">
+
+    <div class="image-section">
+
+      <img
+        [src]="data.image"
+        class="category-image">
+
+    </div>
+
+    <div class="details-section">
+
+      <div class="detail-item">
+
+        <label>Category Name</label>
+
+        <span>{{ data.name }}</span>
+
+      </div>
+
+      <div class="detail-item">
+
+        <label>Status</label>
+
+        <span
+          class="status-badge"
+          [ngClass]="
+            data.isActive
+            ? 'active'
+            : 'inactive'
+          ">
+
+          {{ data.isActive ? 'Active' : 'Inactive' }}
+
+        </span>
+
+      </div>
+
+      <div class="detail-item">
+
+        <label>Created Date</label>
+
+        <span>
+
+          {{ data.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    [mat-dialog-close]="false"
+    class="btn-close">
+
+    Close
+
+  </button>
+
+</div>

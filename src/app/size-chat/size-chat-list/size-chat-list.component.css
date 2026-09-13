@@ -1,0 +1,156 @@
+/* ==============================
+   Main Container
+============================== */
+
+.category-container {
+  padding: 20px;
+  background: #f8f9fc;
+  min-height: 100vh;
+}
+
+/* ==============================
+   Top Row
+============================== */
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.title-section h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.title-section p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ==============================
+   Button
+============================== */
+
+.button-section button {
+  background:var(--red-color);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.button-section button:hover {
+  background: var(--red-color);
+}
+
+/* ==============================
+   Search
+============================== */
+
+.search-row {
+  margin-bottom: 20px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* ==============================
+   Table
+============================== */
+
+.table-row {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+}
+
+td,
+th {
+  padding: 14px !important;
+}
+
+/* ==============================
+   Image
+============================== */
+
+td img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+/* ==============================
+   Action Buttons
+============================== */
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+
+button[mat-icon-button]:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+}
+
+/* ==============================
+   Paginator
+============================== */
+
+mat-paginator {
+  margin-top: 10px;
+}
+
+/* ==============================
+   Responsive
+============================== */
+
+@media (max-width: 768px) {
+
+  .top-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button-section {
+    width: 100%;
+  }
+
+  .button-section button {
+    width: 100%;
+  }
+
+  .table-row {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 750px;
+  }
+}

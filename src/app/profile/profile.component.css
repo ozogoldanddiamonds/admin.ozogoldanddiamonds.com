@@ -1,0 +1,67 @@
+.profile-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(0,0,0,.45);
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  z-index:99999;
+
+}
+
+.profile-popup{
+
+  width:350px;
+
+  background:#fff;
+
+  border-radius:12px;
+
+  padding:25px;
+
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+.profile-popup h3{
+
+  color:var(--red-color);
+
+  margin-bottom:20px;
+
+}
+
+.profile-row{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:15px;
+
+}
+
+.close-btn{
+
+  width:100%;
+
+  border:none;
+
+  padding:10px;
+
+  background:var(--red-color);
+
+  color:#fff;
+
+  border-radius:8px;
+
+  cursor:pointer;
+
+}

@@ -1,0 +1,120 @@
+<div class="employee-popup">
+
+  <div class="header">
+
+    <h2>
+      Employee Details
+    </h2>
+     <button
+    mat-icon-button
+    class="close-btn"
+    (click)="closeDialog()">
+
+    <i class="fa fa-times"></i>
+
+  </button>
+
+  </div>
+
+  <div class="profile-section">
+
+    <div class="image-card">
+
+      <img
+        [src]="data.photo"
+        alt="Employee">
+
+      <h4>
+
+        {{data.firstName}}
+        {{data.lastName}}
+
+      </h4>
+
+      <span class="role">
+
+        {{data.role}}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="details-grid">
+
+    <div class="detail-card">
+
+      <label>
+        Phone Number
+      </label>
+
+      <p>
+        {{data.contactNumber}}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Status
+      </label>
+
+      <p>
+        {{data.status}}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Location
+      </label>
+
+      <p>
+        {{data.location}}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Sub Branch
+      </label>
+
+      <p>
+        {{data.subBranchId?.name}}
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="address-card">
+
+    <h5>
+      Address
+    </h5>
+
+    <p>
+      {{data.address}}
+    </p>
+
+  </div>
+
+  <div class="aadhaar-section">
+
+    <h5>
+      Aadhaar Image
+    </h5>
+
+    <img
+      [src]="data.aadhaarImage"
+      class="aadhaar-image">
+
+  </div>
+
+</div>

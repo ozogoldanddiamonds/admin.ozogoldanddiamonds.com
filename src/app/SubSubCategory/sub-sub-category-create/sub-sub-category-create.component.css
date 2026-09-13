@@ -1,0 +1,115 @@
+/* Main Container */
+.container {
+  padding: 20px;
+  background: #f8f9fc;
+  min-height: 100vh;
+}
+
+/* Title */
+.title-section {
+  margin-bottom: 20px;
+}
+
+.title-section h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Card */
+.category-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+/* Form Layout */
+.form-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+}
+
+/* Right Section */
+.right-section {
+  width: 300px;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Inputs + Select */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4caf50;
+}
+
+/* Preview Box */
+.preview-box {
+  width: 100%;
+  height: 260px;
+  border: 2px dashed #d6d6d6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-box p {
+  color: #999;
+  font-size: 14px;
+}
+
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-layout {
+    flex-direction: column;
+  }
+
+  .right-section {
+    width: 100%;
+  }
+
+  .preview-box {
+    height: 220px;
+  }
+}

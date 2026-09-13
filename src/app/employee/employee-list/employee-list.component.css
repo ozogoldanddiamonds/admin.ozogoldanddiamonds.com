@@ -1,0 +1,243 @@
+/* Container */
+
+.category-container {
+
+  padding: 20px;
+
+}
+
+/* Top Row */
+
+.top-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+}
+
+.title-section h2 {
+
+  color: #7a0000;
+
+  font-weight: 600;
+
+  margin-bottom: 5px;
+
+}
+
+.title-section p {
+
+  color: #777;
+
+  margin: 0;
+
+}
+
+/* Button */
+
+.button-section button {
+
+  background: #7a0000;
+
+  color: #fff;
+
+  border: none;
+
+  padding: 10px 20px;
+
+  border-radius: 6px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.button-section button:hover {
+
+  background: #5a0000;
+
+}
+
+/* Search */
+
+.search-row {
+
+  margin-bottom: 20px;
+
+}
+
+.w-100 {
+
+  width: 100%;
+
+}
+
+/* Table */
+
+.table-row {
+
+  background: #fff;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+
+}
+
+table {
+
+  width: 100%;
+
+}
+
+.mat-mdc-header-row {
+
+  background: #fafafa;
+
+}
+
+.mat-mdc-header-cell {
+
+  color: #7a0000;
+
+  font-weight: 600;
+
+  font-size: 14px;
+
+}
+
+.mat-mdc-cell {
+
+  font-size: 14px;
+
+  color: #444;
+
+}
+
+/* Employee Image */
+
+.employee-image {
+
+  width: 70px;
+
+  height: 70px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  border: 1px solid #eee;
+
+}
+
+/* Status */
+
+.status-badge {
+
+  padding: 6px 18px;
+
+  border-radius: 20px;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: inline-block;
+
+}
+
+.active {
+
+  background: #0a9f1f;
+
+}
+
+.inactive {
+
+  background: #dc3545;
+
+}
+
+
+/* Actions */
+
+.action-buttons {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.edit-btn {
+
+  color: #f4a000;
+
+}
+
+.edit-btn:hover {
+
+  background: rgba(244,160,0,0.1);
+
+}
+
+.delete-btn {
+
+  color: #dc3545;
+
+}
+
+.delete-btn:hover {
+
+  background: rgba(220,53,69,0.1);
+
+}
+
+/* Paginator */
+
+.mat-mdc-paginator {
+
+  border-top: 1px solid #eee;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+  .top-row{
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+  }
+
+  .employee-image{
+
+    width: 55px;
+
+    height: 55px;
+
+  }
+
+
+}

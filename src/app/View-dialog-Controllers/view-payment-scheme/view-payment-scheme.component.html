@@ -1,0 +1,236 @@
+<h2 mat-dialog-title class="dialog-title">
+  <div class="title-wrapper">
+    <div class="title-content">
+      <div class="icon-box">
+        <i class="fas fa-credit-card"></i>
+      </div>
+      <div class="title-text">
+        <span>Payment Details</span>
+      </div>
+    </div>
+
+    <button
+      mat-flat-button
+      mat-dialog-close
+      class="btn-close"
+      type="button"
+      aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</h2>
+
+<div mat-dialog-content class="dialog-content">
+
+  <!-- ================= User Details ================= -->
+  <div class="royal-card user-section">
+    <div class="card-banner">
+      <i class="fas fa-user"></i>
+      <h3>User Information</h3>
+    </div>
+    <div class="royal-grid">
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-user-tag"></i>
+          <span>Name</span>
+        </div>
+        <div class="item-value">{{ data?.user?.name }}</div>
+      </div>
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-envelope"></i>
+          <span>Email</span>
+        </div>
+        <div class="item-value">{{ data?.user?.email }}</div>
+      </div>
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-phone"></i>
+          <span>Phone</span>
+        </div>
+        <div class="item-value">{{ data?.user?.phone }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Subscription ================= -->
+  <div class="royal-card subscription-section">
+    <div class="card-banner">
+      <i class="fas fa-file-invoice"></i>
+      <h3>Subscription Details</h3>
+    </div>
+    <div class="royal-grid">
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-list"></i>
+          <span>Scheme Name</span>
+        </div>
+        <div class="item-value">{{ data?.subscription?.schemeName }}</div>
+      </div>
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-rupee-sign"></i>
+          <span>Monthly Amount</span>
+        </div>
+        <div class="item-value amount">₹ {{ data?.subscription?.monthlyAmount | number:'1.2-2' }}</div>
+      </div>
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-info-circle"></i>
+          <span>Status</span>
+        </div>
+        <div class="item-value">
+          <span class="status-tag" [ngClass]="data?.subscription?.status?.toLowerCase()">
+            {{ data?.subscription?.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Payment ================= -->
+  <div class="royal-card payment-section">
+    <div class="card-banner">
+      <i class="fas fa-rupee-sign"></i>
+      <h3>Payment Information</h3>
+    </div>
+
+    <div class="royal-grid">
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-calendar"></i>
+          <span>Month No</span>
+        </div>
+        <div class="item-value">{{ data?.monthNo }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-coins"></i>
+          <span>Amount</span>
+        </div>
+        <div class="item-value amount">₹ {{ data?.amount | number:'1.2-2' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-hourglass-half"></i>
+          <span>Due Date</span>
+        </div>
+        <div class="item-value">{{ data?.dueDate | date:'dd MMM yyyy' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-check-circle"></i>
+          <span>Payment Date</span>
+        </div>
+        <div class="item-value">{{ data?.paymentDate | date:'dd MMM yyyy' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-wallet"></i>
+          <span>Payment Mode</span>
+        </div>
+        <div class="item-value">{{ data?.paymentMode }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-building"></i>
+          <span>Gateway</span>
+        </div>
+        <div class="item-value">{{ data?.gateway }}</div>
+      </div>
+    </div>
+
+    <div class="ids-row">
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-hashtag"></i>
+          <span>Transaction Id</span>
+        </div>
+        <div class="item-value code">{{ data?.transactionId || '--' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-barcode"></i>
+          <span>Gateway Order Id</span>
+        </div>
+        <div class="item-value code">{{ data?.gatewayOrderId || '--' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-receipt"></i>
+          <span>Gateway Payment Id</span>
+        </div>
+        <div class="item-value code">{{ data?.gatewayPaymentId || '--' }}</div>
+      </div>
+
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-file-invoice"></i>
+          <span>Receipt No</span>
+        </div>
+        <div class="item-value code">{{ data?.receiptNo || '--' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Status ================= -->
+  <div class="royal-card status-section">
+    <div class="card-banner">
+      <i class="fas fa-shield-alt"></i>
+      <h3>Payment Status</h3>
+    </div>
+    <div class="status-wrapper">
+      <span class="payment-status"
+            [ngClass]="{
+              'paid': data?.status === 'PAID',
+              'pending': data?.status === 'PENDING',
+              'failed': data?.status === 'FAILED'
+            }">
+        <i class="fas fa-circle"></i>
+        <span>{{ data?.status }}</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ================= Remarks ================= -->
+  <div class="royal-card remarks-section" *ngIf="data?.remarks">
+    <div class="card-banner">
+      <i class="fas fa-comment-dots"></i>
+      <h3>Remarks</h3>
+    </div>
+    <div class="remarks-box">
+      <p>{{ data?.remarks }}</p>
+    </div>
+  </div>
+
+  <!-- ================= Audit ================= -->
+  <div class="royal-card audit-section">
+    <div class="card-banner">
+      <i class="fas fa-history"></i>
+      <h3>Audit Information</h3>
+    </div>
+    <div class="royal-grid">
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-plus-square"></i>
+          <span>Created</span>
+        </div>
+        <div class="item-value datetime">{{ data?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</div>
+      </div>
+      <div class="royal-item">
+        <div class="item-label">
+          <i class="fas fa-edit"></i>
+          <span>Updated</span>
+        </div>
+        <div class="item-value datetime">{{ data?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+.header-section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.header-section h2{
+  color:var(--red-color);
+  font-weight:700;
+}
+
+.header-section p{
+  color:var(--gray-colour);
+}
+
+.add-btn{
+  background:var(--red-color);
+  color:#fff;
+  border:none;
+  padding:12px 24px;
+  border-radius:8px;
+}
+
+.search-box input{
+  width:100%;
+  height:55px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:10px 20px;
+  margin-bottom:25px;
+}
+
+.table-card{
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+.table th{
+  color:var(--red-color);
+  font-weight:600;
+}
+
+.status-active{
+  color:green;
+  font-weight:600;
+}
+
+.status-inactive{
+  color:red;
+  font-weight:600;
+}
+
+.action-edit{
+  color:#f52323;
+  margin-right:15px;
+  cursor:pointer;
+}
+
+.action-delete{
+  color:#e60800;
+  cursor:pointer;
+}.status-badge {
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  color: rgb(18, 5, 5);
+
+  cursor: pointer;
+
+}
+
+
+.top-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+
+}
+.assignProducts {
+  background: var( --red-color);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.assignProducts:hover {
+  background: var( --orange-colour);
+}

@@ -1,0 +1,171 @@
+<div class="branch-popup">
+
+  <div class="header">
+
+    <h2>
+      Sub Branch Details
+    </h2>
+
+    <button
+      mat-icon-button
+      class="close-btn"
+      (click)="closeDialog()">
+
+      <i class="fa fa-times"></i>
+
+    </button>
+
+  </div>
+
+  <div class="profile-section">
+
+    <div class="profile-card">
+
+      <div class="profile-icon">
+
+        <i class="fa fa-building"></i>
+
+      </div>
+
+      <h3>
+        {{ data.name }}
+      </h3>
+
+     <span
+  class="status-badge"
+  [class.active]="data?.status === 'ACTIVE'"
+  [class.inactive]="data?.status === 'INACTIVE'">
+
+  {{ data?.status }}
+
+</span>
+
+    </div>
+
+  </div>
+
+  <div class="details-grid">
+
+    <div class="detail-card">
+
+      <label>
+        Branch Name
+      </label>
+
+      <p>
+        {{ data.name }}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Email
+      </label>
+
+      <p>
+        {{ data.email }}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Phone Number
+      </label>
+
+      <p>
+        {{ data.contactNumber }}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Location
+      </label>
+
+      <p>
+        {{ data.location }}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Role
+      </label>
+
+      <p>
+        {{ data.role }}
+      </p>
+
+    </div>
+
+    <div class="detail-card">
+
+      <label>
+        Created Date
+      </label>
+
+     <p>
+  {{ data?.createdAt }}
+</p>
+
+    </div>
+
+  </div>
+
+  <div class="address-card">
+
+    <h4>
+      Address
+    </h4>
+
+    <p>
+      {{ data.address || 'No Address Available' }}
+    </p>
+
+  </div>
+
+  <!-- <div class="permissions-card">
+
+    <h4>
+      Permissions
+    </h4>
+
+    <div
+      *ngIf="
+        data.permissions &&
+        data.permissions.length > 0;
+        else noPermission
+      ">
+
+      <span
+        class="permission-badge"
+        *ngFor="
+          let permission
+          of data.permissions
+        ">
+
+        {{ permission }}
+
+      </span>
+
+    </div>
+
+    <ng-template #noPermission>
+
+      <p>
+        No Permissions Assigned
+      </p>
+
+    </ng-template>
+
+  </div> -->
+
+</div>

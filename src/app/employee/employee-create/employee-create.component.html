@@ -1,0 +1,180 @@
+<div class="container-fluid employee-container">
+
+  <div class="page-title">
+    <h4>Create Employee</h4>
+  </div>
+
+  <div class="employee-card">
+
+    <form
+      [formGroup]="employeeForm"
+      (ngSubmit)="createEmployee()"
+      enctype="multipart/form-data">
+
+      <div class="row g-4">
+
+        <!-- First Name -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="firstName"
+            placeholder="Enter First Name">
+
+          <small class="text-danger"
+            *ngIf="employeeForm.get('firstName')?.touched &&
+            employeeForm.get('firstName')?.invalid">
+            First Name is required
+          </small>
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="lastName"
+            placeholder="Enter Last Name">
+        </div>
+
+        <!-- Phone -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">Phone Number</label>
+          <input
+            type="text"
+            maxlength="10"
+            class="form-control"
+            formControlName="contactNumber"
+            placeholder="Enter Phone Number">
+        </div>
+
+        <!-- Role -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">Role</label>
+          <select
+            class="form-select"
+            formControlName="role">
+
+            <option value="">Select Role</option>
+            <option value="MANAGER">Manager</option>
+            <option value="SALES_EXECUTIVE">Sales Executive</option>
+            <option value="CASHIER">Cashier</option>
+            <option value="STAFF">Staff</option>
+
+          </select>
+        </div>
+
+        <!-- Sub Branch -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">Sub Branch</label>
+          <select
+            class="form-select"
+            formControlName="subBranchId">
+
+            <option value="">Select Sub Branch</option>
+
+            <option
+              *ngFor="let branch of subBranches"
+              [value]="branch._id">
+
+              {{ branch.name }}
+
+            </option>
+
+          </select>
+        </div>
+
+        <!-- Location -->
+        <div class="col-lg-4 col-md-6">
+          <label class="form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="location"
+            placeholder="Enter Location">
+        </div>
+
+        <!-- Address -->
+        <div class="col-12">
+          <label class="form-label">Address</label>
+          <textarea
+            rows="4"
+            class="form-control"
+            formControlName="address"
+            placeholder="Enter Address">
+          </textarea>
+        </div>
+
+        <!-- Employee Photo -->
+        <div class="col-lg-6">
+          <label class="form-label">Employee Photo</label>
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="onPhotoChange($event)">
+
+          <div
+            *ngIf="photoPreview"
+            class="preview-box">
+
+            <img
+              [src]="photoPreview"
+              class="preview-image">
+
+          </div>
+        </div>
+
+        <!-- Aadhaar -->
+        <div class="col-lg-6">
+          <label class="form-label">Aadhaar Image</label>
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="onAadhaarChange($event)">
+
+          <div
+            *ngIf="aadhaarPreview"
+            class="preview-box">
+
+            <img
+              [src]="aadhaarPreview"
+              class="preview-image">
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="btn-section">
+
+        <button
+          class="btn btn-save"
+          type="submit"
+          [disabled]="loading">
+
+          {{ loading ? 'Saving...' : 'Save Employee' }}
+
+        </button>
+
+        <button
+          class="btn btn-back"
+          type="button"
+          (click)="goBack()">
+
+          Back
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

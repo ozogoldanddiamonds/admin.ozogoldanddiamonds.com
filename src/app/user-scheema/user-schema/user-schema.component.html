@@ -1,0 +1,368 @@
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="row mb-3">
+
+        <div class="col-md-8">
+
+            <h2 class="page-title">
+
+                User Scheme Management
+
+            </h2>
+
+            <p class="text-muted">
+
+                Total User Schemes :
+                {{userSchemeList.length}}
+
+            </p>
+
+        </div>
+
+        <div class="col-md-4 text-end">
+
+            <!-- <button
+                class="btn btn-primary"
+                routerLink="/admin/user-scheema-create">
+
+                <mat-icon>add</mat-icon>
+
+                Add User Scheme
+
+            </button> -->
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-row mb-3">
+
+        <mat-form-field
+            appearance="outline"
+            class="w-100">
+
+            <mat-label>
+
+                Search User Scheme
+
+            </mat-label>
+
+            <input
+                matInput
+                placeholder="Search User / Scheme"
+                (keyup)="applyFilter($event)">
+
+        </mat-form-field>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="mat-elevation-z2">
+
+        <table
+            mat-table
+            [dataSource]="dataSource">
+
+            <!-- S.No -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+                <td mat-cell *matCellDef="let element; let i=index">
+
+                    {{i+1}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- User -->
+
+            <ng-container matColumnDef="user">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    User
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.user?.name}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Scheme -->
+
+            <ng-container matColumnDef="scheme">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Scheme
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.schemeName}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Scheme Amount -->
+
+            <ng-container matColumnDef="schemeAmount">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Scheme Amount
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{element.schemeAmount}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Monthly Amount -->
+
+            <ng-container matColumnDef="monthlyAmount">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Monthly
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{element.monthlyAmount}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Paid Installments -->
+
+            <ng-container matColumnDef="paidInstallments">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Paid
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.paidInstallments}}
+
+                    /
+
+                    {{element.totalInstallments}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Remaining -->
+
+            <ng-container matColumnDef="remainingInstallments">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Remaining
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.remainingInstallments}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Next Due -->
+
+            <ng-container matColumnDef="nextDueDate">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Next Due
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.nextDueDate | date:'dd/MM/yyyy'}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Maturity -->
+
+            <ng-container matColumnDef="maturityDate">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Maturity
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.maturityDate | date:'dd/MM/yyyy'}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Status -->
+
+            <ng-container matColumnDef="status">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Status
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span
+                        class="status-badge"
+                        [ngClass]="{
+
+                        'active':element.status=='ACTIVE',
+
+                        'completed':element.status=='COMPLETED',
+
+                        'pending':element.status=='DEFAULTED',
+
+                        'cancelled':element.status=='CANCELLED',
+
+                        'matured':element.status=='MATURED'
+
+                        }"
+                       >
+
+                        {{element.status}}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+            <!-- Created -->
+
+            <ng-container matColumnDef="createdAt">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Created
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{element.createdAt | date:'dd/MM/yyyy'}}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Actions -->
+
+       <ng-container matColumnDef="actions">
+
+    <th mat-header-cell *matHeaderCellDef>
+
+        Actions
+
+    </th>
+
+    <td mat-cell *matCellDef="let element">
+
+        <div class="action-buttons">
+
+            <!-- View -->
+
+            <button
+                mat-icon-button
+                class="view-btn"
+                (click)="viewUserScheme(element)">
+
+                <i class="fa fa-eye" aria-hidden="true"></i>
+
+            </button>
+
+            <!-- Edit -->
+
+            <!-- <button
+                mat-icon-button
+                class="edit-btn"
+                (click)="editUserScheme(element._id)">
+
+                <i class="fa fa-pencil"></i>
+
+            </button> -->
+
+            <!-- Delete -->
+
+            <!-- <button
+                mat-icon-button
+                class="delete-btn"
+                (click)="deleteUserScheme(element._id)">
+
+                <i class="fa fa-trash" aria-hidden="true"></i>
+
+            </button> -->
+
+        </div>
+
+    </td>
+
+</ng-container>
+            <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns">
+            </tr>
+
+            <tr
+                mat-row
+                *matRowDef="let row;columns:displayedColumns;">
+            </tr>
+
+        </table>
+
+        <mat-paginator
+
+            [pageSize]="10"
+
+            [pageSizeOptions]="[5,10,20,50]"
+
+            showFirstLastButtons>
+
+        </mat-paginator>
+
+    </div>
+
+</div>

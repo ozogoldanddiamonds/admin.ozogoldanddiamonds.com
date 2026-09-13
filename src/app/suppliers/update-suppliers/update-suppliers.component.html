@@ -1,0 +1,312 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+
+                <h2>
+                    {{ isViewMode ? 'View Supplier Details' : 'Update Supplier' }}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="category-card">
+
+            <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-layout">
+
+                    <div class="left-section">
+
+                        <div class="row">
+
+                            <!-- Supplier Name -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Supplier Name
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="name"
+                                        placeholder="Enter Supplier Name">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Company Name -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Company Name
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="companyName"
+                                        placeholder="Enter Company Name">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Phone -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Phone
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="phone"
+                                        placeholder="Enter Phone Number">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Email -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input type="email" class="form-control" formControlName="email"
+                                        placeholder="Enter Email">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- GST Number -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        GST Number
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="gstNumber"
+                                        placeholder="Enter GST Number">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Is Active -->
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Status
+                                    </label>
+
+                                    <select class="form-control" formControlName="isActive">
+
+                                        <option [ngValue]="true">
+                                            Active
+                                        </option>
+
+                                        <option [ngValue]="false">
+                                            Inactive
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Address -->
+                            <!-- =========================
+                                                 ADDRESS
+                                            ========================= -->
+
+                            <div class="col-12">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Address
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Address Line 1 -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Address Line 1
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="addressLine1"
+                                        placeholder="Enter Address Line 1">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Address Line 2 -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Address Line 2
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="addressLine2"
+                                        placeholder="Enter Address Line 2">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- City -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        City
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="city"
+                                        placeholder="Enter City">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- State -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        State
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="state"
+                                        placeholder="Enter State">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Pincode -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Pincode
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="pincode"
+                                        placeholder="Enter Pincode" maxlength="6">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Country -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Country
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="country"
+                                        placeholder="Enter Country">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Notes -->
+                            <div class="col-12">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Notes
+                                    </label>
+
+                                    <textarea class="form-control" formControlName="notes" rows="3"
+                                        placeholder="Enter Notes">
+                                    </textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-group">
+
+                    <button type="submit" class="btn-create" *ngIf="!isViewMode">
+
+                        Update
+
+                    </button>
+
+                    <button type="button" class="btn-back" (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

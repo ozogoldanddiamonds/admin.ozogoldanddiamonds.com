@@ -1,0 +1,136 @@
+<h2 mat-dialog-title class="dialog-title">
+
+    Assign Product
+
+</h2>
+
+<div mat-dialog-content>
+
+    <!-- Product Name -->
+
+    <div class="product-header">
+
+        <h3>{{ product.name }}</h3>
+
+        <p>
+
+            Select quantity for each variant
+
+        </p>
+
+    </div>
+
+    <!-- Variants Table -->
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+
+            <tr>
+
+                <th>SKU</th>
+
+                <th>Purity</th>
+
+                <th>Gross Weight</th>
+
+                <th>Available Stock</th>
+
+                <th>Assign Qty</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let item of variants">
+
+                <!-- SKU -->
+
+                <td>
+
+                    {{ item.sku }}
+
+                </td>
+
+                <!-- Purity -->
+
+                <td>
+
+                    {{ item.metalPurity }}
+
+                </td>
+
+                <!-- Weight -->
+
+                <td>
+
+                    {{ item.grossWeight }} g
+
+                </td>
+
+                <!-- Stock -->
+
+                <td>
+
+                    <span class="stock-badge">
+
+                        {{ item.stock }}
+
+                    </span>
+
+                </td>
+
+                <!-- Assign Qty -->
+
+                <td>
+
+                    <input
+
+                        type="number"
+
+                        min="0"
+
+                        [max]="item.stock"
+
+                        class="form-control"
+
+                        [(ngModel)]="item.assignQty"
+
+                        placeholder="0">
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div mat-dialog-actions align="end" class="button-group">
+
+    <button
+        type="button"
+        class="btn-back"
+        mat-stroked-button
+        (click)="closeDialog()">
+
+        Cancel
+
+    </button>
+
+    <button
+        type="button"
+        class="btn-create"
+        mat-raised-button
+        [disabled]="loading"
+        (click)="assignProduct()">
+
+        {{ loading ? 'Assigning...' : 'Assign Products' }}
+
+    </button>
+
+</div>

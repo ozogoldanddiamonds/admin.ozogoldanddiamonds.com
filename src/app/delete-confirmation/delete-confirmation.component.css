@@ -1,0 +1,22 @@
+.dialog-title {
+  color: var(--red-color);
+  font-size: 30px;
+  font-weight: 500;
+  padding: 20px;
+}
+
+.btn-create {
+  background: var(--red-color);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 15px 20px;
+  margin-top: 19px;
+  border: none;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}

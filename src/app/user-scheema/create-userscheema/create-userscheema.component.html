@@ -1,0 +1,279 @@
+<div class="container-fluid mt-3">
+
+    <div class="card shadow border-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">Create User Scheme</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="userSchemeForm"
+                  (ngSubmit)="createUserScheme()">
+
+                <div class="row">
+
+                    <!-- User -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Select User
+                        </label>
+
+                        <select
+                            class="form-select"
+                            formControlName="user">
+
+                            <option value="">Select User</option>
+
+                            <option
+                                *ngFor="let user of userList"
+                                [value]="user._id">
+
+                                {{user.name}}
+
+                            </option>
+
+                        </select>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['user'].errors">
+
+                            Please Select User
+
+                        </small>
+
+                    </div>
+
+                    <!-- Scheme -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Select Scheme
+                        </label>
+
+                        <select
+                            class="form-select"
+                            formControlName="scheme"
+                            (change)="onSchemeChange()">
+
+                            <option value="">Select Scheme</option>
+
+                            <option
+                                *ngFor="let item of schemeList"
+                                [value]="item._id">
+
+                                {{item.name}}
+
+                            </option>
+
+                        </select>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['scheme'].errors">
+
+                            Please Select Scheme
+
+                        </small>
+
+                    </div>
+
+                    <!-- Scheme Amount -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Scheme Amount
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="schemeAmount"
+                            readonly>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['schemeAmount'].errors">
+
+                            Scheme Amount is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Monthly Amount -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Monthly Amount
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="monthlyAmount"
+                            readonly>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['monthlyAmount'].errors">
+
+                            Monthly Amount is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Start Date -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Start Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            formControlName="startDate">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['startDate'].errors">
+
+                            Start Date is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- End Date -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            End Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            formControlName="endDate">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['endDate'].errors">
+
+                            End Date is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Paid Months -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Paid Months
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="paidMonths">
+
+                    </div>
+
+                    <!-- Status -->
+
+                    <div class="col-lg-4 col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            formControlName="status">
+
+                            <option value="">Select Status</option>
+
+                            <option value="ACTIVE">
+
+                                ACTIVE
+
+                            </option>
+
+                            <option value="PENDING">
+
+                                PENDING
+
+                            </option>
+
+                            <option value="COMPLETED">
+
+                                COMPLETED
+
+                            </option>
+
+                        </select>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['status'].errors">
+
+                            Please Select Status
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="text-end mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary me-2">
+
+                        Save
+
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="btn btn-secondary"
+                        (click)="userSchemeForm.reset()">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,197 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.container-fluid {
+
+    padding: 20px;
+
+    background: #f5f7fb;
+
+    min-height: 100vh;
+
+}
+
+.page-title {
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #640101;
+
+}
+
+.text-muted {
+
+    color: #777;
+
+}
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.search-row {
+
+    margin-bottom: 20px;
+
+}
+
+.mat-form-field {
+
+    width: 100%;
+
+}
+
+/* ==========================================
+   TABLE
+========================================== */
+
+table {
+
+    width: 100%;
+
+    background: #fff;
+
+}
+
+th.mat-header-cell {
+
+    background: #640101;
+
+    color: white;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+}
+
+td.mat-cell {
+
+    font-size: 14px;
+
+}
+
+tr.mat-row:hover {
+
+    background: #f8f8f8;
+
+}
+/* ==========================================
+   STATUS BADGES
+========================================== */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100px;
+    padding: 8px 16px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    border: 1px solid transparent;
+    cursor: default;
+    transition: all 0.25s ease;
+}
+
+/* PAID */
+.paid {
+    background: #d9f8e6;
+    color: #1c9b57;
+    border-color: #c0f1d4;
+}
+
+/* PENDING */
+.pending {
+    background: #fff2cf;
+    color: #d48806;
+    border-color: #ffe3a0;
+}
+
+/* FAILED */
+.failed {
+    background: #ffe0e3;
+    color: #dc3545;
+    border-color: #ffc7ce;
+}
+
+/* Hover */
+.status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.action-buttons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+.view-btn {
+
+    color: #17a2b8 !important;
+
+}
+
+.view-btn:hover {
+
+    transform: scale(1.15);
+
+    transition: .3s;
+
+}
+
+.action-buttons i {
+
+    font-size: 17px;
+
+}
+
+/* ==========================================
+   PAGINATOR
+========================================== */
+
+mat-paginator {
+
+    background: #fff;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+.page-title{
+
+font-size:22px;
+
+}
+
+.status-badge{
+
+font-size:11px;
+
+padding:5px 10px;
+
+}
+
+}

@@ -1,0 +1,96 @@
+.container-fluid{
+    padding:20px;
+}
+
+.page-title{
+    color:#640101;
+    font-size:36px;
+    font-weight:600;
+}
+
+
+.card{
+    border-radius:12px;
+}
+
+table{
+    width:100%;
+}
+
+.mat-mdc-table{
+    background:#fff;
+}
+
+.mat-mdc-header-row{
+    background:#fafafa;
+}
+
+.mat-mdc-header-cell{
+    color:#640101 !important;
+    font-weight:600;
+    font-size:15px;
+}
+
+.mat-mdc-cell{
+    font-size:14px;
+}
+
+.mat-mdc-row:hover{
+    background:#f8f8f8;
+}
+
+/* .badge{
+    padding:8px 14px;
+    border-radius:20px;
+} */
+ /* ==========================================
+   STATUS BADGES
+========================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100px;
+    padding: 8px 16px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+    cursor: pointer !important;
+}
+
+/* Active */
+.bg-success {
+    background: #d9f8e6 !important;
+    color: #1c9b57 !important;
+    border: 1px solid #c0f1d4 !important;
+}
+
+/* Inactive */
+.bg-danger {
+    background: #ffe0e3 !important;
+    color: #dc3545 !important;
+    border: 1px solid #ffc7ce !important;
+}
+
+/* Hover Effect */
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary{
+    background:#640101;
+    border:none;
+}
+
+.mat-mdc-paginator{
+    border-top:1px solid #eee;
+}

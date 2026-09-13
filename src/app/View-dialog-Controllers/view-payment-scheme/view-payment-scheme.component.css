@@ -1,0 +1,150 @@
+.dialog-title {
+  margin: 0;
+  padding: 14px 18px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.title-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn-close {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.dialog-content {
+  max-height: 75vh;
+  overflow: auto;
+  padding: 18px;
+  background: #fff;
+}
+
+.royal-card {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border-left: 4px solid #7a1f1f;
+}
+
+.card-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.card-banner h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.royal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+}
+
+.royal-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8a8a8a;
+  font-size: 13px;
+}
+
+.item-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.amount {
+  color: #111;
+}
+
+.code, .datetime {
+  font-family: monospace;
+  word-break: break-word;
+}
+
+.ids-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 18px;
+  margin-top: 8px;
+}
+
+.status-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.payment-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  min-width: 220px;
+  justify-content: center;
+}
+
+.payment-status.paid { background: #198754; }
+.payment-status.pending { background: #ffc107; color: #222; }
+.payment-status.failed { background: #dc3545; }
+
+.remarks-box {
+  background: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .royal-grid,
+  .ids-row {
+    grid-template-columns: 1fr;
+  }
+}

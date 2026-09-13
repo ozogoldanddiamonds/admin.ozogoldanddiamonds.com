@@ -1,0 +1,888 @@
+<!-- =========================
+     update PRODUCT PAGE
+========================= -->
+
+<div class="container-fluid product-page">
+
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <!-- PAGE HEADER -->
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            Update Product
+          </h2>
+
+          <p>
+            Add jewellery product details
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- FORM CARD -->
+
+      <div class="product-card">
+
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+          <!-- ========================================= -->
+          <!-- PRODUCT DETAILS -->
+          <!-- ========================================= -->
+
+          <div class="product-grid">
+
+            <!-- PRODUCT NAME -->
+
+            <div class="form-group">
+
+              <label>
+                Product Name
+              </label>
+
+              <input type="text" placeholder="Enter Product Name" formControlName="name">
+
+            </div>
+
+            <!-- SLUG -->
+
+            <div class="form-group">
+
+              <label>
+                Slug
+              </label>
+
+              <input type="text" placeholder="Enter Slug" formControlName="slug">
+
+            </div>
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+              <label>
+                Category
+              </label>
+
+              <select formControlName="category" (change)="onCategoryChange($event)">
+
+                <option value="">
+                  Select Category
+                </option>
+
+                <option *ngFor="let category of categories" [value]="category._id">
+
+                  {{ category.name }}
+
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- SUB CATEGORY -->
+
+            <div class="form-group">
+
+              <label>
+                Sub Category
+              </label>
+
+              <select formControlName="subCategory" (change)="onSubCategoryChange($event)">
+
+                <option value="">
+                  Select Sub Category
+                </option>
+
+                <option *ngFor="
+          let subCategory
+          of subCategories
+        " [value]="subCategory._id">
+
+                  {{ subCategory.name }}
+
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- SUB SUB CATEGORY -->
+
+            <div class="form-group">
+
+              <label>
+                Sub Sub Category
+              </label>
+
+              <select formControlName="subSubCategory">
+
+                <option value="">
+                  Select Sub Sub Category
+                </option>
+
+                <option *ngFor="
+          let subSubCategory
+          of subSubCategories
+        " [value]="subSubCategory._id">
+
+                  {{ subSubCategory.name }}
+
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- PRODUCT TYPE -->
+
+            <div class="form-group">
+
+              <label>
+                Product Type
+              </label>
+
+              <select formControlName="productType">
+
+                <option value="">
+                  Select Product Type
+                </option>
+
+                <option value="gold">
+                  Gold
+                </option>
+
+                <option value="silver">
+                  Silver
+                </option>
+
+                <option value="platinum">
+                  Platinum
+                </option>
+
+                <option value="diamond">
+                  Diamond
+                </option>
+
+                <option value="gemstone">
+                  Gemstone
+                </option>
+
+                <option value="gold_diamond">
+                  Gold Diamond
+                </option>
+
+                <option value="silver_diamond">
+                  Silver Diamond
+                </option>
+
+                <option value="platinum_diamond">
+                  Platinum Diamond
+                </option>
+
+                <option value="gold_gemstone">
+                  Gold Gemstone
+                </option>
+
+                <option value="silver_gemstone">
+                  Silver Gemstone
+                </option>
+
+                <option value="platinum_gemstone">
+                  Platinum Gemstone
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+              <label>
+                Gender
+              </label>
+
+              <select formControlName="gender">
+
+                <option value="">
+                  Select Gender
+                </option>
+
+                <option value="men">
+                  MEN
+                </option>
+
+                <option value="women">
+                  WOMEN
+                </option>
+
+                <option value="unisex">
+                  UNISEX
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- OCCASION -->
+
+            <div class="form-group">
+
+              <label>
+                Occasion
+              </label>
+
+              <input type="text" placeholder="Enter Occasion" formControlName="occasion">
+
+            </div>
+
+            <!-- BRAND -->
+
+            <div class="form-group">
+
+              <label>
+                Brand
+              </label>
+
+              <input type="text" placeholder="Enter Brand" formControlName="brand">
+
+            </div>
+            <div class="form-group">
+
+              <label>
+                Hallmark Number
+              </label>
+
+              <input type="text" placeholder="Enter Hallmark Number" formControlName="hallmarkNumber">
+
+            </div>
+
+            <!-- TAGS -->
+
+            <div class="form-group">
+
+              <label>
+                Tags
+              </label>
+
+              <input type="text" placeholder="ring, gold, diamond" formControlName="tags">
+
+            </div>
+
+            <!-- SEO TITLE -->
+
+            <div class="form-group">
+
+              <label>
+                SEO Title
+              </label>
+
+              <input type="text" placeholder="Enter SEO Title" formControlName="seoTitle">
+
+            </div>
+
+          </div>
+
+          <!-- SHORT DESCRIPTION -->
+
+          <div class="form-group">
+
+            <label>
+              Short Description
+            </label>
+
+            <textarea placeholder="Enter Short Description" formControlName="shortDescription"></textarea>
+
+          </div>
+
+          <!-- DESCRIPTION -->
+
+          <div class="form-group">
+
+            <label>
+              Description
+            </label>
+
+            <textarea placeholder="Enter Description" formControlName="description"></textarea>
+
+          </div>
+
+          <!-- SEO DESCRIPTION -->
+
+          <div class="form-group">
+
+            <label>
+              SEO Description
+            </label>
+
+            <textarea placeholder="Enter SEO Description" formControlName="seoDescription"></textarea>
+
+          </div>
+          <div class="form-group">
+
+            <label>
+              Meta Keywords
+            </label>
+
+            <input type="text" placeholder="gold, ring, diamond" formControlName="metaKeywords">
+
+          </div>
+          <!-- ========================================= -->
+          <!-- CHECKBOX -->
+          <!-- ========================================= -->
+
+          <div class="checkbox-container">
+
+            <!-- Row 1 -->
+            <div class="checkbox-row">
+
+              <label>
+                <input type="checkbox" formControlName="hallmarkCertified">
+                Hallmark Certified
+              </label>
+
+              <label>
+                <input type="checkbox" formControlName="certificationIncluded">
+                Certification Included
+              </label>
+
+              <label>
+                <input type="checkbox" formControlName="featured">
+                Featured
+              </label>
+
+            </div>
+
+            <!-- Row 2 -->
+            <div class="checkbox-row">
+
+              <label>
+                <input type="checkbox" formControlName="bestSeller">
+                Best Seller
+              </label>
+
+              <label>
+                <input type="checkbox" formControlName="trending">
+                Trending
+              </label>
+
+              <label>
+                <input type="checkbox" formControlName="isActive">
+                Active
+              </label>
+              <label>
+
+                <input type="checkbox" formControlName="newArrival">
+
+                New Arrival
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <!-- ========================================= -->
+          <!-- IMAGES -->
+          <!-- ========================================= -->
+
+          <h2>
+            Product Images
+          </h2>
+
+          <div class="form-group">
+
+            <label>
+              Upload Images
+            </label>
+
+            <input type="file" multiple accept="image/*" (change)="onImageSelect($event)">
+
+          </div>
+
+          <div class="image-preview-container">
+            <div class="image-preview-card" *ngFor="let img of imagePreview; let i = index">
+              <img [src]="img">
+              <button type="button" class="image-remove-btn" (click)="removeImage(i)">
+                X
+              </button>
+            </div>
+          </div>
+
+          <!-- ========================================= -->
+          <!-- VIDEO -->
+          <!-- ========================================= -->
+
+          <h2>
+            Product Video
+          </h2>
+
+          <div class="form-group">
+
+            <label>
+              Upload Video
+            </label>
+
+            <input type="file" accept="video/*" (change)="onVideoSelect($event)">
+
+          </div>
+
+          <video *ngIf="videoPreview" controls>
+
+            <source [src]="videoPreview">
+
+          </video>
+
+          <!-- ========================================= -->
+          <!-- CERTIFICATE -->
+          <!-- ========================================= -->
+
+          <h2>
+            Certificate
+          </h2>
+
+          <div class="form-group">
+
+            <label>
+              Upload Certificate
+            </label>
+
+            <input type="file" (change)="onCertificateSelect($event)">
+
+          </div>
+          <!-- priview -->
+          <!-- Certificate Preview -->
+          <div class="image-preview-container" *ngIf="certificatePreview">
+            <div class="image-preview-card">
+              <img [src]="certificatePreview">
+
+              <button type="button" class="image-remove-btn" (click)="removeCertificate()">
+                X
+              </button>
+            </div>
+          </div>
+
+          <!-- ========================================= -->
+          <!-- VARIANTS -->
+          <!-- ========================================= -->
+
+          <div formArrayName="variants">
+
+            <div class="variant-card" *ngFor="
+          let variant of variants.controls;
+          let i = index
+        " [formGroupName]="i">
+
+              <h2>
+                Variant {{ i + 1 }}
+              </h2>
+
+              <div class="variant-grid">
+
+                <!-- SIZE -->
+
+                <div class="form-group">
+
+                  <label>
+                    Size
+                  </label>
+
+                  <input type="text" placeholder="Enter Size" formControlName="size">
+
+                </div>
+
+                <!-- STOCK -->
+
+                <div class="form-group">
+
+                  <label>
+                    Stock
+                  </label>
+
+                  <input type="number" placeholder="Enter Stock" formControlName="stock">
+
+                </div>
+                <div class="form-group">
+
+                  <label>
+                    Metal Type
+                  </label>
+
+                  <select formControlName="metalType">
+
+                    <option value="">
+                      Select Metal
+                    </option>
+
+                    <option value="gold">
+                      Gold
+                    </option>
+
+                    <option value="silver">
+                      Silver
+                    </option>
+
+                    <option value="platinum">
+                      Platinum
+                    </option>
+
+                  </select>
+
+                </div>
+                <!-- GOLD PURITY -->
+
+                <div class="form-group">
+
+                  <label>
+                    Metal Purity
+                  </label>
+
+                  <select formControlName="metalPurity">
+
+                    <option value="">
+                      Select Metal Purity
+                    </option>
+
+                    <option value="14K">
+                      14K
+                    </option>
+
+                    <option value="18K">
+                      18K
+                    </option>
+
+                    <option value="22K">
+                      22K
+                    </option>
+
+                    <option value="24K">
+                      24K
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <!-- GOLD COLOR -->
+
+                <div class="form-group">
+
+                  <label>
+                    Metal Color
+                  </label>
+
+                  <select formControlName="metalColor">
+
+                    <option value="">
+                      Select Metal Color
+                    </option>
+
+                    <option value="yellow">
+                      YELLOW
+                    </option>
+
+                    <option value="white">
+                      WHITE
+                    </option>
+
+                    <option value="rose">
+                      ROSE
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <!-- GROSS WEIGHT -->
+
+                <div class="form-group">
+
+                  <label>
+                    Gross Weight
+                  </label>
+
+                  <input type="number" placeholder="Enter Gross Weight" formControlName="grossWeight">
+
+                </div>
+
+                <!-- NET WEIGHT -->
+
+                <div class="form-group">
+
+                  <label>
+                    Net Weight
+                  </label>
+
+                  <input type="number" placeholder="Enter Net Weight" formControlName="netWeight">
+
+                </div>
+
+                <!-- MAKING CHARGES -->
+
+                <div class="form-group">
+
+                  <label>
+                    Making Charges
+                  </label>
+
+                  <input type="number" placeholder="Enter Making Charges" formControlName="makingCharges">
+
+                </div>
+
+                <div class="form-group">
+
+                  <label>
+                    Making Charge Type
+                  </label>
+
+                  <select formControlName="makingChargeType">
+
+                    <option value="fixed">
+                      Fixed
+                    </option>
+
+                    <option value="percentage">
+                      Percentage
+                    </option>
+
+                  </select>
+
+                </div>
+                <!-- WASTAGE -->
+
+                <div class="form-group">
+
+                  <label>
+                    Wastage %
+                  </label>
+
+                  <input type="number" placeholder="Enter Wastage" formControlName="wastagePercentage">
+
+                </div>
+
+
+
+
+
+                <!-- GOLD PRICE -->
+
+                <div class="form-group">
+                  <div class="form-group">
+
+                    <label>
+                      SKU
+                    </label>
+
+                    <input type="text" formControlName="sku">
+
+                  </div>
+
+                </div>
+
+
+
+
+
+                <!-- DISCOUNT -->
+
+                <div class="form-group">
+
+                  <label>
+                    Discount %
+                  </label>
+
+                  <input type="number" placeholder="Enter Discount" formControlName="discountPercentage">
+
+                </div>
+
+
+
+
+
+              </div>
+
+              <!-- ========================================= -->
+              <!-- DIAMONDS -->
+              <!-- ========================================= -->
+
+              <div formArrayName="stones">
+
+                <div *ngFor="
+                  let stone of getStones(i).controls;
+                  let j = index
+                " [formGroupName]="j">
+
+                  <h3>
+                    Stone {{ j + 1 }}
+                  </h3>
+
+                  <div class="variant-grid">
+
+                    <div class="form-group">
+
+                      <label>
+                        Stone Type
+                      </label>
+
+                      <select formControlName="stoneType">
+
+                        <option value="diamond">
+                          Diamond
+                        </option>
+
+                        <option value="ruby">
+                          Ruby
+                        </option>
+
+                        <option value="emerald">
+                          Emerald
+                        </option>
+
+                        <option value="sapphire">
+                          Sapphire
+                        </option>
+
+                        <option value="pearl">
+                          Pearl
+                        </option>
+
+                        <option value="opal">
+                          Opal
+                        </option>
+
+                        <option value="topaz">
+                          Topaz
+                        </option>
+
+                        <option value="coral">
+                          Coral
+                        </option>
+                        <option value="other">
+                          Other
+                        </option>
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <label>
+                        Stone Category
+                      </label>
+
+                      <select formControlName="stoneCategory">
+
+                        <option value="natural">
+                          Natural
+                        </option>
+
+                        <option value="lab-grown">
+                          Lab Grown
+                        </option>
+
+                        <option value="premium">
+                          Premium
+                        </option>
+
+                        <option value="standard">
+                          Standard
+                        </option>
+
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <label>
+                        Quality
+                      </label>
+
+                      <input type="text" formControlName="quality">
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <label>
+                        Total Weight
+                      </label>
+
+                      <input type="number" formControlName="totalWeight">
+
+                    </div>
+
+                    <div class="form-group">
+
+                      <label>
+                        Quantity
+                      </label>
+
+                      <input type="number" formControlName="quantity">
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <button type="button" class="variant" (click)="addStone(i)">
+
+                Add Stone
+
+              </button>
+              <!-- <button type="button" class="variant" (click)="addDiamond(i)">
+                  Add Diamond
+                </button> -->
+
+              <button type="button" class="remove-btn" (click)="removeVariant(i)">
+                Remove Variant
+              </button>
+
+            </div>
+
+          </div>
+
+          <button type="button" class="variant" (click)="addVariant()">
+            Add Variant
+          </button>
+
+          <br><br>
+          <div class="button-group">
+
+            <button type="submit" class="btn-create">
+
+              Update
+
+            </button>
+
+            <button type="button" class="btn-back" (click)="goBack()">
+
+              Back
+
+            </button>
+
+          </div>
+
+
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

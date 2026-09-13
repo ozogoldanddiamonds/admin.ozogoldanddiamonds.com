@@ -1,0 +1,402 @@
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="logo_card">
+      <img src="../../assets/Images/logo.png" />
+      <span>OZO Gold and Diamond Jewellery</span>
+    </div>
+
+    <ul>
+
+      <!-- Dashboard -->
+      <li routerLink="dashboard" routerLinkActive="SubbranchDashboardComponent">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Dashboard</span>
+      </li>
+
+
+      <!-- Metal -->
+      <li routerLink="/SUB_BRANCH/metal-list">
+        <i class="fa-solid fa-star"></i>
+        <span>Metal</span>
+      </li>
+
+
+      <!-- Stones -->
+      <li routerLink="stones-list" routerLinkActive="active">
+        <i class="fa-solid fa-star"></i>
+        <span>Stones</span>
+      </li>
+
+
+      <!-- ================= CATALOG ================= -->
+
+      <li (click)="toggleMenu('catalog')">
+
+        <div class="menu-left">
+
+          <i class="fa-solid fa-layer-group"></i>
+
+          <span>Catalog</span>
+
+        </div>
+
+        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'catalog'">
+        </i>
+
+      </li>
+
+
+      <!-- Catalog Submenu -->
+      <ul class="submenu" [class.show]="openMenu === 'catalog'">
+
+        <!-- Category -->
+        <li routerLink="category" routerLinkActive="active">
+
+          <i class="fa-solid fa-list"></i>
+
+          <span>Category</span>
+
+        </li>
+
+
+        <!-- SubCategory -->
+        <li routerLink="list_subcategory" routerLinkActive="active">
+
+          <i class="fa-solid fa-list-check"></i>
+
+          <span>SubCategory</span>
+
+        </li>
+
+
+        <!-- Sub-SubCategory -->
+        <li routerLink="subsubcategory" routerLinkActive="active">
+
+          <i class="fa-solid fa-list-ul"></i>
+
+          <span>Sub-SubCategory</span>
+
+        </li>
+
+
+        <!-- Products -->
+        <!-- Products -->
+        <li routerLink="AssignedProducts">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Products</span>
+        </li>
+
+      </ul>
+
+
+      <!-- ================= ORDERS ================= -->
+      <!-- ================= ORDERS ================= -->
+
+      <li (click)="toggleMenu('orders')" class="catalog-parent">
+
+        <div class="menu-left">
+
+          <i class="fa-solid fa-bag-shopping"></i>
+
+          <span>My Branch Order</span>
+
+        </div>
+
+        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'orders'">
+        </i>
+
+      </li>
+
+
+      <!-- Orders Dropdown -->
+      <ul class="submenu" [class.show]="openMenu === 'orders'">
+
+        <!-- Create Order -->
+        <li routerLink="Order-create" routerLinkActive="active">
+
+          <i class="fa-solid fa-plus"></i>
+
+          <span>Create Order</span>
+
+        </li>
+
+
+        <!-- My Branch Orders -->
+        <li routerLink="order-list" routerLinkActive="active">
+
+          <i class="fa-solid fa-list"></i>
+
+          <span>MY Branch Orders</span>
+
+        </li>
+
+      </ul>
+
+      <!-- <li routerLink="Order-create" routerLinkActive="active">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span>Orders</span>
+  </li>
+  <li routerLink="order-list" routerLinkActive="active">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span>MY Branch Orders</span>
+  </li> -->
+
+
+
+
+
+      <!-- Logout -->
+      <li (click)="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </li>
+
+    </ul>
+
+
+
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <div class="navbar">
+
+      <div class="nav-left">
+
+        <button class="menu-btn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="page-info">
+          <h4>Sub Branch Dashboard</h4>
+          <p>Welcome Back 👋</p>
+        </div>
+
+      </div>
+
+      <div class="search-wrapper">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text" placeholder="Search products, orders, users..." [(ngModel)]="searchText"
+          (focus)="openSearch()" (input)="onSearch()" autocomplete="off" />
+
+
+        <!-- ========================================= -->
+        <!-- SEARCH ROUTES -->
+        <!-- ========================================= -->
+
+        <div class="search-results" *ngIf="showSearchResults">
+
+          <!-- ROUTES -->
+
+          <div class="search-result-item" *ngFor="let route of filteredSearchRoutes" (click)="navigateToRoute(route)">
+
+            <div class="route-icon">
+
+              <i class="fa-solid fa-arrow-right"></i>
+
+            </div>
+
+
+            <div class="route-details">
+
+              <div class="route-label">
+                {{ route.label }}
+              </div>
+
+              <small>
+                {{ route.fullPath }}
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <!-- NO RESULTS -->
+
+          <div class="no-results" *ngIf="
+            filteredSearchRoutes.length === 0
+          ">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <span>
+              No routes found
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- <div class="nav-right">
+
+        <button
+          class="logout-btn"
+          (click)="openLogoutPopup()">
+
+          <i class="fa-solid fa-right-from-bracket"></i>
+
+        </button>
+
+      </div> -->
+      <div class="nav-right">
+
+        <button class="logout-btn" (click)="toggleDropdown()">
+
+          <i class="fa-solid fa-right-from-bracket"></i>
+
+        </button>
+
+        <div class="profile-dropdown" *ngIf="showDropdown">
+
+          <div class="dropdown-item" (click)="goToProfile()">
+
+            <i class="fa fa-user"></i>
+
+            <span>Profile</span>
+
+          </div>
+
+          <div class="dropdown-item" (click)="logout()">
+
+            <i class="fa fa-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Profile Popup -->
+    <!-- ========================= -->
+
+    <!-- <div class="profile-overlay"
+     *ngIf="showProfilePopup">
+
+  <div class="profile-popup">
+
+    <h3>My Profile</h3>
+
+    <div class="profile-row">
+      <strong>Name</strong>
+      <span>{{ userName }}</span>
+    </div>
+
+    <div class="profile-row">
+      <strong>Email</strong>
+      <span>{{ userEmail }}</span>
+    </div>
+
+    <div class="profile-row">
+      <strong>Role</strong>
+      <span>{{ role }}</span>
+    </div>
+
+    <button
+      class="close-btn"
+      (click)="closeProfile()">
+
+      Close
+
+    </button>
+
+  </div>
+
+</div> -->
+
+
+    <div class="profile-overlay" *ngIf="showProfilePopup">
+
+      <div class="profile-popup">
+
+        <button class="close-icon" (click)="closeProfile()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="profile-header">
+
+          <div class="profile-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <h2>{{ userName }}</h2>
+
+          <p>{{ role }}</p>
+
+        </div>
+
+        <div class="profile-body">
+
+          <div class="profile-card">
+
+            <div class="icon-box">
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div>
+              <label>Full Name</label>
+              <h5>{{ userName }}</h5>
+            </div>
+
+          </div>
+
+          <div class="profile-card">
+
+            <div class="icon-box">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+
+            <div>
+              <label>Email Address</label>
+              <h5>{{ userEmail }}</h5>
+            </div>
+
+          </div>
+
+          <div class="profile-card">
+
+            <div class="icon-box">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+
+            <div>
+              <label>Role</label>
+              <h5>{{ role }}</h5>
+            </div>
+
+          </div>
+
+        </div>
+
+        <button class="close-btn" (click)="closeProfile()">
+
+          Close
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

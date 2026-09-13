@@ -1,0 +1,274 @@
+<div class="container-fluid mt-3">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h3>Create Scheme</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form
+                [formGroup]="schemeForm"
+                (ngSubmit)="createScheme()">
+
+                <div class="row">
+
+                    <!-- Scheme Name -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Scheme Name <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Enter Scheme Name"
+                            formControlName="name">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['name'].errors">
+
+                            Scheme Name is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Total Amount -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Total Amount <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Enter Amount"
+                            formControlName="amount">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['amount'].errors">
+
+                            Amount is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Monthly Amount -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Monthly Amount
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="monthlyAmount"
+                            readonly>
+
+                    </div>
+
+                    <!-- Duration -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Duration (Months)
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="durationMonths">
+
+                    </div>
+
+                    <!-- User Pay -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            User Pay Months
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="userPayMonths">
+
+                    </div>
+
+                    <!-- Company Pay -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Company Pay Months
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="companyPayMonths">
+
+                    </div>
+
+                    <!-- Display Order -->
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+
+                        <label class="form-label">
+
+                            Display Order
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            formControlName="displayOrder">
+
+                    </div>
+
+                    <!-- Popular -->
+
+                    <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-center">
+
+                        <div class="form-check mt-4">
+
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                formControlName="isPopular">
+
+                            <label class="form-check-label">
+
+                                Popular Scheme
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Description -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+
+                            Description
+
+                        </label>
+
+                        <textarea
+                            rows="4"
+                            class="form-control"
+                            placeholder="Enter Description"
+                            formControlName="description">
+
+                        </textarea>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="submitted && f['description'].errors">
+
+                            Description is required
+
+                        </small>
+
+                    </div>
+
+                    <!-- Benefits -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+
+                            Benefits
+
+                        </label>
+
+                        <textarea
+                            rows="3"
+                            class="form-control"
+                            placeholder="Example : Free Insurance, Gold Bonus, Discount"
+                            formControlName="benefits">
+
+                        </textarea>
+
+                    </div>
+
+                    <!-- Terms -->
+
+                    <div class="col-12 mb-4">
+
+                        <label class="form-label">
+
+                            Terms & Conditions
+
+                        </label>
+
+                        <textarea
+                            rows="4"
+                            class="form-control"
+                            placeholder="Enter Terms & Conditions"
+                            formControlName="terms">
+
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="text-end">
+
+                    <button
+                        class="btn btn-primary me-2"
+                        type="submit">
+
+                        Save Scheme
+
+                    </button>
+
+                    <button
+                        class="btn btn-secondary"
+                        type="reset">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

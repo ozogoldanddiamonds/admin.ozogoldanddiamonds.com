@@ -1,0 +1,389 @@
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+                <h2>
+                    {{ isViewMode ? 'View Supplier Purchase Item' : 'Update Supplier Purchase Item' }}
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="category-card">
+
+            <form [formGroup]="supplierPurchaseItemForm" (ngSubmit)="onSubmit()">
+
+
+                <div class="form-layout">
+
+
+                    <!-- Left Section -->
+
+                    <div class="form-layout">
+
+
+                        <!-- Left Section -->
+
+                        <div class="left-section">
+
+                            <div class="row">
+
+
+                                <!-- =========================
+                                                         SUPPLIER PURCHASE
+                                                    ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Supplier Purchase
+                                        </label>
+
+                                        <select class="form-control" formControlName="purchase"
+                                            (change)="onPurchaseChange()">
+
+                                            <option value="">
+                                                Select Supplier Purchase
+                                            </option>
+
+                                            <option *ngFor="let purchase of purchases" [value]="purchase._id">
+
+                                                {{ purchase.invoiceNumber }}
+                                                -
+                                                {{ purchase.supplier?.name }}
+                                                -
+                                                {{ purchase.invoiceDate | date:'dd-MM-yyyy' }}
+                                                -
+                                                ₹{{ purchase.totalAmount }}
+
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                         SUPPLIER
+                                                    ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Supplier
+                                        </label>
+
+                                        <input type="text" class="form-control" [value]="
+                                                                    selectedPurchase
+                                                                        ?.supplier
+                                                                        ?.name || '-'
+                                                                " readonly>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                         INVOICE NUMBER
+                                                    ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Invoice Number
+                                        </label>
+
+                                        <input type="text" class="form-control" [value]="
+                                                                    selectedPurchase
+                                                                        ?.invoiceNumber || '-'
+                                                                " readonly>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>
+                                            Supplier ProductC ode
+                                        </label>
+                                        <input type="text" class="form-control" formControlName="supplierProductCode">
+                                    </div>
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Batch Number
+                                        </label>
+
+                                        <input type="text" class="form-control" formControlName="batchNumber">
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="row">
+                                <!-- =========================
+                                                        PRODUCT
+                                                ========================= -->
+                                <h2>Product Management</h2>
+
+                                <div class="col-4">
+                                    <div class="form-group">
+
+                                        <label>
+                                            Product
+                                        </label>
+
+                                        <ng-select class="product-select" [items]="products" bindLabel="name"
+                                            bindValue="_id" formControlName="product"
+                                            placeholder="Search / Select Product" [searchable]="true" [clearable]="true"
+                                            [closeOnSelect]="true" (change)="onProductChange()">
+
+                                            <ng-template ng-option-tmp let-item="item">
+                                                {{ item.name }}
+                                            </ng-template>
+
+                                            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+
+                                                <div class="text-center">
+
+                                                    <strong>
+                                                        Product not found
+                                                    </strong>
+
+                                                    <div *ngIf="searchTerm">
+                                                        "{{ searchTerm }}" product available ledu.
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-primary mt-2"
+                                                        (click)="addNewProduct(searchTerm)">
+
+                                                        + Add Product
+
+                                                    </button>
+
+                                                </div>
+
+                                            </ng-template>
+
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     VARIANT
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Product Variant
+                                        </label>
+
+                                        <select class="form-control" formControlName="variantId">
+
+                                            <option value="">
+                                                Select Variant
+                                            </option>
+
+                                            <option *ngFor="
+                                                                                                    let variant of variants
+                                                                                                "
+                                                [value]="variant._id">
+
+                                                {{
+                                                variant.name
+                                                || variant.variantName
+                                                || variant.sku
+                                                || variant._id
+                                                }}
+
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     QUANTITY
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Quantity
+                                        </label>
+
+                                        <input type="number" class="form-control" formControlName="quantity" min="1"
+                                            placeholder="Enter Quantity">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     PURCHASE PRICE
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Purchase Price
+                                        </label>
+
+                                        <input type="number" class="form-control" formControlName="purchasePrice"
+                                            min="0" placeholder="Enter Purchase Price">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     DISCOUNT
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Discount
+                                        </label>
+
+                                        <input type="number" class="form-control" formControlName="discount" min="0"
+                                            placeholder="Enter Discount">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     TAX
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Tax
+                                        </label>
+
+                                        <input type="number" class="form-control" formControlName="tax" min="0"
+                                            placeholder="Enter Tax">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     TOTAL AMOUNT
+                                                                                ========================= -->
+
+                                <div class="col-4">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Total Amount
+                                        </label>
+
+                                        <input type="number" class="form-control" formControlName="totalAmount" min="0"
+                                            placeholder="Enter Total Amount">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =========================
+                                                                                     NOTES
+                                                                                ========================= -->
+
+                                <div class="col-12">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Notes
+                                        </label>
+
+                                        <textarea class="form-control" formControlName="notes" rows="3"
+                                            placeholder="Enter Notes">
+                                                                                        </textarea>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     BUTTONS
+                ========================= -->
+
+                <div class="button-group">
+
+                    <button type="submit" class="btn-create" *ngIf="!isViewMode">
+
+                        Update
+
+                    </button>
+
+
+                    <button type="button" class="btn-back" (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,122 @@
+<h2 mat-dialog-title class="d-flex align-items-center gap-2">
+  <i class="fas fa-info-circle"></i>
+  Scheme Details
+
+  <!-- Close button at top-right of the dialog -->
+  <button
+    mat-icon-button
+    mat-dialog-close
+    class="ms-auto"
+    type="button"
+    aria-label="Close"
+  >
+    <i class="fas fa-times"></i>
+  </button>
+</h2>
+
+<div mat-dialog-content class="scheme-details-content">
+
+  <!-- Key Information Grid -->
+  <div class="details-grid">
+    <div class="detail-item">
+      <label>Scheme Name</label>
+      <span class="value text-primary fw-bold">{{ data?.name }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Total Amount</label>
+      <span class="value fw-bold">₹ {{ data?.amount | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Monthly Amount</label>
+      <span class="value">₹ {{ data?.monthlyAmount | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Duration</label>
+      <span class="value"><i class="far fa-clock"></i> {{ data?.durationMonths }} Months</span>
+    </div>
+
+    <div class="detail-item">
+      <label>User Pay Months</label>
+      <span class="value">{{ data?.userPayMonths }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Company Pay Months</label>
+      <span class="value">{{ data?.companyPayMonths }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Popular Scheme</label>
+      <span class="badge rounded-pill" 
+            [ngClass]="data?.isPopular ? 'bg-success' : 'bg-secondary'">
+        {{ data?.isPopular ? 'Yes' : 'No' }}
+      </span>
+    </div>
+
+    <div class="detail-item">
+      <label>Status</label>
+      <span class="badge rounded-pill" 
+            [ngClass]="data?.isActive ? 'bg-success' : 'bg-danger'">
+        {{ data?.isActive ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+
+    <div class="detail-item">
+      <label>Display Order</label>
+      <span class="value">{{ data?.displayOrder }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Created At</label>
+      <span class="value text-muted small">{{ data?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+    </div>
+
+    <div class="detail-item">
+      <label>Updated At</label>
+      <span class="value text-muted small">{{ data?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <!-- Description Section -->
+  <div *ngIf="data?.description" class="detail-section">
+    <h4 class="section-title d-flex align-items-center gap-2">
+      <i class="fas fa-align-left"></i>
+      Description
+    </h4>
+    <div class="content-box">
+      {{ data?.description }}
+    </div>
+  </div>
+
+  <!-- Benefits Section -->
+  <div *ngIf="data?.benefits?.length" class="detail-section">
+    <h4 class="section-title d-flex align-items-center gap-2">
+      <i class="fas fa-star"></i>
+      Key Benefits
+    </h4>
+    <div class="benefits-list">
+      <div *ngFor="let item of data?.benefits; let i = index" class="benefit-item">
+        <i class="fas fa-check-circle text-success"></i>
+        <span>{{ item }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms & Conditions Section -->
+  <div *ngIf="data?.terms" class="detail-section">
+    <h4 class="section-title d-flex align-items-center gap-2">
+      <i class="fas fa-file-contract"></i>
+      Terms & Conditions
+    </h4>
+    <div class="content-box terms-text">
+      {{ data?.terms }}
+    </div>
+  </div>
+</div>
+
+<!-- Bottom actions (kept as is, but close button can be removed if you only want top-right) -->

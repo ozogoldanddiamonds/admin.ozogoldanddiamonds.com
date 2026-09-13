@@ -1,0 +1,1751 @@
+<div class="category-container">
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Order Details
+            </h2>
+
+            <p>
+                View complete order, customer, payment and stock information
+            </p>
+
+        </div>
+
+
+        <div class="button-section">
+
+            <button type="button" (click)="closeDialog()">
+
+                <i class="fa fa-arrow-left me-2"></i>
+
+                Back to Orders
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- LOADING -->
+    <!-- ================================================= -->
+
+    <div class="loading-container" *ngIf="isLoading">
+
+        <i class="fa fa-spinner fa-spin"></i>
+
+        <span>
+            Loading Order Details...
+        </span>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ORDER CONTENT -->
+    <!-- ================================================= -->
+
+    <div class="order-details" *ngIf="!isLoading && order">
+
+
+        <!-- ================================================= -->
+        <!-- ORDER HEADER CARD -->
+        <!-- ================================================= -->
+
+        <div class="details-card order-header-card">
+
+            <div class="order-main-info">
+
+
+                <!-- Order Number -->
+
+                <div class="info-block">
+
+                    <span class="info-label">
+                        Order Number
+                    </span>
+
+                    <strong class="order-number">
+
+                        {{
+                        order.orderNumber
+                        || '-'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- Invoice -->
+
+                <div class="info-block">
+
+                    <span class="info-label">
+                        Invoice Number
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.invoiceNumber
+                        || '-'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- Source -->
+
+                <div class="info-block">
+
+                    <span class="info-label">
+                        Order Source
+                    </span>
+
+                    <span class="source-badge">
+
+                        {{
+                        formatOrderSource(
+                        order.orderSource
+                        )
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- Order Status -->
+
+                <div class="info-block">
+
+                    <span class="info-label">
+                        Order Status
+                    </span>
+
+                    <span class="status-badge" [ngClass]="
+                            getOrderStatusClass(
+                                order.orderStatus
+                            )
+                        ">
+
+                        {{
+                        order.orderStatus
+                        || '-'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- Payment Status -->
+
+                <div class="info-block">
+
+                    <span class="info-label">
+                        Payment Status
+                    </span>
+
+                    <span class="status-badge" [ngClass]="
+                            getPaymentStatusClass(
+                                order.paymentStatus
+                            )
+                        ">
+
+                        {{
+                        order.paymentStatus
+                        || '-'
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- CUSTOMER + SOURCE -->
+        <!-- ================================================= -->
+
+        <div class="details-grid">
+
+
+            <!-- ============================================== -->
+            <!-- CUSTOMER DETAILS -->
+            <!-- ============================================== -->
+
+            <div class="details-card">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+
+                        <i class="fa fa-user"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Customer Details
+                        </h4>
+
+                        <span>
+                            Customer information
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-list">
+
+                    <div class="detail-row">
+
+                        <span>
+                            Name
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.customerDetails
+                            ?.name
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Phone
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.customerDetails
+                            ?.phone
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.customerDetails
+                            ?.email
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- SOURCE DETAILS -->
+            <!-- ============================================== -->
+
+            <div class="details-card">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+
+                        <i class="fa fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Order Source
+                        </h4>
+
+                        <span>
+                            Branch and creator information
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-list">
+
+                    <!-- Branch -->
+
+                    <div class="detail-row">
+
+                        <span>
+                            Branch
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.branch?.name
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Branch Email
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.branch?.email
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Sub Branch -->
+
+                    <div class="detail-row">
+
+                        <span>
+                            Sub Branch
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.subBranch?.name
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Created By
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.createdBy?.name
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- ADDRESS -->
+        <!-- ================================================= -->
+
+        <div class="details-card" *ngIf="
+                order.address ||
+                order.addressSnapshot
+            ">
+
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <i class="fa fa-map-marker-alt"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+                        Delivery Address
+                    </h4>
+
+                    <span>
+                        Order address information
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="address-box">
+
+                <ng-container *ngIf="order.address; else snapshotAddress">
+
+                    <p>
+
+                        {{
+                        order.address.addressLine1
+                        || ''
+                        }}
+
+                    </p>
+
+                    <p *ngIf="
+                            order.address.addressLine2
+                        ">
+
+                        {{
+                        order.address.addressLine2
+                        }}
+
+                    </p>
+
+                    <p>
+
+                        {{
+                        order.address.city
+                        || ''
+                        }}
+
+                        <span *ngIf="order.address.state">
+
+                            ,
+
+                            {{
+                            order.address.state
+                            }}
+
+                        </span>
+
+                    </p>
+
+                    <p *ngIf="
+                            order.address.pincode
+                        ">
+
+                        Pincode:
+                        {{
+                        order.address.pincode
+                        }}
+
+                    </p>
+
+                    <p *ngIf="
+                            order.address.country
+                        ">
+
+                        {{
+                        order.address.country
+                        }}
+
+                    </p>
+
+                </ng-container>
+
+
+                <ng-template #snapshotAddress>
+
+                    <p *ngIf="
+                            order.addressSnapshot
+                                ?.addressLine1
+                        ">
+
+                        {{
+                        order.addressSnapshot
+                        .addressLine1
+                        }}
+
+                    </p>
+
+                    <p *ngIf="
+                            order.addressSnapshot
+                                ?.addressLine2
+                        ">
+
+                        {{
+                        order.addressSnapshot
+                        .addressLine2
+                        }}
+
+                    </p>
+
+                    <p>
+
+                        {{
+                        order.addressSnapshot
+                        ?.city
+                        || ''
+                        }}
+
+                        <span *ngIf="
+                                order.addressSnapshot
+                                    ?.state
+                            ">
+
+                            ,
+
+                            {{
+                            order.addressSnapshot
+                            .state
+                            }}
+
+                        </span>
+
+                    </p>
+
+                    <p *ngIf="
+                            order.addressSnapshot
+                                ?.pincode
+                        ">
+
+                        Pincode:
+                        {{
+                        order.addressSnapshot
+                        .pincode
+                        }}
+
+                    </p>
+
+                    <p *ngIf="
+                            order.addressSnapshot
+                                ?.country
+                        ">
+
+                        {{
+                        order.addressSnapshot
+                        .country
+                        }}
+
+                    </p>
+
+                </ng-template>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- ORDER ITEMS -->
+        <!-- ================================================= -->
+
+        <div class="details-card">
+
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <i class="fa fa-box-open"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+                        Order Items
+                    </h4>
+
+                    <span>
+                        Products included in this order
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="items-container">
+
+
+                <div class="order-item" *ngFor="
+                        let item of order.items;
+                        let i = index
+                    ">
+
+
+                    <!-- Product Image -->
+
+                    <div class="item-image">
+
+                        <img [src]="
+                                item.productSnapshot?.image
+                                || 'assets/Images/no-image.png'
+                            " alt="Product">
+
+                    </div>
+
+
+                    <!-- Product -->
+
+                    <div class="item-product">
+
+                        <span class="item-index">
+                            Item {{ i + 1 }}
+                        </span>
+
+                        <h4>
+
+                            {{
+                            item.productSnapshot
+                            ?.name
+                            || '-'
+                            }}
+
+                        </h4>
+
+
+                        <small>
+
+                            SKU:
+                            {{
+                            item.variantSnapshot
+                            ?.sku
+                            || '-'
+                            }}
+
+                        </small>
+
+                    </div>
+
+
+                    <!-- Variant -->
+
+                    <div class="item-variant">
+
+                        <span class="info-label">
+                            Variant
+                        </span>
+
+
+                        <div class="variant-details">
+
+                            <span>
+                                {{
+                                item.variantSnapshot
+                                ?.purity
+                                || '-'
+                                }}
+                            </span>
+
+                            <span>
+                                {{
+                                item.variantSnapshot
+                                ?.metalColor
+                                || '-'
+                                }}
+                            </span>
+
+                            <span>
+                                Size:
+                                {{
+                                item.variantSnapshot
+                                ?.size
+                                || '-'
+                                }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Quantity -->
+
+                    <div class="item-quantity">
+
+                        <span class="info-label">
+                            Quantity
+                        </span>
+
+                        <strong>
+
+                            {{
+                            item.quantity
+                            || 0
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Unit Price -->
+
+                    <div class="item-price">
+
+                        <span class="info-label">
+                            Unit Price
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            item.unitPrice
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Total -->
+
+                    <div class="item-total">
+
+                        <span class="info-label">
+                            Total
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            item.totalPrice
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- STOCK ALLOCATION -->
+        <!-- ================================================= -->
+
+        <!-- Stock Allocation -->
+        <div class="detail-section" *ngIf="order?.items?.length">
+
+            <div class="section-title">
+                <i class="fas fa-boxes"></i>
+                <h3>Stock Allocation</h3>
+            </div>
+
+            <div class="stock-allocation-card" *ngFor="let item of order.items; let itemIndex = index">
+
+                <div class="stock-product-header">
+                    <div>
+                        <h4>{{ item.productSnapshot?.name || 'Product' }}</h4>
+
+                        <p>
+                            SKU:
+                            <strong>{{ item.variantSnapshot?.sku || '-' }}</strong>
+                        </p>
+                    </div>
+
+                    <span class="allocation-qty">
+                        Order Qty: {{ item.quantity || 0 }}
+                    </span>
+                </div>
+
+                <div class="allocation-list" *ngIf="item.stockAllocations?.length; else noAllocation">
+
+                    <div class="allocation-card" *ngFor="let allocation of item.stockAllocations">
+
+                        <!-- Common Header -->
+                        <div class="allocation-header">
+
+                            <div class="allocation-source">
+                                <span class="source-icon">
+                                    <i class="fas" [ngClass]="{
+                  'fa-user-cog': isMakerAllocation(allocation),
+                  'fa-truck': isSupplierAllocation(allocation)
+                }">
+                                    </i>
+                                </span>
+
+                                <div>
+                                    <span class="source-label">
+                                        {{ getStockSourceLabel(allocation) }}
+                                    </span>
+
+                                    <small>
+                                        Allocated Quantity:
+                                        {{ allocation.quantity || 0 }}
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= MAKER ================= -->
+                        <div class="source-details" *ngIf="isMakerAllocation(allocation)">
+
+                            <div class="source-section-title">
+                                <i class="fas fa-user-cog"></i>
+                                Maker Details
+                            </div>
+
+                            <div class="details-grid">
+
+                                <div class="detail-item">
+                                    <label>Maker Name</label>
+                                    <span>
+                                        {{ getMaker(allocation)?.name || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Phone</label>
+                                    <span>
+                                        {{ getMaker(allocation)?.phone || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Email</label>
+                                    <span>
+                                        {{ getMaker(allocation)?.email || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Specialization</label>
+                                    <span>
+                                        {{ getMaker(allocation)?.specialization || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item full-width">
+                                    <label>Address</label>
+
+                                    <span>
+                                        {{
+                                        getMaker(allocation)?.address?.addressLine1 || ''
+                                        }}
+
+                                        {{
+                                        getMaker(allocation)?.address?.addressLine2
+                                        ? ', ' + getMaker(allocation)?.address?.addressLine2
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getMaker(allocation)?.address?.city
+                                        ? ', ' + getMaker(allocation)?.address?.city
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getMaker(allocation)?.address?.state
+                                        ? ', ' + getMaker(allocation)?.address?.state
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getMaker(allocation)?.address?.pincode
+                                        ? ' - ' + getMaker(allocation)?.address?.pincode
+                                        : ''
+                                        }}
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Maker Production -->
+                            <div class="sub-details-card" *ngIf="getMakerProduction(allocation)">
+
+                                <div class="sub-details-title">
+                                    <i class="fas fa-industry"></i>
+                                    Production Details
+                                </div>
+
+                                <div class="details-grid">
+
+                                    <div class="detail-item">
+                                        <label>Production Number</label>
+                                        <span>
+                                            {{
+                                            getMakerProduction(allocation)?.productionNumber || '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Issue Date</label>
+                                        <span>
+                                            {{
+                                            getMakerProduction(allocation)?.issueDate
+                                            ? (getMakerProduction(allocation)?.issueDate | date:'dd-MM-yyyy')
+                                            : '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Expected Date</label>
+                                        <span>
+                                            {{
+                                            getMakerProduction(allocation)?.expectedDate
+                                            ? (getMakerProduction(allocation)?.expectedDate | date:'dd-MM-yyyy')
+                                            : '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Received Date</label>
+                                        <span>
+                                            {{
+                                            getMakerProduction(allocation)?.receivedDate
+                                            ? (getMakerProduction(allocation)?.receivedDate | date:'dd-MM-yyyy')
+                                            : '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Status</label>
+                                        <span>
+                                            {{ getMakerProduction(allocation)?.status || '-' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Quantity Given</label>
+                                        <span>
+                                            {{ allocation.makerProductionItem?.quantityGiven || 0 }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Quantity Received</label>
+                                        <span>
+                                            {{ allocation.makerProductionItem?.quantityReceived || 0 }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Available Quantity</label>
+                                        <span>
+                                            {{ allocation.makerProductionItem?.availableQuantity || 0 }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item full-width" *ngIf="getMakerProduction(allocation)?.notes">
+                                        <label>Production Notes</label>
+                                        <span>
+                                            {{ getMakerProduction(allocation)?.notes }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= SUPPLIER ================= -->
+                        <div class="source-details" *ngIf="isSupplierAllocation(allocation)">
+
+                            <div class="source-section-title">
+                                <i class="fas fa-truck"></i>
+                                Supplier Details
+                            </div>
+
+                            <div class="details-grid">
+
+                                <div class="detail-item">
+                                    <label>Supplier Name</label>
+                                    <span>
+                                        {{ getSupplier(allocation)?.name || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Company Name</label>
+                                    <span>
+                                        {{ getSupplier(allocation)?.companyName || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Phone</label>
+                                    <span>
+                                        {{ getSupplier(allocation)?.phone || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Email</label>
+                                    <span>
+                                        {{ getSupplier(allocation)?.email || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>GST Number</label>
+                                    <span>
+                                        {{ getSupplier(allocation)?.gstNumber || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Supplier Product Code</label>
+                                    <span>
+                                        {{ allocation.sourceDetails?.supplierProductCode || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item">
+                                    <label>Batch Number</label>
+                                    <span>
+                                        {{ allocation.sourceDetails?.batchNumber || '-' }}
+                                    </span>
+                                </div>
+
+                                <div class="detail-item full-width">
+                                    <label>Address</label>
+
+                                    <span>
+                                        {{
+                                        getSupplier(allocation)?.address?.addressLine1 || ''
+                                        }}
+
+                                        {{
+                                        getSupplier(allocation)?.address?.addressLine2
+                                        ? ', ' + getSupplier(allocation)?.address?.addressLine2
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getSupplier(allocation)?.address?.city
+                                        ? ', ' + getSupplier(allocation)?.address?.city
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getSupplier(allocation)?.address?.state
+                                        ? ', ' + getSupplier(allocation)?.address?.state
+                                        : ''
+                                        }}
+
+                                        {{
+                                        getSupplier(allocation)?.address?.pincode
+                                        ? ' - ' + getSupplier(allocation)?.address?.pincode
+                                        : ''
+                                        }}
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Supplier Purchase -->
+                            <div class="sub-details-card" *ngIf="getSupplierPurchase(allocation)">
+
+                                <div class="sub-details-title">
+                                    <i class="fas fa-file-invoice"></i>
+                                    Purchase Details
+                                </div>
+
+                                <div class="details-grid">
+
+                                    <div class="detail-item">
+                                        <label>Invoice Number</label>
+                                        <span>
+                                            {{ getSupplierPurchase(allocation)?.invoiceNumber || '-' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Invoice Date</label>
+                                        <span>
+                                            {{
+                                            getSupplierPurchase(allocation)?.invoiceDate
+                                            ? (getSupplierPurchase(allocation)?.invoiceDate | date:'dd-MM-yyyy')
+                                            : '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Purchase Date</label>
+                                        <span>
+                                            {{
+                                            getSupplierPurchase(allocation)?.purchaseDate
+                                            ? (getSupplierPurchase(allocation)?.purchaseDate | date:'dd-MM-yyyy')
+                                            : '-'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Purchase Status</label>
+                                        <span>
+                                            {{ getSupplierPurchase(allocation)?.status || '-' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Payment Status</label>
+                                        <span>
+                                            {{ getSupplierPurchase(allocation)?.paymentStatus || '-' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Purchase Quantity</label>
+                                        <span>
+                                            {{ allocation.supplierPurchaseItem?.quantity || 0 }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Available Quantity</label>
+                                        <span>
+                                            {{ allocation.supplierPurchaseItem?.availableQuantity || 0 }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Purchase Price</label>
+                                        <span>
+                                            ₹{{ (allocation.supplierPurchaseItem?.purchasePrice || 0) | number:'1.2-2'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <label>Total Amount</label>
+                                        <span>
+                                            ₹{{ (allocation.supplierPurchaseItem?.totalAmount || 0) | number:'1.2-2' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-item full-width" *ngIf="allocation.supplierPurchaseItem?.notes">
+                                        <label>Purchase Notes</label>
+                                        <span>
+                                            {{ allocation.supplierPurchaseItem?.notes }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <ng-template #noAllocation>
+                    <div class="no-allocation">
+                        <i class="fas fa-box-open"></i>
+                        <span>No stock allocation found</span>
+                    </div>
+                </ng-template>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- PRICING SUMMARY -->
+        <!-- ================================================= -->
+
+        <div class="details-grid">
+
+
+            <!-- ============================================== -->
+            <!-- ORDER SUMMARY -->
+            <!-- ============================================== -->
+
+            <div class="details-card">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+
+                        <i class="fa fa-calculator"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Order Summary
+                        </h4>
+
+                        <span>
+                            Complete price breakdown
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-list">
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            order.subTotal
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Discount
+                        </span>
+
+                        <strong>
+
+                            - ₹
+                            {{
+                            order.discountAmount
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Shipping Charge
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            order.shippingCharge
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            GST
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            order.gstAmount
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row total-row">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+
+                            ₹
+                            {{
+                            order.totalAmount
+                            || 0
+                            | number:'1.2-2'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================== -->
+            <!-- PAYMENT -->
+            <!-- ============================================== -->
+
+            <div class="details-card">
+
+                <div class="section-heading">
+
+                    <div class="section-icon">
+
+                        <i class="fa fa-credit-card"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Payment Details
+                        </h4>
+
+                        <span>
+                            Payment and billing information
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-list">
+
+                    <div class="detail-row">
+
+                        <span>
+                            Payment Method
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.paymentMethod
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Payment Status
+                        </span>
+
+                        <span class="status-badge" [ngClass]="
+                                getPaymentStatusClass(
+                                    order.paymentStatus
+                                )
+                            ">
+
+                            {{
+                            order.paymentStatus
+                            || '-'
+                            }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Billing Status
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.billingStatus
+                            || '-'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span>
+                            Coupon
+                        </span>
+
+                        <strong>
+
+                            {{
+                            order.couponCode
+                            || 'No Coupon'
+                            }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- STATUS HISTORY -->
+        <!-- ================================================= -->
+
+        <div class="details-card">
+
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <i class="fa fa-history"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+                        Order Status History
+                    </h4>
+
+                    <span>
+                        Order status activity
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline" *ngIf="
+                    order.statusHistory?.length
+                ">
+
+
+                <div class="timeline-item" *ngFor="
+                        let history
+                        of order.statusHistory
+                    ">
+
+
+                    <div class="timeline-dot">
+
+                        <i class="fa fa-check"></i>
+
+                    </div>
+
+
+                    <div class="timeline-content">
+
+                        <div class="timeline-top">
+
+                            <strong>
+
+                                {{
+                                history.status
+                                || '-'
+                                }}
+
+                            </strong>
+
+
+                            <span>
+
+                                {{
+                                history.updatedAt
+                                ? (
+                                history.updatedAt
+                                | date:'dd-MM-yyyy hh:mm a'
+                                )
+                                : '-'
+                                }}
+
+                            </span>
+
+                        </div>
+
+
+                        <p>
+
+                            {{
+                            history.remarks
+                            || 'No remarks'
+                            }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="empty-state" *ngIf="
+                    !order.statusHistory?.length
+                ">
+
+                No status history available.
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- SYSTEM INFORMATION -->
+        <!-- ================================================= -->
+
+        <div class="details-card">
+
+            <div class="section-heading">
+
+                <div class="section-icon">
+
+                    <i class="fa fa-info-circle"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>
+                        System Information
+                    </h4>
+
+                    <span>
+                        Order processing information
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="details-grid-small system-grid">
+
+                <div>
+
+                    <span>
+                        Order Created
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.createdAt
+                        ? (
+                        order.createdAt
+                        | date:'dd-MM-yyyy hh:mm a'
+                        )
+                        : '-'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Last Updated
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.updatedAt
+                        ? (
+                        order.updatedAt
+                        | date:'dd-MM-yyyy hh:mm a'
+                        )
+                        : '-'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Invoice Printed
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.invoicePrinted
+                        ? 'Yes'
+                        : 'No'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Invoice Date
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.invoiceDate
+                        ? (
+                        order.invoiceDate
+                        | date:'dd-MM-yyyy hh:mm a'
+                        )
+                        : '-'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Stock Updated
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.stockUpdated
+                        ? 'Yes'
+                        : 'No'
+                        }}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Payment History
+                    </span>
+
+                    <strong>
+
+                        {{
+                        order.paymentHistory
+                        ?.length
+                        || 0
+                        }}
+
+                        Entries
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- NO ORDER -->
+    <!-- ================================================= -->
+
+    <div class="empty-state" *ngIf="
+            !isLoading && !order
+        ">
+
+        <i class="fa fa-box-open"></i>
+
+        <h3>
+            Order Details Not Found
+        </h3>
+
+        <p>
+            The requested order could not be loaded.
+        </p>
+
+        <div class="dialog-footer">
+            <button type="button" (click)="closeDialog()">
+                Close
+            </button>
+        </div>
+
+    </div>
+
+</div>

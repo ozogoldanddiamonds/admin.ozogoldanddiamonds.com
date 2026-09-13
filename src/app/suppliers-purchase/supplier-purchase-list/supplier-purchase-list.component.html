@@ -1,0 +1,385 @@
+<div class="category-container">
+
+    <!-- Top Row -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Supplier Purchase Management
+            </h2>
+
+            <p>
+                Manage all supplier purchases here
+            </p>
+
+        </div>
+
+
+        <div class="button-section" *ngIf="role === 'BRANCH'">
+
+            <button routerLink="/admin/add-supplier-purchase">
+
+                Add Supplier Purchase
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <div class="search-row">
+
+        <mat-form-field appearance="outline" class="w-100">
+
+            <mat-label>
+                Search Supplier Purchase
+            </mat-label>
+
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search invoice number or payment status">
+
+        </mat-form-field>
+
+    </div>
+
+
+    <!-- Table -->
+
+    <div class="table-row">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+
+            <!-- S.No -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+                <td mat-cell *matCellDef="
+                        let element;
+                        let i = index
+                    ">
+
+                    {{ i + 1 }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Supplier -->
+
+            <ng-container matColumnDef="supplier">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Supplier
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.supplier?.name || '-' }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Invoice Number -->
+
+            <ng-container matColumnDef="invoiceNumber">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Invoice Number
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.invoiceNumber }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Invoice Date -->
+
+            <ng-container matColumnDef="invoiceDate">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Invoice Date
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{
+                    element.invoiceDate
+                    | date:'dd-MM-yyyy'
+                    }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Purchase Date -->
+
+            <ng-container matColumnDef="purchaseDate">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Purchase Date
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{
+                    element.purchaseDate
+                    | date:'dd-MM-yyyy'
+                    }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Subtotal -->
+
+            <ng-container matColumnDef="subtotal">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Subtotal
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{ element.subtotal || 0 }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Discount -->
+
+            <ng-container matColumnDef="discount">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Discount
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{ element.discount || 0 }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Tax -->
+
+            <ng-container matColumnDef="tax">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Tax
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{ element.tax || 0 }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Total Amount -->
+
+            <ng-container matColumnDef="totalAmount">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Total Amount
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    ₹ {{ element.totalAmount }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Payment Status -->
+
+            <ng-container matColumnDef="paymentStatus">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Payment Status
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span [ngClass]="{
+
+                            'active-badge':
+                                element.paymentStatus === 'PAID',
+
+                            'inactive-badge':
+                                element.paymentStatus === 'PENDING',
+
+                            'partial-badge':
+                                element.paymentStatus === 'PARTIAL'
+
+                        }">
+
+                        {{
+                        element.paymentStatus
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Status -->
+
+            <ng-container matColumnDef="status">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Status
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span [ngClass]="
+                            element.status === 'RECEIVED'
+                                ? 'active-badge'
+                                : 'inactive-badge'
+                        ">
+
+                        {{
+                        element.status
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Actions -->
+
+            <ng-container matColumnDef="actions">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Actions
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="action-buttons">
+
+
+                        <!-- View -->
+
+                        <button mat-icon-button class="view-btn" (click)="viewSupplierPurchase(element)">
+
+                            <i class="fa fa-eye"></i>
+
+                        </button>
+
+
+                        <!-- Edit -->
+
+                        <button mat-icon-button class="edit-btn" (click)="editSupplierPurchase(element)">
+
+                            <i class="fa fa-pencil"></i>
+
+                        </button>
+
+
+                        <!-- Delete -->
+
+                        <button mat-icon-button class="delete-btn" (click)="deleteSupplierPurchase(element)">
+
+                            <i class="fa fa-trash"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Header -->
+
+            <tr mat-header-row *matHeaderRowDef="
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+            <!-- Rows -->
+
+            <tr mat-row *matRowDef="
+                    let row;
+                    columns:
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+        </table>
+
+
+        <!-- Paginator -->
+
+        <mat-paginator [pageSizeOptions]="
+                [5,10,20,50]
+            " showFirstLastButtons>
+
+        </mat-paginator>
+
+
+    </div>
+
+</div>

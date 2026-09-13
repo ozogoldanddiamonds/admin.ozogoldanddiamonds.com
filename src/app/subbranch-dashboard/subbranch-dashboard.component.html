@@ -1,0 +1,439 @@
+<div class="dashboard-container">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <h2>Sub Branch Dashboard</h2>
+
+            <p>
+                Welcome back 👋 Monitor branch sales and orders
+            </p>
+
+        </div>
+
+        <!-- <button class="report-btn">
+
+            <i class="fa-solid fa-download"></i>
+
+            Export Report
+
+        </button> -->
+
+    </div>
+
+    <!-- ================= TOP STATS ================= -->
+
+    <div class="stats-grid">
+
+        <!-- SALES -->
+
+        <div class="stats-card revenue">
+
+            <div class="stats-top">
+
+                <div>
+
+                    <p>Today's Sales</p>
+
+                    <h2>₹ 1,24,500</h2>
+
+                </div>
+
+                <div class="stats-icon">
+
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                </div>
+
+            </div>
+
+            <div class="stats-bottom">
+
+                <span class="success">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                    +18.2%
+
+                </span>
+
+                <small>Compared to yesterday</small>
+
+            </div>
+
+        </div>
+
+        <!-- ORDERS -->
+
+        <div class="stats-card orders">
+
+            <div class="stats-top">
+
+                <div>
+
+                    <p>Total Orders</p>
+
+                    <h2>248</h2>
+
+                </div>
+
+                <div class="stats-icon">
+
+                    <i class="fa-solid fa-bag-shopping"></i>
+
+                </div>
+
+            </div>
+
+            <div class="stats-bottom">
+
+                <span class="success">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                    +10.5%
+
+                </span>
+
+                <small>Compared to last week</small>
+
+            </div>
+
+        </div>
+
+        <!-- CUSTOMERS -->
+
+        <div class="stats-card customers">
+
+            <div class="stats-top">
+
+                <div>
+
+                    <p>Walk-In Customers</p>
+
+                    <h2>184</h2>
+
+                </div>
+
+                <div class="stats-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+            </div>
+
+            <div class="stats-bottom">
+
+                <span class="success">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                    +6.3%
+
+                </span>
+
+                <small>Compared to yesterday</small>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCTS -->
+
+        <div class="stats-card products">
+
+            <div class="stats-top">
+
+                <div>
+
+                    <p>Available Products</p>
+
+                    <h2>1,245</h2>
+
+                </div>
+
+                <div class="stats-icon">
+
+                    <i class="fa-solid fa-gem"></i>
+
+                </div>
+
+            </div>
+
+            <div class="stats-bottom">
+
+                <span class="success">
+
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+
+                    +4.8%
+
+                </span>
+
+                <small>Updated Inventory</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= CHARTS ================= -->
+
+    <div class="dashboard-grid">
+
+        <!-- SALES OVERVIEW -->
+
+        <div class="dashboard-card large-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h4>Branch Sales Overview</h4>
+
+                    <p>Weekly Revenue Analytics</p>
+
+                </div>
+
+                <button>
+                    View Report
+                </button>
+
+            </div>
+
+            <canvas #barChart></canvas>
+
+        </div>
+
+        <!-- ORDER STATUS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h4>Order Status</h4>
+
+                    <p>Delivered vs Pending Orders</p>
+
+                </div>
+
+            </div>
+
+            <canvas #donutChart></canvas>
+
+        </div>
+
+        <!-- RECENT ORDERS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h4>Recent Orders</h4>
+
+                    <p>Latest Customer Orders</p>
+
+                </div>
+
+            </div>
+
+            <div class="order-list">
+
+                <div class="order-item">
+
+                    <div>
+
+                        <h6>#OZO1023</h6>
+
+                        <p>Gold Ring</p>
+
+                    </div>
+
+                    <span class="pending">
+                        Pending
+                    </span>
+
+                </div>
+
+                <div class="order-item">
+
+                    <div>
+
+                        <h6>#OZO1024</h6>
+
+                        <p>Diamond Necklace</p>
+
+                    </div>
+
+                    <span class="success-status">
+                        Delivered
+                    </span>
+
+                </div>
+
+                <div class="order-item">
+
+                    <div>
+
+                        <h6>#OZO1025</h6>
+
+                        <p>Silver Bracelet</p>
+
+                    </div>
+
+                    <span class="processing">
+                        Processing
+                    </span>
+
+                </div>
+
+                <div class="order-item">
+
+                    <div>
+
+                        <h6>#OZO1026</h6>
+
+                        <p>Gold Chain</p>
+
+                    </div>
+
+                    <span class="success-status">
+                        Delivered
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CUSTOMER VISITS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h4>Customer Visits</h4>
+
+                    <p>Daily Footfall Analytics</p>
+
+                </div>
+
+            </div>
+
+            <canvas #lineChart></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RECENT SALES TABLE ================= -->
+
+    <div class="dashboard-card recent-table">
+
+        <div class="card-header">
+
+            <div>
+
+                <h4>Today's Sales</h4>
+
+                <p>Latest Transactions</p>
+
+            </div>
+
+        </div>
+
+        <table class="sales-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Invoice</th>
+
+                    <th>Customer</th>
+
+                    <th>Product</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>#INV1001</td>
+
+                    <td>Ravi Kumar</td>
+
+                    <td>Gold Ring</td>
+
+                    <td>₹25,000</td>
+
+                    <td>
+                        <span class="success-status">
+                            Paid
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>#INV1002</td>
+
+                    <td>Sneha</td>
+
+                    <td>Diamond Necklace</td>
+
+                    <td>₹78,000</td>
+
+                    <td>
+                        <span class="pending">
+                            Pending
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>#INV1003</td>
+
+                    <td>Mahesh</td>
+
+                    <td>Gold Chain</td>
+
+                    <td>₹45,000</td>
+
+                    <td>
+                        <span class="success-status">
+                            Paid
+                        </span>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

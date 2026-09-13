@@ -1,0 +1,316 @@
+<div class="category-container">
+
+  <!-- ================= Header ================= -->
+
+  <div class="top-row">
+
+    <div class="title-section">
+      <h2>Order Management</h2>
+      <p>Manage all orders here</p>
+    </div>
+
+    <div class="button-section">
+      <button routerLink="/admin/Order-create">
+        Create Order
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ================= Search ================= -->
+
+  <div class="search-row">
+
+    <mat-form-field appearance="outline" class="w-100">
+
+      <mat-label>Search Order</mat-label>
+
+      <input
+        matInput
+        placeholder="Order No / Customer Name / Phone"
+        (keyup)="applyFilter($event)">
+
+    </mat-form-field>
+
+  </div>
+
+  <!-- ================= Table ================= -->
+
+  <div class="table-row">
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- S.No -->
+
+      <ng-container matColumnDef="sno">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          S.No
+
+        </th>
+
+        <td mat-cell *matCellDef="let row; let i=index">
+
+          {{i+1}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Order Number -->
+
+      <ng-container matColumnDef="orderNumber">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+          Order No
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          {{row.orderNumber}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Customer -->
+
+      <ng-container matColumnDef="customer">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Customer
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          {{row.customerDetails?.name | titlecase}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Phone -->
+
+      <ng-container matColumnDef="phone">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Phone
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          {{row.customerDetails?.phone}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- source name -->
+       <ng-container matColumnDef="subBranch">
+
+  <th mat-header-cell *matHeaderCellDef>
+
+    Sub Branch
+
+  </th>
+
+  <td mat-cell *matCellDef="let row">
+
+    {{ row.subBranch?.name || '-' }}
+
+  </td>
+
+</ng-container>
+
+      <!-- Order Source -->
+
+      <ng-container matColumnDef="orderSource">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Source
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          <span
+      class="status-badge"
+      [ngClass]="{
+        'online-badge': row.orderSource == 'ONLINE',
+        'branch-badge': row.orderSource == 'BRANCH',
+        'subbranch-badge': row.orderSource == 'SUB_BRANCH'
+      }">
+
+      {{ row.orderSource }}
+
+    </span>
+
+        </td>
+
+      </ng-container>
+
+      <!-- Payment -->
+
+      <ng-container matColumnDef="payment">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Payment
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          {{row.paymentMethod}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Status -->
+
+      <ng-container matColumnDef="status">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Status
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+           <span
+            class="delivary-status-badge"
+            [ngClass]="{
+                'pending-badge': row.orderStatus == 'Pending',
+                'processing-badge': row.orderStatus == 'Processing',
+                'confirmed-badge': row.orderStatus == 'Confirmed',
+                'packed-badge': row.orderStatus == 'Packed',
+                'shipped-badge': row.orderStatus == 'Shipped',
+                'out-delivery-badge': row.orderStatus == 'Out For Delivery',
+                'delivered-badge': row.orderStatus == 'Delivered',
+                'completed-badge': row.orderStatus == 'Completed',
+                'cancelled-badge': row.orderStatus == 'Cancelled',
+                'returned-badge': row.orderStatus == 'Returned',
+                'refunded-badge': row.orderStatus == 'Refunded'
+            }">
+
+            {{ row.orderStatus }}
+
+        </span>
+
+        </td>
+
+      </ng-container>
+
+      <!-- Amount -->
+
+      <ng-container matColumnDef="amount">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+          Amount
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          ₹ {{row.totalAmount | number:'1.2-2'}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Date -->
+
+      <ng-container matColumnDef="date">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+          Date
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          {{row.createdAt | date:'dd-MM-yyyy'}}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Actions -->
+
+      <ng-container matColumnDef="actions">
+
+        <th mat-header-cell *matHeaderCellDef>
+
+          Actions
+
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+
+          <div class="action-buttons">
+
+            <button
+              mat-icon-button
+              class="view-btn"
+              (click)="viewOrder(row)">
+
+              <i class="fa fa-eye"></i>
+
+            </button>
+
+            <button
+              mat-icon-button
+              class="edit-btn"
+              (click)="editOrder(row._id)">
+
+              <i class="fa fa-pencil"></i>
+
+            </button>
+
+            <button
+              mat-icon-button
+              class="delete-btn"
+               (click)="deleteCategory(row._id)">
+
+              <i class="fa fa-trash"></i>
+
+            </button>
+
+          </div>
+
+        </td>
+
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns">
+      </tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5,10,20,50]"
+      showFirstLastButtons>
+    </mat-paginator>
+
+  </div>
+
+</div>

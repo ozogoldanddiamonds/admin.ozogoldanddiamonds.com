@@ -1,0 +1,148 @@
+/* Dialog container */
+.dialog-title {
+background: linear-gradient(90deg, rgba(100,1,1,0.98), rgba(98,92,92,0.95));
+color: #fff;
+font-weight: 700;
+padding: 20px 24px;
+font-size: 1.25rem;
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+margin: 0;
+}
+
+/* Dialog content area */
+.mat-dialog-content {
+background: #fff;
+padding: 20px 24px 16px 24px;
+color: rgb(98, 92, 92);
+font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Product header */
+.product-header {
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+gap: 16px;
+margin-bottom: 16px;
+}
+.product-header h3 {
+margin: 0;
+color: var(--red-color);
+font-size: 1.15rem;
+font-weight: 700;
+letter-spacing: 0.2px;
+}
+.product-header p {
+margin: 0;
+color: rgb(98, 92, 92);
+font-size: 0.95rem;
+}
+
+/* Table styling */
+.table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+background: #fff;
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 6px 20px rgba(100,1,1,0.06);
+}
+.table thead th {
+background: linear-gradient(180deg, rgba(100,1,1,0.06), rgba(98,92,92,0.03));
+color: var(--red-color);
+font-weight: 600;
+font-size: 0.95rem;
+padding: 12px 14px;
+text-align: left;
+border-bottom: 1px solid rgba(98,92,92,0.08);
+}
+.table tbody td {
+padding: 12px 14px;
+color: rgb(98, 92, 92);
+vertical-align: middle;
+font-size: 0.95rem;
+border-bottom: 1px solid rgba(98,92,92,0.04);
+}
+
+/* Stock badge */
+.stock-badge {
+display: inline-block;
+background: rgba(100,1,1,0.06);
+color: var(--red-color);
+padding: 6px 10px;
+border-radius: 999px;
+font-weight: 600;
+font-size: 0.9rem;
+}
+
+/* Number input */
+.form-control[type="number"] {
+width: 110px;
+padding: 8px 10px;
+border: 1px solid rgba(98,92,92,0.18);
+border-radius: 8px;
+background: #fff;
+color: rgb(98, 92, 92);
+transition: box-shadow 0.15s ease, border-color 0.15s ease;
+-moz-appearance: textfield;
+}
+.form-control[type="number"]:focus {
+outline: none;
+box-shadow: 0 0 0 4px rgba(100,1,1,0.06);
+border-color: var(--red-color);
+}
+
+/* Actions footer */
+.mat-dialog-actions {
+background: #fff;
+padding: 14px 20px;
+display: flex;
+gap: 12px;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;
+justify-content: flex-end;
+align-items: center;
+}
+
+.btn-create{
+
+    min-width:170px;
+    margin-top: 19px;
+
+    height:46px;
+
+    border:none !important;
+
+    border-radius:10px !important;
+
+    background:linear-gradient(135deg,#640101,#8b0000) !important;
+
+    color:#fff !important;
+
+    font-size:15px !important;
+
+    font-weight:600 !important;
+
+    letter-spacing:.5px;
+
+    text-transform:none !important;
+
+    transition:all .3s ease;
+
+}
+
+.assign-btn[disabled] {
+opacity: 0.6;
+box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+.product-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+.form-control[type="number"] { width: 100%; }
+.mat-dialog-content { padding: 16px; }
+.mat-dialog-actions { padding: 12px; }
+}

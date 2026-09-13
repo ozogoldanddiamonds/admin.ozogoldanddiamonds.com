@@ -1,0 +1,231 @@
+<div class="category-container">
+
+  <!-- Top Row -->
+  <div class="top-row">
+
+    <!-- Title Section -->
+    <div class="title-section">
+      <h2>
+        Gold Rate Management
+      </h2>
+      <p>
+        Manage all gold rates here
+      </p>
+    </div>
+
+    <!-- Button Section -->
+    <div class="button-section">
+      <button
+        routerLink="/admin/Gold-create">
+
+        Add Gold Rate
+
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Search Row -->
+  <div class="search-row">
+
+    <mat-form-field
+      appearance="outline"
+      class="w-100">
+
+      <mat-label>
+        Search Gold Rate
+      </mat-label>
+
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Enter rate">
+
+    </mat-form-field>
+
+  </div>
+
+  <!-- Table Row -->
+  <div class="table-row">
+
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort>
+
+      <!-- S.No -->
+      <ng-container matColumnDef="sno">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+
+          S.No
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="
+            let element;
+            let i = index
+          ">
+
+          {{ i + 1 }}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Rate -->
+      <ng-container
+        matColumnDef="ratePerGram">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header>
+
+          Gold Rate
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element">
+
+          {{ element.ratePerGram }}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Updated By -->
+      <ng-container
+        matColumnDef="updatedBy">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+
+          Updated By
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element">
+
+          {{ element.updatedBy?.name }}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Created At -->
+      <ng-container
+        matColumnDef="createdAt">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+
+          Created At
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element">
+
+          {{ element.createdAt }}
+
+        </td>
+
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container
+        matColumnDef="actions">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+
+          Actions
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element">
+
+          <div class="action-buttons">
+
+            <!-- View -->
+            <button
+              mat-icon-button
+              class="view-btn"
+              (click)="viewGoldRate(element)">
+
+              <i
+                class="fa fa-eye"
+                aria-hidden="true">
+              </i>
+
+            </button>
+
+            <!-- Edit -->
+        
+
+             <button mat-icon-button class="edit-btn" (click)="editGoldRate(element)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+
+            <!-- Delete -->
+            <button
+              mat-icon-button
+              class="delete-btn"
+              (click)="deleteGoldRate(element)">
+
+              <i
+                class="fa fa-trash"
+                aria-hidden="true">
+              </i>
+
+            </button>
+
+          </div>
+
+        </td>
+
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="
+          displayedColumns
+        ">
+      </tr>
+
+      <tr
+        mat-row
+        *matRowDef="
+          let row;
+          columns:
+          displayedColumns;
+        ">
+      </tr>
+
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="
+        [5,10,20,50]
+      "
+      showFirstLastButtons>
+    </mat-paginator>
+
+  </div>
+
+</div>

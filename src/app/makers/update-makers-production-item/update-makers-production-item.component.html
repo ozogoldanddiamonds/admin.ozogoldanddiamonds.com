@@ -1,0 +1,416 @@
+<div class="container">
+
+    <div class="row">
+
+        <!-- ========================================== -->
+        <!-- TITLE -->
+        <!-- ========================================== -->
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+
+                <h2>{{isViewMode ? 'View Maker Production Item Details' : 'Update Maker Production Item Details'}}</h2>
+
+                <p>
+                    Assign a product variant and quantity to a maker production
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- FORM CARD -->
+        <!-- ========================================== -->
+
+        <div class="col-md-12">
+
+            <div class="category-card">
+
+                <form [formGroup]="makerProductionItemForm" (ngSubmit)="onSubmit()">
+
+
+                    <div class="form-layout">
+
+
+                        <!-- ====================================== -->
+                        <!-- LEFT SECTION -->
+                        <!-- ====================================== -->
+
+                        <div class="left-section">
+
+                            <div class="row">
+
+
+                                <!-- ================================= -->
+                                <!-- PRODUCTION INFORMATION -->
+                                <!-- ================================= -->
+
+                                <div class="col-12">
+
+                                    <div class="section-title">
+
+                                        <h4>
+                                            Production Information
+                                        </h4>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Production -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+
+                                            Maker Production
+
+                                            <span class="required">
+                                                *
+                                            </span>
+
+                                        </label>
+
+
+                                        <select class="form-control" formControlName="production"
+                                            (change)="onProductionChange()">
+
+                                            <option value="">
+                                                Select Production
+                                            </option>
+
+
+                                            <option *ngFor="
+                                                    let production
+                                                    of productionList
+                                                " [value]="production._id">
+
+                                                {{
+                                                production.productionNumber
+                                                }}
+
+                                                -
+
+                                                {{
+                                                production.maker?.name
+                                                || 'Maker'
+                                                }}
+
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Production Status -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Production Status
+                                        </label>
+
+
+                                        <input type="text" class="form-control" [value]="
+                                                selectedProduction
+                                                    ?.status
+                                                || '-'
+                                            " readonly>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ================================= -->
+                                <!-- PRODUCT INFORMATION -->
+                                <!-- ================================= -->
+
+                                <div class="col-12">
+
+                                    <div class="section-title">
+
+                                        <h4>
+                                            Product Information
+                                        </h4>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Product -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+
+                                            Product
+
+                                            <span class="required">
+                                                *
+                                            </span>
+
+                                        </label>
+
+
+                                        <ng-select class="product-select" [items]="productList" bindLabel="displayName"
+                                            bindValue="_id" formControlName="product"
+                                            placeholder="Search / Select Product" [searchable]="true" [clearable]="true"
+                                            [closeOnSelect]="true" (change)="onProductChange()">
+
+
+                                            <!-- PRODUCT OPTION -->
+
+                                            <ng-template ng-option-tmp let-item="item">
+
+                                                {{ item.displayName }}
+
+                                            </ng-template>
+
+
+                                            <!-- NOT FOUND -->
+
+                                            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+
+                                                <div class="product-not-found">
+
+                                                    <strong>
+                                                        Product not found
+                                                    </strong>
+
+
+                                                    <div *ngIf="searchTerm">
+
+                                                        "{{ searchTerm }}"
+                                                        product available ledu.
+
+                                                    </div>
+
+
+                                                    <button type="button" class="btn btn-primary add-product-btn"
+                                                        (click)="addNewProduct(searchTerm)">
+
+                                                        + Add Product
+
+                                                    </button>
+
+                                                </div>
+
+                                            </ng-template>
+
+                                        </ng-select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Variant -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+
+                                            Variant
+
+                                            <span class="required">
+                                                *
+                                            </span>
+
+                                        </label>
+
+
+                                        <select class="form-control" formControlName="variantId"
+                                            (change)="onVariantChange()">
+
+                                            <option value="">
+                                                Select Variant
+                                            </option>
+
+                                            <option *ngFor="let variant of variantList" [value]="variant._id">
+
+                                                {{ getVariantLabel(variant) }}
+
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ================================= -->
+                                <!-- QUANTITY -->
+                                <!-- ================================= -->
+
+                                <div class="col-12">
+
+                                    <div class="section-title">
+
+                                        <h4>
+                                            Quantity Information
+                                        </h4>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Quantity Given -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+
+                                            Quantity Given
+
+                                            <span class="required">
+                                                *
+                                            </span>
+
+                                        </label>
+
+
+                                        <input type="number" class="form-control" formControlName="quantityGiven"
+                                            min="1" placeholder="Enter quantity given">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Quantity Received -->
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Quantity Received
+                                        </label>
+
+
+                                        <input type="number" class="form-control" formControlName="quantityReceived"
+                                            min="0" placeholder="Enter quantity received">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ================================= -->
+                                <!-- NOTES -->
+                                <!-- ================================= -->
+
+                                <div class="col-12">
+
+                                    <div class="section-title">
+
+                                        <h4>
+                                            Additional Information
+                                        </h4>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Notes -->
+
+                                <div class="col-12">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Notes
+                                        </label>
+
+
+                                        <textarea class="form-control" formControlName="notes" rows="4"
+                                            placeholder="Enter notes">
+                                        </textarea>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!-- ====================================== -->
+                    <!-- BUTTONS -->
+                    <!-- ====================================== -->
+
+                    <div class="button-group">
+
+
+                        <button type="submit" class="btn-create" [disabled]="isLoading" *ngIf="!isViewMode">
+
+                            <span *ngIf="!isLoading">
+
+                                <i class="fa fa-save me-2"></i>
+
+                                Update Production Item
+
+                            </span>
+
+
+                            <span *ngIf="isLoading">
+
+                                <i class="fa fa-spinner fa-spin me-2">
+                                </i>
+
+                                Updating...
+
+                            </span>
+
+                        </button>
+
+
+                        <button type="button" class="btn-back" (click)="goBack()">
+
+                            <i class="fa fa-arrow-left me-2"></i>
+
+                            Back
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

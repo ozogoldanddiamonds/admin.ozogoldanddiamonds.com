@@ -1,0 +1,56 @@
+.form-layout {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 25px;
+
+}
+
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+.form-group label {
+
+  margin-bottom: 10px;
+
+  font-size: 18px;
+
+  font-weight: 500;
+
+}
+
+.form-group input,
+.form-group select {
+
+  height: 55px;
+
+  border: 1px solid #dcdcdc;
+
+  border-radius: 12px;
+
+  padding: 0 15px;
+
+  font-size: 16px;
+
+  outline: none;
+
+  width: 100%;
+
+}
+.category-card {
+     margin-top: 20px;
+  width: 90%;
+   margin-left: 40px;
+  background: rgb(255, 255, 255);
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}

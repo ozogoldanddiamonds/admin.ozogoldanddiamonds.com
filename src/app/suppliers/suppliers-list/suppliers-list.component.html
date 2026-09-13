@@ -1,0 +1,290 @@
+<div class="category-container">
+
+    <!-- Top Row -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Supplier Management
+            </h2>
+
+            <p>
+                Manage all suppliers here
+            </p>
+
+        </div>
+
+
+        <div class="button-section" *ngIf="role === 'BRANCH'">
+
+            <button routerLink="/admin/create-supplier">
+
+                Add Supplier
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <div class="search-row">
+
+        <mat-form-field appearance="outline" class="w-100">
+
+            <mat-label>
+                Search Supplier
+            </mat-label>
+
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search supplier name, company or phone">
+
+        </mat-form-field>
+
+    </div>
+
+
+    <!-- Table -->
+
+    <div class="table-row">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+
+            <!-- S.No -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+                <td mat-cell *matCellDef="
+                        let element;
+                        let i = index
+                    ">
+
+                    {{ i + 1 }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Supplier Name -->
+
+            <ng-container matColumnDef="name">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Supplier Name
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.name }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Company Name -->
+
+            <ng-container matColumnDef="companyName">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Company Name
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.companyName || '-' }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Phone -->
+
+            <ng-container matColumnDef="phone">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Phone
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.phone }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Email -->
+
+            <ng-container matColumnDef="email">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Email
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.email || '-' }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- GST Number -->
+
+            <ng-container matColumnDef="gstNumber">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    GST Number
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.gstNumber || '-' }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Status -->
+
+            <ng-container matColumnDef="isActive">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Status
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span [ngClass]="
+                            element.isActive
+                                ? 'active-badge'
+                                : 'inactive-badge'
+                        ">
+
+                        {{
+                        element.isActive
+                        ? 'Active'
+                        : 'Inactive'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Actions -->
+
+            <ng-container matColumnDef="actions">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Actions
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="action-buttons">
+
+
+                        <!-- View -->
+
+
+                        <button mat-icon-button class="view-btn" (click)="viewSupplier(element)">
+
+                            <i class="fa fa-eye"></i>
+
+                        </button>
+
+
+
+                        <!-- Edit -->
+
+                        <button mat-icon-button class="edit-btn" (click)="editSupplier(element)">
+
+                            <i class="fa fa-pencil"></i>
+
+                        </button>
+
+
+                        <!-- Delete -->
+
+                        <button mat-icon-button class="delete-btn" (click)="deleteSupplier(element)">
+
+                            <i class="fa fa-trash"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- Header -->
+
+            <tr mat-header-row *matHeaderRowDef="
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+            <!-- Rows -->
+
+            <tr mat-row *matRowDef="
+                    let row;
+                    columns:
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+        </table>
+
+
+        <!-- Paginator -->
+
+        <mat-paginator [pageSizeOptions]="
+                [5,10,20,50]
+            " showFirstLastButtons>
+
+        </mat-paginator>
+
+
+    </div>
+
+</div>

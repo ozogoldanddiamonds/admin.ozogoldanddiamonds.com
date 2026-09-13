@@ -1,0 +1,132 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+
+                <h2>Create Size Chart</h2>
+
+            </div>
+
+        </div>
+
+        <div class="category-card">
+
+            <form [formGroup]="sizeChartForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-layout">
+
+                    <!-- Left Section -->
+
+                    <div class="left-section">
+
+                        <div class="form-group">
+
+                            <label>Title</label>
+
+                            <input
+                                type="text"
+                                formControlName="title"
+                                placeholder="Enter Title">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Sub Category</label>
+
+                            <select formControlName="subCategory">
+
+                                <option value="">Select Sub Category</option>
+
+                                <option
+                                    *ngFor="let item of subCategories"
+                                    [value]="item._id">
+
+                                    {{item.name}}
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Description</label>
+
+                            <textarea
+                                rows="4"
+                                formControlName="description"
+                                placeholder="Enter Description">
+                            </textarea>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Image</label>
+
+                            <input
+                                type="file"
+                                (change)="onFileChange($event)">
+
+                        </div>
+
+                    </div>
+
+                    <!-- Right Section -->
+
+                    <div class="right-section">
+
+                        <div class="preview-box">
+
+                            <img
+                                *ngIf="imagePreview"
+                                [src]="imagePreview"
+                                alt="Preview">
+
+                            <p *ngIf="!imagePreview">
+
+                                Image Preview
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="button-group">
+
+                    <button
+                        type="submit"
+                        class="btn-create">
+
+                        Save
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-back"
+                        (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

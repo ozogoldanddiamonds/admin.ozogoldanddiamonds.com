@@ -1,0 +1,483 @@
+<div class="order-dialog">
+    <div class="dialog-header">
+        <div class="header-content">
+            <p class="dialog-label">Order Details</p>
+            <h2 mat-dialog-title>{{ order?.orderNumber || '-' }}</h2>
+            <p class="dialog-subtitle">
+                Invoice: {{ order?.invoiceNumber || '-' }}
+            </p>
+        </div>
+
+        <!-- <button mat-icon-button type="button" class="dialog-close-btn" (click)="closeDialog()"
+            aria-label="Close dialog">
+            <mat-icon class="dialog-close-icon">close</mat-icon>
+        </button> -->
+        <button
+    type="button"
+    class="dialog-close-btn"
+    (click)="closeDialog()"
+    aria-label="Close dialog">
+
+    <i class="fa-solid fa-xmark dialog-close-icon"></i>
+
+</button>
+    </div>
+
+    <mat-dialog-content class="dialog-content">
+        <div class="top-summary-grid">
+            <div class="summary-card">
+                <span>Order Status</span>
+                <strong class="status success">{{ order?.orderStatus || '-' }}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Payment Status</span>
+                <strong class="status paid">{{ order?.paymentStatus || '-' }}</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Billing Status</span>
+                <strong>{{ order?.billingStatus || '-' }}</strong>
+            </div>
+
+            <div class="summary-card amount-card">
+                <span>Total Amount</span>
+                <strong>₹{{ order?.totalAmount || 0 }}</strong>
+            </div>
+        </div>
+
+        <div class="info-layout">
+            <div class="left-content">
+                <!-- Customer Details -->
+                <section class="block-card">
+                    <div class="block-head">
+                        <h3>Customer Details</h3>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Name</label>
+                            <p>{{ getCustomerName() }}</p>
+                        </div>
+
+                        <div class="info-item">
+                            <label>Phone</label>
+                            <p>{{ getCustomerPhone() }}</p>
+                        </div>
+
+                        <div class="info-item full">
+                            <label>Email</label>
+                            <p>{{ getCustomerEmail() }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Branch Details -->
+                <section class="block-card">
+                    <div class="block-head">
+                        <h3>Branch Details</h3>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Order Source</label>
+                            <p>{{ order?.orderSource || '-' }}</p>
+                        </div>
+
+                        <div class="info-item">
+                            <label>Branch Name</label>
+                            <p>{{ getBranchName() }}</p>
+                        </div>
+
+                        <div class="info-item">
+                            <label>Branch Email</label>
+                            <p>{{ getBranchEmail() }}</p>
+                        </div>
+
+                        <div class="info-item">
+                            <label>Branch Phone</label>
+                            <p>{{ getBranchPhone() }}</p>
+                        </div>
+
+                        <div class="info-item full">
+                            <label>Created By</label>
+                            <p>{{ getCreatedBy() }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Items -->
+                <section class="block-card">
+                    <div class="block-head">
+                        <h3>Order Items</h3>
+                        <span class="item-count">{{ order?.items?.length || 0 }} item(s)</span>
+                    </div>
+
+                    <div class="items-list">
+                        <div class="item-card" *ngFor="let item of order?.items; trackBy: trackByItem">
+                            <div class="item-image-wrap">
+                                <img [src]="getItemImage(item)" alt="product image" class="item-image" />
+                            </div>
+
+                            <div class="item-main">
+                                <div class="item-title-row">
+                                    <div>
+                                        <h4>{{ item?.productSnapshot?.name || item?.product?.name || '-' }}</h4>
+                                        <p>SKU: {{ item?.variantSnapshot?.sku || '-' }}</p>
+                                    </div>
+
+                                    <div class="qty-badge">
+                                        Qty: {{ item?.quantity || 0 }}
+                                    </div>
+                                </div>
+
+                                <div class="variant-box">
+                                    {{ getVariantLabel(item) }}
+                                </div>
+
+                                <!-- Product Snapshot -->
+                                <div class="detail-table">
+                                    <div class="detail-row">
+                                        <span>Slug</span>
+                                        <strong>{{ item?.productSnapshot?.slug || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Brand</span>
+                                        <strong>{{ item?.productSnapshot?.brand || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Product Type</span>
+                                        <strong>{{ item?.productSnapshot?.productType || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Gender</span>
+                                        <strong>{{ item?.variantSnapshot?.gender || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Metal Type</span>
+                                        <strong>{{ item?.variantSnapshot?.metalType || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Purity</span>
+                                        <strong>{{ item?.variantSnapshot?.purity || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Metal Color</span>
+                                        <strong>{{ item?.variantSnapshot?.metalColor || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Size</span>
+                                        <strong>{{ item?.variantSnapshot?.size || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Gross Weight</span>
+                                        <strong>{{ item?.variantSnapshot?.grossWeight || 0 }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Net Weight</span>
+                                        <strong>{{ item?.variantSnapshot?.netWeight || 0 }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Stone Weight</span>
+                                        <strong>{{ item?.variantSnapshot?.stoneWeight || 0 }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Stone Type</span>
+                                        <strong>{{ item?.variantSnapshot?.stoneType || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Wastage %</span>
+                                        <strong>{{ item?.variantSnapshot?.wastagePercentage || 0 }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Making Charge Type</span>
+                                        <strong>{{ item?.variantSnapshot?.makingChargeType || '-' }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Making Charge</span>
+                                        <strong>₹{{ item?.variantSnapshot?.makingCharge || 0 }}</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Discount %</span>
+                                        <strong>{{ item?.variantSnapshot?.discountPercentage || 0 }}</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Pricing Snapshot -->
+                                <div class="pricing-grid">
+                                    <div class="price-box">
+                                        <label>Gold Rate</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.goldRate || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Gold Value</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.goldValue || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Wastage Amount</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.wastageAmount || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Stone Value</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.stoneValue || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Diamond Value</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.diamondValue || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Making Charge</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.makingCharge || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Discount Amount</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.discountAmount || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>GST %</label>
+                                        <strong>{{ item?.pricingSnapshot?.gstPercentage || 0 }}%</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>GST Amount</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.gstAmount || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box highlight-box">
+                                        <label>Final Price</label>
+                                        <strong>₹{{ item?.pricingSnapshot?.finalPrice || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box">
+                                        <label>Unit Price</label>
+                                        <strong>₹{{ item?.unitPrice || 0 }}</strong>
+                                    </div>
+                                    <div class="price-box highlight-box">
+                                        <label>Total Price</label>
+                                        <strong>₹{{ item?.totalPrice || 0 }}</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Stone Details -->
+                                <div class="stone-section" *ngIf="hasStones(item)">
+                                    <div class="sub-section-head">
+                                        <h4>Stone Details</h4>
+                                    </div>
+
+                                    <div class="stone-card"
+                                        *ngFor="let stone of item?.variantSnapshot?.stones; trackBy: trackByStone">
+                                        <div class="stone-grid">
+                                            <div class="info-item">
+                                                <label>Stone Type</label>
+                                                <p>{{ stone?.stoneType || '-' }}</p>
+                                            </div>
+                                            <div class="info-item">
+                                                <label>Stone Category</label>
+                                                <p>{{ stone?.stoneCategory || '-' }}</p>
+                                            </div>
+                                            <div class="info-item">
+                                                <label>Quality</label>
+                                                <p>{{ stone?.quality || '-' }}</p>
+                                            </div>
+                                            <div class="info-item">
+                                                <label>Quantity</label>
+                                                <p>{{ stone?.quantity || 0 }}</p>
+                                            </div>
+                                            <div class="info-item">
+                                                <label>Total Weight</label>
+                                                <p>{{ stone?.totalWeight || 0 }}</p>
+                                            </div>
+                                            <div class="info-item">
+                                                <label>Stone Value</label>
+                                                <p>₹{{ stone?.stoneValue || 0 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payment History -->
+                <section class="block-card" *ngIf="hasPaymentHistory()">
+                    <div class="block-head">
+                        <h3>Payment History</h3>
+                    </div>
+
+                    <div class="history-list">
+                        <div class="history-card"
+                            *ngFor="let payment of order?.paymentHistory; trackBy: trackByPayment">
+                            <div class="history-grid">
+                                <div class="info-item">
+                                    <label>Method</label>
+                                    <p>{{ payment?.method || '-' }}</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Amount</label>
+                                    <p>₹{{ payment?.amount || 0 }}</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Transaction Id</label>
+                                    <p>{{ payment?.transactionId || '-' }}</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Payment Gateway</label>
+                                    <p>{{ payment?.paymentGateway || '-' }}</p>
+                                </div>
+                                <div class="info-item full">
+                                    <label>Paid At</label>
+                                    <p>{{ payment?.paidAt | date:'dd MMM yyyy, hh:mm a' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Status History -->
+                <section class="block-card" *ngIf="hasStatusHistory()">
+                    <div class="block-head">
+                        <h3>Status History</h3>
+                    </div>
+
+                    <div class="history-list">
+                        <div class="history-card" *ngFor="let status of order?.statusHistory; trackBy: trackByStatus">
+                            <div class="history-grid">
+                                <div class="info-item">
+                                    <label>Status Type</label>
+                                    <p>{{ status?.status || '-' }}</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Updated By</label>
+                                    <p>{{ status?.updatedBy || '-' }}</p>
+                                </div>
+                                <div class="info-item full">
+                                    <label>Remarks</label>
+                                    <p>{{ status?.remarks || '-' }}</p>
+                                </div>
+                                <div class="info-item full">
+                                    <label>Updated At</label>
+                                    <p>{{ status?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Notes -->
+                <section class="block-card" *ngIf="hasNotes()">
+                    <div class="block-head">
+                        <h3>Notes</h3>
+                    </div>
+                    <p class="notes-box">{{ order?.notes }}</p>
+                </section>
+            </div>
+
+            <div class="right-sidebar">
+                <!-- Order Info -->
+                <section class="block-card">
+                    <div class="block-head">
+                        <h3>Order Info</h3>
+                    </div>
+
+                    <div class="side-list">
+                        <div class="side-row">
+                            <span>Order ID</span>
+                            <strong>{{ order?._id || '-' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Order No</span>
+                            <strong>{{ order?.orderNumber || '-' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Invoice No</span>
+                            <strong>{{ order?.invoiceNumber || '-' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Order Source</span>
+                            <strong>{{ order?.orderSource || '-' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Invoice Date</span>
+                            <strong>{{ order?.invoiceDate | date:'dd MMM yyyy, hh:mm a' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Created At</span>
+                            <strong>{{ order?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Updated At</span>
+                            <strong>{{ order?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Billing Summary -->
+                <section class="block-card">
+                    <div class="block-head">
+                        <h3>Billing Summary</h3>
+                    </div>
+
+                    <div class="side-list">
+                        <div class="side-row">
+                            <span>Subtotal</span>
+                            <strong>₹{{ order?.subTotal || 0 }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Discount</span>
+                            <strong>₹{{ order?.discountAmount || 0 }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Shipping Charge</span>
+                            <strong>₹{{ order?.shippingCharge || 0 }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>GST Amount</span>
+                            <strong>₹{{ order?.gstAmount || 0 }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Payment Method</span>
+                            <strong>{{ order?.paymentMethod || '-' }}</strong>
+                        </div>
+                        <div class="side-row">
+                            <span>Invoice Printed</span>
+                            <strong>{{ order?.invoicePrinted ? 'Yes' : 'No' }}</strong>
+                        </div>
+                        <!-- <div class="side-row">
+                            <span>Stock Updated</span>
+                            <strong>{{ order?.stockUpdated ? 'Yes' : 'No' }}</strong>
+                        </div> -->
+                    </div>
+
+                    <div class="grand-total-box">
+                        <span>Grand Total</span>
+                        <h4>₹{{ order?.totalAmount || 0 }}</h4>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+
+    <button
+        mat-stroked-button
+        class="close-btn"
+        (click)="closeDialog()">
+
+        <i class="fa fa-times me-2"></i>
+
+        Close
+
+    </button>
+
+    <button
+        mat-flat-button
+        color="primary"
+        class="print-btn">
+
+        <i class="fa fa-print me-2"></i>
+
+        Print Invoice
+
+    </button>
+
+</mat-dialog-actions>
+</div>

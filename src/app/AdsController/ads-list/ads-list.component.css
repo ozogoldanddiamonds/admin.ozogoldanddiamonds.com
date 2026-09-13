@@ -1,0 +1,80 @@
+.ads-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  color: #8B0000;
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: gray;
+}
+
+.search-box {
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.table-wrapper {
+
+  background: #fff;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  margin-top: 20px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.1);
+
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  font-weight: 600;
+  color: #8B0000;
+}
+
+.ads-image {
+
+  width: 70px;
+
+  height: 70px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  border: 1px solid #ddd;
+
+}
+
+.mat-mdc-icon-button {
+  color: #ff9800;
+}
+.status-badge {
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+
+  cursor: pointer;
+
+}
+

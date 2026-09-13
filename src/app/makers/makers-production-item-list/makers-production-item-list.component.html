@@ -1,0 +1,554 @@
+<div class="category-container">
+
+
+    <!-- ========================================== -->
+    <!-- HEADER -->
+    <!-- ========================================== -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Gold Smith Production Items
+            </h2>
+
+            <p>
+                Manage products and quantities assigned to gold smith productions
+            </p>
+
+        </div>
+
+
+        <div class="button-section">
+
+            <button type="button" routerLink="/admin/create-gold-smith-production-item">
+
+                <i class="fa fa-plus me-2"></i>
+
+                Add Production Item
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SEARCH -->
+    <!-- ========================================== -->
+
+    <div class="search-row">
+
+        <mat-form-field appearance="outline" class="w-100">
+
+            <mat-label>
+                Search Production Items
+            </mat-label>
+
+            <input matInput placeholder="Search production no, maker, product..." (keyup)="applyFilter($event)">
+
+        </mat-form-field>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- TABLE -->
+    <!-- ========================================== -->
+
+    <div class="table-row">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+
+            <!-- ====================================== -->
+            <!-- S.NO -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+
+                <td mat-cell *matCellDef="
+                        let element;
+                        let i = index
+                    ">
+
+                    {{
+                    (paginator?.pageIndex || 0)
+                    *
+                    (paginator?.pageSize || 5)
+                    +
+                    i + 1
+                    }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- PRODUCTION -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="production">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Production
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.production
+                            ?.productionNumber
+                            || '-'
+                            }}
+
+                        </h6>
+
+
+                        <small>
+
+                            {{
+                            element.production
+                            ?.status
+                            || '-'
+                            }}
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- MAKER -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="maker">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Gold Smith
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.production
+                            ?.maker
+                            ?.name
+                            ||
+                            element.maker
+                            ?.name
+                            ||
+                            '-'
+                            }}
+
+                        </h6>
+
+
+                        <small>
+
+                            {{
+                            element.production
+                            ?.maker
+                            ?.phone
+                            ||
+                            element.maker
+                            ?.phone
+                            ||
+                            ''
+                            }}
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- PRODUCT -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="product">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Product
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.product
+                            ?.productName
+                            ||
+                            element.product
+                            ?.name
+                            ||
+                            '-'
+                            }}
+
+                        </h6>
+
+
+                        <small>
+
+                            {{
+                            element.product
+                            ?.productCode
+                            ||
+                            element.product
+                            ?.code
+                            ||
+                            ''
+                            }}
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- VARIANT -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="variant">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Variant
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span *ngIf="
+                            element.variantName
+                        ">
+
+                        {{
+                        element.variantName
+                        }}
+
+                    </span>
+
+
+                    <span *ngIf="
+                            !element.variantName
+                        " class="variant-id">
+
+                        {{
+                        element.variantId
+                        || '-'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- QUANTITY GIVEN -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="quantityGiven">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Qty Given
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <strong>
+
+                        {{
+                        element.quantityGiven
+                        || 0
+                        }}
+
+                    </strong>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- QUANTITY RECEIVED -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="quantityReceived">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Qty Received
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="received-qty">
+
+                        {{
+                        element.quantityReceived
+                        || 0
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- PENDING -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="pendingQuantity">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Pending
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="pending-badge" [ngClass]="
+                            getPendingQuantity(
+                                element
+                            ) > 0
+                                ? 'pending'
+                                : 'completed'
+                        ">
+
+                        {{
+                        getPendingQuantity(
+                        element
+                        )
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- NOTES -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="notes">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Notes
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="notes-text">
+
+                        {{
+                        element.notes
+                        || '-'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- CREATED DATE -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="createdAt">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Created
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{
+                    element.createdAt
+                    ? (
+                    element.createdAt
+                    | date:'dd-MM-yyyy'
+                    )
+                    : '-'
+                    }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- ACTIONS -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="actions">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Actions
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="action-buttons">
+
+
+                        <!-- VIEW -->
+
+                        <button mat-icon-button class="view-btn" matTooltip="View Item"
+                            (click)="viewMakerProductionItem(element)">
+
+                            <i class="fa fa-eye"></i>
+
+                        </button>
+
+
+                        <!-- EDIT -->
+
+                        <button mat-icon-button class="edit-btn" matTooltip="Edit Item"
+                            (click)="editMakerProductionItem(element)">
+
+                            <i class="fa fa-pencil"></i>
+
+                        </button>
+
+
+                        <!-- DELETE -->
+
+                        <button mat-icon-button class="delete-btn" matTooltip="Delete Item"
+                            (click)="deleteMakerProductionItem(element)">
+
+                            <i class="fa fa-trash"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- HEADER -->
+            <!-- ====================================== -->
+
+            <tr mat-header-row *matHeaderRowDef="
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+            <!-- ====================================== -->
+            <!-- ROWS -->
+            <!-- ====================================== -->
+
+            <tr mat-row *matRowDef="
+                    let row;
+                    columns: displayedColumns;
+                ">
+
+            </tr>
+
+
+            <!-- ====================================== -->
+            <!-- NO DATA -->
+            <!-- ====================================== -->
+
+            <tr class="mat-row" *matNoDataRow>
+
+                <td class="mat-cell text-center" colspan="11">
+
+                    No Maker Production Items Found
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <!-- ========================================== -->
+        <!-- PAGINATOR -->
+        <!-- ========================================== -->
+
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[
+                5,
+                10,
+                20,
+                50
+            ]" showFirstLastButtons>
+
+        </mat-paginator>
+
+    </div>
+
+</div>

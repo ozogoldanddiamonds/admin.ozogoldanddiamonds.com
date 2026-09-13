@@ -1,0 +1,185 @@
+<div class="container-fluid container-one bg_lite">
+
+  <div class="auth-card">
+
+    <!-- Left Panel -->
+    <div class="left-panel">
+
+      <div class="tabs"></div>
+
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+      <div class="user-icon">
+        <img src="../../assets/Images/logo.png">
+      </div>
+
+      <h2>
+        {{ isLogin ? 'LOGIN' : 'REGISTER' }}
+      </h2>
+      <div class="role-selection" *ngIf="isLogin">
+
+  <button
+    type="button"
+    class="role-btn"
+    [class.active]="selectedRole === 'BRANCH'"
+    (click)="selectedRole='BRANCH'"><i class="fa fa-user"></i>
+
+    Branch
+
+  </button>
+
+  <button
+    type="button"
+    class="role-btn"
+    [class.active]="selectedRole === 'SUB_BRANCH'"
+    (click)="selectedRole='SUB_BRANCH'"><i class="fa fa-users"></i>
+
+    Sub Branch
+
+  </button>
+
+</div>
+
+      <form
+        [formGroup]="authForm"
+        (ngSubmit)="onSubmit()">
+
+        <!-- Name (Register Only) -->
+
+        <div
+          class="input-box"
+          *ngIf="!isLogin">
+
+          <i class="fa fa-user"></i>
+
+          <input
+            type="text"
+            placeholder="Name"
+            formControlName="name">
+
+        </div>
+
+        <!-- Role (Register Only) -->
+
+<div
+  class="input-box"
+  *ngIf="!isLogin">
+
+  <i class="fa fa-users"></i>
+
+  <select formControlName="role">
+
+    <option value="">
+      Select Role
+    </option>
+
+    <option value="BRANCH">
+      Branch
+    </option>
+
+    <option value="SUB_BRANCH">
+      Sub Branch
+    </option>
+
+  </select>
+
+</div>
+
+        <!-- Email -->
+
+        <div class="input-box">
+
+          <i class="fa fa-envelope"></i>
+
+          <input
+            type="email"
+            placeholder="Email"
+            formControlName="email">
+
+        </div>
+
+        <!-- Password -->
+
+       <div class="input-box">
+
+  <i class="fa fa-lock"></i>
+
+  <input
+    [type]="showPassword ? 'text' : 'password'"
+    placeholder="Password"
+    formControlName="password">
+
+  <i
+    [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"
+    aria-hidden="true"
+    class="password-eye"
+    (click)="togglePassword()">
+  </i>
+
+</div>
+
+        <!-- Login Links -->
+
+        <div
+          class="auth-links"
+          *ngIf="isLogin">
+
+          <span
+            class="forgot"
+            (click)="forgotPassword()">
+
+            Forgot Password?
+
+          </span>
+
+          <!-- <span
+            class="signup-link"
+            (click)="signupForm()">
+
+            Sign Up
+
+          </span> -->
+          <button
+          type="submit"
+          class="login-btn">
+
+          {{ isLogin ? 'LOGIN' : 'REGISTER' }}
+
+        </button>
+
+        </div>
+
+        <!-- Register Links -->
+
+        <div
+          class="auth-links"
+          *ngIf="!isLogin">
+
+          <span>
+            Already have an account?
+          </span>
+
+          <span
+            class="signup-link"
+            (click)="signupForm()">
+
+            Login
+
+          </span>
+
+        </div>
+
+        <!-- Submit Button -->
+
+        
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

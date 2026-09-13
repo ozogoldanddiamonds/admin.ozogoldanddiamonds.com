@@ -1,0 +1,85 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <div class="title-section">
+        <h2>
+          Update Gold Rate
+        </h2>
+      </div>
+
+    </div>
+
+    <div class="category-card">
+
+      <form
+        [formGroup]="goldRateForm"
+        (ngSubmit)="onSubmit()">
+
+        <div class="form-layout">
+
+          <div class="left-section">
+
+            <!-- Gold Rate -->
+            <div class="form-group">
+
+              <label>
+                Gold Rate Per Gram
+              </label>
+
+              <input
+                type="number"
+                formControlName="ratePerGram"
+                placeholder="Enter gold rate">
+
+            </div>
+
+            <!-- Updated By -->
+            <div class="form-group">
+
+              <label>
+                Updated By (Admin ID)
+              </label>
+
+              <input
+                type="text"
+                formControlName="updatedBy"
+                placeholder="Enter admin id">
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+
+          <button
+            type="submit"
+            class="btn-create">
+
+            Update
+
+          </button>
+
+          <button
+            type="button"
+            class="btn-back"
+            (click)="goBack()">
+
+            Back
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

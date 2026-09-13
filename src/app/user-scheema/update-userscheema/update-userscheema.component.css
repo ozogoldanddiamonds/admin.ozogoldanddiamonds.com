@@ -1,0 +1,207 @@
+/* Page */
+
+.container-fluid {
+    padding: 20px;
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+/* Card */
+
+.card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    background: #640101;
+    color: #fff;
+    padding: 18px 25px;
+    border: none;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Form */
+
+.card-body {
+    padding: 30px;
+}
+
+/* Labels */
+
+.form-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+/* Inputs */
+
+.form-control,
+.form-select {
+
+    height: 50px;
+
+    border-radius: 10px;
+
+    border: 1px solid #d7d7d7;
+
+    transition: all .3s ease;
+
+    font-size: 15px;
+
+}
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color: #640101;
+
+    box-shadow: 0 0 0 0.15rem rgba(100, 1, 1, 0.18);
+
+}
+
+/* Readonly */
+
+input[readonly] {
+
+    background: #f8f9fa;
+
+    font-weight: 600;
+
+}
+
+/* Textarea */
+
+textarea.form-control {
+
+    min-height: 120px;
+
+    resize: none;
+
+    padding-top: 12px;
+
+}
+
+/* Buttons */
+
+.btn {
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    padding: 11px 28px;
+
+}
+
+.btn-primary {
+
+    background: #640101;
+
+    border: none;
+
+}
+
+.btn-primary:hover {
+
+    background: #4e0101;
+
+}
+
+.btn-secondary {
+
+    background: #6c757d;
+
+    border: none;
+
+}
+
+.btn-secondary:hover {
+
+    background: #5b6268;
+
+}
+
+/* Validation */
+
+.text-danger {
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+    display: block;
+
+}
+
+/* Row spacing */
+
+.row>.col-lg-4,
+.row>.col-md-6 {
+
+    margin-bottom: 20px;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.card-body{
+
+padding:20px;
+
+}
+
+.card-header h3{
+
+font-size:20px;
+
+}
+
+.btn{
+
+width:100%;
+margin-bottom:10px;
+
+}
+
+.text-end{
+
+text-align:center !important;
+
+}
+
+}
+.text-danger{
+
+    font-size:13px;
+
+    margin-top:5px;
+
+    display:block;
+
+}
+
+.form-control.ng-invalid.ng-touched,
+.form-select.ng-invalid.ng-touched{
+
+    border:1px solid #dc3545;
+
+}
+
+.form-control.ng-valid.ng-touched,
+.form-select.ng-valid.ng-touched{
+
+    border:1px solid #198754;
+
+}

@@ -1,0 +1,426 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+
+                <h2>
+                    Create Supplier Purchase
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="category-card">
+
+            <form [formGroup]="supplierPurchaseForm" (ngSubmit)="onSubmit()">
+
+
+                <div class="form-layout">
+
+
+                    <!-- Left Section -->
+
+                    <div class="left-section">
+
+                        <div class="row">
+
+
+                            <!-- Supplier -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Supplier
+                                    </label>
+
+                                    <select class="form-control" formControlName="supplier">
+
+                                        <option value="">
+                                            Select Supplier
+                                        </option>
+
+                                        <option *ngFor="let supplier of suppliers" [value]="supplier._id">
+
+                                            {{ supplier.name }}
+
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Invoice Number -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Invoice Number
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="invoiceNumber"
+                                        placeholder="Enter Invoice Number">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Invoice Date -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Invoice Date
+                                    </label>
+
+                                    <input type="date" class="form-control" formControlName="invoiceDate">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Purchase Date -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Purchase Date
+                                    </label>
+
+                                    <input type="date" class="form-control" formControlName="purchaseDate">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Subtotal -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Subtotal
+                                    </label>
+
+                                    <input type="number" class="form-control" formControlName="subtotal"
+                                        placeholder="Enter Subtotal">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Discount -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Discount
+                                    </label>
+
+                                    <input type="number" class="form-control" formControlName="discount"
+                                        placeholder="Enter Discount">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Tax -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Tax
+                                    </label>
+
+                                    <input type="number" class="form-control" formControlName="tax"
+                                        placeholder="Enter Tax">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Total Amount -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Total Amount
+                                    </label>
+
+                                    <input type="number" class="form-control" formControlName="totalAmount"
+                                        placeholder="Enter Total Amount">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Payment Status -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Payment Status
+                                    </label>
+
+                                    <select class="form-control" formControlName="paymentStatus">
+
+                                        <option value="PENDING">
+                                            Pending
+                                        </option>
+
+                                        <option value="PARTIAL">
+                                            Partial
+                                        </option>
+
+                                        <option value="PAID">
+                                            Paid
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Status -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Status
+                                    </label>
+
+                                    <select class="form-control" formControlName="status">
+
+                                        <option value="DRAFT">
+                                            Draft
+                                        </option>
+
+                                        <option value="RECEIVED">
+                                            Received
+                                        </option>
+
+                                        <option value="CANCELLED">
+                                            Cancelled
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Notes -->
+
+                            <div class="col-12">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Notes
+                                    </label>
+
+                                    <textarea class="form-control" formControlName="notes" rows="3"
+                                        placeholder="Enter Notes">
+                                    </textarea>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Documents -->
+
+                            <div class="col-12">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Documents
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-layout">
+
+                                <!-- Left Section -->
+
+                                <div class="left-section">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Upload Documents
+                                        </label>
+
+                                        <input type="file" multiple (change)="onDocumentsChange($event)"
+                                            accept=".jpg,.jpeg,.png,.pdf">
+
+                                        <small>
+                                            You can upload up to 10 documents
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Right Section -->
+
+                                <div class="right-section">
+
+                                    <div class="preview-box">
+
+                                        <!-- Existing Documents -->
+
+                                        <div *ngIf="existingDocuments.length > 0" class="document-preview-list">
+
+                                            <div class="document-preview-item" *ngFor="
+                                                                            let document of existingDocuments
+                                                                        ">
+
+                                                <!-- Image -->
+
+                                                <img *ngIf="
+                                                                                document.url &&
+                                                                                isImage(document.url)
+                                                                            " [src]="document.url"
+                                                    alt="Document Preview">
+
+                                                <!-- PDF / Other -->
+
+                                                <div *ngIf="
+                                                                                document.url &&
+                                                                                !isImage(document.url)
+                                                                            " class="file-preview">
+
+                                                    <i class="fa fa-file-pdf-o"></i>
+
+                                                    <span>
+                                                        {{ document.description }}
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- New Selected Documents -->
+
+                                        <div *ngIf="documentPreviews.length > 0" class="document-preview-list">
+
+                                            <div class="document-preview-item" *ngFor="
+                                                                            let preview of documentPreviews
+                                                                        ">
+
+                                                <img *ngIf="preview.isImage" [src]="preview.url" alt="Document Preview">
+
+                                                <div *ngIf="!preview.isImage" class="file-preview">
+
+                                                    <i class="fa fa-file-pdf-o"></i>
+
+                                                    <span>
+                                                        {{ preview.name }}
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- No Preview -->
+
+                                        <p *ngIf="
+                                                                        existingDocuments.length === 0 &&
+                                                                        documentPreviews.length === 0
+                                                                    ">
+
+                                            Document Preview
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="button-group">
+
+                    <button type="submit" class="btn-create">
+
+                        Save
+
+                    </button>
+
+
+                    <button type="button" class="btn-back" (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

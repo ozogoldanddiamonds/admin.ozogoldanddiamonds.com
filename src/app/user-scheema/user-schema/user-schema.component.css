@@ -1,0 +1,254 @@
+/* ==========================================
+   PAGE
+========================================== */
+
+.container-fluid {
+
+    padding: 20px;
+
+    background: #f5f7fb;
+
+    min-height: 100vh;
+
+}
+
+
+/* ==========================================
+   PAGE TITLE
+========================================== */
+
+.page-title {
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #640101;
+
+    margin-bottom: 5px;
+
+}
+
+.text-muted {
+
+    font-size: 15px;
+
+}
+
+
+/* ==========================================
+   ADD BUTTON
+========================================== */
+
+.button-section button {
+
+    background: #640101;
+
+    color: #fff;
+
+    border: none;
+
+    padding: 10px 22px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    transition: .3s;
+
+}
+
+.button-section button:hover {
+
+    background: #4b0101;
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.search-row {
+
+    margin-bottom: 20px;
+
+}
+
+.mat-form-field {
+
+    width: 100%;
+
+}
+
+
+/* ==========================================
+   TABLE
+========================================== */
+
+table {
+
+    width: 100%;
+
+    background: #fff;
+
+}
+
+th.mat-header-cell {
+
+    background: #640101;
+
+    color: #fff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+}
+
+td.mat-cell {
+
+    font-size: 14px;
+
+}
+
+tr.mat-row:hover {
+
+    background: #f8f8f8;
+
+}
+/* ==========================================
+   STATUS BADGES
+========================================== */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 110px;
+    padding: 9px 18px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    border: 1px solid transparent;
+    transition: all .25s ease;
+
+    cursor: pointer;
+}
+
+/* ACTIVE */
+.active {
+    background: #d9f8e6;
+    color: #1c9b57;
+    border-color: #c0f1d4;
+}
+
+/* COMPLETED */
+.completed {
+    background: #d9e9ff;
+    color: #2f6fed;
+    border-color: #c6dbff;
+}
+
+/* PENDING */
+.pending {
+    background: #fff2cf;
+    color: #d48806;
+    border-color: #ffe3a0;
+}
+
+/* CANCELLED */
+.cancelled {
+    background: #ffe0e3;
+    color: #dc3545;
+    border-color: #ffc7ce;
+}
+
+/* MATURED */
+.matured {
+    background: #efe2ff;
+    color: #7b3fe4;
+    border-color: #ddc6ff;
+}
+
+/* Hover Effect */
+.status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.action-buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+
+}
+
+
+
+
+/* ==========================================
+   PAGINATOR
+========================================== */
+
+mat-paginator {
+
+    background: #fff;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+.page-title{
+
+font-size:22px;
+
+}
+
+.button-section{
+
+margin-top:15px;
+
+text-align:left;
+
+}
+
+.button-section button{
+
+width:100%;
+
+}
+
+table{
+
+font-size:13px;
+
+}
+
+.status-badge{
+
+font-size:11px;
+
+padding:5px 10px;
+
+}
+
+}

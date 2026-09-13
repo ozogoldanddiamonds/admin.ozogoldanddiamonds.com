@@ -1,0 +1,176 @@
+<h2 mat-dialog-title class="dialog-title">
+  <div class="title-content">
+    <i class="fas fa-crown"></i>
+    <span>User Scheme Details</span>
+  </div>
+
+  <button
+    mat-flat-button
+    mat-dialog-close
+    class="btn-close"
+    type="button"
+    aria-label="Close">
+    <i class="fas fa-times"></i>
+  </button>
+</h2>
+
+<div mat-dialog-content class="dialog-content">
+  
+  <!-- ================= User Details ================= -->
+  <div class="info-card user-card">
+    <div class="card-header">
+      <i class="fas fa-user"></i>
+      <h3>User Information</h3>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-user-tag"></i> Name</span>
+        <span class="value">{{ data?.user?.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-envelope"></i> Email</span>
+        <span class="value">{{ data?.user?.email }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-phone"></i> Phone</span>
+        <span class="value">{{ data?.user?.phone }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Scheme Details ================= -->
+  <div class="info-card scheme-card">
+    <div class="card-header">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <h3>Scheme Information</h3>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="label">Scheme Name</span>
+        <span class="value">{{ data?.schemeName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Scheme Amount</span>
+        <span class="value amount">₹ {{ data?.schemeAmount | number:'1.2-2' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Monthly Amount</span>
+        <span class="value amount">₹ {{ data?.monthlyAmount | number:'1.2-2' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-calendar-alt"></i> Duration</span>
+        <span class="value">{{ data?.durationMonths }} Months</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">User Pay Months</span>
+        <span class="value">{{ data?.userPayMonths }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Company Pay Months</span>
+        <span class="value">{{ data?.companyPayMonths }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Installments ================= -->
+  <div class="info-card installment-card">
+    <div class="card-header">
+      <i class="fas fa-coins"></i>
+      <h3>Installments</h3>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="label">Total Installments</span>
+        <span class="value">{{ data?.totalInstallments }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Paid Installments</span>
+        <span class="value paid">{{ data?.paidInstallments }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Remaining</span>
+        <span class="value remaining">{{ data?.remainingInstallments }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Total Paid Amount</span>
+        <span class="value amount">₹ {{ data?.totalPaidAmount | number:'1.2-2' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Company Contribution</span>
+        <span class="value amount">₹ {{ data?.companyContribution | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Dates ================= -->
+  <div class="info-card dates-card">
+    <div class="card-header">
+      <i class="fas fa-calendar-check"></i>
+      <h3>Important Dates</h3>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-play-circle"></i> Start Date</span>
+        <span class="value">{{ data?.startDate | date:'dd MMM yyyy' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-clock"></i> Next Due</span>
+        <span class="value">{{ data?.nextDueDate | date:'dd MMM yyyy' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-flag-checkered"></i> Maturity</span>
+        <span class="value">{{ data?.maturityDate | date:'dd MMM yyyy' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Status ================= -->
+  <div class="info-card status-card">
+    <div class="card-header">
+      <i class="fas fa-info-circle"></i>
+      <h3>Current Status</h3>
+    </div>
+    <div class="status-container">
+      <span class="status-badge"
+            [ngClass]="{
+              'status-active': data?.status === 'ACTIVE',
+              'status-completed': data?.status === 'COMPLETED',
+              'status-matured': data?.status === 'MATURED',
+              'status-cancelled': data?.status === 'CANCELLED',
+              'status-defaulted': data?.status === 'DEFAULTED'
+            }">
+        <i class="fas fa-circle"></i>
+        {{ data?.status }}
+      </span>
+    </div>
+  </div>
+
+  <!-- ================= Remarks ================= -->
+  <div class="info-card remarks-card" *ngIf="data?.remarks">
+    <div class="card-header">
+      <i class="fas fa-comment-alt"></i>
+      <h3>Remarks</h3>
+    </div>
+    <div class="remarks-content">
+      <p>{{ data?.remarks }}</p>
+    </div>
+  </div>
+
+  <!-- ================= Audit ================= -->
+  <div class="info-card audit-card">
+    <div class="card-header">
+      <i class="fas fa-history"></i>
+      <h3>Audit Information</h3>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-plus-circle"></i> Created</span>
+        <span class="value timestamp">{{ data?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><i class="fas fa-edit"></i> Updated</span>
+        <span class="value timestamp">{{ data?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

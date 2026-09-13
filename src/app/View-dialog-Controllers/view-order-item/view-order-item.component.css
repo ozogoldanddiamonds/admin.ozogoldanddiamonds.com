@@ -1,0 +1,424 @@
+/* ==========================
+   DIALOG
+========================== */
+
+.dialog-container{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.dialog-header{
+
+    background:linear-gradient(90deg,#7b1f1f,#b22222);
+
+    color:#fff;
+
+    padding:18px 25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.dialog-header h2{
+
+    margin:0;
+
+    font-size:24px;
+
+    font-weight:700;
+    color: #fffcfc;
+
+}
+
+.close-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.18);
+
+    color:#fff;
+
+    transition:.3s;
+
+}
+
+.close-btn:hover{
+
+    background:#fff;
+
+    color:#7b1f1f;
+
+}
+
+/* ==========================
+   BODY
+========================== */
+
+.dialog-body{
+
+    padding:25px;
+
+    background:#fafafa;
+
+}
+
+/* ==========================
+   PRODUCT IMAGE
+========================== */
+
+.product-image{
+
+    width:220px;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    background:#fff;
+
+    padding:5px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.img-fluid{
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.img-fluid:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* ==========================
+   SECTION TITLES
+========================== */
+
+.dialog-body h4{
+
+    color:#7b1f1f;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+    border-left:5px solid #d4af37;
+
+    padding-left:10px;
+
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table{
+
+    margin-bottom:25px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+.table th{
+
+    width:220px;
+
+    background:#f5f1ee;
+
+    color:#7b1f1f;
+
+    font-weight:700;
+
+    vertical-align:middle;
+
+    border:1px solid #eee;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+    color:#444;
+
+    border:1px solid #eee;
+
+    font-weight:500;
+
+}
+
+/* ==========================
+   STONE TABLE
+========================== */
+
+.table-warning{
+
+    background:#d4af37 !important;
+
+    color:#fff;
+
+}
+
+.table-warning th{
+
+    background:#d4af37 !important;
+
+    color:#fff;
+
+    text-align:center;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#fff7e6;
+
+}
+
+/* ==========================
+   BADGES
+========================== */
+
+.badge{
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+/* ==========================
+   BILLING TOTAL
+========================== */
+
+.text-success{
+
+    color:#198754 !important;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+.dialog-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    padding:20px;
+
+    background:#fff;
+
+    border-top:1px solid #eee;
+
+}
+
+/* ==========================
+   CLOSE BUTTON
+========================== */
+
+.btn-close-dialog{
+
+    background:#6c757d;
+
+    color:#fff;
+
+    border:none;
+
+    padding:10px 30px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-close-dialog:hover{
+
+    background:#495057;
+
+}
+
+/* ==========================
+   PRINT BUTTON
+========================== */
+
+.btn-print{
+
+    background:#198754;
+
+    color:#fff;
+
+    border:none;
+
+    padding:10px 30px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-print:hover{
+
+    background:#157347;
+
+}
+
+/* ==========================
+   IMAGE GALLERY
+========================== */
+
+.row .col-4 img{
+
+    height:70px;
+
+    width:100%;
+
+    object-fit:cover;
+
+    border:1px solid #ddd;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.row .col-4 img:hover{
+
+    transform:scale(1.08);
+
+    border-color:#d4af37;
+
+}
+
+/* ==========================
+   SCROLL
+========================== */
+
+.dialog-body{
+
+    max-height:65vh;
+
+    overflow-y:auto;
+
+}
+
+.dialog-body::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.dialog-body::-webkit-scrollbar-thumb{
+
+    background:#d4af37;
+
+    border-radius:20px;
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+.product-image{
+
+    width:150px;
+
+    height:150px;
+
+    margin-bottom:20px;
+
+}
+
+.table th{
+
+    width:140px;
+
+    font-size:13px;
+
+}
+
+.table td{
+
+    font-size:13px;
+
+}
+
+.dialog-header h2{
+
+    font-size:18px;
+
+}
+
+.dialog-footer{
+
+    flex-direction:column;
+
+}
+
+.btn-close-dialog,
+
+.btn-print{
+
+    width:100%;
+
+}
+
+}

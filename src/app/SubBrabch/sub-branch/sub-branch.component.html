@@ -1,0 +1,206 @@
+<div class="container-fluid py-3">
+
+  <!-- Page Title -->
+
+  <div class="page-header mb-4">
+
+    <h2>Create Branch</h2>
+
+  </div>
+
+  <!-- Form Card -->
+
+  <div class="form-card">
+
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="createUser()">
+
+      <div class="row">
+
+        <!-- Name -->
+
+        <div class="col-md-4 mb-4">
+
+          <label class="form-label">
+            Name
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter Name">
+
+        </div>
+
+        <!-- ---brabch--- -->
+        <div class="col-md-4 mb-4">
+
+  <label class="form-label">
+    Branch
+  </label>
+
+  <select class="form-control" formControlName="branchId">
+
+  <option value="">Select Branch</option>
+
+  <option
+    *ngFor="let branch of branchList"
+    [value]="branch._id">
+
+    {{ branch.name }}
+
+  </option>
+
+</select>
+
+</div>
+
+        <!-- Email -->
+
+        <div class="col-md-4 mb-4">
+
+          <label class="form-label">
+            Email
+          </label>
+
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="Enter Email">
+
+        </div>
+
+        <!-- Password -->
+
+        <div class="col-md-4 mb-4">
+
+          <label class="form-label">
+            Password
+          </label>
+
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Enter Password">
+
+        </div>
+
+        <!-- Role -->
+
+        <div class="col-md-4 mb-4">
+
+          <label class="form-label">
+            Role
+          </label>
+
+          <select
+            class="form-select"
+            formControlName="role">
+
+            <option value="">
+              Select Role
+            </option>
+
+            <option value="SUB_BRANCH">
+              Sub Branch
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- Phone -->
+
+        <div class="col-md-4 mb-4">
+
+  <label class="form-label">
+    Phone Number
+  </label>
+
+  <input
+    type="text"
+    class="form-control"
+    formControlName="contactNumber"
+    maxlength="10"
+    placeholder="Enter Phone Number"
+    (keypress)="allowOnlyNumbers($event)">
+
+  <small
+    class="text-danger"
+    *ngIf="
+      userForm.get('contactNumber')?.touched &&
+      userForm.get('contactNumber')?.invalid">
+
+    Enter valid 10 digit mobile number
+
+  </small>
+
+</div>
+
+        <!-- Location -->
+
+        <div class="col-md-4 mb-4">
+
+          <label class="form-label">
+            Location
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            formControlName="location"
+            placeholder="Enter Location">
+
+        </div>
+
+        <!-- Address -->
+
+        <div class="col-md-12 mb-4">
+
+          <label class="form-label">
+            Address
+          </label>
+
+          <textarea
+            rows="4"
+            class="form-control"
+            formControlName="address"
+            placeholder="Enter Address">
+          </textarea>
+
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+
+      <div class="text-end">
+
+        <button
+          type="submit"
+          class="btn-save me-2">
+
+          Save
+
+        </button>
+
+        <button
+          type="button"
+          class="btn-back"
+          (click)="goBack()">
+
+          Back
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

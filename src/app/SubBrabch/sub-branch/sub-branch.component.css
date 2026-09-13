@@ -1,0 +1,53 @@
+.page-header h2 {
+  color: var(--red-color);
+  font-weight: 700;
+  
+}
+
+.form-card {
+  background:var(--wight-color);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-control,
+.form-select {
+  height: 48px;
+  border-radius: 8px;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+.btn-save {
+  background:var(--red-color);
+  color:var(--wight-color);
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-save:hover {
+  background: var(--red-color);
+}
+
+.btn-back {
+  background: #6c757d;
+  color:var(--wight-color);
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-back:hover {
+  background: #5a6268;
+}

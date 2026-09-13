@@ -1,0 +1,875 @@
+
+/* ===========================
+   BILLING HEADER
+=========================== */
+
+.billing-header{
+
+    background:#fff;
+
+    border-radius:12px;
+
+    /* padding:20px 25px; */
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    border-left:6px solid #b8860b;
+
+}
+
+.company-logo{
+
+    width:95px;
+
+    height:95px;
+
+    object-fit:contain;
+
+}
+
+.company-name{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#7b1f1f;
+
+    margin-bottom:6px;
+
+}
+
+.company-address{
+
+    margin:0;
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.company-contact{
+
+    margin-top:5px;
+
+    color:#888;
+
+    font-size:14px;
+
+}
+
+.billing-title{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#b8860b;
+
+    letter-spacing:2px;
+
+    margin:0;
+
+}
+
+.billing-subtitle{
+
+    color:#666;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+/* ===========================
+LABEL
+=========================== */
+
+label {
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+
+    color: var(--red-color);
+
+}
+.detail-item .label{
+   color: var(--red-color); 
+}
+
+:root {
+    --red-color: #640101;
+    --gray-colour: rgb(98, 92, 92);
+    --green-colour: rgb(47, 208, 11);
+}
+::ng-deep .bill-select .ng-select-container {
+
+    height: 45px !important;
+}
+
+::ng-deep .bill-select .ng-value-container {
+
+    height: 45px !important;
+    line-height: 45px !important;
+}
+::ng-deep .bill-select .ng-placeholder {
+
+
+
+    color: #9ca3af;
+
+}
+
+/* ===========================
+PAGE
+=========================== */
+
+.billing-page {
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+.bill-shell {
+    max-width: 1500px;
+    margin: auto;
+}
+
+/* ===========================
+CARD
+=========================== */
+
+.card {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+}
+
+.card-header h5 {
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--red-color);
+}
+
+/* ===========================
+HEADER
+=========================== */
+
+.company-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.company-name {
+    color: #7a0000;
+    font-weight: 700;
+}
+
+.company-meta {
+    color: #666;
+    font-size: 14px;
+}
+
+.bill-chip {
+    background: #7a0000;
+    color: #fff;
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.bill-subtitle {
+    color: #666;
+}
+
+/* ===========================
+FORM
+=========================== */
+
+.form-control,
+.form-select {
+
+    height: 46px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+
+}
+
+textarea.form-control {
+
+    height: auto;
+
+}
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color: #7a0000;
+
+    box-shadow: 0 0 0 .15rem rgba(122, 0, 0, .15);
+
+}
+
+/* ===========================
+PRODUCT IMAGE
+=========================== */
+
+.product-preview {
+
+    text-align: center;
+
+    padding: 20px;
+
+}
+
+.product-preview img {
+
+    width: 100%;
+
+    max-width: 220px;
+
+    height: 220px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    border: 2px solid #eee;
+
+}
+
+/* ===========================
+VARIANT GRID
+=========================== */
+
+.variant-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+.variant-box {
+
+    background: #fafafa;
+
+    border: 1px solid #ececec;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    transition: .3s;
+
+}
+
+.variant-box:hover {
+
+    border-color: #7a0000;
+
+    transform: translateY(-2px);
+
+}
+
+.variant-label {
+
+    display: block;
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+
+}
+
+.variant-value {
+
+    font-weight: 700;
+
+    color: #222;
+
+}
+
+/* ===========================
+TABLE
+=========================== */
+
+.table {
+
+    margin-bottom: 0;
+
+}
+
+.table thead {
+
+    background: #7a0000;
+
+    color: #d90d0d;
+
+}
+
+.table thead th {
+
+    border: none;
+
+    padding: 15px;
+
+    vertical-align: middle;
+
+}
+
+.table tbody td {
+
+    vertical-align: middle;
+
+    padding: 14px;
+
+}
+
+.table tbody tr:hover {
+
+    background: #fff8f8;
+
+}
+
+.table img {
+
+    border-radius: 8px;
+
+    border: 1px solid #ddd;
+
+}
+/* buttons */
+.action-btn{
+
+    width:36px;
+
+    height:36px;
+
+    border-radius:8px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.3s;
+
+}
+
+.action-btn i{
+
+    font-size:15px;
+
+}
+
+.btn-info.action-btn{
+
+    background:gray;
+
+    border:none;
+
+    color:#fff;
+
+}
+
+.btn-info.action-btn:hover{
+
+    background:gray;
+
+    transform:translateY(-2px);
+
+}
+
+.btn-danger.action-btn{
+
+    background:#dc3545;
+
+    border:none;
+
+    color:#fff;
+
+}
+
+.btn-danger.action-btn:hover{
+
+    background:#bb2d3b;
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+SUMMARY
+=========================== */
+
+.summary-card {
+
+    background: #fff;
+
+}
+
+.summary-table tr {
+
+    border-bottom: 1px dashed #ddd;
+
+}
+
+.summary-table td {
+
+    padding: 12px 0;
+
+}
+
+.grand-total {
+
+    font-size: 22px;
+
+    color: #7a0000;
+
+    font-weight: bold;
+
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.btn {
+
+    border-radius: 8px;
+
+    padding: 10px 22px;
+
+    font-weight: 600;
+
+}
+
+.btn-success {
+
+    background: #198754;
+
+    border: none;
+
+}
+
+.btn-success:hover {
+
+    background: #157347;
+
+}
+
+.btn-primary {
+
+    background: var(--red-color);
+
+}
+
+.btn-warning {
+
+    color: #fff;
+
+}
+
+strong {
+    color: #640101;
+}
+
+.btn-danger {
+
+    border: none;
+
+}
+
+/* ===========================
+BADGES
+=========================== */
+
+.badge {
+
+    padding: 8px 12px;
+
+    border-radius: 30px;
+
+    font-size: 12px;
+
+}
+
+/* ===========================
+ORDER SUMMARY
+=========================== */
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 10px 0;
+
+    border-bottom: 1px dashed #ddd;
+
+}
+
+.summary-row:last-child {
+
+    border-bottom: none;
+
+}
+
+.summary-final {
+
+    font-size: 22px;
+
+    color: #7a0000;
+
+    font-weight: bold;
+
+}
+
+/* ===========================
+SCROLL TABLE
+=========================== */
+
+.table-responsive {
+
+    max-height: 420px;
+
+    overflow: auto;
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:992px) {
+
+    .variant-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media(max-width:768px) {
+
+    .variant-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .company-logo {
+
+        width: 70px;
+
+        height: 70px;
+
+    }
+
+    .company-name {
+
+        font-size: 20px;
+
+    }
+
+    .card-header {
+
+        font-size: 46px;
+
+    }
+
+    .table {
+
+        font-size: 13px;
+
+    }
+
+    .btn {
+
+        width: 100%;
+
+        margin-bottom: 10px;
+
+    }
+
+}
+
+p {
+    color: #444;
+}
+.details-container{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    column-gap:50px;
+
+    row-gap:14px;
+
+   
+
+}
+.details-sku{
+    margin-top: -28px;
+}
+
+.detail-item{
+
+    display:flex;
+
+    align-items:center;
+   
+
+}
+
+.label{
+
+    width:100px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#555;
+
+    position:relative;
+
+}
+
+.label::after{
+
+    content: ":";
+
+    position:absolute;
+
+    right:15px;
+
+    font-weight:bold;
+
+}
+
+.value{
+
+    flex:1;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+/* 
+.info-box {
+
+    background: #fafafa;
+
+    border: 1px solid #ececec;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    height: 100%;
+
+    transition: .3s;
+
+}
+
+.info-box:hover {
+
+    border-color: #7a0000;
+
+    transform: translateY(-2px);
+
+}
+
+.info-box h5 {
+
+    color: var(--red-color);
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+
+}
+
+.info-box h6 {
+
+    margin: 0;
+
+    font-weight: 700;
+
+    color: gray;
+    font-size: 15px;
+
+} */
+
+.purity_btn,
+.variant_size,
+.variant_color {
+    display: flex;
+    gap: 10;
+    padding: 10px;
+    justify-content: flex-start;
+}
+
+.variants_buttons button {
+    padding: 10px;
+    border: none;
+    left: 10px;
+}
+/* ===========================
+   LABEL
+=========================== */
+.form-title{
+
+font-size:15px;
+
+font-weight:600;
+
+color:#5a5a5a;
+
+margin-bottom:8px;
+
+display:block;
+
+}
+
+::ng-deep .bill-select{
+    width:100%;
+}
+
+::ng-deep .bill-select .ng-select-container{
+
+    min-height:48px !important;
+
+    border-radius:10px !important;
+
+    border:1px solid #ddd !important;
+
+}
+
+::ng-deep .ng-dropdown-panel{
+
+    /* width:100% !important; */
+
+    min-width:350px !important;
+
+    z-index:999999 !important;
+
+    border-radius:10px;
+
+    overflow:hidden;
+    background-color: white;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+}
+
+::ng-deep .ng-option{
+
+    padding:12px 15px !important;
+
+}
+
+.sku-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.sku-code{
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#8B0000;
+
+}
+
+.sku-info{
+
+    font-size:12px;
+
+    color:#666;
+
+}
+
+.qty-box{
+
+height:48px;
+
+border-radius:12px;
+
+text-align:center;
+
+font-weight:600;
+
+}
+
+.add-btn{
+
+height:48px;
+
+border-radius:12px;
+
+background:#198754;
+
+border:none;
+
+font-weight:600;
+
+font-size:15px;
+color: white;
+
+}
+
+.add-btn:hover{
+
+background:#157347;
+
+}
+.form-title{
+    font-size:14px;
+    font-weight:600;
+    color:#555;
+    margin-bottom:8px;
+    display:block;
+}
+
+.btn-success{
+    border-radius:10px;
+    font-weight:600;
+}
+
+.form-control{
+    height:46px;
+    border-radius:10px;
+}
+
+::ng-deep .ng-select .ng-select-container{
+    height:46px !important;
+    border-radius:10px !important;
+    border:1px solid #ddd !important;
+}

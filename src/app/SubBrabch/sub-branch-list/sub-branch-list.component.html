@@ -1,0 +1,249 @@
+<div class="container-fluid category-container">
+
+    <!-- Top Row -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Sub Branch Management
+            </h2>
+
+            <p>
+                Manage all sub branches here
+            </p>
+
+        </div>
+
+        <div class="button-section">
+
+            <button routerLink="/admin/subbranch">
+
+                Add Sub Branch
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-row">
+
+        <mat-form-field appearance="outline" class="w-100">
+
+            <mat-label>
+                Search Sub Branch
+            </mat-label>
+
+            <input matInput (keyup)="applyFilter($event)" placeholder="Enter Sub Branch Name">
+
+        </mat-form-field>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="table-row">
+
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+            <!-- S.No -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+                <td mat-cell *matCellDef="let element; let i = index">
+
+                    {{ i + 1 }}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Name -->
+
+            <ng-container matColumnDef="name">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Name
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.name }}
+
+                </td>
+
+            </ng-container>
+            <!-- <ng-container matColumnDef="branchId">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    Branch Name
+  </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.branchId?.name || '---' }}
+  </td>
+</ng-container> -->
+
+            <!-- Email -->
+
+            <ng-container matColumnDef="email">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Email
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.email }}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Contact -->
+
+            <ng-container matColumnDef="contactNumber">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Phone
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.contactNumber }}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Location -->
+
+            <ng-container matColumnDef="location">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Location
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    {{ element.location }}
+
+                </td>
+
+            </ng-container>
+
+            <!-- Status -->
+
+            <ng-container matColumnDef="status">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Status
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="status-badge" [ngClass]="
+    element.status === 'ACTIVE'
+      ? 'active'
+      : 'inactive'
+  " (click)="changeStatus(element)">
+
+                        {{ element.status }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+            <ng-container matColumnDef="assign">
+                <th mat-header-cell *matHeaderCellDef>
+                    Assigned Products
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+                    <button class="assignProducts" (click)="assignProducts(element)">
+                        <i class="fa fa-box-open me-2"></i>
+                        Assign
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Actions -->
+
+            <ng-container matColumnDef="actions">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Actions
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="action-buttons">
+
+                        <button mat-icon-button class="view-btn" (click)="viewSubBranch(element)">
+
+                            <i class="fa fa-eye"></i>
+
+                        </button>
+
+                        <button mat-icon-button class="edit-btn" (click)="editSubBranch(element)">
+
+                            <i class="fa fa-pencil"></i>
+
+                        </button>
+
+                        <button mat-icon-button class="delete-btn" (click)="deleteSubBranch(element)">
+
+                            <i class="fa fa-trash"></i>
+
+                        </button>
+                        <!-- <button
+class="assignProducts"
+(click)="assignProducts(element)">
+<i class="fa fa-box-open me-2"></i>
+
+
+</button> -->
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns">
+            </tr>
+
+            <tr mat-row *matRowDef="
+        let row;
+        columns: displayedColumns;
+      ">
+            </tr>
+
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons>
+
+        </mat-paginator>
+
+    </div>
+
+</div>

@@ -1,0 +1,564 @@
+/* ========== */
+:root {
+  --lyt-yellow-color: #d4af375d;
+  /* This is a blue color, you can change it */
+  --red-color: #640101;
+  --wight-color: #fff;
+  --gray-colour: rgb(98, 92, 92);
+  --green-colour: rgb(47, 208, 11);
+  --blue-colour: rgb(27, 112, 240);
+  --orange-colour: rgb(240, 165, 27);
+  --btn-red-colour: rgb(223, 84, 3);
+  --dark-green: #155724;
+  --active-bg-green: rgba(105, 249, 105, 0.274);
+  --active-text: rgb(73, 118, 4);
+
+
+
+  /* Example of another color */
+
+}
+
+/* google-fonts */
+body,
+button,
+input,
+textarea,
+select,
+span,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+li,
+td,
+th {
+
+  font-family: 'Ysabeau Office', sans-serif !important;
+
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.layout {
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: var(--red-color);
+  color: var(--wight-color);
+  /* padding: 20px; */
+  transition: 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+/* text hide when closed */
+.sidebar.closed span {
+  display: none;
+}
+
+/* center icons */
+.sidebar.closed ul li {
+  text-align: center;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  background: var(--lyt-yellow-color);
+
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* CLOSED SIDEBAR */
+
+/* OPTIONAL: LOGO HIDE */
+.sidebar.closed img {
+  width: 40px;
+  margin: auto;
+  display: block;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  /* background:; */
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+  height: 60px;
+  background: var(--wight-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.menu-btn {
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--wight-color);
+
+}
+
+.navbar input {
+  width: 40%;
+  padding: 8px;
+}
+
+
+/* CARDS */
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+  border: none;
+}
+
+/* CARD BASE */
+.card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  border: none;
+  color: var(--wight-color);
+  position: relative;
+}
+
+/* TITLES */
+.title {
+  font-size: 15px;
+  opacity: 0.9;
+
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 26px;
+  /* font-family: "Ysabeau Office", sans-serif; */
+  color: var(--red-color);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Global table header style */
+th,
+th.mat-header-cell {
+  color: var(--red-color);
+  font-weight: 600;
+}
+
+/* =========================
+   SIDEBAR SCROLLBAR
+========================= */
+
+.sidebar::-webkit-scrollbar {
+
+  width: 5px;
+
+}
+
+.sidebar::-webkit-scrollbar-track {
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-radius: 10px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+
+  background: #d4af37;
+
+  border-radius: 10px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+
+  background: #f4cd56;
+
+}
+
+
+/* list component table css */
+.table-row {
+
+  width: 100%;
+
+  background: #fff;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+
+/* TABLE */
+
+table {
+
+  width: 100%;
+
+  background: #fff;
+
+}
+
+/* PAGINATOR */
+
+mat-paginator {
+
+  background: #fff;
+
+  border-top: 1px solid #f1f1f1;
+
+}
+
+/* ====================================
+   FULL LAYOUT FIX
+==================================== */
+
+html,
+body {
+
+  height: 100%;
+
+  overflow: hidden;
+
+}
+
+/* MAIN LAYOUT */
+
+.layout {
+
+  display: flex;
+
+  height: 100vh;
+
+  overflow: hidden;
+
+}
+
+/* SIDEBAR */
+
+.sidebar {
+
+  height: 100vh;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  flex-shrink: 0;
+
+}
+
+/* MAIN */
+
+.main {
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100vh;
+
+  overflow: hidden;
+
+}
+
+/* NAVBAR */
+
+.navbar {
+
+  flex-shrink: 0;
+
+}
+
+/* CONTENT */
+
+.content {
+
+  flex: 1;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  padding: 20px;
+
+}
+
+/* CONTENT SCROLLBAR */
+
+.content::-webkit-scrollbar {
+
+  width: 6px;
+
+}
+
+.content::-webkit-scrollbar-thumb {
+
+  background: #999;
+
+  border-radius: 10px;
+
+}
+
+.content::-webkit-scrollbar-track {
+
+  background: transparent;
+
+}
+
+button[type="submit"] {
+  background: var(--red-color);
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+button[type="submit"]:hover {
+  background: var(--red-color);
+}
+
+
+/* Select */
+.form-select {
+  border: 1px solid var(--red-color);
+  color: var(--gray-colour);
+  background-color: var(--wight-color);
+}
+
+.form-select:focus {
+  border-color: var(--red-color);
+  box-shadow: none;
+  outline: none;
+}
+
+/* Options */
+.form-select option {
+  color: var(--gray-colour);
+  background: var(--wight-color);
+}
+
+/* Selected option */
+.form-select option:checked {
+  background: var(--gray-colour);
+  color: var(--wight-color);
+}
+
+/* =========================================================
+   MODERN SWEETALERT
+   ========================================================= */
+
+.modern-alert-popup,
+.modern-confirm-popup {
+  border-radius: 18px !important;
+  padding: 28px !important;
+  font-family: inherit !important;
+}
+
+
+/* =========================================================
+   NORMAL ALERT
+   ========================================================= */
+
+.modern-alert-popup {
+  width: 390px !important;
+}
+
+.modern-alert-popup .swal2-icon {
+  margin: 0 auto 16px !important;
+  width: 58px !important;
+  height: 58px !important;
+}
+
+.modern-alert-title {
+  margin: 0 !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+
+.modern-alert-text {
+  margin-top: 8px !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+
+/* =========================================================
+   CONFIRM POPUP
+   ========================================================= */
+
+.modern-confirm-popup {
+  max-width: 400px !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16) !important;
+}
+
+.modern-confirm-icon {
+  width: 56px !important;
+  height: 56px !important;
+
+  margin: 0 auto 16px !important;
+
+  border-width: 3px !important;
+}
+
+.modern-confirm-title {
+  margin: 0 !important;
+
+  font-size: 22px !important;
+  font-weight: 700 !important;
+
+  color: #222 !important;
+}
+
+.modern-confirm-text {
+  margin: 10px 0 0 !important;
+
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+
+  color: #777 !important;
+}
+
+
+/* =========================================================
+   BUTTON AREA
+   ========================================================= */
+
+.modern-confirm-actions {
+  margin-top: 24px !important;
+
+  display: flex !important;
+  justify-content: center !important;
+
+  gap: 10px !important;
+}
+
+
+/* =========================================================
+   CONFIRM BUTTON
+   ========================================================= */
+
+.modern-confirm-btn {
+  min-width: 105px !important;
+  height: 42px !important;
+
+  padding: 0 20px !important;
+
+  border: none !important;
+  border-radius: 9px !important;
+
+  background: #640101 !important;
+  color: #ffffff !important;
+
+  font-size: 14px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease !important;
+}
+
+.modern-confirm-btn:hover {
+  background: #4d0000 !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 18px rgba(100, 1, 1, 0.25) !important;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+   ========================================================= */
+
+.modern-cancel-btn {
+  min-width: 95px !important;
+  height: 42px !important;
+
+  padding: 0 18px !important;
+
+  border: 1px solid #dcdfe4 !important;
+  border-radius: 9px !important;
+
+  background: #ffffff !important;
+  color: #555 !important;
+
+  font-size: 14px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease !important;
+}
+
+.modern-cancel-btn:hover {
+  background: #f5f6f8 !important;
+  border-color: #cfd3d9 !important;
+  color: #222 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .modern-confirm-popup {
+    width: calc(100% - 30px) !important;
+    padding: 22px !important;
+  }
+
+  .modern-confirm-title {
+    font-size: 20px !important;
+  }
+
+  .modern-confirm-actions {
+    width: 100% !important;
+  }
+
+  .modern-confirm-btn,
+  .modern-cancel-btn {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+}

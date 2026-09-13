@@ -1,0 +1,217 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="title-section">
+
+                <h2>
+                    Update Stones Rate
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="category-card">
+
+            <form [formGroup]="stoneRateForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-layout">
+
+                    <div class="left-section">
+
+                        <div class="row">
+
+                            <!-- Stone Type -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Stone Type
+                                    </label>
+
+                                    <select class="form-control" formControlName="stoneType">
+
+                                        <option value="">
+                                            Select Stone Type
+                                        </option>
+
+                                        <option value="diamond">
+                                            Diamond
+                                        </option>
+
+                                        <option value="ruby">
+                                            Ruby
+                                        </option>
+
+                                        <option value="emerald">
+                                            Emerald
+                                        </option>
+
+                                        <option value="sapphire">
+                                            Sapphire
+                                        </option>
+
+                                        <option value="pearl">
+                                            Pearl
+                                        </option>
+
+                                        <option value="opal">
+                                            Opal
+                                        </option>
+
+                                        <option value="topaz">
+                                            Topaz
+                                        </option>
+
+                                        <option value="coral">
+                                            Coral
+                                        </option>
+
+                                        <option value="other">
+                                            Other
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Stone Category -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Stone Category
+                                    </label>
+
+                                    <select class="form-control" formControlName="stoneCategory">
+
+                                        <option value="">
+                                            Select Category
+                                        </option>
+
+                                        <option value="natural">
+                                            Natural
+                                        </option>
+
+                                        <option value="lab-grown">
+                                            Lab Grown
+                                        </option>
+
+                                        <option value="premium">
+                                            Premium
+                                        </option>
+
+                                        <option value="standard">
+                                            Standard
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Quality -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Quality
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="quality"
+                                        placeholder="VVS1 / VS1 / AAA">
+
+                                </div>
+
+                            </div>
+
+                            <!-- Unit -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Unit
+                                    </label>
+
+                                    <select class="form-control" formControlName="unit">
+
+                                        <option value="">
+                                            Select Unit
+                                        </option>
+
+                                        <option value="carat">
+                                            Carat
+                                        </option>
+
+                                        <option value="piece">
+                                            Piece
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Rate Per Unit -->
+
+                            <div class="col-4">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Rate Per Unit
+                                    </label>
+
+                                    <input type="number" class="form-control" formControlName="ratePerUnit"
+                                        placeholder="Enter Rate Per Unit">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="button-group">
+
+                    <button type="submit" class="btn-create">
+
+                        Update
+
+                    </button>
+
+                    <button type="button" class="btn-back" (click)="goBack()">
+
+                        Back
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

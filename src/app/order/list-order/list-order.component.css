@@ -1,0 +1,332 @@
+.page-container {
+  padding: 25px;
+}
+/* Top Row */
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  font-size: 38px;
+  font-weight: 700;
+  color: #6b0000;
+  margin: 0;
+}
+
+.page-header p {
+  color: #888;
+  margin-top: 5px;
+}
+
+.add-btn {
+  background: #7b0000;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-btn:hover {
+  background: #5a0000;
+}
+
+.search-box {
+  margin-bottom: 25px;
+}
+
+.search-box input {
+  width: 100%;
+  height: 55px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #fff;
+}
+
+thead th {
+  padding: 20px;
+  text-align: left;
+  color: #7b0000;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+tbody td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+.status {
+  color: green;
+  font-weight: 600;
+}
+
+.action-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.view {
+  color: #666;
+}
+
+.edit {
+  color: #f5a623;
+}
+
+.delete {
+  color: #e65100;
+}
+
+.action-btn:hover {
+  transform: scale(1.15);
+}
+/* order status colours */
+/* Common Badge */
+
+.status-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:110px;
+
+    height:34px;
+
+    /* padding:0 18px; */
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:.4px;
+
+    text-transform:capitalize;
+
+}
+
+/* ONLINE */
+
+.online-badge{
+
+    background:#d8f8e2;
+
+    color:#15803d;
+
+}
+
+/* BRANCH */
+
+.branch-badge{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+/* SUB BRANCH */
+
+.subbranch-badge{
+
+    background:#fff3cd;
+
+    color:#b45309;
+
+}
+/* delivery colours  */
+/* Common Badge */
+
+.delivary-status-badge{
+  
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:100px;
+
+    height:34px;
+
+    padding:0 1px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:.4px;
+
+    text-transform:capitalize;
+}
+
+/* Pending */
+
+.pending-badge{
+
+    background:#fff3cd;
+
+    color:#b45309;
+
+}
+
+/* Processing */
+
+.processing-badge{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+}
+
+/* Confirmed */
+
+.confirmed-badge{
+
+    background:#ede9fe;
+
+    color:#6d28d9;
+
+}
+
+/* Packed */
+
+.packed-badge{
+
+    background:#fce7f3;
+
+    color:#be185d;
+
+}
+
+/* Shipped */
+
+.shipped-badge{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+/* Out For Delivery */
+
+.out-delivery-badge{
+
+    background:#ffedd5;
+
+    color:#ea580c;
+
+}
+
+/* Delivered */
+
+.delivered-badge{
+
+    background:#d8f8e2;
+
+    color:#15803d;
+
+}
+
+/* Completed */
+
+.completed-badge{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+/* Cancelled */
+
+.cancelled-badge{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+/* Returned */
+
+.returned-badge{
+
+    background:#f3f4f6;
+
+    color:#4b5563;
+
+}
+
+/* Refunded */
+
+.refunded-badge{
+
+    background:#ede9fe;
+
+    color:#7c3aed;
+
+}
+
+@media (max-width: 768px) {
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .table-card {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 1000px;
+  }
+
+}

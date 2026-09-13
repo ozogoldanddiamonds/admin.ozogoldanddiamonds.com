@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="title-section">
+        <h2>Create Sub SubCategory</h2>
+      </div>
+    </div>
+
+    <div class="category-card">
+
+      <form
+        [formGroup]="subSubCategoryForm"
+        (ngSubmit)="onSubmit()">
+
+        <div class="form-layout">
+
+          <!-- Left -->
+          <div class="left-section">
+
+            <!-- Name -->
+            <div class="form-group">
+              <label>
+                Name
+              </label>
+
+              <input
+                type="text"
+                formControlName="name"
+                placeholder="Enter name" />
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+              <label>
+                Category
+              </label>
+
+             <select
+
+  formControlName="category"
+
+  (change)="onCategoryChange($event)"
+
+>
+
+  <option value="">
+    Select Category
+  </option>
+
+  <option
+
+    *ngFor="
+      let cat of categories
+    "
+
+    [value]="cat._id"
+  >
+
+    {{ cat.name }}
+
+  </option>
+
+</select>
+            </div>
+
+            <!-- SubCategory -->
+            <div class="form-group">
+              <label>
+                SubCategory
+              </label>
+
+              <select
+                formControlName="subCategory">
+
+                <option value="">
+                  Select SubCategory
+                </option>
+
+                <option
+                  *ngFor="let sub of subCategories"
+                  [value]="sub._id">
+
+                  {{ sub.name }}
+
+                </option>
+
+              </select>
+            </div>
+
+            <!-- Image -->
+            <div class="form-group">
+              <label>
+                Image
+              </label>
+
+              <input
+                type="file"
+                (change)="onFileChange($event)" />
+            </div>
+
+          </div>
+
+          <!-- Right -->
+          <div class="right-section">
+
+            <div class="preview-box">
+
+              <img
+                *ngIf="imagePreview"
+                [src]="imagePreview"
+                alt="Preview" />
+
+              <p *ngIf="!imagePreview">
+                Image Preview
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+
+          <button
+            type="submit"
+            class="btn-create">
+
+            Save
+          </button>
+
+          <button
+            type="button"
+            class="btn-back"
+            (click)="goBack()">
+
+            Back
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>

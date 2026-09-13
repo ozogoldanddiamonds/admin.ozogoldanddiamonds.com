@@ -1,0 +1,497 @@
+<div class="category-container">
+
+    <!-- ========================================== -->
+    <!-- HEADER -->
+    <!-- ========================================== -->
+
+    <div class="top-row">
+
+        <div class="title-section">
+
+            <h2>
+                Gold Smith List
+            </h2>
+
+            <p>
+                Manage and monitor all gold smith
+            </p>
+
+        </div>
+
+
+        <div class="button-section">
+
+            <button type="button" routerLink="/admin/create-gold-smith">
+
+                <i class="fa fa-plus me-2"></i>
+
+                Add Gold Smith
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- SEARCH -->
+    <!-- ========================================== -->
+
+    <div class="search-row">
+
+        <mat-form-field appearance="outline" class="w-100">
+
+            <mat-label>
+                Search Maker
+            </mat-label>
+
+            <input matInput placeholder="Search by name, phone, email, specialization..." (keyup)="applyFilter($event)">
+
+        </mat-form-field>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- TABLE -->
+    <!-- ========================================== -->
+
+    <div class="table-row">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+
+            <!-- ====================================== -->
+            <!-- S.NO -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="sno">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    S.No
+
+                </th>
+
+
+                <td mat-cell *matCellDef="
+                        let element;
+                        let i = index
+                    ">
+
+                    {{
+                    (paginator?.pageIndex || 0)
+                    *
+                    (paginator?.pageSize || 5)
+                    +
+                    i + 1
+                    }}
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- MAKER -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="maker">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Maker
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.name || '-'
+                            }}
+
+                        </h6>
+
+
+                        <small>
+
+                            {{
+                            element.specialization
+                            || 'No specialization'
+                            }}
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- PHONE -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="phone">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Phone
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="contact-info">
+
+                        <i class="fa fa-phone"></i>
+
+                        {{
+                        element.phone || '-'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- EMAIL -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="email">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Email
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="email-text">
+
+                        {{
+                        element.email || '-'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- ADDRESS -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="address">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Location
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.address?.city
+                            || '-'
+                            }}
+
+                            <span *ngIf="
+                                    element.address?.state
+                                ">
+
+                                , {{
+                                element.address.state
+                                }}
+
+                            </span>
+
+                        </h6>
+
+
+                        <small *ngIf="
+                                element.address?.pincode
+                            ">
+
+                            {{
+                            element.address.pincode
+                            }}
+
+                        </small>
+
+                    </div>
+
+
+                    <span class="text-muted" *ngIf="
+                            !element.address?.city &&
+                            !element.address?.state &&
+                            !element.address?.pincode
+                        ">
+
+                        Address not available
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- SPECIALIZATION -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="specialization">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Specialization
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span *ngIf="
+                            element.specialization
+                        ">
+
+                        {{
+                        element.specialization
+                        }}
+
+                    </span>
+
+
+                    <span class="text-muted" *ngIf="
+                            !element.specialization
+                        ">
+
+                        -
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- STATUS -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="status">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Status
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="status-badge" [ngClass]="
+                            element.isActive
+                                ? 'active'
+                                : 'inactive'
+                        ">
+
+                        {{
+                        element.isActive
+                        ? 'Active'
+                        : 'Inactive'
+                        }}
+
+                    </span>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- CREATED DATE -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="createdAt">
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                    Created
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="category-info">
+
+                        <h6>
+
+                            {{
+                            element.createdAt
+                            ? (
+                            element.createdAt
+                            | date:'dd-MM-yyyy'
+                            )
+                            : '-'
+                            }}
+
+                        </h6>
+
+
+                        <small *ngIf="
+                                element.createdAt
+                            ">
+
+                            {{
+                            element.createdAt
+                            | date:'hh:mm a'
+                            }}
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- ACTIONS -->
+            <!-- ====================================== -->
+
+            <ng-container matColumnDef="actions">
+
+                <th mat-header-cell *matHeaderCellDef>
+
+                    Actions
+
+                </th>
+
+
+                <td mat-cell *matCellDef="let element">
+
+                    <div class="action-buttons">
+
+
+                        <!-- ================================= -->
+                        <!-- VIEW -->
+                        <!-- ================================= -->
+
+                        <button mat-icon-button class="view-btn" matTooltip="View Maker" (click)="viewMaker(element)">
+
+                            <i class="fa fa-eye"></i>
+
+                        </button>
+
+
+                        <!-- ================================= -->
+                        <!-- EDIT -->
+                        <!-- ================================= -->
+
+                        <button mat-icon-button class="edit-btn" matTooltip="Edit Maker" (click)="editMaker(element)">
+
+                            <i class="fa fa-pencil"></i>
+
+                        </button>
+
+
+                        <!-- ================================= -->
+                        <!-- DELETE -->
+                        <!-- ================================= -->
+
+                        <button mat-icon-button class="delete-btn" matTooltip="Delete Maker"
+                            (click)="deleteMaker(element)">
+
+                            <i class="fa fa-trash"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            </ng-container>
+
+
+            <!-- ====================================== -->
+            <!-- HEADER -->
+            <!-- ====================================== -->
+
+            <tr mat-header-row *matHeaderRowDef="
+                    displayedColumns
+                ">
+
+            </tr>
+
+
+            <!-- ====================================== -->
+            <!-- ROWS -->
+            <!-- ====================================== -->
+
+            <tr mat-row *matRowDef="
+                    let row;
+                    columns: displayedColumns;
+                ">
+
+            </tr>
+
+
+            <!-- ====================================== -->
+            <!-- NO DATA -->
+            <!-- ====================================== -->
+
+            <tr class="mat-row" *matNoDataRow>
+
+                <td class="mat-cell text-center" colspan="9">
+
+                    No Makers Found
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <!-- ========================================== -->
+        <!-- PAGINATOR -->
+        <!-- ========================================== -->
+
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[
+                5,
+                10,
+                20,
+                50
+            ]" showFirstLastButtons>
+
+        </mat-paginator>
+
+    </div>
+
+</div>

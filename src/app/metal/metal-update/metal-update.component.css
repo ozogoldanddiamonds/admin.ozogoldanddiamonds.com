@@ -1,0 +1,93 @@
+/* Container */
+.container {
+    padding: 20px;
+}
+
+/* Title */
+.title-section {
+    margin-bottom: 20px;
+}
+
+.title-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Card */
+.category-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Layout */
+.form-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.left-section {
+    flex: 1;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs */
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #d4af37;
+}
+
+/* Buttons */
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+/* Save Button */
+.btn-create {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--red-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Back Button */
+.btn-back {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #555;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-create:hover,
+.btn-back:hover {
+    opacity: 0.9;
+}
