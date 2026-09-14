@@ -352,3 +352,223 @@
     background: #388e3c;
 
 }
+
+/* =========================
+   PRODUCT VARIANT ACTIONS
+   ========================= */
+
+.product-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* Add Product Variant Button */
+
+.add-variant-btn {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.add-variant-btn:hover {
+    background: #388e3c;
+}
+
+.add-variant-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================
+   ADDED PRODUCTS TABLE
+   ========================= */
+
+.added-products-section {
+    margin-top: 35px;
+    width: 100%;
+}
+
+.added-products-section h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* Table Wrapper */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    background: #fff;
+}
+
+
+/* Table */
+
+.added-products-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+
+/* Table Header */
+
+.added-products-table thead {
+    background: #f5f7fb;
+}
+
+.added-products-table th {
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+
+/* Table Body */
+
+.added-products-table td {
+    padding: 13px 12px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+
+/* Last row border remove */
+
+.added-products-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Row Hover */
+
+.added-products-table tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* Product Name */
+
+.product-name {
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* Variant Name */
+
+.variant-name {
+    color: #555;
+}
+
+
+/* Quantity */
+
+.quantity-cell {
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* Amount */
+
+.amount-cell {
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* =========================
+   REMOVE BUTTON
+   ========================= */
+
+.remove-variant-btn {
+    background: #fff;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    white-space: nowrap;
+}
+
+.remove-variant-btn:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+.remove-variant-btn:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================
+   SAVE / BACK BUTTONS
+   ========================= */
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.save-btn {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.save-btn:hover {
+    background: #388e3c;
+}
+
+.save-btn:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+}
+
+
+.back-btn {
+    background: #fff;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.back-btn:hover {
+    background: #f5f5f5;
+}

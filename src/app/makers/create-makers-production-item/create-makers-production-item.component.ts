@@ -65,6 +65,13 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
   // ==========================================
+  // ADDED PRODUCTION ITEMS
+  // ==========================================
+
+  makerProductionItems: any[] = [];
+
+
+  // ==========================================
   // UI
   // ==========================================
 
@@ -73,10 +80,13 @@ export class CreateMakersProductionItemComponent implements OnInit {
   isLoading = false;
 
 
+  // ==========================================
+  // CONSTRUCTOR
+  // ==========================================
+
   constructor(
 
-    private fb:
-      FormBuilder,
+    private fb: FormBuilder,
 
     private makerProductionService:
       MakersProductionService,
@@ -199,6 +209,17 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
         // ====================================
+        // Batch Number
+        // ====================================
+
+        batchNumber: [
+
+          ''
+
+        ],
+
+
+        // ====================================
         // Notes
         // ====================================
 
@@ -211,18 +232,25 @@ export class CreateMakersProductionItemComponent implements OnInit {
       });
 
   }
+
+
+  // ==========================================
+  // GET VARIANT LABEL
+  // ==========================================
+
   getVariantLabel(variant: any): string {
 
     if (!variant) {
+
       return 'Variant';
+
     }
+
 
     const parts: string[] = [];
 
 
-    // ==========================================
     // SKU
-    // ==========================================
 
     if (variant.sku) {
 
@@ -233,9 +261,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ==========================================
-    // Size
-    // ==========================================
+    // SIZE
 
     if (variant.size) {
 
@@ -246,9 +272,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ==========================================
-    // Metal Purity
-    // ==========================================
+    // METAL PURITY
 
     if (variant.metalPurity) {
 
@@ -259,9 +283,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ==========================================
-    // Metal Color
-    // ==========================================
+    // METAL COLOR
 
     if (variant.metalColor) {
 
@@ -272,15 +294,14 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ==========================================
-    // Fallback
-    // ==========================================
-
     return parts.length
+
       ? parts.join(' | ')
+
       : 'Variant';
 
   }
+
 
   // ==========================================
   // GET MAKER PRODUCTIONS
@@ -350,33 +371,38 @@ export class CreateMakersProductionItemComponent implements OnInit {
           );
 
 
-          this.productList = (response?.data || []).map((product: any) => {
+          this.productList =
+            (response?.data || [])
+              .map((product: any) => {
 
-            const productName =
-              product.productName ||
-              product.name ||
-              'Product';
+                const productName =
+                  product.productName ||
+                  product.name ||
+                  'Product';
 
-            const productCode =
-              product.productCode ||
-              product.code ||
-              '';
 
-            return {
-              ...product,
+                const productCode =
+                  product.productCode ||
+                  product.code ||
+                  '';
 
-              // Display name
-              displayName: productCode
-                ? `${productName} - ${productCode}`
-                : productName,
 
-              // Search value
-              searchName: productCode
-                ? `${productName} ${productCode}`
-                : productName
-            };
+                return {
 
-          });
+                  ...product,
+
+                  displayName:
+
+                    productCode
+
+                      ? `${productName} - ${productCode}`
+
+                      : productName
+
+                };
+
+              });
+
 
         },
 
@@ -419,12 +445,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
         ?.value;
 
 
-    // ========================================
-    // Reset Selected
-    // ========================================
-
-    this.selectedProduction =
-      null;
+    this.selectedProduction = null;
 
 
     if (!productionId) {
@@ -433,10 +454,6 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
     }
 
-
-    // ========================================
-    // Find Production
-    // ========================================
 
     this.selectedProduction =
       this.productionList.find(
@@ -456,6 +473,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
   }
 
+
   // ==========================================
   // ADD NEW PRODUCT
   // ==========================================
@@ -473,22 +491,25 @@ export class CreateMakersProductionItemComponent implements OnInit {
       searchTerm.trim();
 
 
-    console.log(
-      'Add New Product:',
-      productName
-    );
-
-
     this.router.navigate(
+
       ['/admin/create-product'],
+
       {
+
         queryParams: {
+
           name: productName
+
         }
+
       }
+
     );
 
   }
+
+
   // ==========================================
   // PRODUCT CHANGE
   // ==========================================
@@ -501,9 +522,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
         ?.value;
 
 
-    // ========================================
-    // Reset Variant
-    // ========================================
+    // Reset variants
 
     this.variantList = [];
 
@@ -524,9 +543,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ========================================
-    // Find Product
-    // ========================================
+    // Find selected product
 
     this.selectedProduct =
       this.productList.find(
@@ -552,9 +569,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
     }
 
 
-    // ========================================
-    // Load Variants
-    // ========================================
+    // Load variants
 
     this.variantList =
       this.selectedProduct.variants || [];
@@ -580,8 +595,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
         ?.value;
 
 
-    this.selectedVariant =
-      null;
+    this.selectedVariant = null;
 
 
     if (!variantId) {
@@ -616,9 +630,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
   getSelectedProductName(): string {
 
-    if (
-      !this.selectedProduct
-    ) {
+    if (!this.selectedProduct) {
 
       return '';
 
@@ -661,6 +673,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
   }
 
+
   // ==========================================
   // PENDING QUANTITY
   // ==========================================
@@ -668,6 +681,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
   getPendingQuantity(): number {
 
     const quantityGiven =
+
       Number(
 
         this.makerProductionItemForm
@@ -678,6 +692,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     const quantityReceived =
+
       Number(
 
         this.makerProductionItemForm
@@ -687,34 +702,51 @@ export class CreateMakersProductionItemComponent implements OnInit {
       );
 
 
-    const pending =
-      quantityGiven -
-      quantityReceived;
-
-
     return Math.max(
-      pending,
+
+      quantityGiven -
+      quantityReceived,
+
       0
+
     );
 
   }
 
 
   // ==========================================
-  // SUBMIT
+  // ADD PRODUCT VARIANT
   // ==========================================
 
-  onSubmit(): void {
-
-    this.isSubmitted = true;
-
+  addProductVariant(): void {
 
     // ========================================
-    // VALIDATE FORM
+    // VALIDATE CURRENT ITEM
     // ========================================
+
+    const productControl =
+      this.makerProductionItemForm
+        .get('product');
+
+
+    const variantControl =
+      this.makerProductionItemForm
+        .get('variantId');
+
+
+    const quantityGivenControl =
+      this.makerProductionItemForm
+        .get('quantityGiven');
+
 
     if (
-      this.makerProductionItemForm.invalid
+
+      productControl?.invalid ||
+
+      variantControl?.invalid ||
+
+      quantityGivenControl?.invalid
+
     ) {
 
       this.makerProductionItemForm
@@ -723,7 +755,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
       this.alertService.error(
 
-        'Please fill all required fields'
+        'Please select product, variant and enter quantity given'
 
       );
 
@@ -737,6 +769,69 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     // ========================================
+    // PRODUCTION
+    // ========================================
+
+    const productionId =
+      value.production;
+
+
+    if (!productionId) {
+
+      this.alertService.error(
+
+        'Please select production'
+
+      );
+
+      return;
+
+    }
+
+
+    // ========================================
+    // PRODUCT
+    // ========================================
+
+    const productId =
+      value.product;
+
+
+    if (!productId) {
+
+      this.alertService.error(
+
+        'Please select product'
+
+      );
+
+      return;
+
+    }
+
+
+    // ========================================
+    // VARIANT
+    // ========================================
+
+    const variantId =
+      value.variantId;
+
+
+    if (!variantId) {
+
+      this.alertService.error(
+
+        'Please select variant'
+
+      );
+
+      return;
+
+    }
+
+
+    // ========================================
     // QUANTITY GIVEN
     // ========================================
 
@@ -747,8 +842,11 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     if (
+
       !Number.isFinite(quantityGiven) ||
+
       quantityGiven < 1
+
     ) {
 
       this.alertService.error(
@@ -767,8 +865,11 @@ export class CreateMakersProductionItemComponent implements OnInit {
     // ========================================
 
     const quantityReceived =
+
       value.quantityReceived === '' ||
+
         value.quantityReceived === null ||
+
         value.quantityReceived === undefined
 
         ? 0
@@ -779,8 +880,11 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     if (
+
       !Number.isFinite(quantityReceived) ||
+
       quantityReceived < 0
+
     ) {
 
       this.alertService.error(
@@ -799,8 +903,10 @@ export class CreateMakersProductionItemComponent implements OnInit {
     // ========================================
 
     if (
+
       quantityReceived >
       quantityGiven
+
     ) {
 
       this.alertService.error(
@@ -815,13 +921,36 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     // ========================================
-    // PRODUCTION
+    // BATCH NUMBER
     // ========================================
 
-    if (!value.production) {
+    const batchNumber =
+
+      value.batchNumber
+        ?.trim() || '';
+
+
+    // ========================================
+    // FIND PRODUCT
+    // ========================================
+
+    const selectedProduct =
+      this.productList.find(
+
+        product =>
+
+          String(product._id) ===
+          String(productId)
+
+      );
+
+
+    if (!selectedProduct) {
 
       this.alertService.error(
-        'Please select production'
+
+        'Selected product not found'
+
       );
 
       return;
@@ -830,13 +959,26 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     // ========================================
-    // PRODUCT
+    // FIND VARIANT
     // ========================================
 
-    if (!value.product) {
+    const selectedVariant =
+      this.variantList.find(
+
+        variant =>
+
+          String(variant._id) ===
+          String(variantId)
+
+      );
+
+
+    if (!selectedVariant) {
 
       this.alertService.error(
-        'Please select product'
+
+        'Selected variant not found'
+
       );
 
       return;
@@ -845,13 +987,46 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     // ========================================
-    // VARIANT
+    // DUPLICATE CHECK
+    // ========================================
+    //
+    // Same Production +
+    // Same Product +
+    // Same Variant +
+    // Same Batch
+    //
+    // is not allowed.
+    //
+    // Different batch is allowed.
+    //
     // ========================================
 
-    if (!value.variantId) {
+    const duplicateItem =
+      this.makerProductionItems.find(
+
+        item =>
+
+          String(item.production) ===
+          String(productionId) &&
+
+          String(item.product) ===
+          String(productId) &&
+
+          String(item.variantId) ===
+          String(variantId) &&
+
+          String(item.batchNumber || '') ===
+          String(batchNumber)
+
+      );
+
+
+    if (duplicateItem) {
 
       this.alertService.error(
-        'Please select variant'
+
+        'This product variant with the same batch number is already added'
+
       );
 
       return;
@@ -860,19 +1035,42 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
 
     // ========================================
-    // PREPARE PAYLOAD
+    // PRODUCT NAME
     // ========================================
 
-    const itemData = {
+    const productName =
+
+      selectedProduct.productName ||
+
+      selectedProduct.name ||
+
+      'Product';
+
+
+    // ========================================
+    // VARIANT NAME
+    // ========================================
+
+    const variantName =
+      this.getVariantLabel(
+        selectedVariant
+      );
+
+
+    // ========================================
+    // CREATE TABLE ROW
+    // ========================================
+
+    const item = {
 
       production:
-        value.production,
+        productionId,
 
       product:
-        value.product,
+        productId,
 
       variantId:
-        value.variantId,
+        variantId,
 
       quantityGiven:
         quantityGiven,
@@ -880,32 +1078,317 @@ export class CreateMakersProductionItemComponent implements OnInit {
       quantityReceived:
         quantityReceived,
 
+      batchNumber:
+        batchNumber,
+
       notes:
         value.notes
-          ?.trim() || ''
+          ?.trim() || '',
+
+      productName:
+        productName,
+
+      variantName:
+        variantName
 
     };
 
 
     // ========================================
-    // DEBUG
+    // ADD ROW
     // ========================================
 
+    this.makerProductionItems.push(
+      item
+    );
+
+
     console.log(
-      'Maker Production Item Payload:',
-      itemData
+      'Added Production Item:',
+      item
+    );
+
+
+    console.log(
+      'All Production Items:',
+      this.makerProductionItems
     );
 
 
     // ========================================
-    // LOADING
+    // CLEAR PRODUCT ENTRY FIELDS
+    // ========================================
+
+    this.resetProductVariantFields();
+
+  }
+
+
+  // ==========================================
+  // RESET PRODUCT ENTRY
+  // ==========================================
+
+  resetProductVariantFields(): void {
+
+    this.makerProductionItemForm
+      .patchValue({
+
+        product: '',
+
+        variantId: '',
+
+        quantityGiven: '',
+
+        quantityReceived: 0,
+
+        batchNumber: '',
+
+        notes: ''
+
+      });
+
+
+    this.variantList = [];
+
+    this.selectedProduct = null;
+
+    this.selectedVariant = null;
+
+  }
+
+
+  // ==========================================
+  // REMOVE PRODUCT VARIANT
+  // ==========================================
+
+  removeProductVariant(index: number): void {
+
+    if (
+
+      index < 0 ||
+
+      index >= this.makerProductionItems.length
+
+    ) {
+
+      return;
+
+    }
+
+
+    this.makerProductionItems.splice(
+      index,
+      1
+    );
+
+
+    console.log(
+      'Removed Item Index:',
+      index
+    );
+
+
+    console.log(
+      'Remaining Items:',
+      this.makerProductionItems
+    );
+
+  }
+
+
+  // ==========================================
+  // SUBMIT ALL PRODUCTION ITEMS
+  // ==========================================
+
+  onSubmit(): void {
+
+    // ========================================
+    // PRODUCTION REQUIRED
+    // ========================================
+
+    const productionId =
+      this.makerProductionItemForm
+        .get('production')
+        ?.value;
+
+
+    if (!productionId) {
+
+      this.makerProductionItemForm
+        .get('production')
+        ?.markAsTouched();
+
+
+      this.alertService.error(
+
+        'Please select Gold Smith Production'
+
+      );
+
+      return;
+
+    }
+
+
+    // ========================================
+    // AT LEAST ONE ITEM REQUIRED
+    // ========================================
+
+    if (
+      this.makerProductionItems.length === 0
+    ) {
+
+      this.alertService.error(
+
+        'Please add at least one product variant'
+
+      );
+
+      return;
+
+    }
+
+
+    // ========================================
+    // PREVENT DOUBLE SUBMIT
+    // ========================================
+
+    if (this.isLoading) {
+
+      return;
+
+    }
+
+
+    // ========================================
+    // PREPARE PAYLOADS
+    // ========================================
+
+    const items =
+      this.makerProductionItems.map(
+
+        item => ({
+
+          production:
+            item.production,
+
+          product:
+            item.product,
+
+          variantId:
+            item.variantId,
+
+          quantityGiven:
+            Number(
+              item.quantityGiven
+            ),
+
+          quantityReceived:
+            Number(
+              item.quantityReceived
+            ),
+
+          batchNumber:
+            item.batchNumber || '',
+
+          notes:
+            item.notes || ''
+
+        })
+
+      );
+
+
+    console.log(
+      'All Production Item Payloads:',
+      items
+    );
+
+
+    // ========================================
+    // START LOADING
     // ========================================
 
     this.isLoading = true;
 
 
     // ========================================
-    // CREATE API
+    // CREATE ONE BY ONE
+    // ========================================
+
+    this.createProductionItemsSequentially(
+
+      items,
+
+      0
+
+    );
+
+  }
+
+
+  // ==========================================
+  // CREATE ITEMS SEQUENTIALLY
+  // ==========================================
+
+  createProductionItemsSequentially(
+
+    items: any[],
+
+    index: number
+
+  ): void {
+
+
+    // ========================================
+    // ALL ITEMS COMPLETED
+    // ========================================
+
+    if (
+      index >= items.length
+    ) {
+
+      this.isLoading = false;
+
+
+      this.alertService.success(
+
+        'All maker production items created successfully'
+
+      );
+
+
+      this.router.navigate([
+
+        '/admin/gold-smith-production-item-list'
+
+      ]);
+
+
+      return;
+
+    }
+
+
+    // ========================================
+    // CURRENT ITEM
+    // ========================================
+
+    const itemData =
+      items[index];
+
+
+    console.log(
+
+      `Creating Item ${index + 1}/${items.length}:`,
+
+      itemData
+
+    );
+
+
+    // ========================================
+    // API
     // ========================================
 
     this.makerProductionItemService
@@ -917,32 +1400,25 @@ export class CreateMakersProductionItemComponent implements OnInit {
         next: (response: any) => {
 
           console.log(
-            'Create Maker Production Item Response:',
+
+            `Create Item ${index + 1} Response:`,
+
             response
-          );
-
-
-          this.isLoading = false;
-
-
-          this.alertService.success(
-
-            response?.message ||
-
-            'Maker production item created successfully'
 
           );
 
 
           // ==================================
-          // NAVIGATE
+          // CREATE NEXT
           // ==================================
 
-          this.router.navigate([
+          this.createProductionItemsSequentially(
 
-            '/admin/gold-smith-production-item-list'
+            items,
 
-          ]);
+            index + 1
+
+          );
 
         },
 
@@ -950,8 +1426,11 @@ export class CreateMakersProductionItemComponent implements OnInit {
         error: (error: any) => {
 
           console.log(
-            'Create Maker Production Item Error:',
+
+            `Create Item ${index + 1} Error:`,
+
             error
+
           );
 
 
@@ -962,7 +1441,7 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
             error?.error?.message ||
 
-            'Failed to create maker production item'
+            `Failed to create production item ${index + 1}`
 
           );
 
@@ -986,5 +1465,6 @@ export class CreateMakersProductionItemComponent implements OnInit {
     ]);
 
   }
+
 
 }

@@ -14,38 +14,65 @@ import Swal from 'sweetalert2';
 })
 export class CreateSupplierPurchaseItemComponent implements OnInit {
 
+
+  // =====================================================
+  // FORM
+  // =====================================================
+
   supplierPurchaseItemForm!: FormGroup;
 
 
-  // =========================
+  // =====================================================
   // PURCHASES
-  // =========================
+  // =====================================================
 
   purchases: any[] = [];
 
 
-  // =========================
+  // =====================================================
   // PRODUCTS
-  // =========================
+  // =====================================================
 
   products: any[] = [];
 
 
-  // =========================
+  // =====================================================
   // VARIANTS
-  // =========================
+  // =====================================================
 
   variants: any[] = [];
 
 
-  // =========================
+  // =====================================================
   // SELECTED PURCHASE
-  // =========================
+  // =====================================================
 
   selectedPurchase: any = null;
 
 
+  // =====================================================
+  // ADDED PRODUCT VARIANTS
+  // =====================================================
+
+  supplierPurchaseItems: any[] = [];
+
+
+  // =====================================================
+  // LOADING
+  // =====================================================
+
+  isLoading = false;
+
+
+  // =====================================================
+  // SAVING
+  // =====================================================
+
+  isSaving = false;
+
+
   constructor(
+
     private fb: FormBuilder,
 
     private supplierPurchaseService:
@@ -60,140 +87,37 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     private router: Router,
 
     private alert: AlertService
+
   ) { }
 
 
-  // =========================
+
+  // =====================================================
   // INIT
-  // =========================
+  // =====================================================
 
   ngOnInit(): void {
 
-    this.supplierPurchaseItemForm =
-      this.fb.group({
-
-        // =========================
-        // PURCHASE
-        // =========================
-
-        purchase: [
-          '',
-          Validators.required
-        ],
+    this.initializeForm();
 
 
-        // =========================
-        // PRODUCT
-        // =========================
-
-        product: [
-          '',
-          Validators.required
-        ],
-
-
-        // =========================
-        // VARIANT
-        // =========================
-
-        variantId: [
-          '',
-          Validators.required
-        ],
-
-
-        // =========================
-        // QUANTITY
-        // =========================
-
-        quantity: [
-          1,
-          [
-            Validators.required,
-            Validators.min(1)
-          ]
-        ],
-
-
-        // =========================
-        // PURCHASE PRICE
-        // =========================
-
-        purchasePrice: [
-          0,
-          [
-            Validators.required,
-            Validators.min(0)
-          ]
-        ],
-        supplierProductCode: ['', [Validators.required,]],
-        batchNumber: ['', [Validators.required,]],
-
-        // =========================
-        // DISCOUNT
-        // =========================
-
-        discount: [
-          0,
-          [
-            Validators.min(0)
-          ]
-        ],
-
-
-        // =========================
-        // TAX
-        // =========================
-
-        tax: [
-          0,
-          [
-            Validators.min(0)
-          ]
-        ],
-
-
-        // =========================
-        // TOTAL AMOUNT
-        // =========================
-
-        totalAmount: [
-          0,
-          [
-            Validators.required,
-            Validators.min(0)
-          ]
-        ],
-
-
-        // =========================
-        // NOTES
-        // =========================
-
-        notes: [
-          ''
-        ]
-
-      });
-
-
-    // =========================
+    // ================================================
     // GET PURCHASES
-    // =========================
+    // ================================================
 
     this.getAllSupplierPurchases();
 
 
-    // =========================
+    // ================================================
     // GET PRODUCTS
-    // =========================
+    // ================================================
 
     this.getAllProducts();
 
 
-    // =========================
-    // TOTAL CALCULATION
-    // =========================
+    // ================================================
+    // CALCULATE TOTAL
+    // ================================================
 
     this.supplierPurchaseItemForm
       .valueChanges
@@ -206,9 +130,191 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   }
 
 
-  // =========================
-  // GET ALL PURCHASES
-  // =========================
+
+  // =====================================================
+  // INITIALIZE FORM
+  // =====================================================
+
+  initializeForm(): void {
+
+    this.supplierPurchaseItemForm =
+      this.fb.group({
+
+        // ==========================================
+        // PURCHASE
+        // ==========================================
+
+        purchase: [
+
+          '',
+
+          Validators.required
+
+        ],
+
+
+        // ==========================================
+        // PRODUCT
+        // ==========================================
+
+        product: [
+
+          '',
+
+          Validators.required
+
+        ],
+
+
+        // ==========================================
+        // VARIANT
+        // ==========================================
+
+        variantId: [
+
+          '',
+
+          Validators.required
+
+        ],
+
+
+        // ==========================================
+        // QUANTITY
+        // ==========================================
+
+        quantity: [
+
+          1,
+
+          [
+
+            Validators.required,
+
+            Validators.min(1)
+
+          ]
+
+        ],
+
+
+        // ==========================================
+        // PURCHASE PRICE
+        // ==========================================
+
+        purchasePrice: [
+
+          0,
+
+          [
+
+            Validators.required,
+
+            Validators.min(0)
+
+          ]
+
+        ],
+
+
+        // ==========================================
+        // SUPPLIER PRODUCT CODE
+        // ==========================================
+
+        supplierProductCode: [
+
+          '',
+
+          Validators.required
+
+        ],
+
+
+        // ==========================================
+        // BATCH NUMBER
+        // ==========================================
+
+        batchNumber: [
+
+          '',
+
+          Validators.required
+
+        ],
+
+
+        // ==========================================
+        // DISCOUNT
+        // ==========================================
+
+        discount: [
+
+          0,
+
+          [
+
+            Validators.min(0)
+
+          ]
+
+        ],
+
+
+        // ==========================================
+        // TAX
+        // ==========================================
+
+        tax: [
+
+          0,
+
+          [
+
+            Validators.min(0)
+
+          ]
+
+        ],
+
+
+        // ==========================================
+        // TOTAL AMOUNT
+        // ==========================================
+
+        totalAmount: [
+
+          0,
+
+          [
+
+            Validators.required,
+
+            Validators.min(0)
+
+          ]
+
+        ],
+
+
+        // ==========================================
+        // NOTES
+        // ==========================================
+
+        notes: [
+
+          ''
+
+        ]
+
+      });
+
+  }
+
+
+
+  // =====================================================
+  // GET ALL SUPPLIER PURCHASES
+  // =====================================================
 
   getAllSupplierPurchases(): void {
 
@@ -225,14 +331,26 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
 
           this.purchases =
-            response.data || [];
+            response?.data || [];
 
         },
 
-        error: (error) => {
+
+        error: (error: any) => {
 
           console.error(
             error
+          );
+
+
+          this.purchases = [];
+
+          this.alert.error(
+
+            error?.error?.message ||
+
+            'Failed to load supplier purchases'
+
           );
 
         }
@@ -242,9 +360,10 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   }
 
 
-  // =========================
+
+  // =====================================================
   // GET ALL PRODUCTS
-  // =========================
+  // =====================================================
 
   getAllProducts(): void {
 
@@ -261,14 +380,33 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
 
           this.products =
-            response.data || [];
+            response?.data || [];
+
+
+          console.log(
+            'Product List:',
+            this.products
+          );
 
         },
 
-        error: (error) => {
+
+        error: (error: any) => {
 
           console.error(
             error
+          );
+
+
+          this.products = [];
+
+
+          this.alert.error(
+
+            error?.error?.message ||
+
+            'Failed to load products'
+
           );
 
         }
@@ -278,22 +416,33 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   }
 
 
-  // =========================
+
+  // =====================================================
   // PURCHASE CHANGE
-  // =========================
+  // =====================================================
 
   onPurchaseChange(): void {
 
     const purchaseId =
+
       this.supplierPurchaseItemForm
         .get('purchase')
         ?.value;
 
 
+    // ================================================
+    // FIND PURCHASE
+    // ================================================
+
     this.selectedPurchase =
+
       this.purchases.find(
+
         purchase =>
-          purchase._id === purchaseId
+
+          String(purchase._id) ===
+          String(purchaseId)
+
       ) || null;
 
 
@@ -302,32 +451,62 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
       'selected purchase'
     );
 
+
+    // ================================================
+    // IMPORTANT
+    // ================================================
+    // Purchase change ayithe old added items
+    // remove cheyyadam safe.
+    //
+    // Because all items must belong to
+    // same supplier purchase.
+    // ================================================
+
+    if (
+      this.supplierPurchaseItems.length > 0
+    ) {
+
+      this.supplierPurchaseItems = [];
+
+    }
+
   }
 
 
-  // =========================
+
+  // =====================================================
   // PRODUCT CHANGE
-  // =========================
+  // =====================================================
 
   onProductChange(): void {
 
     const productId =
+
       this.supplierPurchaseItemForm
         .get('product')
         ?.value;
 
 
-    // =========================
-    // RESET VARIANT
-    // =========================
+    // ================================================
+    // RESET VARIANTS
+    // ================================================
 
     this.variants = [];
 
 
     this.supplierPurchaseItemForm
       .get('variantId')
-      ?.setValue('');
+      ?.setValue(
+        '',
+        {
+          emitEvent: false
+        }
+      );
 
+
+    // ================================================
+    // NO PRODUCT
+    // ================================================
 
     if (!productId) {
 
@@ -336,14 +515,19 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     }
 
 
-    // =========================
+    // ================================================
     // FIND PRODUCT
-    // =========================
+    // ================================================
 
     const selectedProduct =
+
       this.products.find(
+
         product =>
-          product._id === productId
+
+          String(product._id) ===
+          String(productId)
+
       );
 
 
@@ -353,13 +537,15 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     );
 
 
-    // =========================
-    // GET VARIANTS
-    // =========================
+    // ================================================
+    // LOAD VARIANTS
+    // ================================================
 
     if (
       selectedProduct &&
-      selectedProduct.variants
+      Array.isArray(
+        selectedProduct.variants
+      )
     ) {
 
       this.variants =
@@ -376,221 +562,935 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   }
 
 
-  // =========================
+
+  // =====================================================
   // CALCULATE TOTAL
-  // =========================
+  // =====================================================
 
   calculateTotal(): void {
 
     const quantity =
+
       Number(
+
         this.supplierPurchaseItemForm
           .get('quantity')
           ?.value
+
       ) || 0;
 
 
     const purchasePrice =
+
       Number(
+
         this.supplierPurchaseItemForm
           .get('purchasePrice')
           ?.value
+
       ) || 0;
 
 
     const discount =
+
       Number(
+
         this.supplierPurchaseItemForm
           .get('discount')
           ?.value
+
       ) || 0;
 
 
     const tax =
+
       Number(
+
         this.supplierPurchaseItemForm
           .get('tax')
           ?.value
+
       ) || 0;
 
 
-    // =========================
+    // ================================================
     // BASE AMOUNT
-    // =========================
+    // ================================================
 
     const baseAmount =
-      quantity * purchasePrice;
+
+      quantity *
+      purchasePrice;
 
 
-    // =========================
+    // ================================================
     // AFTER DISCOUNT
-    // =========================
+    // ================================================
 
     const afterDiscount =
-      baseAmount - discount;
+
+      Math.max(
+
+        baseAmount -
+        discount,
+
+        0
+
+      );
 
 
-    // =========================
+    // ================================================
     // TAX
-    // =========================
+    // ================================================
 
     const taxAmount =
+
       afterDiscount *
       (tax / 100);
 
 
-    // =========================
+    // ================================================
     // FINAL TOTAL
-    // =========================
+    // ================================================
 
     const totalAmount =
-      afterDiscount + taxAmount;
 
+      afterDiscount +
+      taxAmount;
+
+
+    // ================================================
+    // PATCH TOTAL
+    // ================================================
 
     this.supplierPurchaseItemForm
       .get('totalAmount')
       ?.setValue(
-        totalAmount >= 0
-          ? Number(
-            totalAmount.toFixed(2)
-          )
-          : 0,
+
+        Number(
+          totalAmount.toFixed(2)
+        ),
+
         {
           emitEvent: false
         }
+
       );
 
   }
 
 
-  // =========================
-  // SUBMIT
-  // =========================
 
-  onSubmit(): void {
+  // =====================================================
+  // ADD PRODUCT + VARIANT
+  // =====================================================
 
-    if (
+  addProductVariant(): void {
+
+    // ================================================
+    // VALIDATE PURCHASE
+    // ================================================
+
+    const purchaseId =
+
       this.supplierPurchaseItemForm
-        .invalid
-    ) {
+        .get('purchase')
+        ?.value;
 
-      this.supplierPurchaseItemForm
-        .markAllAsTouched();
+
+    if (!purchaseId) {
+
+      this.alert.error(
+        'Please select supplier purchase'
+      );
 
       return;
 
     }
 
 
-    const formValue =
-      this.supplierPurchaseItemForm.value;
+    // ================================================
+    // VALIDATE PRODUCT
+    // ================================================
+
+    const productId =
+
+      this.supplierPurchaseItemForm
+        .get('product')
+        ?.value;
 
 
-    // =========================
-    // PREPARE DATA
-    // =========================
+    if (!productId) {
 
-    const supplierPurchaseItemData = {
+      this.alert.error(
+        'Please select product'
+      );
 
+      return;
+
+    }
+
+
+    // ================================================
+    // VALIDATE VARIANT
+    // ================================================
+
+    const variantId =
+
+      this.supplierPurchaseItemForm
+        .get('variantId')
+        ?.value;
+
+
+    if (!variantId) {
+
+      this.alert.error(
+        'Please select product variant'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // VALIDATE OTHER FIELDS
+    // ================================================
+
+    const quantity =
+
+      Number(
+
+        this.supplierPurchaseItemForm
+          .get('quantity')
+          ?.value
+
+      );
+
+
+    if (
+      !Number.isFinite(quantity) ||
+      quantity < 1
+    ) {
+
+      this.alert.error(
+        'Valid quantity is required'
+      );
+
+      return;
+
+    }
+
+
+    const purchasePrice =
+
+      Number(
+
+        this.supplierPurchaseItemForm
+          .get('purchasePrice')
+          ?.value
+
+      );
+
+
+    if (
+      !Number.isFinite(purchasePrice) ||
+      purchasePrice < 0
+    ) {
+
+      this.alert.error(
+        'Valid purchase price is required'
+      );
+
+      return;
+
+    }
+
+
+    const supplierProductCode =
+
+      this.supplierPurchaseItemForm
+        .get('supplierProductCode')
+        ?.value
+        ?.trim();
+
+
+    if (!supplierProductCode) {
+
+      this.alert.error(
+        'Supplier Product Code is required'
+      );
+
+      return;
+
+    }
+
+
+    const batchNumber =
+
+      this.supplierPurchaseItemForm
+        .get('batchNumber')
+        ?.value
+        ?.trim();
+
+
+    if (!batchNumber) {
+
+      this.alert.error(
+        'Batch Number is required'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // DISCOUNT
+    // ================================================
+
+    const discount =
+
+      Number(
+
+        this.supplierPurchaseItemForm
+          .get('discount')
+          ?.value
+
+      ) || 0;
+
+
+    if (discount < 0) {
+
+      this.alert.error(
+        'Discount cannot be negative'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // TAX
+    // ================================================
+
+    const tax =
+
+      Number(
+
+        this.supplierPurchaseItemForm
+          .get('tax')
+          ?.value
+
+      ) || 0;
+
+
+    if (tax < 0) {
+
+      this.alert.error(
+        'Tax cannot be negative'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // TOTAL
+    // ================================================
+
+    this.calculateTotal();
+
+
+    const totalAmount =
+
+      Number(
+
+        this.supplierPurchaseItemForm
+          .get('totalAmount')
+          ?.value
+
+      ) || 0;
+
+
+    // ================================================
+    // FIND PRODUCT
+    // ================================================
+
+    const selectedProduct =
+
+      this.products.find(
+
+        product =>
+
+          String(product._id) ===
+          String(productId)
+
+      );
+
+
+    if (!selectedProduct) {
+
+      this.alert.error(
+        'Selected product not found'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // FIND VARIANT
+    // ================================================
+
+    const selectedVariant =
+
+      this.variants.find(
+
+        variant =>
+
+          String(variant._id) ===
+          String(variantId)
+
+      );
+
+
+    if (!selectedVariant) {
+
+      this.alert.error(
+        'Selected product variant not found'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // DUPLICATE CHECK
+    // ================================================
+    //
+    // Same purchase + same product +
+    // same variant should not be added twice.
+    //
+    // Backend lo kuda same validation undi.
+    //
+    // ================================================
+
+    const duplicateItem =
+
+      this.supplierPurchaseItems.find(
+
+        item =>
+
+          String(item.purchase) ===
+          String(purchaseId)
+
+          &&
+
+          String(item.product) ===
+          String(productId)
+
+          &&
+
+          String(item.variantId) ===
+          String(variantId)
+
+      );
+
+
+    if (duplicateItem) {
+
+      this.alert.error(
+
+        'This product variant is already added to this purchase'
+
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // PRODUCT NAME
+    // ================================================
+
+    const productName =
+
+      selectedProduct.name ||
+
+      selectedProduct.productName ||
+
+      'Product';
+
+
+    // ================================================
+    // VARIANT NAME
+    // ================================================
+
+    const variantName =
+
+      selectedVariant.name ||
+
+      selectedVariant.variantName ||
+
+      selectedVariant.sku ||
+
+      selectedVariant._id;
+
+
+    // ================================================
+    // CREATE LOCAL ITEM
+    // ================================================
+
+    const item = {
+
+      // IDs
       purchase:
-        formValue.purchase,
+        purchaseId,
 
       product:
-        formValue.product,
+        productId,
 
       variantId:
-        formValue.variantId,
+        variantId,
 
+
+      // Display data
+      productName:
+        productName,
+
+      variantName:
+        variantName,
+
+
+      // Item data
       quantity:
-        Number(
-          formValue.quantity
-        ),
+        quantity,
 
       purchasePrice:
-        Number(
-          formValue.purchasePrice
-        ),
+        purchasePrice,
 
       supplierProductCode:
-        formValue.supplierProductCode,
+        supplierProductCode,
+
       batchNumber:
-        formValue.batchNumber,
+        batchNumber,
+
       discount:
-        Number(
-          formValue.discount
-        ) || 0,
+        discount,
 
       tax:
-        Number(
-          formValue.tax
-        ) || 0,
+        tax,
 
       totalAmount:
-        Number(
-          formValue.totalAmount
-        ),
+        totalAmount,
 
       notes:
-        formValue.notes || ''
+        this.supplierPurchaseItemForm
+          .get('notes')
+          ?.value
+          ?.trim() || ''
 
     };
 
 
-    console.log(
-      supplierPurchaseItemData,
-      'supplier purchase item data'
+    // ================================================
+    // ADD TO ARRAY
+    // ================================================
+
+    this.supplierPurchaseItems.push(
+      item
     );
 
 
-    // =========================
-    // CREATE ITEM
-    // =========================
+    console.log(
+      'Added Supplier Purchase Item:',
+      item
+    );
+
+
+    console.log(
+      'All Supplier Purchase Items:',
+      this.supplierPurchaseItems
+    );
+
+
+    // ================================================
+    // RESET ITEM-LEVEL FIELDS
+    // ================================================
+    //
+    // Purchase remains same.
+    //
+    // User can immediately select another
+    // product and variant.
+    //
+    // ================================================
+
+    this.resetProductVariantFields();
+
+
+    // ================================================
+    // SUCCESS MESSAGE
+    // ================================================
+
+    this.alert.success(
+      'Product variant added successfully'
+    );
+
+  }
+
+
+
+  // =====================================================
+  // RESET PRODUCT / VARIANT FIELDS
+  // =====================================================
+
+  resetProductVariantFields(): void {
+
+    this.supplierPurchaseItemForm.patchValue({
+
+      product:
+        '',
+
+      variantId:
+        '',
+
+      quantity:
+        1,
+
+      purchasePrice:
+        0,
+
+      supplierProductCode:
+        '',
+
+      batchNumber:
+        '',
+
+      discount:
+        0,
+
+      tax:
+        0,
+
+      totalAmount:
+        0,
+
+      notes:
+        ''
+
+    });
+
+
+    this.variants = [];
+
+  }
+
+
+
+  // =====================================================
+  // REMOVE PRODUCT VARIANT
+  // =====================================================
+
+  removeProductVariant(
+    index: number
+  ): void {
+
+    if (
+      index < 0 ||
+      index >=
+      this.supplierPurchaseItems.length
+    ) {
+
+      return;
+
+    }
+
+
+    this.supplierPurchaseItems.splice(
+      index,
+      1
+    );
+
+
+    console.log(
+      'Removed item index:',
+      index
+    );
+
+
+    console.log(
+      'Remaining items:',
+      this.supplierPurchaseItems
+    );
+
+
+    this.alert.success(
+      'Product variant removed'
+    );
+
+  }
+
+
+
+  // =====================================================
+  // SUBMIT ALL ITEMS
+  // =====================================================
+
+  onSubmit(): void {
+
+    // ================================================
+    // PURCHASE VALIDATION
+    // ================================================
+
+    const purchaseId =
+
+      this.supplierPurchaseItemForm
+        .get('purchase')
+        ?.value;
+
+
+    if (!purchaseId) {
+
+      this.alert.error(
+        'Please select supplier purchase'
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // ITEMS VALIDATION
+    // ================================================
+
+    if (
+      this.supplierPurchaseItems.length === 0
+    ) {
+
+      this.alert.error(
+
+        'Please add at least one product variant'
+
+      );
+
+      return;
+
+    }
+
+
+    // ================================================
+    // PREVENT DOUBLE SUBMIT
+    // ================================================
+
+    if (this.isSaving) {
+
+      return;
+
+    }
+
+
+    this.isSaving = true;
+
+
+    // ================================================
+    // CREATE PAYLOADS
+    // ================================================
+
+    const requests =
+      this.supplierPurchaseItems.map(
+        item => {
+
+          return {
+
+            purchase:
+              item.purchase,
+
+            product:
+              item.product,
+
+            variantId:
+              item.variantId,
+
+            quantity:
+              Number(
+                item.quantity
+              ),
+
+            purchasePrice:
+              Number(
+                item.purchasePrice
+              ),
+
+            supplierProductCode:
+              item.supplierProductCode
+                ?.trim() || '',
+
+            batchNumber:
+              item.batchNumber
+                ?.trim() || '',
+
+            discount:
+              Number(
+                item.discount
+              ) || 0,
+
+            tax:
+              Number(
+                item.tax
+              ) || 0,
+
+            totalAmount:
+              Number(
+                item.totalAmount
+              ),
+
+            notes:
+              item.notes
+                ?.trim() || ''
+
+          };
+
+        }
+      );
+
+
+    console.log(
+      'All Supplier Purchase Item Payloads:',
+      requests
+    );
+
+
+    // ================================================
+    // CREATE ITEMS ONE BY ONE
+    // ================================================
+
+    this.createItemsSequentially(
+      requests,
+      0
+    );
+
+  }
+
+
+
+  // =====================================================
+  // CREATE ITEMS SEQUENTIALLY
+  // =====================================================
+
+  createItemsSequentially(
+    items: any[],
+    index: number
+  ): void {
+
+    // ================================================
+    // ALL ITEMS CREATED
+    // ================================================
+
+    if (
+      index >= items.length
+    ) {
+
+      this.isSaving = false;
+
+
+      this.alert.success(
+
+        `${items.length} supplier purchase item(s) created successfully`
+
+      );
+
+
+      this.router.navigate([
+        '/admin/supplier-purchase-item'
+      ]);
+
+
+      return;
+
+    }
+
+
+    const item =
+      items[index];
+
+
+    console.log(
+
+      `Creating item ${index + 1} of ${items.length}`,
+
+      item
+
+    );
+
+
+    // ================================================
+    // CREATE API
+    // ================================================
 
     this.supplierPurchaseItemService
-      .createSupplierPurchaseItem(
-        supplierPurchaseItemData
-      )
+
+      .createSupplierPurchaseItem(item)
+
       .subscribe({
 
-        next: (response) => {
+        next: (response: any) => {
 
           console.log(
+
+            `Created item ${index + 1}`,
+
             response
+
           );
 
 
-          this.alert.success(
-            'Supplier Purchase Item Created Successfully'
+          // ==========================================
+          // CREATE NEXT ITEM
+          // ==========================================
+
+          this.createItemsSequentially(
+
+            items,
+
+            index + 1
+
           );
-
-
-          this.router.navigate([
-            '/admin/supplier-purchase-item'
-          ]);
-
-
-          this.supplierPurchaseItemForm
-            .reset();
 
         },
 
 
-        error: (error) => {
+        error: (error: any) => {
 
           console.error(
+
+            `Failed to create item ${index + 1}`,
+
             error
+
           );
+
+
+          this.isSaving = false;
 
 
           Swal.fire({
 
             icon: 'error',
 
-            title: 'Oops...',
+            title: 'Failed',
 
             text:
+
               error?.error?.message ||
-              'Failed To Create Supplier Purchase Item'
+
+              `Failed to create product item ${index + 1}`
 
           });
 
@@ -601,38 +1501,65 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   }
 
 
-  // =========================
+
+  // =====================================================
+  // ADD NEW PRODUCT
+  // =====================================================
+
+  addNewProduct(
+    searchTerm: string
+  ): void {
+
+    if (
+      !searchTerm?.trim()
+    ) {
+
+      return;
+
+    }
+
+
+    console.log(
+
+      searchTerm,
+
+      'product to add'
+
+    );
+
+
+    this.router.navigate(
+
+      ['/admin/create-product'],
+
+      {
+
+        queryParams: {
+
+          name:
+            searchTerm.trim()
+
+        }
+
+      }
+
+    );
+
+  }
+
+
+
+  // =====================================================
   // BACK
-  // =========================
+  // =====================================================
 
   goBack(): void {
 
     this.router.navigate([
+
       '/admin/supplier-purchase-item'
+
     ]);
-
-  }
-
-  addNewProduct(searchTerm: string): void {
-
-    if (!searchTerm?.trim()) {
-      return;
-    }
-
-    console.log(
-      searchTerm,
-      'product to add'
-    );
-
-    // Product create page ki navigate cheyyachu
-    this.router.navigate(
-      ['/admin/create-product'],
-      {
-        queryParams: {
-          name: searchTerm.trim()
-        }
-      }
-    );
 
   }
 }

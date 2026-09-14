@@ -304,28 +304,8 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
           // =========================
           // DATA ARRAY
           // =========================
-
           const item =
             response.data?.[0];
-
-
-          if (!item) {
-
-            Swal.fire({
-
-              icon: 'error',
-
-              title: 'Not Found',
-
-              text:
-                'Supplier purchase item not found'
-
-            });
-
-            return;
-
-          }
-
 
           console.log(
             item,
@@ -696,6 +676,13 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
       'update supplier purchase item'
     );
 
+    const itemId =
+      formValue.id;
+
+    console.log(
+      'Updating Item ID:',
+      itemId
+    );
 
     // =========================
     // UPDATE API
@@ -703,7 +690,7 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
 
     this.supplierPurchaseItemService
       .updateSupplierPurchaseItem(
-        this.itemId,
+        itemId,
         updateData
       )
       .subscribe({

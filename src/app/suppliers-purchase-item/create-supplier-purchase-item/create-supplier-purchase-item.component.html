@@ -14,11 +14,11 @@
 
         </div>
 
-
-
-
     </div>
+
+
     <div class="row">
+
         <div class="category-card">
 
             <form [formGroup]="supplierPurchaseItemForm" (ngSubmit)="onSubmit()">
@@ -27,16 +27,21 @@
                 <div class="form-layout">
 
 
-                    <!-- Left Section -->
+                    <!-- =====================================================
+                         LEFT SECTION
+                    ====================================================== -->
 
                     <div class="left-section">
+
+
+                        <!-- =================================================
+                             SUPPLIER PURCHASE DETAILS
+                        ================================================== -->
 
                         <div class="row">
 
 
-                            <!-- =========================
-                                     SUPPLIER PURCHASE
-                                ========================= -->
+                            <!-- SUPPLIER PURCHASE -->
 
                             <div class="col-4">
 
@@ -46,12 +51,14 @@
                                         Supplier Purchase
                                     </label>
 
+
                                     <select class="form-control" formControlName="purchase"
                                         (change)="onPurchaseChange()">
 
                                         <option value="">
                                             Select Supplier Purchase
                                         </option>
+
 
                                         <option *ngFor="let purchase of purchases" [value]="purchase._id">
 
@@ -72,9 +79,7 @@
                             </div>
 
 
-                            <!-- =========================
-                                     SUPPLIER
-                                ========================= -->
+                            <!-- SUPPLIER -->
 
                             <div class="col-4">
 
@@ -84,20 +89,19 @@
                                         Supplier
                                     </label>
 
+
                                     <input type="text" class="form-control" [value]="
-                                                selectedPurchase
-                                                    ?.supplier
-                                                    ?.name || '-'
-                                            " readonly>
+                                            selectedPurchase
+                                                ?.supplier
+                                                ?.name || '-'
+                                        " readonly>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- =========================
-                                     INVOICE NUMBER
-                                ========================= -->
+                            <!-- INVOICE NUMBER -->
 
                             <div class="col-4">
 
@@ -107,23 +111,38 @@
                                         Invoice Number
                                     </label>
 
+
                                     <input type="text" class="form-control" [value]="
-                                                selectedPurchase
-                                                    ?.invoiceNumber || '-'
-                                            " readonly>
+                                            selectedPurchase
+                                                ?.invoiceNumber || '-'
+                                        " readonly>
 
                                 </div>
 
                             </div>
+
+
+                            <!-- SUPPLIER PRODUCT CODE -->
+
                             <div class="col-4">
+
                                 <div class="form-group">
+
                                     <label>
-                                        Supplier ProductC ode
+                                        Supplier Product Code
                                     </label>
-                                    <input type="text" class="form-control" formControlName="supplierProductCode">
+
+
+                                    <input type="text" class="form-control" formControlName="supplierProductCode"
+                                        placeholder="Enter Supplier Product Code">
+
                                 </div>
 
                             </div>
+
+
+                            <!-- BATCH NUMBER -->
+
                             <div class="col-4">
 
                                 <div class="form-group">
@@ -132,36 +151,62 @@
                                         Batch Number
                                     </label>
 
-                                    <input type="text" class="form-control" formControlName="batchNumber">
+
+                                    <input type="text" class="form-control" formControlName="batchNumber"
+                                        placeholder="Enter Batch Number">
 
                                 </div>
 
                             </div>
 
-
-
                         </div>
-                        <div class="row">
-                            <!-- =========================
-                                    PRODUCT
-                            ========================= -->
-                            <h2>Product Management</h2>
+
+
+
+                        <!-- =================================================
+                             PRODUCT MANAGEMENT
+                        ================================================== -->
+
+                        <div class="row mt-3">
+
+                            <div class="col-12">
+
+                                <h2>
+                                    Product Management
+                                </h2>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PRODUCT
+                            ================================================== -->
 
                             <div class="col-4">
+
                                 <div class="form-group">
 
                                     <label>
                                         Product
                                     </label>
 
+
                                     <ng-select class="product-select" [items]="products" bindLabel="name"
                                         bindValue="_id" formControlName="product" placeholder="Search / Select Product"
                                         [searchable]="true" [clearable]="true" [closeOnSelect]="true"
                                         (change)="onProductChange()">
 
+
+                                        <!-- PRODUCT OPTION -->
+
                                         <ng-template ng-option-tmp let-item="item">
+
                                             {{ item.name }}
+
                                         </ng-template>
+
+
+                                        <!-- PRODUCT NOT FOUND -->
 
                                         <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
 
@@ -194,12 +239,14 @@
                                     </ng-select>
 
                                 </div>
+
                             </div>
 
 
-                            <!-- =========================
-                                                                 VARIANT
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 PRODUCT VARIANT
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -209,15 +256,15 @@
                                         Product Variant
                                     </label>
 
+
                                     <select class="form-control" formControlName="variantId">
 
                                         <option value="">
                                             Select Variant
                                         </option>
 
-                                        <option *ngFor="
-                                                                                let variant of variants
-                                                                            " [value]="variant._id">
+
+                                        <option *ngFor="let variant of variants" [value]="variant._id">
 
                                             {{
                                             variant.name
@@ -235,9 +282,10 @@
                             </div>
 
 
-                            <!-- =========================
-                                                                 QUANTITY
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 QUANTITY
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -247,6 +295,7 @@
                                         Quantity
                                     </label>
 
+
                                     <input type="number" class="form-control" formControlName="quantity" min="1"
                                         placeholder="Enter Quantity">
 
@@ -255,9 +304,10 @@
                             </div>
 
 
-                            <!-- =========================
-                                                                 PURCHASE PRICE
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 PURCHASE PRICE
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -267,6 +317,7 @@
                                         Purchase Price
                                     </label>
 
+
                                     <input type="number" class="form-control" formControlName="purchasePrice" min="0"
                                         placeholder="Enter Purchase Price">
 
@@ -275,9 +326,10 @@
                             </div>
 
 
-                            <!-- =========================
-                                                                 DISCOUNT
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 DISCOUNT
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -287,6 +339,7 @@
                                         Discount
                                     </label>
 
+
                                     <input type="number" class="form-control" formControlName="discount" min="0"
                                         placeholder="Enter Discount">
 
@@ -295,9 +348,10 @@
                             </div>
 
 
-                            <!-- =========================
-                                                                 TAX
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 TAX
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -307,6 +361,7 @@
                                         Tax
                                     </label>
 
+
                                     <input type="number" class="form-control" formControlName="tax" min="0"
                                         placeholder="Enter Tax">
 
@@ -315,9 +370,10 @@
                             </div>
 
 
-                            <!-- =========================
-                                                                 TOTAL AMOUNT
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 TOTAL AMOUNT
+                            ================================================== -->
 
                             <div class="col-4">
 
@@ -327,17 +383,125 @@
                                         Total Amount
                                     </label>
 
+
                                     <input type="number" class="form-control" formControlName="totalAmount" min="0"
-                                        placeholder="Enter Total Amount">
+                                        readonly>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- =========================
-                                                                 NOTES
-                                                            ========================= -->
+
+                            <!-- =================================================
+                                 ADD VARIANT BUTTON
+                            ================================================== -->
+
+                            <div class="col-12">
+
+                                <div class="product-actions">
+                                    <button type="button" class="add-variant-btn" (click)="addProductVariant()">
+                                        + Add Product Variant
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =====================================================
+                             ADDED PRODUCT VARIANTS
+                        ====================================================== -->
+
+                        <div class="row mt-4" *ngIf="supplierPurchaseItems.length > 0">
+
+
+                            <div class="col-12">
+
+                                <div class="added-products-section" *ngIf="supplierPurchaseItems.length > 0">
+
+                                    <h3>Added Products</h3>
+
+                                    <div class="table-responsive">
+
+                                        <table class="added-products-table">
+
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Variant</th>
+                                                    <th>Quantity</th>
+                                                    <th>Purchase Price</th>
+                                                    <th>Discount</th>
+                                                    <th>Tax</th>
+                                                    <th>Total Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr *ngFor="let item of supplierPurchaseItems; let i = index">
+
+                                                    <td class="product-name">
+                                                        {{ item.productName }}
+                                                    </td>
+
+                                                    <td class="variant-name">
+                                                        {{ item.variantName }}
+                                                    </td>
+
+                                                    <td class="quantity-cell">
+                                                        {{ item.quantity }}
+                                                    </td>
+
+                                                    <td>
+                                                        ₹{{ item.purchasePrice }}
+                                                    </td>
+
+                                                    <td>
+                                                        ₹{{ item.discount }}
+                                                    </td>
+
+                                                    <td>
+                                                        {{ item.tax }}%
+                                                    </td>
+
+                                                    <td class="amount-cell">
+                                                        ₹{{ item.totalAmount }}
+                                                    </td>
+
+                                                    <td>
+                                                        <button type="button" class="remove-variant-btn"
+                                                            (click)="removeProductVariant(i)">
+                                                            Remove
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =====================================================
+                             NOTES
+                        ====================================================== -->
+
+                        <div class="row mt-3">
 
                             <div class="col-12">
 
@@ -347,26 +511,33 @@
                                         Notes
                                     </label>
 
+
                                     <textarea class="form-control" formControlName="notes" rows="3"
-                                        placeholder="Enter Notes">
-                                                                    </textarea>
+                                        placeholder="Enter Notes"></textarea>
 
                                 </div>
 
                             </div>
+
                         </div>
+
+
                     </div>
 
                 </div>
 
 
-                <!-- =========================
-                         BUTTONS
-                    ========================= -->
+
+                <!-- =========================================================
+                     BUTTONS
+                ========================================================== -->
 
                 <div class="button-group">
 
-                    <button type="submit" class="btn-create">
+
+                    <button type="submit" class="btn-create" [disabled]="
+                            supplierPurchaseItems.length === 0
+                        ">
 
                         Save
 
@@ -379,11 +550,14 @@
 
                     </button>
 
+
                 </div>
 
 
             </form>
 
         </div>
+
     </div>
+
 </div>
