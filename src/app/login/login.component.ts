@@ -11,6 +11,7 @@ import { AlertService } from '../Services/alert.service';
 })
 export class LoginComponent implements OnInit {
   role: string = '';
+  isSaving: boolean = false;
   selectedRole = '';
   showPassword = false;
 
@@ -114,7 +115,7 @@ export class LoginComponent implements OnInit {
   // =====================
 
   onSubmit() {
-
+    this.isSaving = true;
     if (!this.selectedRole) {
 
       this.alertService.error(
@@ -184,7 +185,7 @@ export class LoginComponent implements OnInit {
           if (
             res.role === 'BRANCH'
           ) {
-
+            this.isSaving = false;
             this.router.navigate([
               '/admin/dashboard'
             ]);
@@ -195,7 +196,7 @@ export class LoginComponent implements OnInit {
           else if (
             res.role === 'SUB_BRANCH'
           ) {
-
+            this.isSaving = false;
             this.router.navigate([
               '/SUB_BRANCH/dashboard'
             ]);

@@ -130,11 +130,15 @@
             Already have an account?
           </span>
 
-          <span class="signup-link" (click)="signupForm()">
+          <button class="signup-link" (click)="signupForm()" [disabled]="isSaving">
 
-            Login
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+            </span>
 
-          </span>
+            {{ isSaving ? 'Loging...' : 'Login' }}
+
+
+          </button>
 
         </div>
 
