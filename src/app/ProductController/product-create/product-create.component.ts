@@ -233,7 +233,7 @@ export class ProductCreateComponent implements OnInit {
 
       size: ['', Validators.required],
 
-      sku: ['', Validators.required],
+      // sku: ['', Validators.required],
 
       stock: [null, Validators.required],
 
@@ -542,16 +542,16 @@ export class ProductCreateComponent implements OnInit {
       const variant =
         formValue.variants[i];
 
-      if (!variant.sku) {
+      // if (!variant.sku) {
 
-        Swal.fire({
-          icon: 'error',
-          title: 'Validation Error',
-          text: `Variant ${i + 1} - SKU is required`
-        });
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Validation Error',
+      //     text: `Variant ${i + 1} - SKU is required`
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
 
       if (
         variant.stock === null ||
