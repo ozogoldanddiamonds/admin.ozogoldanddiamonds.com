@@ -13,80 +13,65 @@
     <div class="right-panel">
 
       <div class="user-icon">
-        <img src="../../assets/Images/logo.png">
+        <img src="../../assets/Images/logo.jpg">
       </div>
 
       <h2>
         {{ isLogin ? 'LOGIN' : 'REGISTER' }}
       </h2>
-      <div class="role-selection" *ngIf="isLogin">
+      <div class=" role-selection" *ngIf="isLogin">
 
-  <button
-    type="button"
-    class="role-btn"
-    [class.active]="selectedRole === 'BRANCH'"
-    (click)="selectedRole='BRANCH'"><i class="fa fa-user"></i>
+        <button type="button" class="role-btn" [class.active]="selectedRole === 'BRANCH'"
+          (click)="selectedRole='BRANCH'"><i class="fa fa-user"></i>
 
-    Branch
+          Branch
 
-  </button>
+        </button>
 
-  <button
-    type="button"
-    class="role-btn"
-    [class.active]="selectedRole === 'SUB_BRANCH'"
-    (click)="selectedRole='SUB_BRANCH'"><i class="fa fa-users"></i>
+        <button type="button" class="role-btn" [class.active]="selectedRole === 'SUB_BRANCH'"
+          (click)="selectedRole='SUB_BRANCH'"><i class="fa fa-users"></i>
 
-    Sub Branch
+          Sub Branch
 
-  </button>
+        </button>
 
-</div>
+      </div>
 
-      <form
-        [formGroup]="authForm"
-        (ngSubmit)="onSubmit()">
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
 
         <!-- Name (Register Only) -->
 
-        <div
-          class="input-box"
-          *ngIf="!isLogin">
+        <div class="input-box" *ngIf="!isLogin">
 
           <i class="fa fa-user"></i>
 
-          <input
-            type="text"
-            placeholder="Name"
-            formControlName="name">
+          <input type="text" placeholder="Name" formControlName="name">
 
         </div>
 
         <!-- Role (Register Only) -->
 
-<div
-  class="input-box"
-  *ngIf="!isLogin">
+        <div class="input-box" *ngIf="!isLogin">
 
-  <i class="fa fa-users"></i>
+          <i class="fa fa-users"></i>
 
-  <select formControlName="role">
+          <select formControlName="role">
 
-    <option value="">
-      Select Role
-    </option>
+            <option value="">
+              Select Role
+            </option>
 
-    <option value="BRANCH">
-      Branch
-    </option>
+            <option value="BRANCH">
+              Branch
+            </option>
 
-    <option value="SUB_BRANCH">
-      Sub Branch
-    </option>
+            <option value="SUB_BRANCH">
+              Sub Branch
+            </option>
 
-  </select>
+          </select>
 
-</div>
+        </div>
 
         <!-- Email -->
 
@@ -94,42 +79,29 @@
 
           <i class="fa fa-envelope"></i>
 
-          <input
-            type="email"
-            placeholder="Email"
-            formControlName="email">
+          <input type="email" placeholder="Email" formControlName="email">
 
         </div>
 
         <!-- Password -->
 
-       <div class="input-box">
+        <div class="input-box">
 
-  <i class="fa fa-lock"></i>
+          <i class="fa fa-lock"></i>
 
-  <input
-    [type]="showPassword ? 'text' : 'password'"
-    placeholder="Password"
-    formControlName="password">
+          <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password">
 
-  <i
-    [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"
-    aria-hidden="true"
-    class="password-eye"
-    (click)="togglePassword()">
-  </i>
+          <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" class="password-eye"
+            (click)="togglePassword()">
+          </i>
 
-</div>
+        </div>
 
         <!-- Login Links -->
 
-        <div
-          class="auth-links"
-          *ngIf="isLogin">
+        <div class="auth-links" *ngIf="isLogin">
 
-          <span
-            class="forgot"
-            (click)="forgotPassword()">
+          <span class="forgot" (click)="forgotPassword()">
 
             Forgot Password?
 
@@ -142,29 +114,23 @@
             Sign Up
 
           </span> -->
-          <button
-          type="submit"
-          class="login-btn">
+          <button type="submit" class="login-btn">
 
-          {{ isLogin ? 'LOGIN' : 'REGISTER' }}
+            {{ isLogin ? 'LOGIN' : 'REGISTER' }}
 
-        </button>
+          </button>
 
         </div>
 
         <!-- Register Links -->
 
-        <div
-          class="auth-links"
-          *ngIf="!isLogin">
+        <div class="auth-links" *ngIf="!isLogin">
 
           <span>
             Already have an account?
           </span>
 
-          <span
-            class="signup-link"
-            (click)="signupForm()">
+          <span class="signup-link" (click)="signupForm()">
 
             Login
 
@@ -174,7 +140,7 @@
 
         <!-- Submit Button -->
 
-        
+
 
       </form>
 
