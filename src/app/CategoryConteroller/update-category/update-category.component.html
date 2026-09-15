@@ -18,11 +18,7 @@
           <!-- Name -->
           <div class="form-group">
             <label>Category Name</label>
-            <input
-              type="text"
-              formControlName="name"
-              placeholder="Enter category name"
-            />
+            <input type="text" formControlName="name" placeholder="Enter category name" />
           </div>
 
           <!-- Image -->
@@ -30,10 +26,7 @@
             <label>Category Image</label>
 
             <div class="file-upload">
-              <input
-                type="file"
-                (change)="onFileChange($event)"
-              />
+              <input type="file" (change)="onFileChange($event)" />
             </div>
           </div>
 
@@ -44,10 +37,7 @@
 
           <div class="image-preview-box">
 
-            <img
-              *ngIf="imagePreview"
-              [src]="imagePreview"
-            />
+            <img *ngIf="imagePreview" [src]="imagePreview" />
 
             <span *ngIf="!imagePreview">
               Image Preview
@@ -62,15 +52,16 @@
       <!-- BUTTONS -->
       <div class="button-group">
 
-        <button type="submit" class="btn-create">
-          Update
+        <button type="submit" class="btn-create" [disabled]="isSaving">
+
+          <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+          </span>
+
+          {{ isSaving ? 'Updating...' : 'Update' }}
+
         </button>
 
-        <button
-          type="button"
-          class="btn-back"
-          (click)="goBack()"
-        >
+        <button type="button" class="btn-back" (click)="goBack()">
           Back
         </button>
 

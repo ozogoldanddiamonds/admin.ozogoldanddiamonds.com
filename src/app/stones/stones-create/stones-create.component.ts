@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class StonesCreateComponent {
   stoneRateForm!: FormGroup;
-
+  isSaving: boolean = false;
   constructor(
     private fb: FormBuilder,
     private stoneRateService: StonesRateService,
@@ -57,7 +57,7 @@ export class StonesCreateComponent {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (this.stoneRateForm.invalid) {
 
       this.stoneRateForm.markAllAsTouched();
@@ -89,7 +89,7 @@ export class StonesCreateComponent {
               false
 
           });
-
+          this.isSaving = false;
           this.router.navigate([
             '/admin/stones-list'
           ]);

@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-update.component.css']
 })
 export class ProductUpdateComponent implements OnInit {
-
+  isSaving: boolean = false;
   // =====================================
   // FORM
   // =====================================
@@ -83,8 +83,8 @@ export class ProductUpdateComponent implements OnInit {
 
     private subSubCategoryService:
       SubsubcategoryService,
-             private alert: AlertService
-      
+    private alert: AlertService
+
 
   ) { }
 
@@ -754,7 +754,7 @@ export class ProductUpdateComponent implements OnInit {
   // =====================================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (this.productForm.invalid) {
 
       this.productForm.markAllAsTouched();
@@ -890,7 +890,7 @@ export class ProductUpdateComponent implements OnInit {
           console.log(res);
 
           this.alert.success('Updated Successfully');
-
+          this.isSaving = false;
           this.router.navigate([
             '/admin/product'
           ]);

@@ -13,6 +13,7 @@ import { AlertService } from 'src/app/Services/alert.service';
 })
 export class CreateCategoryComponent implements OnInit {
   categoryForm!: FormGroup;
+  isSaving: boolean = false;
 
   selectedFile: File | null = null;
 
@@ -27,7 +28,7 @@ export class CreateCategoryComponent implements OnInit {
 
     public snackBar: MatSnackBar,
     private alert: AlertService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.categoryForm = this.fb.group({
@@ -59,6 +60,8 @@ export class CreateCategoryComponent implements OnInit {
 
   onSubmit() {
     if (this.categoryForm.valid) {
+      // Start loading
+      this.isSaving = true;
       const formData = new FormData();
 
       formData.append('name', this.categoryForm.value.name);
@@ -69,48 +72,49 @@ export class CreateCategoryComponent implements OnInit {
         formData.append('image', this.selectedFile);
       }
 
-     this._categoryService
-  .createCategory(
-    formData
-  )
-  .subscribe({
+      this._categoryService
+        .createCategory(
+          formData
+        )
+        .subscribe({
 
-    next: (response) => {
+          next: (response) => {
 
-      console.log(response);
+            console.log(response);
 
-     this.alert.success('Category Created Successfully');
+            this.alert.success('Category Created Successfully');
+            // Stop loading
+            this.isSaving = false;
+            this.router.navigate([
 
-      this.router.navigate([
+              '/admin/category'
 
-        '/admin/category'
+            ]);
 
-      ]);
+            this.categoryForm.reset();
 
-      this.categoryForm.reset();
+          },
 
-    },
+          error: (err: any) => {
 
-   error: (err: any) => {
+            console.log(err);
 
-  console.log(err);
+            Swal.fire({
 
-  Swal.fire({
+              icon: 'error',
 
-    icon: 'error',
+              title: 'Oops...',
 
-    title: 'Oops...',
+              text:
+                err?.error?.message ||
+                'Failed To Create Category'
 
-    text:
-      err?.error?.message ||
-      'Failed To Create Category'
+            });
 
-  });
+          }
 
-}
+        });
 
-  });
-      
     }
   }
 

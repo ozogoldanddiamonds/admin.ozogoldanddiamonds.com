@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-category.component.css']
 })
 export class UpdateCategoryComponent implements OnInit {
-
+  isSaving: boolean = false;
   categoryForm!: FormGroup;
 
   selectedFile: File | null = null;
@@ -24,7 +24,7 @@ export class UpdateCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: CategoryService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -78,100 +78,101 @@ export class UpdateCategoryComponent implements OnInit {
     }
   }
 
- onSubmit() {
-
-  const formData =
-    new FormData();
-
-  formData.append(
-
-    'name',
-
-    this.categoryForm.value.name
-
-  );
-
-  // ONLY IF IMAGE SELECTED
-
-  if (this.selectedFile) {
+  onSubmit() {
+    this.isSaving = true;
+    const formData =
+      new FormData();
 
     formData.append(
 
-      'image',
+      'name',
 
-      this.selectedFile
+      this.categoryForm.value.name
 
     );
 
+    // ONLY IF IMAGE SELECTED
+
+    if (this.selectedFile) {
+
+      formData.append(
+
+        'image',
+
+        this.selectedFile
+
+      );
+
+    }
+
+    this.service
+      .updateCategory(
+
+        this.categoryId,
+
+        formData
+
+      )
+      .subscribe({
+
+        next: () => {
+
+          Swal.fire({
+
+            icon: 'success',
+
+            title: 'Success',
+
+            text: 'Updated Successfully',
+
+            timer: 2000,
+
+            timerProgressBar: true,
+
+            showConfirmButton: false,
+
+            customClass: {
+              popup: 'success-popup'
+            }
+
+          });
+          this.isSaving = false;
+
+          this.router.navigate([
+            '/admin/category'
+          ]);
+
+        },
+
+        error: (err: any) => {
+
+          console.log('ERROR =>', err);
+
+          Swal.fire({
+
+            icon: 'error',
+
+            title: 'Error',
+
+            text: err?.error?.message || 'Update Failed',
+
+            timer: 2000,
+
+            timerProgressBar: true,
+
+            showConfirmButton: false,
+
+            customClass: {
+              popup: 'error-popup'
+            }
+
+          });
+
+        }
+
+      });
+
   }
-
-  this.service
-    .updateCategory(
-
-      this.categoryId,
-
-      formData
-
-    )
-   .subscribe({
-
-  next: () => {
-
-    Swal.fire({
-
-      icon: 'success',
-
-      title: 'Success',
-
-      text: 'Updated Successfully',
-
-      timer: 2000,
-
-      timerProgressBar: true,
-
-      showConfirmButton: false,
-
-      customClass: {
-        popup: 'success-popup'
-      }
-
-    });
-
-    this.router.navigate([
-      '/admin/category'
-    ]);
-
-  },
-
-  error: (err: any) => {
-
-    console.log('ERROR =>', err);
-
-    Swal.fire({
-
-      icon: 'error',
-
-      title: 'Error',
-
-      text: err?.error?.message || 'Update Failed',
-
-      timer: 2000,
-
-      timerProgressBar: true,
-
-      showConfirmButton: false,
-
-      customClass: {
-        popup: 'error-popup'
-      }
-
-    });
-
-  }
-
-});
-
-}
 
   goBack() {
     this.router.navigate([

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class UpdateSuppliersComponent implements OnInit {
   isViewMode: boolean = false;
+  isSaving: boolean = false;
   supplierForm!: FormGroup;
 
   supplierId: any;
@@ -254,7 +255,7 @@ export class UpdateSuppliersComponent implements OnInit {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     console.log(
       this.supplierForm.value,
       'update values'
@@ -342,7 +343,7 @@ export class UpdateSuppliersComponent implements OnInit {
           this.alert.success(
             'Updated Successfully'
           );
-
+          this.isSaving = true;
           this.router.navigate([
             '/admin/supplier-list'
           ]);

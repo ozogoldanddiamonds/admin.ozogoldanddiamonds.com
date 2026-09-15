@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./stones-update.component.css']
 })
 export class StonesUpdateComponent implements OnInit {
-
+  isSaving: boolean = false;
   stoneRateForm!: FormGroup;
 
   stoneId: any;
@@ -21,7 +21,7 @@ export class StonesUpdateComponent implements OnInit {
     private stoneRateService: StonesRateService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-      private alert: AlertService
+    private alert: AlertService
   ) {
 
     this.stoneRateForm = this.fb.group({
@@ -130,7 +130,7 @@ export class StonesUpdateComponent implements OnInit {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     console.log(
       this.stoneRateForm.value,
       'update values'
@@ -159,8 +159,8 @@ export class StonesUpdateComponent implements OnInit {
 
         next: (response) => {
 
-       this.alert.success('Updated Successfully');
-
+          this.alert.success('Updated Successfully');
+          this.isSaving = false;
 
           this.router.navigate([
             '/admin/stones-list'

@@ -31,13 +31,7 @@
                 Category
               </label>
 
-<select
-
-  formControlName="category"
-
-  (change)="onCategoryChange($event)"
-
->
+              <select formControlName="category" (change)="onCategoryChange($event)">
                 <option value="">
                   Select Category
                 </option>
@@ -105,9 +99,13 @@
         <!-- Buttons -->
         <div class="button-group">
 
-          <button type="submit" class="btn-create">
+          <button type="submit" class="btn-create" [disabled]="isSaving">
 
-            Update
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+            </span>
+
+            {{ isSaving ? 'Udpating...' : 'Update' }}
+
           </button>
 
           <button type="button" class="btn-back" (click)="goBack()">

@@ -18,52 +18,38 @@
           <!-- Name -->
           <div class="form-group">
             <label>SubCategory Name</label>
-            <input
-              type="text"
-              formControlName="name"
-              placeholder="Update subcategory name"
-            />
+            <input type="text" formControlName="name" placeholder="Update subcategory name" />
           </div>
 
           <!-- Category Dropdown -->
           <div class="form-group">
 
-  <label>
-    Category
-  </label>
+            <label>
+              Category
+            </label>
 
-  <select
-    formControlName="category"
-  >
+            <select formControlName="category">
 
-    <option value="">
-      Select Category
-    </option>
+              <option value="">
+                Select Category
+              </option>
 
-    <option
-
-      *ngFor="
+              <option *ngFor="
         let cat of categories
-      "
+      " [value]="cat._id">
 
-      [value]="cat._id"
-    >
+                {{ cat.name }}
 
-      {{ cat.name }}
+              </option>
 
-    </option>
+            </select>
 
-  </select>
-
-</div>
+          </div>
           <!-- Image -->
           <div class="form-group">
             <label>Update Image</label>
 
-            <input
-              type="file"
-              (change)="onFileChange($event)"
-            />
+            <input type="file" (change)="onFileChange($event)" />
           </div>
 
         </div>
@@ -73,10 +59,7 @@
 
           <div class="image-preview-box">
 
-            <img
-              *ngIf="imagePreview"
-              [src]="imagePreview"
-            />
+            <img *ngIf="imagePreview" [src]="imagePreview" />
 
             <span *ngIf="!imagePreview">
               Image Preview
@@ -91,15 +74,16 @@
       <!-- BUTTONS -->
       <div class="button-group">
 
-        <button type="submit" class="btn-create">
-         Save
+        <button type="submit" class="btn-create" [disabled]="isSaving">
+
+          <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+          </span>
+
+          {{ isSaving ? 'Saving...' : 'Save' }}
+
         </button>
 
-        <button
-          type="button"
-          class="btn-back"
-          (click)="goBack()"
-        >
+        <button type="button" class="btn-back" (click)="goBack()">
           Back
         </button>
 

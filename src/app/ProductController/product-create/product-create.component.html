@@ -46,21 +46,16 @@
                 Product Name
               </label>
 
-             <input
-  type="text"
-  placeholder="Enter Product Name"
-  formControlName="name">
+              <input type="text" placeholder="Enter Product Name" formControlName="name">
 
-<div
-  class="text-danger"
-  *ngIf="
+              <div class="text-danger" *ngIf="
     productForm.get('name')?.touched &&
     productForm.get('name')?.invalid
   ">
 
-  Product Name is required
+                Product Name is required
 
-</div>
+              </div>
 
             </div>
 
@@ -162,7 +157,7 @@
                 Product Type
               </label>
 
-                   <select formControlName="productType">
+              <select formControlName="productType">
 
                 <option value="">
                   Select Product Type
@@ -313,20 +308,17 @@
               Short Description
             </label>
 
-<textarea
-  formControlName="description">
+            <textarea formControlName="description">
 </textarea>
 
-<div
-  class="text-danger"
-  *ngIf="
+            <div class="text-danger" *ngIf="
     productForm.get('description')?.touched &&
     productForm.get('description')?.invalid
   ">
 
-  Description is required
+              Description is required
 
-</div>
+            </div>
           </div>
 
           <!-- DESCRIPTION -->
@@ -427,66 +419,48 @@
 
           <h2>Product Images</h2>
 
-<div class="image-row">
+          <div class="image-row">
 
-  <div
-    class="image-card"
-    *ngFor="
+            <div class="image-card" *ngFor="
       let img of imageCards;
       let i = index
-    "
-  >
+    ">
 
-    <!-- Preview -->
+              <!-- Preview -->
 
-    <div class="preview-box">
+              <div class="preview-box">
 
-      <img
-        *ngIf="img.preview"
-        [src]="img.preview"
-      >
+                <img *ngIf="img.preview" [src]="img.preview">
 
-      <span *ngIf="!img.preview">
+                <span *ngIf="!img.preview">
 
-        Image Preview
+                  Image Preview
 
-      </span>
+                </span>
 
-    </div>
+              </div>
 
-    <!-- Choose -->
+              <!-- Choose -->
 
-    <input
-      type="file"
-      accept="image/*"
-      (change)="onImageSelect($event,i)"
-    >
+              <input type="file" accept="image/*" (change)="onImageSelect($event,i)">
 
-    <!-- Buttons -->
+              <!-- Buttons -->
 
-    <div class="btn-group">
+              <div class="btn-group">
 
-      <button
-        type="button"
-           class="add-btn"
-        (click)="addImageCard()"
-      >
-        + Add Image
-      </button>
+                <button type="button" class="add-btn" (click)="addImageCard()">
+                  + Add Image
+                </button>
 
-      <button
-        type="button"
-           class="delete-btn"
-        (click)="removeImage(i)"
-      >
-        Delete
-      </button>
+                <button type="button" class="delete-btn" (click)="removeImage(i)">
+                  Delete
+                </button>
 
-    </div>
+              </div>
 
-  </div>
+            </div>
 
-</div>
+          </div>
 
           <!-- ========================================= -->
           <!-- VIDEO -->
@@ -567,20 +541,16 @@
                   </label>
 
                   <!-- <input type="text" placeholder="Enter Size" formControlName="size"> -->
-                  <input
-  type="text"
-  formControlName="size">
+                  <input type="text" formControlName="size">
 
-<div
-  class="text-danger"
-  *ngIf="
+                  <div class="text-danger" *ngIf="
     variant.get('size')?.touched &&
     variant.get('size')?.invalid
   ">
 
-  Size is required
+                    Size is required
 
-</div>
+                  </div>
 
                 </div>
 
@@ -592,20 +562,16 @@
                     Stock
                   </label>
 
-                  <input
-  type="number"
-  formControlName="stock">
+                  <input type="number" formControlName="stock">
 
-<div
-  class="text-danger"
-  *ngIf="
+                  <div class="text-danger" *ngIf="
     variant.get('stock')?.touched &&
     variant.get('stock')?.invalid
   ">
 
-  Stock is required
+                    Stock is required
 
-</div>
+                  </div>
 
                 </div>
                 <div class="form-group">
@@ -614,7 +580,12 @@
                     Metal Type
                   </label>
 
-                  <select formControlName="metalType"> <option value=""> Select Metal </option> <option value="gold"> Gold </option> <option value="silver"> Silver </option> <option value="platinum"> Platinum </option> </select>
+                  <select formControlName="metalType">
+                    <option value=""> Select Metal </option>
+                    <option value="gold"> Gold </option>
+                    <option value="silver"> Silver </option>
+                    <option value="platinum"> Platinum </option>
+                  </select>
 
                 </div>
                 <!-- GOLD PURITY -->
@@ -689,20 +660,16 @@
                     Gross Weight
                   </label>
 
-<input
-  type="number"
-  formControlName="grossWeight">
+                  <input type="number" formControlName="grossWeight">
 
-<div
-  class="text-danger"
-  *ngIf="
+                  <div class="text-danger" *ngIf="
     variant.get('grossWeight')?.touched &&
     variant.get('grossWeight')?.invalid
   ">
 
-  Gross Weight is required
+                    Gross Weight is required
 
-</div>
+                  </div>
                 </div>
 
                 <!-- NET WEIGHT -->
@@ -713,20 +680,16 @@
                     Net Weight
                   </label>
 
-<input
-  type="number"
-  formControlName="netWeight">
+                  <input type="number" formControlName="netWeight">
 
-<div
-  class="text-danger"
-  *ngIf="
+                  <div class="text-danger" *ngIf="
     variant.get('netWeight')?.touched &&
     variant.get('netWeight')?.invalid
   ">
 
-  Net Weight is required
+                    Net Weight is required
 
-</div>
+                  </div>
                 </div>
 
                 <!-- MAKING CHARGES -->
@@ -785,20 +748,16 @@
                       SKU
                     </label>
 
-                    <input
-  type="text"
-  formControlName="sku">
+                    <input type="text" formControlName="sku">
 
-<div
-  class="text-danger"
-  *ngIf="
+                    <div class="text-danger" *ngIf="
     variant.get('sku')?.touched &&
     variant.get('sku')?.invalid
   ">
 
-  SKU is required
+                      SKU is required
 
-</div>
+                    </div>
 
                   </div>
 
@@ -977,9 +936,12 @@
           <br><br>
           <div class="button-group">
 
-            <button type="submit" class="btn-create">
+            <button type="submit" class="btn-create" [disabled]="isSaving">
 
-              Save
+              <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+              </span>
+
+              {{ isSaving ? 'Saving...' : 'Save' }}
 
             </button>
 

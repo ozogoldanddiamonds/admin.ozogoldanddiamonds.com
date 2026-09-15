@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class SizeChatCreateComponent implements OnInit {
 
-
+  isSaving: boolean = false;
   sizeChartForm!: FormGroup;
 
   selectedFile: File | null = null;
@@ -86,40 +86,40 @@ export class SizeChatCreateComponent implements OnInit {
   // Image
   //=========================
 
- onFileChange(event: any) {
+  onFileChange(event: any) {
 
-  if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
 
-    const file = event.target.files[0];
+      const file = event.target.files[0];
 
-    this.selectedFile = file;
+      this.selectedFile = file;
 
-    const reader = new FileReader();
+      const reader = new FileReader();
 
-    reader.onload = () => {
+      reader.onload = () => {
 
-      this.imagePreview = reader.result;
+        this.imagePreview = reader.result;
 
-    };
+      };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
 
-    this.sizeChartForm.patchValue({
+      this.sizeChartForm.patchValue({
 
-      image: file
+        image: file
 
-    });
+      });
+
+    }
 
   }
-
-}
 
   //=========================
   // Save
   //=========================
 
   onSubmit() {
-
+    this.isSaving = true;
     if (this.sizeChartForm.invalid) {
 
       return;
@@ -168,9 +168,9 @@ export class SizeChatCreateComponent implements OnInit {
           this.alert.success(
             'Size Chart Created Successfully'
           );
-
+          this.isSaving = false;
           this.router.navigate([
-            '/admin/size-chart'
+            '/admin/sizechat-list'
           ]);
 
         },
@@ -200,7 +200,7 @@ export class SizeChatCreateComponent implements OnInit {
   goBack() {
 
     this.router.navigate([
-      '/admin/size-chart'
+      '/admin/sizechat-list'
     ]);
 
   }

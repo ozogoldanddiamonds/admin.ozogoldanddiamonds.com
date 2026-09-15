@@ -194,12 +194,14 @@
 
                 <div class="button-group">
 
-                    <button type="submit" class="btn-create">
+                    <button type="submit" class="btn-create" [disabled]="isSaving">
 
-                        Update
+                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+                        </span>
+
+                        {{ isSaving ? 'Updating...' : 'Update' }}
 
                     </button>
-
                     <button type="button" class="btn-back" (click)="goBack()">
 
                         Back

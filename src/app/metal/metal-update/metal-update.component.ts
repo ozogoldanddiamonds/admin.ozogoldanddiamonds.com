@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./metal-update.component.css']
 })
 export class MetalUpdateComponent implements OnInit {
-
+  isSaving: boolean = false;
   metalRateForm!: FormGroup;
 
   purityOptions: string[] = [];
@@ -19,7 +19,7 @@ export class MetalUpdateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private metalRateService: MetalRateService,
-    private router: Router, private activeRoute: ActivatedRoute,  private alert: AlertService
+    private router: Router, private activeRoute: ActivatedRoute, private alert: AlertService
   ) {
 
     this.metalRateForm = this.fb.group({
@@ -173,6 +173,8 @@ export class MetalUpdateComponent implements OnInit {
   // =========================
 
   onSubmit(): void {
+    this.isSaving = true;
+
     console.log(this.metalRateForm.value, 'update values');
     if (this.metalRateForm.invalid) {
 
@@ -187,7 +189,8 @@ export class MetalUpdateComponent implements OnInit {
       .subscribe({
 
         next: (response) => {
-         this.alert.success('Updated Successfully');
+          this.alert.success('Updated Successfully');
+          this.isSaving = false;
 
           this.router.navigate([
             '/admin/metal-list'

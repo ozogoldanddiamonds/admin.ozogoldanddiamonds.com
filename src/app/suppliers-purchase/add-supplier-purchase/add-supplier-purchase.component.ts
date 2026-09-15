@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./add-supplier-purchase.component.css']
 })
 export class AddSupplierPurchaseComponent implements OnInit {
-
+  isSaving: boolean = false;
   supplierPurchaseForm!: FormGroup;
 
   suppliers: any[] = [];
@@ -325,7 +325,7 @@ export class AddSupplierPurchaseComponent implements OnInit {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (
       this.supplierPurchaseForm
         .invalid
@@ -483,7 +483,7 @@ export class AddSupplierPurchaseComponent implements OnInit {
             response
           );
 
-
+          this.isSaving = false;
           this.alert.success(
             'Supplier Purchase Created Successfully'
           );

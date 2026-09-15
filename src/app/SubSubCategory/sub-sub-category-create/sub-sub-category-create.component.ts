@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./sub-sub-category-create.component.css']
 })
 export class SubSubCategoryCreateComponent implements OnInit {
-
+  isSaving: boolean = false;
   subSubCategoryForm!: FormGroup;
 
   categories: any[] = [];
@@ -40,9 +40,9 @@ export class SubSubCategoryCreateComponent implements OnInit {
 
     private router:
       Router,
-      private alert: AlertService
+    private alert: AlertService
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -72,47 +72,47 @@ export class SubSubCategoryCreateComponent implements OnInit {
     this.getSubCategories();
   }
   onCategoryChange(
-  event: any
-): void {
+    event: any
+  ): void {
 
-  const categoryId =
-    event.target.value;
+    const categoryId =
+      event.target.value;
 
-  // RESET SUBCATEGORY
+    // RESET SUBCATEGORY
 
-  this.subSubCategoryForm
-    .patchValue({
+    this.subSubCategoryForm
+      .patchValue({
 
-      subCategory: ''
+        subCategory: ''
 
-    });
+      });
 
-  // API CALL
+    // API CALL
 
-  this.subCategoryService
-    .getSubCategoryByCategory(
-      categoryId
-    )
-    .subscribe({
+    this.subCategoryService
+      .getSubCategoryByCategory(
+        categoryId
+      )
+      .subscribe({
 
-      next: (res: any) => {
+        next: (res: any) => {
 
-        console.log(res);
+          console.log(res);
 
-        this.subCategories =
-          res.data;
+          this.subCategories =
+            res.data;
 
-      },
+        },
 
-      error: (err: any) => {
+        error: (err: any) => {
 
-        console.log(err);
+          console.log(err);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
   /*
   GET CATEGORY
@@ -168,103 +168,103 @@ export class SubSubCategoryCreateComponent implements OnInit {
     }
   }
 
- /*
-SUBMIT
-*/
+  /*
+ SUBMIT
+ */
 
-onSubmit() {
+  onSubmit() {
+    this.isSaving = true;
+    if (
+      this.subSubCategoryForm.valid
+    ) {
 
-  if (
-    this.subSubCategoryForm.valid
-  ) {
-
-    const formData =
-      new FormData();
-
-    formData.append(
-
-      'name',
-
-      this.subSubCategoryForm.value.name
-
-    );
-
-    formData.append(
-
-      'category',
-
-      this.subSubCategoryForm.value.category
-
-    );
-
-    formData.append(
-
-      'subCategory',
-
-      this.subSubCategoryForm.value.subCategory
-
-    );
-
-    formData.append(
-
-      'isActive',
-
-      this.subSubCategoryForm.value.isActive
-
-    );
-
-    if (this.selectedFile) {
+      const formData =
+        new FormData();
 
       formData.append(
 
-        'image',
+        'name',
 
-        this.selectedFile
+        this.subSubCategoryForm.value.name
 
       );
 
+      formData.append(
+
+        'category',
+
+        this.subSubCategoryForm.value.category
+
+      );
+
+      formData.append(
+
+        'subCategory',
+
+        this.subSubCategoryForm.value.subCategory
+
+      );
+
+      formData.append(
+
+        'isActive',
+
+        this.subSubCategoryForm.value.isActive
+
+      );
+
+      if (this.selectedFile) {
+
+        formData.append(
+
+          'image',
+
+          this.selectedFile
+
+        );
+
+      }
+
+      this.subSubCategoryService
+        .createSubSubCategory(
+          formData
+        )
+        .subscribe({
+
+          // SUCCESS
+
+          next: (response) => {
+
+            console.log(response);
+
+            this.alert.success(
+              'SubSubCategory Created Successfully'
+            );
+            this.isSaving = true;
+            this.router.navigate([
+              '/admin/subsubcategory'
+            ]);
+
+          },
+
+          // ERROR
+
+          error: (err: any) => {
+
+            console.log(err);
+
+            this.alert.error(
+              err?.error?.message ||
+              'Failed To Create SubSubCategory'
+            );
+
+          }
+
+        });
+
     }
 
-    this.subSubCategoryService
-      .createSubSubCategory(
-        formData
-      )
-    .subscribe({
-
-  // SUCCESS
-
-  next: (response) => {
-
-    console.log(response);
-
-    this.alert.success(
-      'SubSubCategory Created Successfully'
-    );
-
-    this.router.navigate([
-      '/admin/subsubcategory'
-    ]);
-
-  },
-
-  // ERROR
-
-  error: (err: any) => {
-
-    console.log(err);
-
-    this.alert.error(
-      err?.error?.message ||
-      'Failed To Create SubSubCategory'
-    );
-
   }
-
-});
-
-  }
-
-}
 
   goBack() {
     this.router.navigate([

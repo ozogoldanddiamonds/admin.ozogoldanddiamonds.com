@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent implements OnInit {
-
+  isSaving: boolean = false;
 
   productForm!: FormGroup;
 
@@ -38,12 +38,12 @@ export class ProductCreateComponent implements OnInit {
   videoPreview: string = '';
   certificateFile: File | null = null;
   certificatePreview: string | ArrayBuffer | null = null;
- imageCards: any[] = [
-  {
-    file: null,
-    preview: ''
-  }
-];
+  imageCards: any[] = [
+    {
+      file: null,
+      preview: ''
+    }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -57,7 +57,7 @@ export class ProductCreateComponent implements OnInit {
       SubsubcategoryService,
     public router:
       Router,
-      private alert: AlertService
+    private alert: AlertService
 
   ) {
 
@@ -183,9 +183,7 @@ export class ProductCreateComponent implements OnInit {
       });
 
   }
-  onSubCategoryChange(
-    event: any
-  ): void {
+  onSubCategoryChange(event: any): void {
 
     const subCategoryId =
       event.target.value;
@@ -208,8 +206,7 @@ export class ProductCreateComponent implements OnInit {
 
           console.log(res);
 
-          this.subSubCategories =
-            res.data;
+          this.subSubCategories = res.data;
 
         },
 
@@ -238,10 +235,10 @@ export class ProductCreateComponent implements OnInit {
 
       sku: ['', Validators.required],
 
-      stock:  [null, Validators.required],
+      stock: [null, Validators.required],
 
 
-      metalType:  [''],
+      metalType: [''],
 
       metalPurity: ['', Validators.required],
 
@@ -342,59 +339,59 @@ export class ProductCreateComponent implements OnInit {
   // =========================================================
 
   onImageSelect(
-  event: any,
-  index: number
-): void {
+    event: any,
+    index: number
+  ): void {
 
-  const file =
-    event.target.files[0];
+    const file =
+      event.target.files[0];
 
-  if (file) {
+    if (file) {
 
-    this.imageCards[index].file =
-      file;
+      this.imageCards[index].file =
+        file;
 
-    const reader =
-      new FileReader();
+      const reader =
+        new FileReader();
 
-    reader.onload =
-      (e: any) => {
+      reader.onload =
+        (e: any) => {
 
-        this.imageCards[index].preview =
-          e.target.result;
+          this.imageCards[index].preview =
+            e.target.result;
 
-      };
+        };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+
+    }
 
   }
 
-}
+  addImageCard(): void {
 
-addImageCard(): void {
+    this.imageCards.push({
 
-  this.imageCards.push({
+      file: null,
 
-    file: null,
+      preview: ''
 
-    preview: ''
+    });
 
-  });
+  }
 
-}
+  removeImage(
+    index: number
+  ): void {
 
-removeImage(
-  index: number
-): void {
+    this.imageCards.splice(
+      index,
+      1
+    );
 
-  this.imageCards.splice(
-    index,
-    1
-  );
+  }
 
-}
 
-  
 
   // =========================================================
   // VIDEO
@@ -459,52 +456,53 @@ removeImage(
   // SUBMIT
   // =========================================================
   onSubmit(): void {
-    
 
-   if (!this.productForm.get('name')?.value) {
-  Swal.fire('Error', 'Product Name is required', 'error');
-  return;
-}
+    this.isSaving = true;
 
-if (!this.productForm.get('category')?.value) {
-  Swal.fire('Error', 'Category is required', 'error');
-  return;
-}
+    if (!this.productForm.get('name')?.value) {
+      Swal.fire('Error', 'Product Name is required', 'error');
+      return;
+    }
 
-if (!this.productForm.get('subCategory')?.value) {
-  Swal.fire('Error', 'Sub Category is required', 'error');
-  return;
-}
+    if (!this.productForm.get('category')?.value) {
+      Swal.fire('Error', 'Category is required', 'error');
+      return;
+    }
 
-if (!this.productForm.get('productType')?.value) {
-  Swal.fire('Error', 'Product Type is required', 'error');
-  return;
-}
-const hasImage =
-  this.imageCards.some(
-    img => img.file
-  );
+    if (!this.productForm.get('subCategory')?.value) {
+      Swal.fire('Error', 'Sub Category is required', 'error');
+      return;
+    }
 
-if (!hasImage) {
+    if (!this.productForm.get('productType')?.value) {
+      Swal.fire('Error', 'Product Type is required', 'error');
+      return;
+    }
+    const hasImage =
+      this.imageCards.some(
+        img => img.file
+      );
 
-  Swal.fire(
-    'Error',
-    'At least one Product Image is required',
-    'error'
-  );
+    if (!hasImage) {
 
-  return;
+      Swal.fire(
+        'Error',
+        'At least one Product Image is required',
+        'error'
+      );
 
-}
+      return;
 
-// if (this.selectedImages.length === 0) {
-//   Swal.fire('Error', 'At least one Product Image is required', 'error');
-//   return;
-// }
+    }
+
+    // if (this.selectedImages.length === 0) {
+    //   Swal.fire('Error', 'At least one Product Image is required', 'error');
+    //   return;
+    // }
 
     const formValue =
       this.productForm.value;
-      
+
 
     const formData =
       new FormData();
@@ -539,81 +537,81 @@ if (!hasImage) {
     // VARIANTS
     // =========================
 
-   for (let i = 0; i < formValue.variants.length; i++) {
+    for (let i = 0; i < formValue.variants.length; i++) {
 
-  const variant =
-    formValue.variants[i];
+      const variant =
+        formValue.variants[i];
 
-  if (!variant.sku) {
+      if (!variant.sku) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - SKU is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - SKU is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-  if (
-    variant.stock === null ||
-    variant.stock === undefined
-  ) {
+      if (
+        variant.stock === null ||
+        variant.stock === undefined
+      ) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - Stock is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - Stock is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-  if (!variant.metalType) {
+      if (!variant.metalType) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - Metal Type is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - Metal Type is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-  if (!variant.metalPurity) {
+      if (!variant.metalPurity) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - Metal Purity is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - Metal Purity is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-  if (!variant.grossWeight) {
+      if (!variant.grossWeight) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - Gross Weight is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - Gross Weight is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-  if (!variant.netWeight) {
+      if (!variant.netWeight) {
 
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: `Variant ${i + 1} - Net Weight is required`
-    });
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error',
+          text: `Variant ${i + 1} - Net Weight is required`
+        });
 
-    return;
-  }
+        return;
+      }
 
-}
+    }
 
     // =========================
     // OTHER FIELDS
@@ -660,12 +658,12 @@ if (!hasImage) {
 
     console.log(formValue.variants);
 
-formData.append(
-  'variants',
-  JSON.stringify(
-    formValue.variants
-  )
-);
+    formData.append(
+      'variants',
+      JSON.stringify(
+        formValue.variants
+      )
+    );
 
     // =========================
     // META KEYWORDS
@@ -699,19 +697,19 @@ formData.append(
 
     //   });
     this.imageCards.forEach(
-  (img) => {
+      (img) => {
 
-    if (img.file) {
+        if (img.file) {
 
-      formData.append(
-        'images',
-        img.file
-      );
+          formData.append(
+            'images',
+            img.file
+          );
 
-    }
+        }
 
-  }
-);
+      }
+    );
 
     // =========================
     // VIDEO
@@ -761,7 +759,8 @@ formData.append(
 
           console.log(res);
 
-         this.alert.success('Created Successfully');
+          this.alert.success('Created Successfully');
+          this.isSaving = false;
 
           this.router.navigate([
 
@@ -773,19 +772,19 @@ formData.append(
 
         error: (err) => {
 
-      console.log(err);
+          console.log(err);
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text:
-          err?.error?.message ||
-          'Something went wrong'
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text:
+              err?.error?.message ||
+              'Something went wrong'
+          });
+
+        }
+
       });
-
-    }
-
-  });
 
   }
   goBack() {

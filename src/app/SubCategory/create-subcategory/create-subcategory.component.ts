@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-subcategory.component.css']
 })
 export class CreateSubcategoryComponent implements OnInit {
-
+  isSaving: boolean = false;
   subCategoryForm!: FormGroup;
 
   categories: any[] = [];
@@ -27,35 +27,35 @@ export class CreateSubcategoryComponent implements OnInit {
     private categoryService: CategoryService,
     private router: Router,
     private alert: AlertService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
-  this.subCategoryForm =
-    this.fb.group({
+    this.subCategoryForm =
+      this.fb.group({
 
-      name: [
-        '',
-        Validators.required
-      ],
+        name: [
+          '',
+          Validators.required
+        ],
 
-      category: [
-        '',
-        Validators.required
-      ],
+        category: [
+          '',
+          Validators.required
+        ],
 
-      isActive: [true]
+        isActive: [true]
 
-    });
+      });
 
-  this.getCategories();
+    this.getCategories();
 
-}
+  }
 
   getCategories() {
     this.categoryService.getAllCategories()
       .subscribe((res: any) => {
-         console.log(res,"this is category data");
+        console.log(res, "this is category data");
         this.categories = res.data;
       });
   }
@@ -75,82 +75,82 @@ export class CreateSubcategoryComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSaving = true;
+    if (
+      this.subCategoryForm.invalid
+    ) return;
 
-  if (
-    this.subCategoryForm.invalid
-  ) return;
-
-  const formData =
-    new FormData();
-
-  formData.append(
-
-    'name',
-
-    this.subCategoryForm.value.name
-
-  );
-
-  formData.append(
-
-    'category',
-
-    this.subCategoryForm.value.category
-
-  );
-
-  formData.append(
-
-    'isActive',
-
-    this.subCategoryForm.value.isActive
-
-  );
-
-  if (this.selectedFile) {
+    const formData =
+      new FormData();
 
     formData.append(
 
-      'image',
+      'name',
 
-      this.selectedFile
+      this.subCategoryForm.value.name
 
     );
+
+    formData.append(
+
+      'category',
+
+      this.subCategoryForm.value.category
+
+    );
+
+    formData.append(
+
+      'isActive',
+
+      this.subCategoryForm.value.isActive
+
+    );
+
+    if (this.selectedFile) {
+
+      formData.append(
+
+        'image',
+
+        this.selectedFile
+
+      );
+
+    }
+
+    this.subService
+      .createSubCategory(
+        formData
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.alert.success(
+            'SubCategory Created Successfully'
+          );
+          this.isSaving = false;
+          this.router.navigate([
+            '/admin/list_subcategory'
+          ]);
+
+        },
+
+        error: (err: any) => {
+
+          console.log(err);
+
+          this.alert.error(
+            err?.error?.message ||
+            'Failed To Create SubCategory'
+          );
+
+        }
+
+      });
 
   }
-
-  this.subService
-    .createSubCategory(
-      formData
-    )
-   .subscribe({
-
-  next: () => {
-
-    this.alert.success(
-      'SubCategory Created Successfully'
-    );
-
-    this.router.navigate([
-      '/admin/list_subcategory'
-    ]);
-
-  },
-
-  error: (err: any) => {
-
-    console.log(err);
-
-    this.alert.error(
-      err?.error?.message ||
-      'Failed To Create SubCategory'
-    );
-
-  }
-
-});
-
-}
 
   goBack() {
     this.router.navigate(['/admin/list_subcategory']);

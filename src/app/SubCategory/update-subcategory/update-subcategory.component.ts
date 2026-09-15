@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-subcategory.component.css']
 })
 export class UpdateSubcategoryComponent implements OnInit {
-
+  isSaving: boolean = false;
   subCategoryForm!: FormGroup;
   categories: any[] = [];
   selectedFile: File | null = null;
@@ -26,8 +26,8 @@ export class UpdateSubcategoryComponent implements OnInit {
     private router: Router,
     private subService: SubcategoryService,
     private categoryService: CategoryService,
-      private alert: AlertService
-  ) {}
+    private alert: AlertService
+  ) { }
 
   ngOnInit(): void {
 
@@ -50,7 +50,7 @@ export class UpdateSubcategoryComponent implements OnInit {
         this.categories = res.data;
       });
   }
-  
+
 
   getSubCategoryById() {
     this.subService
@@ -82,75 +82,78 @@ export class UpdateSubcategoryComponent implements OnInit {
     }
   }
 
- onSubmit() {
+  onSubmit() {
 
-  const formData =
-    new FormData();
+    this.isSaving = true;
 
-  formData.append(
-
-    'name',
-
-    this.subCategoryForm.value.name
-
-  );
-
-  formData.append(
-
-    'category',
-
-    this.subCategoryForm.value.category
-
-  );
-
-  if (this.selectedFile) {
+    const formData =
+      new FormData();
 
     formData.append(
 
-      'image',
+      'name',
 
-      this.selectedFile
+      this.subCategoryForm.value.name
 
     );
 
-  }
+    formData.append(
 
-  this.subService
-    .updateSubCategory(
+      'category',
 
-      this.subCategoryId,
+      this.subCategoryForm.value.category
 
-      formData
-
-    )
-   .subscribe({
-
-  // SUCCESS
-  next: () => {
-
-    this.alert.success('Updated Successfully');
-
-    this.router.navigate([
-      '/admin/list_subcategory'
-    ]);
-
-  },
-
-  // ERROR
-  error: (err: any) => {
-
-    console.log(err);
-
-    this.alert.error(
-      err?.error?.message || 'Update Failed'
     );
 
+    if (this.selectedFile) {
+
+      formData.append(
+
+        'image',
+
+        this.selectedFile
+
+      );
+
+    }
+
+    this.subService
+      .updateSubCategory(
+
+        this.subCategoryId,
+
+        formData
+
+      )
+      .subscribe({
+
+        // SUCCESS
+        next: () => {
+
+          this.alert.success('Updated Successfully');
+          this.isSaving = false;
+
+          this.router.navigate([
+            '/admin/list_subcategory'
+          ]);
+
+        },
+
+        // ERROR
+        error: (err: any) => {
+
+          console.log(err);
+
+          this.alert.error(
+            err?.error?.message || 'Update Failed'
+          );
+
+        }
+
+      });
+
   }
 
-});
-
-}
-  
 
   goBack() {
     this.router.navigate(['/admin/list_subcategory']);

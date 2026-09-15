@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./metal-create.component.css']
 })
 export class MetalCreateComponent {
-
+  isSaving: boolean = false;
   metalRateForm!: FormGroup;
 
   purityOptions: string[] = [];
@@ -109,7 +109,7 @@ export class MetalCreateComponent {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (this.metalRateForm.invalid) {
 
       this.metalRateForm.markAllAsTouched();
@@ -126,9 +126,9 @@ export class MetalCreateComponent {
 
         next: (response) => {
 
-       this.alert.success('Created Successfully');
+          this.alert.success('Created Successfully');
 
-
+          this.isSaving = false;
           this.router.navigate([
             '/admin/metal-rate'
           ]);

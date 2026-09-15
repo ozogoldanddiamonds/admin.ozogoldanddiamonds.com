@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./sub-sub-category-update.component.css']
 })
 export class SubSubCategoryUpdateComponent implements OnInit {
-
+  isSaving: boolean = false;
   subSubCategoryForm!: FormGroup;
 
   categories: any[] = [];
@@ -45,8 +45,8 @@ export class SubSubCategoryUpdateComponent implements OnInit {
 
     private subSubCategoryService:
       SubsubcategoryService,
-       private alert: AlertService
-  ) {}
+    private alert: AlertService
+  ) { }
 
   ngOnInit(): void {
 
@@ -77,37 +77,37 @@ export class SubSubCategoryUpdateComponent implements OnInit {
     this.getSubCategories();
     this.getSubSubCategoryById();
   }
- onCategoryChange(
-  event: any
-): void {
+  onCategoryChange(
+    event: any
+  ): void {
 
-  const categoryId =
-    event.target.value;
+    const categoryId =
+      event.target.value;
 
-  // GET SUBCATEGORY
+    // GET SUBCATEGORY
 
-  this.subCategoryService
-    .getSubCategoryByCategory(
-      categoryId
-    )
-    .subscribe({
+    this.subCategoryService
+      .getSubCategoryByCategory(
+        categoryId
+      )
+      .subscribe({
 
-      next: (res: any) => {
+        next: (res: any) => {
 
-        this.subCategories =
-          res.data;
+          this.subCategories =
+            res.data;
 
-      },
+        },
 
-      error: (err: any) => {
+        error: (err: any) => {
 
-        console.log(err);
+          console.log(err);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
 
   getCategories() {
     this.categoryService
@@ -127,87 +127,87 @@ export class SubSubCategoryUpdateComponent implements OnInit {
       });
   }
 
-getSubSubCategoryById(): void {
+  getSubSubCategoryById(): void {
 
-  this.subSubCategoryService
-    .getSubSubCategoryById(
-      this.subSubCategoryId
-    )
-    .subscribe({
+    this.subSubCategoryService
+      .getSubSubCategoryById(
+        this.subSubCategoryId
+      )
+      .subscribe({
 
-      next: (res: any) => {
+        next: (res: any) => {
 
-        const data =
-          res.data;
+          const data =
+            res.data;
 
-        // FIRST PATCH CATEGORY
+          // FIRST PATCH CATEGORY
 
-        this.subSubCategoryForm
-          .patchValue({
+          this.subSubCategoryForm
+            .patchValue({
 
-            name:
-              data.name,
+              name:
+                data.name,
 
-            category:
-              data.category._id,
+              category:
+                data.category._id,
 
-            isActive:
-              data.isActive
+              isActive:
+                data.isActive
 
-          });
+            });
 
-        // IMAGE
+          // IMAGE
 
-        this.imagePreview =
-          data.image;
+          this.imagePreview =
+            data.image;
 
-        // LOAD SUBCATEGORY
+          // LOAD SUBCATEGORY
 
-        this.subCategoryService
-          .getSubCategoryByCategory(
-            data.category._id
-          )
-          .subscribe({
+          this.subCategoryService
+            .getSubCategoryByCategory(
+              data.category._id
+            )
+            .subscribe({
 
-            next: (
-              subRes: any
-            ) => {
+              next: (
+                subRes: any
+              ) => {
 
-              // SET DROPDOWN DATA
+                // SET DROPDOWN DATA
 
-              this.subCategories =
-                subRes.data;
+                this.subCategories =
+                  subRes.data;
 
-              // PATCH SUBCATEGORY
-              // AFTER DATA LOAD
+                // PATCH SUBCATEGORY
+                // AFTER DATA LOAD
 
-              setTimeout(() => {
+                setTimeout(() => {
 
-                this.subSubCategoryForm
-                  .patchValue({
+                  this.subSubCategoryForm
+                    .patchValue({
 
-                    subCategory:
-                      data.subCategory._id
+                      subCategory:
+                        data.subCategory._id
 
-                  });
+                    });
 
-              });
+                });
 
-            }
+              }
 
-          });
+            });
 
-      },
+        },
 
-      error: (err: any) => {
+        error: (err: any) => {
 
-        console.log(err);
+          console.log(err);
 
-      }
+        }
 
-    });
+      });
 
-}
+  }
   onFileChange(
     event: any
   ) {
@@ -236,6 +236,8 @@ getSubSubCategoryById(): void {
   }
 
   onSubmit() {
+    this.isSaving = true;
+
     if (
       this.subSubCategoryForm.valid
     ) {
@@ -271,37 +273,38 @@ getSubSubCategoryById(): void {
         );
       }
 
-     this.subSubCategoryService
-  .updateSubSubCategory(
+      this.subSubCategoryService
+        .updateSubSubCategory(
 
-    this.subSubCategoryId,
+          this.subSubCategoryId,
 
-    formData
+          formData
 
-  )
-  .subscribe({
+        )
+        .subscribe({
 
-  next: () => {
+          next: () => {
 
-  this.alert.success('Updated Successfully');
+            this.alert.success('Updated Successfully');
+            this.isSaving = false;
 
-  this.router.navigate([
-    '/admin/subsubcategory'
-  ]);
+            this.router.navigate([
+              '/admin/subsubcategory'
+            ]);
 
-},
+          },
 
-   error: (error) => {
+          error: (error) => {
 
-  console.error(error);
+            console.error(error);
 
-  this.alert.error(
-    error?.error?.message || 'Update Failed'
-  );
+            this.alert.error(
+              error?.error?.message || 'Update Failed'
+            );
 
-}
+          }
 
-  });
+        });
     }
   }
 

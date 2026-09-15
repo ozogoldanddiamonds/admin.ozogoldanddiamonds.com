@@ -15,7 +15,7 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
   existingDocuments: any[] = [];
   documentPreviews: any[] = [];
   supplierPurchaseForm!: FormGroup;
-
+  isSaving: boolean = false;
   purchaseId: any;
 
   suppliers: any[] = [];
@@ -476,7 +476,7 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (this.isViewMode) {
 
       return;
@@ -626,7 +626,7 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
           this.alert.success(
             'Updated Successfully'
           );
-
+          this.isSaving = false;
 
           this.router.navigate([
             '/admin/supplier-purchase-list'

@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class CreateSuppliersComponent {
   supplierForm!: FormGroup;
-
+  isSaving: boolean = false;
   constructor(
     private fb: FormBuilder,
     private supplierService: SupplierService,
@@ -119,7 +119,7 @@ export class CreateSuppliersComponent {
   // =========================
 
   onSubmit(): void {
-
+    this.isSaving = true;
     if (this.supplierForm.invalid) {
 
       this.supplierForm.markAllAsTouched();
@@ -194,7 +194,7 @@ export class CreateSuppliersComponent {
           this.alert.success(
             'Created Successfully'
           );
-
+          this.isSaving = false;
           this.router.navigate([
             '/admin/supplier-list'
           ]);
