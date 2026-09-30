@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopupData } from '../Models/common-popup';
+import { PopupData } from '../models/common-popup';
 import { AlertService } from '../Services/alert.service';
 
 @Component({
@@ -17,35 +17,35 @@ export class CommonPopupComponent implements OnInit {
     private alertService: AlertService
   ) { }
 
- ngOnInit(): void {
+  ngOnInit(): void {
 
-  this.alertService.popupState$.subscribe(data => {
+    this.alertService.popupState$.subscribe(data => {
 
-    if(data){
+      if (data) {
 
-      this.popupData = data;
+        this.popupData = data;
 
-      this.isOpen = true;
+        this.isOpen = true;
 
-      if(data.autoClose){
+        if (data.autoClose) {
 
-        setTimeout(()=>{
+          setTimeout(() => {
 
-          this.close();
+            this.close();
 
-        }, data.duration || 3000);
+          }, data.duration || 3000);
+
+        }
+
+      } else {
+
+        this.isOpen = false;
 
       }
 
-    }else{
+    });
 
-      this.isOpen = false;
-
-    }
-
-  });
-
-}
+  }
 
   close(): void {
 
@@ -80,14 +80,14 @@ export class CommonPopupComponent implements OnInit {
     this.alertService.close();
 
   }
-//   if (data.autoClose) {
+  //   if (data.autoClose) {
 
-//   setTimeout(() => {
+  //   setTimeout(() => {
 
-//     this.close();
+  //     this.close();
 
-//   }, data.duration || 3000);
+  //   }, data.duration || 3000);
 
-// }
+  // }
 
 }

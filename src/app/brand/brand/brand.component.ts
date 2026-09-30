@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Brand } from 'src/app/Models/brand';
+import { Brand } from 'src/app/models/brand';
 import { BrandService } from 'src/app/Services/brand.service';
 import Swal from 'sweetalert2';
 
@@ -35,7 +35,7 @@ export class BrandComponent implements OnInit, AfterViewInit {
   constructor(
     private brandService: BrandService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -128,29 +128,29 @@ export class BrandComponent implements OnInit, AfterViewInit {
   // VIEW BRAND
   // ============================
 
-viewBrand(element: Brand): void {
+  viewBrand(element: Brand): void {
 
-  // Selected brand details
-  this.selectedBrand = element;
+    // Selected brand details
+    this.selectedBrand = element;
 
-  // Wait for Angular to render details section
-  setTimeout(() => {
+    // Wait for Angular to render details section
+    setTimeout(() => {
 
-    const detailsSection =
-      document.getElementById('brandDetails');
+      const detailsSection =
+        document.getElementById('brandDetails');
 
-    if (detailsSection) {
+      if (detailsSection) {
 
-      detailsSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+        detailsSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
 
-    }
+      }
 
-  }, 100);
+    }, 100);
 
-}
+  }
 
 
   // ============================
@@ -175,77 +175,77 @@ viewBrand(element: Brand): void {
 
   deleteBrand(element: Brand): void {
 
-  if (!element._id) {
+    if (!element._id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Brand ID not found'
+      });
+      return;
+    }
+
     Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Brand ID not found'
-    });
-    return;
-  }
+      title: 'Are you sure?',
+      text: `Do you want to delete ${element.name}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
 
-  Swal.fire({
-    title: 'Are you sure?',
-    text: `Do you want to delete ${element.name}?`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, Delete',
-    cancelButtonText: 'Cancel'
-  }).then((result) => {
+      if (result.isConfirmed) {
 
-    if (result.isConfirmed) {
+        this.brandService.deleteBrand(element._id!).subscribe({
 
-      this.brandService.deleteBrand(element._id!).subscribe({
+          next: (res) => {
 
-        next: (res) => {
+            if (res && res.success) {
 
-          if (res && res.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Deleted!',
+                text: 'Brand deleted successfully',
+                timer: 1500,
+                showConfirmButton: false
+              });
 
-            Swal.fire({
-              icon: 'success',
-              title: 'Deleted!',
-              text: 'Brand deleted successfully',
-              timer: 1500,
-              showConfirmButton: false
-            });
+              this.getAllBrands();
 
-            this.getAllBrands();
+            } else {
 
-          } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: res?.message || 'Failed to delete brand'
+              });
+
+            }
+
+          },
+
+          error: (err) => {
+
+            console.error('Delete brand error:', err);
 
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: res?.message || 'Failed to delete brand'
+              text: err?.error?.message || 'Failed to delete brand'
             });
 
           }
 
-        },
+        });
 
-        error: (err) => {
+      }
 
-          console.error('Delete brand error:', err);
+    });
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: err?.error?.message || 'Failed to delete brand'
-          });
+  }
+  closeBrandDetails(): void {
 
-        }
+    this.selectedBrand = null;
 
-      });
-
-    }
-
-  });
-
-}
-closeBrandDetails(): void {
-
-  this.selectedBrand = null;
-
-}
+  }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Brand } from 'src/app/Models/brand';
+import { Brand } from 'src/app/models/brand';
 import { AlertService } from 'src/app/Services/alert.service';
 import { BrandService } from 'src/app/Services/brand.service';
 import { CategoryService } from 'src/app/Services/category.service';
@@ -128,38 +128,38 @@ export class ProductCreateComponent implements OnInit {
   // brand list
   getActiveBrands(): void {
 
-  this.brandService.getActiveBrands().subscribe({
+    this.brandService.getActiveBrands().subscribe({
 
-    next: (res) => {
+      next: (res) => {
 
-      console.log('Active Brands:', res);
+        console.log('Active Brands:', res);
 
-      if (res && res.success) {
+        if (res && res.success) {
 
-        this.brands = res.data || [];
+          this.brands = res.data || [];
 
-      } else {
+        } else {
+
+          this.brands = [];
+
+        }
+
+      },
+
+      error: (err) => {
+
+        console.error(
+          'Get active brands error:',
+          err
+        );
 
         this.brands = [];
 
       }
 
-    },
+    });
 
-    error: (err) => {
-
-      console.error(
-        'Get active brands error:',
-        err
-      );
-
-      this.brands = [];
-
-    }
-
-  });
-
-}
+  }
 
   // =========================================================
   // VARIANTS
@@ -508,16 +508,16 @@ export class ProductCreateComponent implements OnInit {
       Swal.fire('Error', 'Category is required', 'error');
       return;
     }
-     if (!this.productForm.get('description')?.value) {
-    Swal.fire('Error', 'Description is required', 'error');
-    return;
-  }
+    if (!this.productForm.get('description')?.value) {
+      Swal.fire('Error', 'Description is required', 'error');
+      return;
+    }
 
     if (!this.productForm.get('subCategory')?.value) {
       Swal.fire('Error', 'Sub Category is required', 'error');
       return;
     }
-     if (!this.productForm.get('gender')?.value) {
+    if (!this.productForm.get('gender')?.value) {
       Swal.fire('Error', 'gender is required', 'error');
       return;
     }
@@ -796,7 +796,7 @@ export class ProductCreateComponent implements OnInit {
     // =========================
     // API CALL
     // =========================
-this.isSaving = true;
+    this.isSaving = true;
     this.productService
       .createProduct(
         formData
@@ -841,5 +841,5 @@ this.isSaving = true;
     ]);
   }
 
-  
+
 }

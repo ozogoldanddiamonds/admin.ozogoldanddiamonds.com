@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Brand } from 'src/app/Models/brand';
+import { Brand } from 'src/app/models/brand';
 import { AlertService } from 'src/app/Services/alert.service';
 import { BrandService } from 'src/app/Services/brand.service';
 
@@ -12,7 +12,7 @@ import { BrandService } from 'src/app/Services/brand.service';
 })
 export class BrandUpdateComponent implements OnInit {
 
- 
+
   // ==========================================
   // FORM
   // ==========================================
@@ -58,7 +58,7 @@ export class BrandUpdateComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alert: AlertService
-  ) {}
+  ) { }
 
 
   // ==========================================
