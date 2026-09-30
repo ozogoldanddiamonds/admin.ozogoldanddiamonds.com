@@ -1,22 +1,354 @@
-.dialog-title {
-  color: var(--red-color);
-  font-size: 30px;
-  font-weight: 500;
-  padding: 20px;
+/* ==========================================
+   DELETE CONFIRMATION DIALOG
+========================================== */
+
+.delete-dialog {
+  position: relative;
+  width: 100%;
+  min-width: 360px;
+  padding: 34px 32px 28px;
+
+  background: var(--wight-color);
+  border-radius: 20px;
+
+  text-align: center;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  animation: deleteDialogEnter 0.3s ease-out;
 }
 
-.btn-create {
-  background: var(--red-color);
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 15px 20px;
-  margin-top: 19px;
-  border: none;
-  cursor: pointer;
+
+/* ==========================================
+   TOP GOLD GLOW
+========================================== */
+
+.delete-dialog::before {
+  content: "";
+
+  position: absolute;
+  top: -70px;
+  left: 50%;
+
+  width: 180px;
+  height: 180px;
+
+  transform: translateX(-50%);
+
+  background: var(--lyt-yellow-color);
+
+  border-radius: 50%;
+
+  filter: blur(55px);
+
+  opacity: 0.35;
+
+  pointer-events: none;
 }
+
+
+/* ==========================================
+   DELETE ICON
+========================================== */
+
+.delete-icon-wrapper {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 18px;
+
+  z-index: 2;
+}
+
+
+.delete-icon {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(100, 1, 1, 0.08);
+
+  border: 1px solid rgba(100, 1, 1, 0.18);
+
+  color: var(--red-color);
+
+  animation: deleteIconPulse 2s infinite;
+}
+
+
+.delete-icon i {
+  font-size: 25px;
+}
+
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.dialog-title {
+  position: relative;
+
+  margin: 0 0 12px;
+
+  color: var(--red-color);
+
+  font-size: 22px;
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  z-index: 2;
+}
+
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.dialog-content {
+  position: relative;
+
+  padding: 0 !important;
+
+  margin: 0 0 25px;
+
+  color: var(--gray-colour);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  z-index: 2;
+}
+
+
+.dialog-content p {
+  margin: 0 0 5px;
+}
+
+
+.warning-text {
+  display: block;
+
+  font-size: 12px;
+
+  color: #999;
+
+  margin-top: 5px;
+}
+
+
+/* ==========================================
+   BUTTON GROUP
+========================================== */
 
 .button-group {
-  display: flex;
-  justify-content: flex-end;
+  position: relative;
+
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100%;
+
+  gap: 12px;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  box-sizing: border-box;
+
+  z-index: 2;
+}
+
+/* ==========================================
+   COMMON BUTTON
+========================================== */
+
+.button-group button {
+  flex: 0 0 auto !important;
+
+  min-width: 0 !important;
+
+  padding: 10px 20px;
+  margin: 0 !important;
+
+  border-radius: 14px !important;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  display: inline-flex !important;
+  flex-direction: row !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  white-space: nowrap;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+/* ==========================================
+   CANCEL BUTTON
+========================================== */
+
+.btn-back {
+  background: #f5f5f5 !important;
+
+  color: var(--gray-colour) !important;
+
+  border: 1px solid #e3e3e3 !important;
+}
+
+
+.btn-back i {
+  margin-right: 7px;
+}
+
+
+.btn-back:hover {
+  background: #eeeeee !important;
+
+  color: #333 !important;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+========================================== */
+
+.btn-delete {
+  background: var(--red-color) !important;
+
+  color: var(--wight-color) !important;
+
+  border: none !important;
+}
+
+
+.btn-delete i {
+  margin-right: 7px;
+}
+
+
+.btn-delete:hover {
+  background: #7d0808 !important;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(100, 1, 1, 0.28);
+}
+
+
+.btn-delete:active {
+  transform: translateY(0);
+}
+
+
+/* ==========================================
+   DIALOG ENTER ANIMATION
+========================================== */
+
+@keyframes deleteDialogEnter {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+}
+
+
+/* ==========================================
+   DELETE ICON PULSE
+========================================== */
+
+@keyframes deleteIconPulse {
+
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(100, 1, 1, 0.18);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 10px rgba(100, 1, 1, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(100, 1, 1, 0);
+  }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .delete-dialog {
+    min-width: auto;
+
+    padding: 28px 20px 22px;
+  }
+
+  .delete-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .delete-icon i {
+    font-size: 22px;
+  }
+
+  .dialog-title {
+    font-size: 20px;
+  }
+
+  .button-group {
+    gap: 8px;
+  }
+
+  .button-group button {
+    min-width: 105px;
+    height: 42px;
+
+    font-size: 12px;
+  }
+
 }

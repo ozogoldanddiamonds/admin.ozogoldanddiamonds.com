@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
 import { AlertService } from 'src/app/Services/alert.service';
 import { MakersProductionItemService } from 'src/app/Services/makers-production-item.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-makers-production-item-list',
@@ -85,7 +88,10 @@ export class MakersProductionItemListComponent implements OnInit, AfterViewInit 
       Router,
 
     private alertService:
-      AlertService
+      AlertService,
+       private dialog:
+    MatDialog
+    
 
   ) { }
 
@@ -489,122 +495,186 @@ export class MakersProductionItemListComponent implements OnInit, AfterViewInit 
   // DELETE
   // ==========================================
 
-  deleteMakerProductionItem(
-    element: any
-  ): void {
+ // ==========================================
+// DELETE MAKER PRODUCTION ITEM
+// ==========================================
 
-    if (!element?._id) {
+deleteMakerProductionItem(
+  element: any
+): void {
 
-      this.alertService.error(
-        'Maker Production Item ID not found'
-      );
+  // ========================================
+  // ID VALIDATION
+  // ========================================
 
-      return;
+  if (!element?._id) {
 
-    }
+    this.alertService.error(
+      'Maker Production Item ID not found'
+    );
 
-
-    // ========================================
-    // Production Status
-    // ========================================
-
-    const productionStatus =
-      element.production
-        ?.status;
-
-
-    if (
-      productionStatus ===
-      'COMPLETED'
-    ) {
-
-      this.alertService.error(
-
-        'Items from a completed maker production cannot be deleted'
-
-      );
-
-      return;
-
-    }
-
-
-    // ========================================
-    // Confirmation
-    // ========================================
-
-    const confirmed =
-      window.confirm(
-
-        `Are you sure you want to delete this production item?`
-
-      );
-
-
-    if (!confirmed) {
-
-      return;
-
-    }
-
-
-    // ========================================
-    // DELETE API
-    // ========================================
-
-    this.makerProductionItemService
-      .deleteMakerProductionItem(
-        element._id
-      )
-      .subscribe({
-
-        next: (response: any) => {
-
-          console.log(
-            'Delete Maker Production Item Response:',
-            response
-          );
-
-
-          this.alertService.success(
-
-            response?.message ||
-
-            'Maker production item deleted successfully'
-
-          );
-
-
-          // ==================================
-          // REFRESH
-          // ==================================
-
-          this.getAllMakerProductionItems();
-
-        },
-
-
-        error: (error: any) => {
-
-          console.log(
-            'Delete Maker Production Item Error:',
-            error
-          );
-
-
-          this.alertService.error(
-
-            error?.error?.message ||
-
-            'Failed to delete maker production item'
-
-          );
-
-        }
-
-      });
+    return;
 
   }
+
+
+  // ========================================
+  // PRODUCTION STATUS
+  // ========================================
+
+  const productionStatus =
+    element.production?.status;
+
+
+  // ========================================
+  // COMPLETED CHECK
+  // ========================================
+
+  if (
+    productionStatus === 'COMPLETED'
+  ) {
+
+    this.alertService.error(
+      'Items from a completed maker production cannot be deleted'
+    );
+
+    return;
+
+  }
+
+
+  // ========================================
+  // DELETE CONFIRMATION DIALOG
+  // ========================================
+
+  const dialogRef =
+    this.dialog.open(
+      DeleteConfirmationComponent,
+      {
+        width: '400px'
+      }
+    );
+
+
+  // ========================================
+  // AFTER DIALOG CLOSED
+  // ========================================
+
+  dialogRef
+    .afterClosed()
+    .subscribe((result) => {
+
+      // ====================================
+      // USER CONFIRMED
+      // ====================================
+
+      if (result) {
+
+        // ==================================
+        // DELETE API
+        // ==================================
+
+        this.makerProductionItemService
+          .deleteMakerProductionItem(
+            element._id
+          )
+          .subscribe({
+
+            // ==============================
+            // SUCCESS
+            // ==============================
+
+            next: (response: any) => {
+
+              console.log(
+                'Delete Maker Production Item Response:',
+                response
+              );
+
+
+              // ==============================
+              // SUCCESS ALERT
+              // ==============================
+
+              Swal.fire({
+
+                icon: 'success',
+
+                title: 'Deleted',
+
+                text:
+                  response?.message ||
+                  'Maker Production Item Deleted Successfully',
+
+                timer: 2500,
+
+                timerProgressBar: true,
+
+                showConfirmButton: false,
+
+                customClass: {
+                  popup: 'success-popup'
+                }
+
+              });
+
+
+              // ==============================
+              // REFRESH LIST
+              // ==============================
+
+              this.getAllMakerProductionItems();
+
+            },
+
+
+            // ==============================
+            // ERROR
+            // ==============================
+
+            error: (error: any) => {
+
+              console.error(
+                'Delete Maker Production Item Error:',
+                error
+              );
+
+
+              // ==============================
+              // ERROR ALERT
+              // ==============================
+
+              Swal.fire({
+
+                icon: 'error',
+
+                title: 'Oops...',
+
+                text:
+                  error?.error?.message ||
+                  'Delete Failed',
+
+                timer: 2500,
+
+                timerProgressBar: true,
+
+                showConfirmButton: false,
+
+                customClass: {
+                  popup: 'error-popup'
+                }
+
+              });
+
+            }
+
+          });
+
+      }
+
+    });
+
+}
 
 
 }

@@ -13,7 +13,7 @@
 }
 
 .logo_card span {
-  color: var(--red-color);
+  color: #fff;
   font-size: 16px;
   font-weight: 700;
   margin-top: 10px;
@@ -1092,4 +1092,454 @@
   color: #fff;
   cursor: pointer;
 
+}
+
+/* media quaryes css ===============================================================================================*/
+
+
+/* =========================================================
+   SIDEBAR LOGO - GLASS EFFECT
+========================================================= */
+
+.logo_card {
+  position: relative;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.08) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 8px 25px rgba(0, 0, 0, 0.08);
+
+  isolation: isolate;
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* Moving glass shine */
+
+.logo_card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -120%;
+  left: -80%;
+
+  width: 45%;
+  height: 350%;
+
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.08),
+      transparent);
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+
+  z-index: 5;
+
+  animation: logoGlassShine 5s ease-in-out infinite;
+}
+
+
+/* Keep logo/text above shine */
+
+.logo_card img,
+.logo_card span {
+  position: relative;
+  z-index: 6;
+}
+
+
+/* Logo animation */
+
+.logo_card img {
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+}
+
+
+.logo_card:hover img {
+
+  transform: scale(1.05);
+
+  filter:
+    drop-shadow(0 5px 12px rgba(212, 175, 55, 0.25));
+}
+
+
+/* Text */
+
+.logo_card span {
+
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+
+.logo_card:hover span {
+
+  color: var(--red-color);
+
+  text-shadow:
+    0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+
+/* Shine animation */
+
+@keyframes logoGlassShine {
+
+  0% {
+    left: -90%;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  35% {
+    left: 130%;
+    opacity: 0.4;
+  }
+
+  45% {
+    left: 150%;
+    opacity: 0;
+  }
+
+  100% {
+    left: 150%;
+    opacity: 0;
+  }
+
+}
+
+/* =========================================================
+   SIDEBAR MENU GLASS EFFECT
+========================================================= */
+
+.sidebar>ul>li {
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  margin: 3px 10px;
+
+  transition:
+    background 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* Glass shine */
+
+.sidebar>ul>li::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -80%;
+
+  left: -120%;
+
+  width: 55%;
+
+  height: 260%;
+
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0.05),
+      transparent);
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* Keep menu content above glass */
+
+.sidebar>ul>li>*,
+.sidebar>ul>li .menu-left {
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* Hover glass */
+
+.sidebar>ul>li:hover {
+
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(212, 175, 55, 0.08));
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 5px 18px rgba(0, 0, 0, 0.08);
+
+  transform: translateX(3px);
+}
+
+
+/* Shine on hover */
+
+.sidebar>ul>li:hover::before {
+
+  animation: menuGlassShine 0.7s ease-out;
+}
+
+
+@keyframes menuGlassShine {
+
+  0% {
+    left: -120%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+
+}
+
+/* =========================================================
+   MENU CLICK ANIMATION
+========================================================= */
+
+.sidebar>ul>li:active {
+
+  transform: scale(0.97);
+
+  background:
+    rgba(212, 175, 55, 0.15);
+
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.12),
+    0 0 20px rgba(212, 175, 55, 0.12);
+
+  transition: 0.08s ease;
+}
+
+/* =========================================================
+   ACTIVE MENU - GLASS
+========================================================= */
+
+.sidebar>ul>li.active {
+
+  background:
+    linear-gradient(135deg,
+      rgba(212, 175, 55, 0.20),
+      rgba(255, 255, 255, 0.08));
+
+  border: 1px solid rgba(212, 175, 55, 0.22);
+
+  box-shadow:
+
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+
+    inset 0 -8px 20px rgba(212, 175, 55, 0.04),
+
+    0 5px 20px rgba(0, 0, 0, 0.08);
+
+  color: var(--wight-color);
+}
+
+
+/* Active icon */
+
+.sidebar>ul>li.active i {
+
+  color: #d4af37;
+
+  filter:
+    drop-shadow(0 0 6px rgba(212, 175, 55, 0.35));
+}
+
+/* =========================================================
+   SUBMENU GLASS
+========================================================= */
+
+.submenu li {
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  margin: 2px 10px;
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Glass shine */
+
+.submenu li::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -100%;
+
+  left: -120%;
+
+  width: 50%;
+
+  height: 300%;
+
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.30),
+      rgba(255, 255, 255, 0.04),
+      transparent);
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* Keep text above */
+
+.submenu li {
+
+  color: inherit;
+
+  z-index: 1;
+}
+
+
+/* Hover */
+
+.submenu li:hover {
+
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(212, 175, 55, 0.08));
+
+  transform: translateX(4px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+
+/* Shine */
+
+.submenu li:hover::before {
+
+  animation:
+    submenuGlassShine 0.65s ease-out;
+}
+
+
+@keyframes submenuGlassShine {
+
+  0% {
+    left: -120%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+
+}
+
+
+/* Click */
+
+.submenu li:active {
+
+  transform: scale(0.97);
+
+  background:
+    rgba(212, 175, 55, 0.14);
+}
+
+/* =========================================================
+   SIDEBAR GLASS BASE
+========================================================= */
+
+.sidebar {
+
+  position: relative;
+
+  overflow-x: hidden;
+
+  background:
+    linear-gradient(145deg,
+      rgba(100, 1, 1, 0.96),
+      rgba(55, 0, 0, 0.98));
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-right:
+    1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    8px 0 30px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar.closed>ul>li:hover {
+
+  margin-left: 8px !important;
+  margin-right: 8px !important;
+
+  transform: translateX(0) scale(1.03);
+
+  border-radius: 12px;
 }

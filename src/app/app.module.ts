@@ -111,6 +111,13 @@ import { MakersProductionItemListComponent } from './makers/makers-production-it
 import { CreateMakersProductionItemComponent } from './makers/create-makers-production-item/create-makers-production-item.component';
 import { UpdateMakersProductionItemComponent } from './makers/update-makers-production-item/update-makers-production-item.component';
 import { OrderViewDialogComponent } from './order-view-dialog/order-view-dialog.component';
+import { SupplierPurchaseViewComponent } from './View-dialog-Controllers/supplier-purchase-view/supplier-purchase-view.component';
+import { BrandComponent } from './brand/brand/brand.component';
+import { BrandCreateComponent } from './brand/brand-create/brand-create.component';
+import { BrandUpdateComponent } from './brand/brand-update/brand-update.component';
+import { CreateAdsComponent } from './AdsController/create-ads/create-ads.component';
+import { UserViewComponent } from './View-dialog-Controllers/user-view/user-view.component';
+
 
 @NgModule({
   declarations: [
@@ -203,7 +210,14 @@ import { OrderViewDialogComponent } from './order-view-dialog/order-view-dialog.
     UpdateMakersProductionComponent,
     MakersProductionItemListComponent,
     CreateMakersProductionItemComponent,
-    UpdateMakersProductionItemComponent
+    UpdateMakersProductionItemComponent,
+    SupplierPurchaseViewComponent,
+    BrandComponent,
+    BrandCreateComponent,
+    BrandUpdateComponent,
+    CreateAdsComponent,
+    UserViewComponent,
+  
 
   ],
   imports: [

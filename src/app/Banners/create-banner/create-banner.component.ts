@@ -14,42 +14,52 @@ export class CreateBannerComponent implements OnInit {
 
   bannerForm!: FormGroup;
 
-  selectedFile:
-    File | null = null;
+  selectedFile: File | null = null;
 
-  imagePreview:
-    string | ArrayBuffer | null = null;
- errorMessage: string = '';
+  imagePreview: string | ArrayBuffer | null = null;
+
+  errorMessage: string = '';
+
+  isSaving: boolean = false;
+
 
   constructor(
-    private fb:
-      FormBuilder,
+    private fb: FormBuilder,
 
-    private bannerService:
-      BannerService,
+    private bannerService: BannerService,
 
-    private router:
-      Router,
-        private alert: AlertService
+    private router: Router,
+
+    private alert: AlertService
   ) { }
 
+
   ngOnInit(): void {
+
     this.bannerForm =
       this.fb.group({
+
         title: [
           '',
           Validators.required
         ],
+
         description: [
           '',
           Validators.required
         ]
+
       });
+
   }
 
+
   /*
+  =================================
   FILE CHANGE
+  =================================
   */
+
   onFileChange(
     event: any
   ): void {
@@ -58,6 +68,7 @@ export class CreateBannerComponent implements OnInit {
       event.target.files[0];
 
     if (file) {
+
       this.selectedFile =
         file;
 
@@ -65,85 +76,175 @@ export class CreateBannerComponent implements OnInit {
         new FileReader();
 
       reader.onload = () => {
+
         this.imagePreview =
           reader.result;
+
       };
 
       reader.readAsDataURL(
         file
       );
+
     }
+
   }
 
+
   /*
+  =================================
   CREATE BANNER
+  =================================
   */
- onSubmit(): void {
 
-  if (this.bannerForm.invalid) {
-    return;
-  }
+  onSubmit(): void {
 
-  const formData = new FormData();
+    // Show validation messages
+    this.bannerForm.markAllAsTouched();
 
-  formData.append(
-    'title',
-    this.bannerForm.value.title
-  );
 
-  formData.append(
-    'description',
-    this.bannerForm.value.description
-  );
+    // =================================
+    // VALIDATION
+    // =================================
 
-  if (this.selectedFile) {
+    if (this.bannerForm.invalid) {
+
+      // IMPORTANT:
+      // Spinner should NOT show
+      this.isSaving = false;
+
+      // API should NOT be called
+      return;
+
+    }
+
+
+    // =================================
+    // START LOADING
+    // =================================
+
+    this.isSaving = true;
+
+
+    // =================================
+    // PREPARE FORM DATA
+    // =================================
+
+    const formData = new FormData();
+
+
     formData.append(
-      'image',
-      this.selectedFile
+      'title',
+      this.bannerForm.value.title
     );
+
+
+    formData.append(
+      'description',
+      this.bannerForm.value.description
+    );
+
+
+    // Image is optional
+    if (this.selectedFile) {
+
+      formData.append(
+        'image',
+        this.selectedFile
+      );
+
+    }
+
+
+    // =================================
+    // CREATE BANNER API
+    // =================================
+
+    this.bannerService
+      .createBanner(formData)
+      .subscribe({
+
+        // =================================
+        // SUCCESS
+        // =================================
+
+        next: (response) => {
+
+          console.log(
+            'Create Banner Response:',
+            response
+          );
+
+
+          // Stop spinner
+          this.isSaving = false;
+
+
+          this.alert.success(
+            'Banner Created Successfully'
+          );
+
+
+          this.router.navigate([
+            '/admin/banners'
+          ]);
+
+        },
+
+
+        // =================================
+        // ERROR
+        // =================================
+
+        error: (error) => {
+
+          console.error(
+            'Create Banner Error:',
+            error
+          );
+
+
+          // Stop spinner
+          this.isSaving = false;
+
+
+          // Get actual backend message
+          const backendMessage =
+            error?.error?.message ||
+            error?.error?.error ||
+            error?.message ||
+            'Something went wrong while creating banner';
+
+
+          Swal.fire({
+
+            icon: 'error',
+
+            title: 'Unable to Create Banner',
+
+            text: backendMessage
+
+          });
+
+        }
+
+      });
+
   }
 
-  this.bannerService
-    .createBanner(formData)
-    .subscribe({
-
-      next: () => {
-
-       this.alert.success('Banner Created Successfully');
-
-        this.router.navigate([
-          '/admin/banners'
-        ]);
-      },
-
-      error: (error) => {
-
-  let message = 'Something went wrong';
-
-  if (error.error?.message) {
-    message = error.error.message;
-  }
-  else if (typeof error.error === 'string') {
-    message = error.error;
-  }
-
-  Swal.fire({
-    icon: 'error',
-    title: 'Error',
-    text: message
-  });
-
-}
-
-    });
-}
 
   /*
+  =================================
   BACK
+  =================================
   */
+
   goBack(): void {
+
     this.router.navigate([
       '/admin/banners'
     ]);
+
   }
+
 }

@@ -21,8 +21,10 @@
 
         <div class="category-card">
 
-            <form [formGroup]="supplierPurchaseItemForm" (ngSubmit)="onSubmit()">
-
+            <form
+                [formGroup]="supplierPurchaseItemForm"
+                (ngSubmit)="onSubmit()"
+            >
 
                 <div class="form-layout">
 
@@ -49,18 +51,27 @@
 
                                     <label>
                                         Supplier Purchase
+                                        <span class="text-danger">*</span>
                                     </label>
 
-
-                                    <select class="form-control" formControlName="purchase"
-                                        (change)="onPurchaseChange()">
+                                    <select
+                                        class="form-control"
+                                        formControlName="purchase"
+                                        (change)="onPurchaseChange()"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('purchase')?.touched &&
+                                            supplierPurchaseItemForm.get('purchase')?.invalid
+                                        "
+                                    >
 
                                         <option value="">
                                             Select Supplier Purchase
                                         </option>
 
-
-                                        <option *ngFor="let purchase of purchases" [value]="purchase._id">
+                                        <option
+                                            *ngFor="let purchase of purchases"
+                                            [value]="purchase._id"
+                                        >
 
                                             {{ purchase.invoiceNumber }}
                                             -
@@ -73,6 +84,18 @@
                                         </option>
 
                                     </select>
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('purchase')?.touched &&
+                                            supplierPurchaseItemForm.get('purchase')?.hasError('required')
+                                        "
+                                    >
+                                        Supplier purchase is required.
+                                    </div>
 
                                 </div>
 
@@ -89,12 +112,16 @@
                                         Supplier
                                     </label>
 
-
-                                    <input type="text" class="form-control" [value]="
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        [value]="
                                             selectedPurchase
                                                 ?.supplier
                                                 ?.name || '-'
-                                        " readonly>
+                                        "
+                                        readonly
+                                    >
 
                                 </div>
 
@@ -111,11 +138,15 @@
                                         Invoice Number
                                     </label>
 
-
-                                    <input type="text" class="form-control" [value]="
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        [value]="
                                             selectedPurchase
                                                 ?.invoiceNumber || '-'
-                                        " readonly>
+                                        "
+                                        readonly
+                                    >
 
                                 </div>
 
@@ -130,11 +161,31 @@
 
                                     <label>
                                         Supplier Product Code
+                                        <span class="text-danger">*</span>
                                     </label>
 
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        formControlName="supplierProductCode"
+                                        placeholder="Enter Supplier Product Code"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('supplierProductCode')?.touched &&
+                                            supplierPurchaseItemForm.get('supplierProductCode')?.invalid
+                                        "
+                                    >
 
-                                    <input type="text" class="form-control" formControlName="supplierProductCode"
-                                        placeholder="Enter Supplier Product Code">
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('supplierProductCode')?.touched &&
+                                            supplierPurchaseItemForm.get('supplierProductCode')?.hasError('required')
+                                        "
+                                    >
+                                        Supplier product code is required.
+                                    </div>
 
                                 </div>
 
@@ -149,11 +200,31 @@
 
                                     <label>
                                         Batch Number
+                                        <span class="text-danger">*</span>
                                     </label>
 
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        formControlName="batchNumber"
+                                        placeholder="Enter Batch Number"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('batchNumber')?.touched &&
+                                            supplierPurchaseItemForm.get('batchNumber')?.invalid
+                                        "
+                                    >
 
-                                    <input type="text" class="form-control" formControlName="batchNumber"
-                                        placeholder="Enter Batch Number">
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('batchNumber')?.touched &&
+                                            supplierPurchaseItemForm.get('batchNumber')?.hasError('required')
+                                        "
+                                    >
+                                        Batch number is required.
+                                    </div>
 
                                 </div>
 
@@ -188,18 +259,32 @@
 
                                     <label>
                                         Product
+                                        <span class="text-danger">*</span>
                                     </label>
 
-
-                                    <ng-select class="product-select" [items]="products" bindLabel="name"
-                                        bindValue="_id" formControlName="product" placeholder="Search / Select Product"
-                                        [searchable]="true" [clearable]="true" [closeOnSelect]="true"
-                                        (change)="onProductChange()">
-
+                                    <ng-select
+                                        class="product-select"
+                                        [items]="products"
+                                        bindLabel="name"
+                                        bindValue="_id"
+                                        formControlName="product"
+                                        placeholder="Search / Select Product"
+                                        [searchable]="true"
+                                        [clearable]="true"
+                                        [closeOnSelect]="true"
+                                        (change)="onProductChange()"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('product')?.touched &&
+                                            supplierPurchaseItemForm.get('product')?.invalid
+                                        "
+                                    >
 
                                         <!-- PRODUCT OPTION -->
 
-                                        <ng-template ng-option-tmp let-item="item">
+                                        <ng-template
+                                            ng-option-tmp
+                                            let-item="item"
+                                        >
 
                                             {{ item.name }}
 
@@ -208,14 +293,16 @@
 
                                         <!-- PRODUCT NOT FOUND -->
 
-                                        <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                                        <ng-template
+                                            ng-notfound-tmp
+                                            let-searchTerm="searchTerm"
+                                        >
 
                                             <div class="product-not-found">
 
                                                 <strong>
                                                     Product not found
                                                 </strong>
-
 
                                                 <div *ngIf="searchTerm">
 
@@ -224,9 +311,11 @@
 
                                                 </div>
 
-
-                                                <button type="button" class="btn btn-primary add-product-btn"
-                                                    (click)="addNewProduct(searchTerm)">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-primary add-product-btn"
+                                                    (click)="addNewProduct(searchTerm)"
+                                                >
 
                                                     + Add Product
 
@@ -237,6 +326,19 @@
                                         </ng-template>
 
                                     </ng-select>
+
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('product')?.touched &&
+                                            supplierPurchaseItemForm.get('product')?.hasError('required')
+                                        "
+                                    >
+                                        Product is required.
+                                    </div>
 
                                 </div>
 
@@ -254,28 +356,50 @@
 
                                     <label>
                                         Product Variant
+                                        <span class="text-danger">*</span>
                                     </label>
 
-
-                                    <select class="form-control" formControlName="variantId">
+                                    <select
+                                        class="form-control"
+                                        formControlName="variantId"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('variantId')?.touched &&
+                                            supplierPurchaseItemForm.get('variantId')?.invalid
+                                        "
+                                    >
 
                                         <option value="">
                                             Select Variant
                                         </option>
 
-
-                                        <option *ngFor="let variant of variants" [value]="variant._id">
+                                        <option
+                                            *ngFor="let variant of variants"
+                                            [value]="variant._id"
+                                        >
 
                                             {{
-                                            variant.name
-                                            || variant.variantName
-                                            || variant.sku
-                                            || variant._id
+                                                variant.name
+                                                || variant.variantName
+                                                || variant.sku
+                                                || variant._id
                                             }}
 
                                         </option>
 
                                     </select>
+
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('variantId')?.touched &&
+                                            supplierPurchaseItemForm.get('variantId')?.hasError('required')
+                                        "
+                                    >
+                                        Product variant is required.
+                                    </div>
 
                                 </div>
 
@@ -293,11 +417,46 @@
 
                                     <label>
                                         Quantity
+                                        <span class="text-danger">*</span>
                                     </label>
 
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="quantity"
+                                        min="1"
+                                        placeholder="Enter Quantity"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('quantity')?.touched &&
+                                            supplierPurchaseItemForm.get('quantity')?.invalid
+                                        "
+                                    >
 
-                                    <input type="number" class="form-control" formControlName="quantity" min="1"
-                                        placeholder="Enter Quantity">
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('quantity')?.touched &&
+                                            supplierPurchaseItemForm.get('quantity')?.hasError('required')
+                                        "
+                                    >
+                                        Quantity is required.
+                                    </div>
+
+
+                                    <!-- Minimum -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('quantity')?.touched &&
+                                            supplierPurchaseItemForm.get('quantity')?.hasError('min')
+                                        "
+                                    >
+                                        Quantity must be greater than 0.
+                                    </div>
 
                                 </div>
 
@@ -315,11 +474,46 @@
 
                                     <label>
                                         Purchase Price
+                                        <span class="text-danger">*</span>
                                     </label>
 
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="purchasePrice"
+                                        min="0"
+                                        placeholder="Enter Purchase Price"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                                            supplierPurchaseItemForm.get('purchasePrice')?.invalid
+                                        "
+                                    >
 
-                                    <input type="number" class="form-control" formControlName="purchasePrice" min="0"
-                                        placeholder="Enter Purchase Price">
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                                            supplierPurchaseItemForm.get('purchasePrice')?.hasError('required')
+                                        "
+                                    >
+                                        Purchase price is required.
+                                    </div>
+
+
+                                    <!-- Minimum -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                                            supplierPurchaseItemForm.get('purchasePrice')?.hasError('min')
+                                        "
+                                    >
+                                        Purchase price cannot be negative.
+                                    </div>
 
                                 </div>
 
@@ -339,9 +533,27 @@
                                         Discount
                                     </label>
 
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="discount"
+                                        min="0"
+                                        placeholder="Enter Discount"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('discount')?.touched &&
+                                            supplierPurchaseItemForm.get('discount')?.invalid
+                                        "
+                                    >
 
-                                    <input type="number" class="form-control" formControlName="discount" min="0"
-                                        placeholder="Enter Discount">
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('discount')?.touched &&
+                                            supplierPurchaseItemForm.get('discount')?.hasError('min')
+                                        "
+                                    >
+                                        Discount cannot be negative.
+                                    </div>
 
                                 </div>
 
@@ -361,9 +573,27 @@
                                         Tax
                                     </label>
 
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="tax"
+                                        min="0"
+                                        placeholder="Enter Tax"
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('tax')?.touched &&
+                                            supplierPurchaseItemForm.get('tax')?.invalid
+                                        "
+                                    >
 
-                                    <input type="number" class="form-control" formControlName="tax" min="0"
-                                        placeholder="Enter Tax">
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('tax')?.touched &&
+                                            supplierPurchaseItemForm.get('tax')?.hasError('min')
+                                        "
+                                    >
+                                        Tax cannot be negative.
+                                    </div>
 
                                 </div>
 
@@ -381,11 +611,46 @@
 
                                     <label>
                                         Total Amount
+                                        <span class="text-danger">*</span>
                                     </label>
 
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="totalAmount"
+                                        min="0"
+                                        readonly
+                                        [class.is-invalid]="
+                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                                            supplierPurchaseItemForm.get('totalAmount')?.invalid
+                                        "
+                                    >
 
-                                    <input type="number" class="form-control" formControlName="totalAmount" min="0"
-                                        readonly>
+
+                                    <!-- Required -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                                            supplierPurchaseItemForm.get('totalAmount')?.hasError('required')
+                                        "
+                                    >
+                                        Total amount is required.
+                                    </div>
+
+
+                                    <!-- Minimum -->
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                                            supplierPurchaseItemForm.get('totalAmount')?.hasError('min')
+                                        "
+                                    >
+                                        Total amount cannot be negative.
+                                    </div>
 
                                 </div>
 
@@ -400,13 +665,20 @@
                             <div class="col-12">
 
                                 <div class="product-actions">
-                                    <button type="button" class="add-variant-btn" (click)="addProductVariant()">
+
+                                    <button
+                                        type="button"
+                                        class="add-variant-btn"
+                                        (click)="addProductVariant()"
+                                    >
+
                                         + Add Product Variant
+
                                     </button>
+
                                 </div>
 
                             </div>
-
 
                         </div>
 
@@ -416,69 +688,138 @@
                              ADDED PRODUCT VARIANTS
                         ====================================================== -->
 
-                        <div class="row mt-4" *ngIf="supplierPurchaseItems.length > 0">
-
+                        <div
+                            class="row mt-4"
+                            *ngIf="supplierPurchaseItems.length > 0"
+                        >
 
                             <div class="col-12">
 
-                                <div class="added-products-section" *ngIf="supplierPurchaseItems.length > 0">
+                                <div
+                                    class="added-products-section"
+                                    *ngIf="supplierPurchaseItems.length > 0"
+                                >
 
-                                    <h3>Added Products</h3>
+                                    <h3>
+                                        Added Products
+                                    </h3>
 
                                     <div class="table-responsive">
 
                                         <table class="added-products-table">
 
                                             <thead>
+
                                                 <tr>
-                                                    <th>Product</th>
-                                                    <th>Variant</th>
-                                                    <th>Quantity</th>
-                                                    <th>Purchase Price</th>
-                                                    <th>Discount</th>
-                                                    <th>Tax</th>
-                                                    <th>Total Amount</th>
-                                                    <th>Action</th>
+
+                                                    <th>
+                                                        Product
+                                                    </th>
+
+                                                    <th>
+                                                        Variant
+                                                    </th>
+
+                                                    <th>
+                                                        Quantity
+                                                    </th>
+
+                                                    <th>
+                                                        Purchase Price
+                                                    </th>
+
+                                                    <th>
+                                                        Discount
+                                                    </th>
+
+                                                    <th>
+                                                        Tax
+                                                    </th>
+
+                                                    <th>
+                                                        Total Amount
+                                                    </th>
+
+                                                    <th>
+                                                        Action
+                                                    </th>
+
                                                 </tr>
+
                                             </thead>
+
 
                                             <tbody>
 
-                                                <tr *ngFor="let item of supplierPurchaseItems; let i = index">
+                                                <tr
+                                                    *ngFor="
+                                                        let item of supplierPurchaseItems;
+                                                        let i = index
+                                                    "
+                                                >
 
                                                     <td class="product-name">
+
                                                         {{ item.productName }}
+
                                                     </td>
+
 
                                                     <td class="variant-name">
+
                                                         {{ item.variantName }}
+
                                                     </td>
+
 
                                                     <td class="quantity-cell">
+
                                                         {{ item.quantity }}
+
                                                     </td>
 
+
                                                     <td>
+
                                                         ₹{{ item.purchasePrice }}
+
                                                     </td>
 
+
                                                     <td>
+
                                                         ₹{{ item.discount }}
+
                                                     </td>
 
+
                                                     <td>
+
                                                         {{ item.tax }}%
+
                                                     </td>
+
 
                                                     <td class="amount-cell">
+
                                                         ₹{{ item.totalAmount }}
+
                                                     </td>
 
+
                                                     <td>
-                                                        <button type="button" class="remove-variant-btn"
-                                                            (click)="removeProductVariant(i)">
+
+                                                        <button
+                                                            type="button"
+                                                            class="remove-variant-btn"
+                                                            (click)="removeProductVariant(i)"
+                                                            [disabled]="isSaving"
+                                                        >
+
                                                             Remove
+
                                                         </button>
+
                                                     </td>
 
                                                 </tr>
@@ -511,9 +852,12 @@
                                         Notes
                                     </label>
 
-
-                                    <textarea class="form-control" formControlName="notes" rows="3"
-                                        placeholder="Enter Notes"></textarea>
+                                    <textarea
+                                        class="form-control"
+                                        formControlName="notes"
+                                        rows="3"
+                                        placeholder="Enter Notes"
+                                    ></textarea>
 
                                 </div>
 
@@ -535,16 +879,38 @@
                 <div class="button-group">
 
 
-                    <button type="submit" class="btn-create" [disabled]="
-                            supplierPurchaseItems.length === 0
-                        ">
+                    <!-- SAVE -->
 
-                        Save
+                    <button
+                        type="submit"
+                        class="btn-create"
+                        [disabled]="
+                            isSaving ||
+                            supplierPurchaseItems.length === 0
+                        "
+                    >
+
+                        <span
+                            *ngIf="isSaving"
+                            class="spinner-border spinner-border-sm me-2"
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+
+                        {{ isSaving ? 'Saving...' : 'Save' }}
 
                     </button>
 
 
-                    <button type="button" class="btn-back" (click)="goBack()">
+
+                    <!-- BACK -->
+
+                    <button
+                        type="button"
+                        class="btn-back"
+                        (click)="goBack()"
+                        [disabled]="isSaving"
+                    >
 
                         Back
 

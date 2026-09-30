@@ -77,6 +77,10 @@ import { MakersProductionItemListComponent } from './makers/makers-production-it
 import { CreateMakersProductionItemComponent } from './makers/create-makers-production-item/create-makers-production-item.component';
 import { UpdateMakersProductionItemComponent } from './makers/update-makers-production-item/update-makers-production-item.component';
 import { OrderViewDialogComponent } from './order-view-dialog/order-view-dialog.component';
+import { BrandComponent } from './brand/brand/brand.component';
+import { BrandCreateComponent } from './brand/brand-create/brand-create.component';
+import { BrandUpdateComponent } from './brand/brand-update/brand-update.component';
+import { CreateAdsComponent } from './AdsController/create-ads/create-ads.component';
 
 const routes: Routes = [
 
@@ -142,6 +146,8 @@ const routes: Routes = [
       { path: "Order-create", component: CreateOrderComponent },
       { path: 'view-order/:id', component: OrderViewDialogComponent },
       { path: "Ads", component: AdsListComponent },
+      { path: "Ads-create", component: CreateAdsComponent },
+
       { path: "update-Ads/:id/:section", component: AdsUpdateComponent },
       { path: "subbranch", component: SubBranchComponent },
       { path: "subranch-list", component: SubBranchListComponent },
@@ -185,6 +191,12 @@ const routes: Routes = [
       { path: "userpayment-scheema-list", component: SchemaPaymentListComponent },
       { path: "sizechat-list", component: SizeChatListComponent },
       { path: "create-sizechat", component: SizeChatCreateComponent },
+      { path: "brand-list", component: BrandComponent },
+      { path: "brand-create", component: BrandCreateComponent },
+      {path: 'update-brand/:id',component: BrandUpdateComponent},
+
+
+
 
 
 

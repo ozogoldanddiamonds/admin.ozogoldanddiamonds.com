@@ -1,6 +1,6 @@
 <div class="container-fluid container-one bg_lite">
 
-  <div class="auth-card">
+  <div class="auth-card " *ngIf="isLogin">
 
     <!-- Left Panel -->
     <div class="left-panel">
@@ -91,12 +91,11 @@
 
           <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password">
 
-          <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" class="password-eye"
+          <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" aria-hidden="true" class="password-eye"
             (click)="togglePassword()">
           </i>
 
         </div>
-
         <!-- Login Links -->
 
         <div class="auth-links" *ngIf="isLogin">
@@ -114,9 +113,27 @@
             Sign Up
 
           </span> -->
-          <button type="submit" class="login-btn">
+          <button type="submit" class="login-btn" [disabled]="isSaving">
 
-            {{ isLogin ? 'LOGIN' : 'REGISTER' }}
+            <ng-container *ngIf="!isSaving">
+
+              <i class="fa fa-sign-in me-2"></i>
+
+              LOGIN
+
+            </ng-container>
+
+
+            <ng-container *ngIf="isSaving">
+
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+              </span>
+
+              <span>
+                Logging in...
+              </span>
+
+            </ng-container>
 
           </button>
 

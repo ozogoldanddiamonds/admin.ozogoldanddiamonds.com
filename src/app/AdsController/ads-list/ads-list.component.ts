@@ -4,7 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
-import { Ads } from 'src/app/models/ads';
 import { AdsService } from 'src/app/Services/ads.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./ads-list.component.css']
 })
 export class AdsListComponent implements OnInit, AfterViewInit {
-
+ role: string = '';
   displayedColumns: string[] = [
     'section',
     'title',
@@ -41,6 +40,8 @@ export class AdsListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getAds();
+        this.role = localStorage.getItem('role') || '';
+
   }
 
   getAds(): void {

@@ -1,0 +1,607 @@
+<div class="container-fluid">
+
+  <!-- ========================================= -->
+  <!-- PAGE HEADER -->
+  <!-- ========================================= -->
+
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <div class="title-section">
+
+        <h2>
+          Create Ads
+        </h2>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================= -->
+  <!-- FORM -->
+  <!-- ========================================= -->
+
+  <form
+    [formGroup]="adsForm"
+    (ngSubmit)="submitAds()"
+  >
+
+
+    <!-- ========================================= -->
+    <!-- SECTION 1 -->
+    <!-- ========================================= -->
+
+    <div class="section-card mb-4">
+
+      <div class="section-header">
+
+        <h5 class="mb-0">
+
+          <span class="section-number">
+            1
+          </span>
+
+          Section 1
+
+        </h5>
+
+      </div>
+
+
+      <div class="row g-4 mt-3">
+
+
+        <!-- LEFT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <!-- TITLE -->
+
+          <div class="mb-4">
+
+            <label class="form-label fw-semibold">
+
+              Title
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="section1Title"
+              placeholder="Enter section 1 title"
+              [class.is-invalid]="
+                adsForm.get('section1Title')?.touched &&
+                adsForm.get('section1Title')?.invalid
+              "
+            >
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section1Title')?.touched &&
+                adsForm.get('section1Title')?.hasError('required')
+              "
+            >
+
+              Section 1 title is required.
+
+            </div>
+
+          </div>
+
+
+
+          <!-- DESCRIPTION -->
+
+          <div>
+
+            <label class="form-label fw-semibold">
+
+              Description
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <textarea
+              rows="7"
+              class="form-control"
+              formControlName="section1Description"
+              placeholder="Enter section 1 description"
+              [class.is-invalid]="
+                adsForm.get('section1Description')?.touched &&
+                adsForm.get('section1Description')?.invalid
+              "
+            ></textarea>
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section1Description')?.touched &&
+                adsForm.get('section1Description')?.hasError('required')
+              "
+            >
+
+              Section 1 description is required.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- RIGHT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <label class="form-label fw-semibold">
+
+            Image
+
+            <span class="text-danger">
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="onImageSelected($event, 'section1')"
+          >
+
+
+          <!-- IMAGE ERROR -->
+
+          <div
+            class="text-danger small mt-1"
+            *ngIf="imageErrors.section1"
+          >
+
+            {{ imageErrors.section1 }}
+
+          </div>
+
+
+          <!-- IMAGE PREVIEW -->
+
+          <div
+            *ngIf="imagePreview.section1"
+            class="image-preview mt-3"
+          >
+
+            <img
+              [src]="imagePreview.section1"
+              alt="Section 1 Preview"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- SECTION 2 -->
+    <!-- ========================================= -->
+
+    <div class="section-card mb-4">
+
+      <div class="section-header">
+
+        <h5 class="mb-0">
+
+          <span class="section-number">
+            2
+          </span>
+
+          Section 2
+
+        </h5>
+
+      </div>
+
+
+      <div class="row g-4 mt-3">
+
+
+        <!-- LEFT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <!-- TITLE -->
+
+          <div class="mb-4">
+
+            <label class="form-label fw-semibold">
+
+              Title
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="section2Title"
+              placeholder="Enter section 2 title"
+              [class.is-invalid]="
+                adsForm.get('section2Title')?.touched &&
+                adsForm.get('section2Title')?.invalid
+              "
+            >
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section2Title')?.touched &&
+                adsForm.get('section2Title')?.hasError('required')
+              "
+            >
+
+              Section 2 title is required.
+
+            </div>
+
+          </div>
+
+
+
+          <!-- DESCRIPTION -->
+
+          <div>
+
+            <label class="form-label fw-semibold">
+
+              Description
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <textarea
+              rows="7"
+              class="form-control"
+              formControlName="section2Description"
+              placeholder="Enter section 2 description"
+              [class.is-invalid]="
+                adsForm.get('section2Description')?.touched &&
+                adsForm.get('section2Description')?.invalid
+              "
+            ></textarea>
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section2Description')?.touched &&
+                adsForm.get('section2Description')?.hasError('required')
+              "
+            >
+
+              Section 2 description is required.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- RIGHT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <label class="form-label fw-semibold">
+
+            Image
+
+            <span class="text-danger">
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="onImageSelected($event, 'section2')"
+          >
+
+
+          <!-- IMAGE ERROR -->
+
+          <div
+            class="text-danger small mt-1"
+            *ngIf="imageErrors.section2"
+          >
+
+            {{ imageErrors.section2 }}
+
+          </div>
+
+
+          <!-- IMAGE PREVIEW -->
+
+          <div
+            *ngIf="imagePreview.section2"
+            class="image-preview mt-3"
+          >
+
+            <img
+              [src]="imagePreview.section2"
+              alt="Section 2 Preview"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- SECTION 3 -->
+    <!-- ========================================= -->
+
+    <div class="section-card mb-4">
+
+      <div class="section-header">
+
+        <h5 class="mb-0">
+
+          <span class="section-number">
+            3
+          </span>
+
+          Section 3
+
+        </h5>
+
+      </div>
+
+
+      <div class="row g-4 mt-3">
+
+
+        <!-- LEFT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <!-- TITLE -->
+
+          <div class="mb-4">
+
+            <label class="form-label fw-semibold">
+
+              Title
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              type="text"
+              class="form-control"
+              formControlName="section3Title"
+              placeholder="Enter section 3 title"
+              [class.is-invalid]="
+                adsForm.get('section3Title')?.touched &&
+                adsForm.get('section3Title')?.invalid
+              "
+            >
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section3Title')?.touched &&
+                adsForm.get('section3Title')?.hasError('required')
+              "
+            >
+
+              Section 3 title is required.
+
+            </div>
+
+          </div>
+
+
+
+          <!-- DESCRIPTION -->
+
+          <div>
+
+            <label class="form-label fw-semibold">
+
+              Description
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+
+            <textarea
+              rows="7"
+              class="form-control"
+              formControlName="section3Description"
+              placeholder="Enter section 3 description"
+              [class.is-invalid]="
+                adsForm.get('section3Description')?.touched &&
+                adsForm.get('section3Description')?.invalid
+              "
+            ></textarea>
+
+
+            <div
+              class="text-danger small mt-1"
+              *ngIf="
+                adsForm.get('section3Description')?.touched &&
+                adsForm.get('section3Description')?.hasError('required')
+              "
+            >
+
+              Section 3 description is required.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- RIGHT COLUMN -->
+
+        <div class="col-md-6">
+
+
+          <label class="form-label fw-semibold">
+
+            Image
+
+            <span class="text-danger">
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/*"
+            (change)="onImageSelected($event, 'section3')"
+          >
+
+
+          <!-- IMAGE ERROR -->
+
+          <div
+            class="text-danger small mt-1"
+            *ngIf="imageErrors.section3"
+          >
+
+            {{ imageErrors.section3 }}
+
+          </div>
+
+
+          <!-- IMAGE PREVIEW -->
+
+          <div
+            *ngIf="imagePreview.section3"
+            class="image-preview mt-3"
+          >
+
+            <img
+              [src]="imagePreview.section3"
+              alt="Section 3 Preview"
+            >
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- BUTTONS -->
+    <!-- ========================================= -->
+
+    <div class="button-group mt-4">
+
+
+      <!-- CREATE -->
+
+      <button
+        type="submit"
+        class="btn-create"
+        [disabled]="isSaving"
+      >
+
+        <span
+          *ngIf="isSaving"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+
+
+        {{ isSaving ? 'Creating...' : 'Create' }}
+
+      </button>
+
+
+
+      <!-- BACK -->
+
+      <button
+        type="button"
+        class="btn-back"
+        (click)="goBack()"
+        [disabled]="isSaving"
+      >
+
+        Back
+
+      </button>
+
+
+    </div>
+
+
+  </form>
+
+</div>

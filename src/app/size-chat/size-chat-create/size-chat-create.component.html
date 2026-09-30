@@ -1,3 +1,4 @@
+
 <div class="container">
 
     <div class="row">
@@ -22,50 +23,101 @@
 
                     <div class="left-section">
 
+                        <!-- Title -->
                         <div class="form-group">
 
                             <label>Title</label>
 
-                            <input type="text" formControlName="title" placeholder="Enter Title">
+                            <input
+                                type="text"
+                                formControlName="title"
+                                placeholder="Enter Title"
+                            >
+
+                            <div
+                                class="text-danger"
+                                *ngIf="
+                                    sizeChartForm.get('title')?.touched &&
+                                    sizeChartForm.get('title')?.hasError('required')
+                                "
+                            >
+                                Title is required.
+                            </div>
 
                         </div>
 
+
+                        <!-- Sub Category -->
                         <div class="form-group">
 
                             <label>Sub Category</label>
 
                             <select formControlName="subCategory">
 
-                                <option value="">Select Sub Category</option>
+                                <option value="">
+                                    Select Sub Category
+                                </option>
 
-                                <option *ngFor="let item of subCategories" [value]="item._id">
-
-                                    {{item.name}}
-
+                                <option
+                                    *ngFor="let item of subCategories"
+                                    [value]="item._id"
+                                >
+                                    {{ item.name }}
                                 </option>
 
                             </select>
 
+                            <div
+                                class="text-danger"
+                                *ngIf="
+                                    sizeChartForm.get('subCategory')?.touched &&
+                                    sizeChartForm.get('subCategory')?.hasError('required')
+                                "
+                            >
+                                Sub Category is required.
+                            </div>
+
                         </div>
 
+
+                        <!-- Description -->
                         <div class="form-group">
 
                             <label>Description</label>
 
-                            <textarea rows="4" formControlName="description" placeholder="Enter Description">
-                            </textarea>
+                            <textarea
+                                rows="4"
+                                formControlName="description"
+                                placeholder="Enter Description"
+                            ></textarea>
 
                         </div>
 
+
+                        <!-- Image -->
                         <div class="form-group">
 
                             <label>Image</label>
 
-                            <input type="file" (change)="onFileChange($event)">
+                            <input
+                                type="file"
+                                (change)="onFileChange($event)"
+                            >
+
+                            <div
+                                class="text-danger"
+                                *ngIf="
+                                    sizeChartForm.get('image')?.touched &&
+                                    sizeChartForm.get('image')?.hasError('required')
+                                "
+                            >
+                                Image is required.
+                            </div>
 
                         </div>
 
                     </div>
+
 
                     <!-- Right Section -->
 
@@ -73,12 +125,14 @@
 
                         <div class="preview-box">
 
-                            <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview">
+                            <img
+                                *ngIf="imagePreview"
+                                [src]="imagePreview"
+                                alt="Preview"
+                            >
 
                             <p *ngIf="!imagePreview">
-
                                 Image Preview
-
                             </p>
 
                         </div>
@@ -87,23 +141,34 @@
 
                 </div>
 
+
                 <!-- Buttons -->
 
                 <div class="button-group">
 
-                    <button type="submit" class="btn-create" [disabled]="isSaving">
+                    <button
+                        type="submit"
+                        class="btn-create"
+                        [disabled]="isSaving"
+                    >
 
-                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
-                        </span>
+                        <span
+                            *ngIf="isSaving"
+                            class="spinner-border spinner-border-sm me-2"
+                        ></span>
 
                         {{ isSaving ? 'Saving...' : 'Save' }}
 
                     </button>
 
-                    <button type="button" class="btn-back" (click)="goBack()">
 
+                    <button
+                        type="button"
+                        class="btn-back"
+                        (click)="goBack()"
+                        [disabled]="isSaving"
+                    >
                         Back
-
                     </button>
 
                 </div>
@@ -115,3 +180,4 @@
     </div>
 
 </div>
+

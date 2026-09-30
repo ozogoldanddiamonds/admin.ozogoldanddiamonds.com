@@ -1,200 +1,316 @@
 <div class="container-fluid py-3">
 
-  <!-- Page Title -->
-
+  <!-- ========================= -->
+  <!-- Page Header -->
+  <!-- ========================= -->
   <div class="page-header mb-4">
-
     <h2>Create Branch</h2>
-
   </div>
 
+  <!-- ========================= -->
   <!-- Form Card -->
-
+  <!-- ========================= -->
   <div class="form-card">
 
     <form
       [formGroup]="userForm"
-      (ngSubmit)="createUser()">
+      (ngSubmit)="createUser()"
+    >
 
       <div class="row">
 
+        <!-- ========================= -->
         <!-- Name -->
-
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
           <label class="form-label">
             Name
+            <span class="text-danger">*</span>
           </label>
 
           <input
             type="text"
             class="form-control"
             formControlName="name"
-            placeholder="Enter Name">
+            placeholder="Enter Name"
+            [class.is-invalid]="
+              userForm.get('name')?.touched &&
+              userForm.get('name')?.invalid
+            "
+          />
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('name')?.touched &&
+              userForm.get('name')?.hasError('required')
+            "
+          >
+            Name is required
+          </small>
 
         </div>
 
-        <!-- ---brabch--- -->
+        <!-- ========================= -->
+        <!-- Branch -->
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
-  <label class="form-label">
-    Branch
-  </label>
+          <label class="form-label">
+            Branch
+            <span class="text-danger">*</span>
+          </label>
 
-  <select class="form-control" formControlName="branchId">
+          <select
+            class="form-select"
+            formControlName="branchId"
+            [class.is-invalid]="
+              userForm.get('branchId')?.touched &&
+              userForm.get('branchId')?.invalid
+            "
+          >
+            <option value="">Select Branch</option>
 
-  <option value="">Select Branch</option>
+            <option
+              *ngFor="let branch of branchList"
+              [value]="branch._id"
+            >
+              {{ branch.name }}
+            </option>
+          </select>
 
-  <option
-    *ngFor="let branch of branchList"
-    [value]="branch._id">
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('branchId')?.touched &&
+              userForm.get('branchId')?.hasError('required')
+            "
+          >
+            Branch is required
+          </small>
 
-    {{ branch.name }}
+        </div>
 
-  </option>
-
-</select>
-
-</div>
-
+        <!-- ========================= -->
         <!-- Email -->
-
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
           <label class="form-label">
             Email
+            <span class="text-danger">*</span>
           </label>
 
           <input
             type="email"
             class="form-control"
             formControlName="email"
-            placeholder="Enter Email">
+            placeholder="Enter Email"
+            [class.is-invalid]="
+              userForm.get('email')?.touched &&
+              userForm.get('email')?.invalid
+            "
+          />
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('email')?.touched &&
+              userForm.get('email')?.hasError('required')
+            "
+          >
+            Email is required
+          </small>
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('email')?.touched &&
+              userForm.get('email')?.hasError('email')
+            "
+          >
+            Enter a valid email address
+          </small>
 
         </div>
 
+        <!-- ========================= -->
         <!-- Password -->
-
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
           <label class="form-label">
             Password
+            <span class="text-danger">*</span>
           </label>
 
           <input
             type="password"
             class="form-control"
             formControlName="password"
-            placeholder="Enter Password">
+            placeholder="Enter Password"
+            [class.is-invalid]="
+              userForm.get('password')?.touched &&
+              userForm.get('password')?.invalid
+            "
+          />
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('password')?.touched &&
+              userForm.get('password')?.hasError('required')
+            "
+          >
+            Password is required
+          </small>
 
         </div>
 
+        <!-- ========================= -->
         <!-- Role -->
-
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
           <label class="form-label">
             Role
+            <span class="text-danger">*</span>
           </label>
 
           <select
             class="form-select"
-            formControlName="role">
-
-            <option value="">
-              Select Role
-            </option>
+            formControlName="role"
+            [class.is-invalid]="
+              userForm.get('role')?.touched &&
+              userForm.get('role')?.invalid
+            "
+          >
+            <option value="">Select Role</option>
 
             <option value="SUB_BRANCH">
               Sub Branch
             </option>
-
           </select>
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('role')?.touched &&
+              userForm.get('role')?.hasError('required')
+            "
+          >
+            Role is required
+          </small>
 
         </div>
 
-        <!-- Phone -->
-
-        <div class="col-md-4 mb-4">
-
-  <label class="form-label">
-    Phone Number
-  </label>
-
-  <input
-    type="text"
-    class="form-control"
-    formControlName="contactNumber"
-    maxlength="10"
-    placeholder="Enter Phone Number"
-    (keypress)="allowOnlyNumbers($event)">
-
-  <small
-    class="text-danger"
-    *ngIf="
-      userForm.get('contactNumber')?.touched &&
-      userForm.get('contactNumber')?.invalid">
-
-    Enter valid 10 digit mobile number
-
-  </small>
-
-</div>
-
-        <!-- Location -->
-
+        <!-- ========================= -->
+        <!-- Phone Number -->
+        <!-- ========================= -->
         <div class="col-md-4 mb-4">
 
           <label class="form-label">
-            Location
+            Phone Number
+            <span class="text-danger">*</span>
           </label>
 
           <input
             type="text"
             class="form-control"
-            formControlName="location"
-            placeholder="Enter Location">
+            formControlName="contactNumber"
+            maxlength="10"
+            placeholder="Enter Phone Number"
+            (keypress)="allowOnlyNumbers($event)"
+            [class.is-invalid]="
+              userForm.get('contactNumber')?.touched &&
+              userForm.get('contactNumber')?.invalid
+            "
+          />
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('contactNumber')?.touched &&
+              userForm.get('contactNumber')?.hasError('required')
+            "
+          >
+            Phone number is required
+          </small>
+
+          <small
+            class="text-danger"
+            *ngIf="
+              userForm.get('contactNumber')?.touched &&
+              userForm.get('contactNumber')?.hasError('pattern')
+            "
+          >
+            Enter valid 10 digit mobile number
+          </small>
 
         </div>
 
-        <!-- Address -->
+        <!-- ========================= -->
+        <!-- Location -->
+        <!-- ========================= -->
+        <div class="col-md-4 mb-4">
 
+          <label class="form-label">Location</label>
+
+          <input
+            type="text"
+            class="form-control"
+            formControlName="location"
+            placeholder="Enter Location"
+          />
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- Address -->
+        <!-- ========================= -->
         <div class="col-md-12 mb-4">
 
-          <label class="form-label">
-            Address
-          </label>
+          <label class="form-label">Address</label>
 
           <textarea
             rows="4"
             class="form-control"
             formControlName="address"
-            placeholder="Enter Address">
-          </textarea>
+            placeholder="Enter Address"
+          ></textarea>
 
         </div>
 
       </div>
 
-      <!-- Buttons -->
-
+      <!-- ========================= -->
+      <!-- Action Buttons -->
+      <!-- ========================= -->
       <div class="text-end">
 
         <button
           type="submit"
-          class="btn-save me-2">
+          class="btn-create"
+          [disabled]="isSaving"
+        >
+          <span
+            *ngIf="isSaving"
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
 
-          Save
-
+          {{ isSaving ? 'Saving...' : 'Save' }}
         </button>
 
         <button
           type="button"
-          class="btn-back"
-          (click)="goBack()">
-
+          class="btn-back ms-3"
+          (click)="goBack()"
+          [disabled]="isSaving"
+        >
           Back
-
         </button>
 
       </div>

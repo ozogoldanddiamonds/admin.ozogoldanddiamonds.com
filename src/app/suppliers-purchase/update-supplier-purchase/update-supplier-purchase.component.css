@@ -153,3 +153,9 @@
 .new-document-upload {
     margin-top: 15px;
 }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--red-color);
+}

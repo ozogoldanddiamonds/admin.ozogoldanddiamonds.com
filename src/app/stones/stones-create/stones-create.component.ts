@@ -56,67 +56,74 @@ export class StonesCreateComponent {
   // SUBMIT
   // =========================
 
-  onSubmit(): void {
-    this.isSaving = true;
-    if (this.stoneRateForm.invalid) {
+ onSubmit(): void {
 
-      this.stoneRateForm.markAllAsTouched();
+  this.stoneRateForm.markAllAsTouched();
 
-      return;
+  if (this.stoneRateForm.invalid) {
 
-    }
+    this.isSaving = false;
 
-    this.stoneRateService
-      .createStoneRate(
-        this.stoneRateForm.value
-      )
-      .subscribe({
-
-        next: (response) => {
-
-          Swal.fire({
-
-            icon: 'success',
-
-            title: 'Success',
-
-            text:
-              'Stone Rate Created Successfully',
-
-            timer: 2000,
-
-            showConfirmButton:
-              false
-
-          });
-          this.isSaving = false;
-          this.router.navigate([
-            '/admin/stones-list'
-          ]);
-
-        },
-
-        error: (error) => {
-
-          console.error(error);
-
-          Swal.fire({
-
-            icon: 'error',
-
-            title: 'Oops...',
-
-            text:
-              error?.error?.message ||
-              'Create Failed'
-
-          });
-
-        }
-
-      });
-
+    return;
   }
+
+  this.isSaving = true;
+
+  console.log('Request Data:', this.stoneRateForm.value);
+
+  this.stoneRateService
+    .createStoneRate(this.stoneRateForm.value)
+    .subscribe({
+
+      next: (response) => {
+
+        console.log('SUCCESS RESPONSE:', response);
+
+        this.isSaving = false;
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Stone Rate Created Successfully',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        this.router.navigate([
+          '/admin/stones-list'
+        ]);
+
+      },
+
+      error: (error) => {
+
+        console.error('ERROR RESPONSE:', error);
+
+        this.isSaving = false;
+
+        const backendMessage =
+          error?.error?.message ||
+          error?.error?.error ||
+          error?.message ||
+          'Something went wrong while creating stone rate';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to Create Stone Rate',
+          text: backendMessage
+        });
+
+      },
+
+      complete: () => {
+
+        console.log('REQUEST COMPLETED');
+
+      }
+
+    });
+
+}
 
   // =========================
   // BACK

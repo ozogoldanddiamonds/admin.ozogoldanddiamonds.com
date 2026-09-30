@@ -12,104 +12,101 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-supplier-purchase.component.css']
 })
 export class UpdateSupplierPurchaseComponent implements OnInit {
-  existingDocuments: any[] = [];
-  documentPreviews: any[] = [];
-  supplierPurchaseForm!: FormGroup;
+
+
   isSaving: boolean = false;
-  purchaseId: any;
+
+  supplierPurchaseForm!: FormGroup;
 
   suppliers: any[] = [];
 
+  supplierPurchaseId: string = '';
+
+  // Existing Cloudinary documents
+  existingDocuments: any[] = [];
+
+  // Newly selected files
   selectedDocuments: File[] = [];
 
-
-  isViewMode: boolean = false;
+  // New file previews
+  documentPreviews: any[] = [];
 
 
   constructor(
     private fb: FormBuilder,
+
     private supplierService: SupplierService,
+
     private supplierPurchaseService:
       SupplierPurchaseService,
+
+    private route: ActivatedRoute,
+
     private router: Router,
-    private activeRoute: ActivatedRoute,
+
     private alert: AlertService
-  ) {
+  ) { }
+
+
+  // =====================================
+  // INIT
+  // =====================================
+
+  ngOnInit(): void {
+
+    this.supplierPurchaseId =
+      this.route.snapshot.paramMap.get('id') || '';
+
+    this.createForm();
+
+    this.getAllSuppliers();
+
+    if (this.supplierPurchaseId) {
+      this.getSupplierPurchase();
+    }
+
+  }
+
+
+  // =====================================
+  // CREATE FORM
+  // =====================================
+
+  createForm(): void {
 
     this.supplierPurchaseForm =
       this.fb.group({
-
-        id: [''],
-
-        // =========================
-        // SUPPLIER
-        // =========================
 
         supplier: [
           '',
           Validators.required
         ],
 
-
-        // =========================
-        // INVOICE NUMBER
-        // =========================
-
         invoiceNumber: [
           '',
           Validators.required
         ],
-
-
-        // =========================
-        // INVOICE DATE
-        // =========================
 
         invoiceDate: [
           '',
           Validators.required
         ],
 
-
-        // =========================
-        // PURCHASE DATE
-        // =========================
-
         purchaseDate: [
           ''
         ],
-
-
-        // =========================
-        // SUBTOTAL
-        // =========================
 
         subtotal: [
           0
         ],
 
-
-        // =========================
-        // DISCOUNT
-        // =========================
-
         discount: [
           0
         ],
 
-
-        // =========================
-        // TAX
-        // =========================
-
         tax: [
           0
         ],
-
-
-        // =========================
-        // TOTAL AMOUNT
-        // =========================
 
         totalAmount: [
           '',
@@ -119,28 +116,13 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
           ]
         ],
 
-
-        // =========================
-        // PAYMENT STATUS
-        // =========================
-
         paymentStatus: [
           'PENDING'
         ],
 
-
-        // =========================
-        // NOTES
-        // =========================
-
         notes: [
           ''
         ],
-
-
-        // =========================
-        // STATUS
-        // =========================
 
         status: [
           'DRAFT'
@@ -151,58 +133,9 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
   }
 
 
-  // =========================
-  // INIT
-  // =========================
-
-  ngOnInit(): void {
-
-    this.purchaseId =
-      this.activeRoute.snapshot
-        .paramMap.get('id')!;
-
-
-    // =========================
-    // VIEW MODE
-    // =========================
-
-    this.isViewMode =
-      this.activeRoute.snapshot
-        .queryParamMap
-        .get('mode') === 'view';
-
-
-    console.log(
-      this.purchaseId,
-      'purchase id'
-    );
-
-
-    console.log(
-      this.isViewMode,
-      'view mode'
-    );
-
-
-    // =========================
-    // GET SUPPLIERS
-    // =========================
-
-    this.getAllSuppliers();
-
-
-    // =========================
-    // GET PURCHASE
-    // =========================
-
-    this.getSupplierPurchaseById();
-
-  }
-
-
-  // =========================
+  // =====================================
   // GET ALL SUPPLIERS
-  // =========================
+  // =====================================
 
   getAllSuppliers(): void {
 
@@ -220,6 +153,7 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
         error: (error) => {
 
           console.error(
+            'Supplier Error:',
             error
           );
 
@@ -230,105 +164,85 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
   }
 
 
-  // =========================
+  // =====================================
   // GET PURCHASE BY ID
-  // =========================
+  // =====================================
 
-  getSupplierPurchaseById(): void {
+  getSupplierPurchase(): void {
 
     this.supplierPurchaseService
       .getSupplierPurchaseById(
-        this.purchaseId
+        this.supplierPurchaseId
       )
       .subscribe({
 
         next: (response: any) => {
 
-          const purchase =
-            response.data;
-
-
           console.log(
-            purchase,
-            'supplier purchase details'
+            'Purchase Details:',
+            response
           );
 
+          const purchase =
+            response.data || response;
 
-          // =========================
-          // EXISTING DOCUMENTS
-          // =========================
+
+          // =====================================
+          // PATCH FORM
+          // =====================================
+
+          this.supplierPurchaseForm.patchValue({
+
+            supplier:
+              purchase.supplier?._id ||
+              purchase.supplier ||
+              '',
+
+            invoiceNumber:
+              purchase.invoiceNumber || '',
+
+            invoiceDate:
+              this.formatDate(
+                purchase.invoiceDate
+              ),
+
+            purchaseDate:
+              this.formatDate(
+                purchase.purchaseDate
+              ),
+
+            subtotal:
+              purchase.subtotal ?? 0,
+
+            discount:
+              purchase.discount ?? 0,
+
+            tax:
+              purchase.tax ?? 0,
+
+            totalAmount:
+              purchase.totalAmount ?? 0,
+
+            paymentStatus:
+              purchase.paymentStatus ||
+              'PENDING',
+
+            notes:
+              purchase.notes || '',
+
+            status:
+              purchase.status ||
+              'DRAFT'
+
+          });
+
+
+          // =====================================
+          // EXISTING FILES
+          // =====================================
 
           this.existingDocuments =
             purchase.documents || [];
-
-
-          // =========================
-          // SUPPLIER ID
-          // =========================
-
-          const supplierId =
-            purchase.supplier?._id ||
-            purchase.supplier;
-
-
-          // =========================
-          // PATCH FORM
-          // =========================
-
-          this.supplierPurchaseForm
-            .patchValue({
-
-              id:
-                purchase._id,
-
-              supplier:
-                supplierId,
-
-              invoiceNumber:
-                purchase.invoiceNumber,
-
-              invoiceDate:
-                purchase.invoiceDate
-                  ?.split('T')[0],
-
-              purchaseDate:
-                purchase.purchaseDate
-                  ?.split('T')[0],
-
-              subtotal:
-                purchase.subtotal,
-
-              discount:
-                purchase.discount,
-
-              tax:
-                purchase.tax,
-
-              totalAmount:
-                purchase.totalAmount,
-
-              paymentStatus:
-                purchase.paymentStatus,
-
-              notes:
-                purchase.notes,
-
-              status:
-                purchase.status
-
-            });
-
-
-          // =========================
-          // VIEW MODE
-          // =========================
-
-          if (this.isViewMode) {
-
-            this.supplierPurchaseForm
-              .disable();
-
-          }
 
         },
 
@@ -338,127 +252,163 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
             error
           );
 
-        }
+          Swal.fire({
 
-      });
+            icon: 'error',
 
-  }
+            title: 'Error',
 
-
-  // =========================
-  // DOCUMENT CHANGE
-  // =========================
-
-  onDocumentsChange(event: any): void {
-
-    if (this.isViewMode) {
-      return;
-    }
-
-    const files = event.target.files;
-
-    if (
-      !files ||
-      files.length === 0
-    ) {
-      this.selectedDocuments = [];
-      this.documentPreviews = [];
-      return;
-    }
-
-
-    // =========================
-    // MAX 10 DOCUMENTS
-    // =========================
-
-    if (files.length > 10) {
-
-      Swal.fire({
-
-        icon: 'warning',
-
-        title: 'Maximum 10 Documents',
-
-        text:
-          'You can upload a maximum of 10 documents.'
-
-      });
-
-      event.target.value = '';
-
-      this.selectedDocuments = [];
-      this.documentPreviews = [];
-
-      return;
-    }
-
-
-    this.selectedDocuments =
-      Array.from(files) as File[];
-
-
-    // =========================
-    // CLEAR OLD PREVIEWS
-    // =========================
-
-    this.documentPreviews = [];
-
-
-    // =========================
-    // CREATE PREVIEWS
-    // =========================
-
-    this.selectedDocuments.forEach(
-      (file: File) => {
-
-        if (
-          file.type.startsWith('image/')
-        ) {
-
-          const reader =
-            new FileReader();
-
-          reader.onload = () => {
-
-            this.documentPreviews.push({
-
-              url:
-                reader.result,
-
-              name:
-                file.name,
-
-              isImage:
-                true
-
-            });
-
-          };
-
-          reader.readAsDataURL(file);
-
-        }
-
-        else {
-
-          this.documentPreviews.push({
-
-            url: '',
-
-            name:
-              file.name,
-
-            isImage:
-              false
+            text:
+              error?.error?.message ||
+              'Failed To Load Supplier Purchase'
 
           });
 
         }
 
-      }
-    );
+      });
 
   }
+
+
+  // =====================================
+  // DATE FORMAT
+  // =====================================
+
+  formatDate(date: any): string {
+
+    if (!date) {
+      return '';
+    }
+
+    const d = new Date(date);
+
+    const year =
+      d.getFullYear();
+
+    const month =
+      String(
+        d.getMonth() + 1
+      ).padStart(2, '0');
+
+    const day =
+      String(
+        d.getDate()
+      ).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  // =====================================
+  // FILE CHANGE
+  // =====================================
+
+  onDocumentsChange(event: any): void {
+
+  const input = event.target as HTMLInputElement;
+
+  if (!input.files || input.files.length === 0) {
+    return;
+  }
+
+  const files: File[] = Array.from(input.files);
+
+  // Existing + already selected + new files
+  const totalFiles =
+    this.existingDocuments.length +
+    this.selectedDocuments.length +
+    files.length;
+
+  if (totalFiles > 10) {
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Maximum 10 Documents',
+      text: 'You can upload maximum 10 documents.'
+    });
+
+    input.value = '';
+    return;
+  }
+
+  files.forEach((file: File) => {
+
+    // Add actual file
+    this.selectedDocuments.push(file);
+
+    // IMAGE
+    if (file.type.startsWith('image/')) {
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+
+        this.documentPreviews.push({
+
+          name: file.name,
+
+          url: reader.result,
+
+          isImage: true,
+
+          isPdf: false
+
+        });
+
+      };
+
+      reader.readAsDataURL(file);
+
+    }
+
+    // PDF
+    else if (file.type === 'application/pdf') {
+
+      this.documentPreviews.push({
+
+        name: file.name,
+
+        url: '',
+
+        isImage: false,
+
+        isPdf: true
+
+      });
+
+    }
+
+    // OTHER FILE
+    else {
+
+      this.documentPreviews.push({
+
+        name: file.name,
+
+        url: '',
+
+        isImage: false,
+
+        isPdf: false
+
+      });
+
+    }
+
+  });
+
+  // Same file again select cheyyadaniki
+  input.value = '';
+
+}
+
+
+  // =====================================
+  // IMAGE CHECK
+  // =====================================
+
   isImage(url: string): boolean {
 
     if (!url) {
@@ -469,24 +419,110 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
       .test(url);
 
   }
+  // video
+  isPdf(document: any): boolean {
+
+  if (!document) {
+    return false;
+  }
+
+  return (
+    document.type === 'PDF' ||
+    document.description?.toLowerCase().endsWith('.pdf') ||
+    document.url?.toLowerCase().includes('.pdf')
+  );
+
+}
 
 
-  // =========================
-  // SUBMIT
-  // =========================
+  // =====================================
+  // VIEW EXISTING FILE
+  // =====================================
 
-  onSubmit(): void {
-    this.isSaving = true;
-    if (this.isViewMode) {
+  viewDocument(url: string): void {
 
+    if (!url) {
       return;
-
     }
 
+    window.open(
+      url,
+      '_blank'
+    );
+
+  }
+
+
+  // =====================================
+  // REMOVE EXISTING FILE
+  // =====================================
+
+  removeExistingDocument(
+    index: number
+  ): void {
+
+    Swal.fire({
+
+      icon: 'warning',
+
+      title: 'Remove Document?',
+
+      text:
+        'Are you sure you want to remove this document?',
+
+      showCancelButton: true,
+
+      confirmButtonText:
+        'Yes, Remove',
+
+      cancelButtonText:
+        'Cancel'
+
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        this.existingDocuments.splice(
+          index,
+          1
+        );
+
+      }
+
+    });
+
+  }
+
+
+  // =====================================
+  // REMOVE NEW FILE
+  // =====================================
+
+  removeNewDocument(
+    index: number
+  ): void {
+
+    this.selectedDocuments.splice(
+      index,
+      1
+    );
+
+    this.documentPreviews.splice(
+      index,
+      1
+    );
+
+  }
+
+
+  // =====================================
+  // SUBMIT UPDATE
+  // =====================================
+
+  onSubmit(): void {
 
     if (
-      this.supplierPurchaseForm
-        .invalid
+      this.supplierPurchaseForm.invalid
     ) {
 
       this.supplierPurchaseForm
@@ -497,41 +533,45 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
     }
 
 
+    this.isSaving = true;
+
+
     const formValue =
       this.supplierPurchaseForm.value;
 
 
-    // =========================
-    // FORM DATA
-    // =========================
-
     const formData =
       new FormData();
 
+
+    // =====================================
+    // BASIC DETAILS
+    // =====================================
 
     formData.append(
       'supplier',
       formValue.supplier
     );
 
-
     formData.append(
       'invoiceNumber',
       formValue.invoiceNumber
     );
-
 
     formData.append(
       'invoiceDate',
       formValue.invoiceDate
     );
 
-
     formData.append(
       'purchaseDate',
       formValue.purchaseDate || ''
     );
 
+
+    // =====================================
+    // AMOUNTS
+    // =====================================
 
     formData.append(
       'subtotal',
@@ -540,14 +580,12 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
       )
     );
 
-
     formData.append(
       'discount',
       String(
         formValue.discount || 0
       )
     );
-
 
     formData.append(
       'tax',
@@ -556,14 +594,17 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
       )
     );
 
-
     formData.append(
       'totalAmount',
       String(
-        formValue.totalAmount
+        formValue.totalAmount || 0
       )
     );
 
+
+    // =====================================
+    // PAYMENT
+    // =====================================
 
     formData.append(
       'paymentStatus',
@@ -571,11 +612,19 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
     );
 
 
+    // =====================================
+    // NOTES
+    // =====================================
+
     formData.append(
       'notes',
       formValue.notes || ''
     );
 
+
+    // =====================================
+    // STATUS
+    // =====================================
 
     formData.append(
       'status',
@@ -583,35 +632,41 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
     );
 
 
-    // =========================
-    // NEW DOCUMENTS
-    // =========================
+    // =====================================
+    // EXISTING DOCUMENTS
+    // =====================================
 
-    this.selectedDocuments
-      .forEach(
-        (file: File) => {
-
-          formData.append(
-            'documents',
-            file
-          );
-
-        }
-      );
-
-
-    console.log(
-      'Updating supplier purchase...'
+    formData.append(
+      'existingDocuments',
+      JSON.stringify(
+        this.existingDocuments
+      )
     );
 
 
-    // =========================
-    // UPDATE
-    // =========================
+    // =====================================
+    // NEW DOCUMENTS
+    // =====================================
+
+    this.selectedDocuments.forEach(
+      (file: File) => {
+
+        formData.append(
+          'documents',
+          file
+        );
+
+      }
+    );
+
+
+    // =====================================
+    // UPDATE API
+    // =====================================
 
     this.supplierPurchaseService
       .updateSupplierPurchase(
-        this.purchaseId,
+        this.supplierPurchaseId,
         formData
       )
       .subscribe({
@@ -619,14 +674,17 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
         next: (response) => {
 
           console.log(
+            'Update Response:',
             response
           );
 
+          this.isSaving = false;
+
 
           this.alert.success(
-            'Updated Successfully'
+            'Supplier Purchase Updated Successfully'
           );
-          this.isSaving = false;
+
 
           this.router.navigate([
             '/admin/supplier-purchase-list'
@@ -634,12 +692,14 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
 
         },
 
-
         error: (error) => {
 
           console.error(
+            'Update Error:',
             error
           );
+
+          this.isSaving = false;
 
 
           Swal.fire({
@@ -650,7 +710,7 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
 
             text:
               error?.error?.message ||
-              'Updated Failed'
+              'Failed To Update Supplier Purchase'
 
           });
 
@@ -661,9 +721,9 @@ export class UpdateSupplierPurchaseComponent implements OnInit {
   }
 
 
-  // =========================
+  // =====================================
   // BACK
-  // =========================
+  // =====================================
 
   goBack(): void {
 

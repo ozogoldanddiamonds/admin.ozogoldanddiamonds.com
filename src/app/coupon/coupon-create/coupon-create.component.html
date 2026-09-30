@@ -5,134 +5,385 @@
     <div class="col-md-12">
 
       <div class="title-section">
+
         <h2>
           Create Coupon
         </h2>
-        
+
       </div>
 
     </div>
+
 
     <div class="category-card">
 
       <form
         [formGroup]="couponForm"
-        (ngSubmit)="onSubmit()">
+        (ngSubmit)="onSubmit()"
+        novalidate>
 
-       <div class="form-layout">
 
-  <!-- Row 1 -->
+        <div class="form-layout">
 
-  <div class="form-group">
 
-    <label>
-      Coupon Code
-    </label>
+          <!-- ====================================== -->
+          <!-- COUPON CODE -->
+          <!-- ====================================== -->
 
-    <input
-      type="text"
-      formControlName="code"
-      placeholder="Enter Coupon Code">
+          <div class="form-group">
 
-  </div>
+            <label>
+              Coupon Code
+              <span class="required">*</span>
+            </label>
 
-  <div class="form-group">
 
-    <label>
-      Discount Type
-    </label>
+            <input
+              type="text"
+              formControlName="code"
+              placeholder="Enter Coupon Code"
+              maxlength="20"
+              [class.is-invalid]="
+                couponForm.get('code')?.invalid &&
+                couponForm.get('code')?.touched
+              ">
 
-    <select
-      formControlName="discountType">
 
-      <option value="">
-        Select Discount Type
-      </option>
+            <!-- Required -->
 
-      <option value="PERCENTAGE">
-        Percentage
-      </option>
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('code')?.hasError('required') &&
+                couponForm.get('code')?.touched
+              ">
 
-      <option value="FLAT">
-        Flat
-      </option>
+              Coupon Code is required.
 
-    </select>
+            </div>
 
-  </div>
 
-  <div class="form-group">
+            <!-- Minimum Length -->
 
-    <label>
-      Discount Value
-    </label>
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('code')?.hasError('minlength') &&
+                couponForm.get('code')?.touched
+              ">
 
-    <input
-      type="number"
-      formControlName="value"
-      placeholder="Enter Discount Value">
+              Coupon Code must be at least 3 characters.
 
-  </div>
+            </div>
 
-  <!-- Row 2 -->
 
-  <div class="form-group">
+            <!-- Maximum Length -->
 
-    <label>
-      Minimum Order Amount
-    </label>
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('code')?.hasError('maxlength') &&
+                couponForm.get('code')?.touched
+              ">
 
-    <input
-      type="number"
-      formControlName="minOrderAmount"
-      placeholder="Enter Minimum Order Amount">
+              Coupon Code cannot exceed 20 characters.
 
-  </div>
+            </div>
 
-  <div class="form-group">
 
-    <label>
-      Expiry Date
-    </label>
+            <!-- Pattern -->
 
-    <input
-      type="date"
-      formControlName="expiryDate">
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('code')?.hasError('pattern') &&
+                couponForm.get('code')?.touched
+              ">
 
-  </div>
+              Coupon Code can contain only letters and numbers.
 
-  <div class="form-group">
+            </div>
 
-    <label>
-      Status
-    </label>
+          </div>
 
-    <select
-      formControlName="isActive">
 
-      <option [ngValue]="true">
-        Active
-      </option>
+          <!-- ====================================== -->
+          <!-- DISCOUNT TYPE -->
+          <!-- ====================================== -->
 
-      <option [ngValue]="false">
-        Inactive
-      </option>
+          <div class="form-group">
 
-    </select>
+            <label>
+              Discount Type
+              <span class="required">*</span>
+            </label>
 
-  </div>
 
-</div>
+            <select
+              formControlName="discountType"
+              [class.is-invalid]="
+                couponForm.get('discountType')?.invalid &&
+                couponForm.get('discountType')?.touched
+              ">
+
+              <option value="">
+                Select Discount Type
+              </option>
+
+              <option value="PERCENTAGE">
+                Percentage
+              </option>
+
+              <option value="FLAT">
+                Flat
+              </option>
+
+            </select>
+
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('discountType')?.hasError('required') &&
+                couponForm.get('discountType')?.touched
+              ">
+
+              Discount Type is required.
+
+            </div>
+
+          </div>
+
+
+          <!-- ====================================== -->
+          <!-- DISCOUNT VALUE -->
+          <!-- ====================================== -->
+
+          <div class="form-group">
+
+            <label>
+              Discount Value
+              <span class="required">*</span>
+            </label>
+
+
+            <input
+              type="number"
+              formControlName="value"
+              placeholder="Enter Discount Value"
+              min="0.01"
+              [class.is-invalid]="
+                couponForm.get('value')?.invalid &&
+                couponForm.get('value')?.touched
+              ">
+
+
+            <!-- Required -->
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('value')?.hasError('required') &&
+                couponForm.get('value')?.touched
+              ">
+
+              Discount Value is required.
+
+            </div>
+
+
+            <!-- Minimum -->
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('value')?.hasError('min') &&
+                couponForm.get('value')?.touched
+              ">
+
+              Discount Value must be greater than 0.
+
+            </div>
+
+
+            <!-- Percentage > 100 -->
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('discountType')?.value === 'PERCENTAGE' &&
+                couponForm.get('value')?.value > 100
+              ">
+
+              Percentage discount cannot be greater than 100.
+
+            </div>
+
+          </div>
+
+
+          <!-- ====================================== -->
+          <!-- MINIMUM ORDER AMOUNT -->
+          <!-- ====================================== -->
+
+          <div class="form-group">
+
+            <label>
+              Minimum Order Amount
+              <span class="required">*</span>
+            </label>
+
+
+            <input
+              type="number"
+              formControlName="minOrderAmount"
+              placeholder="Enter Minimum Order Amount"
+              min="0"
+              [class.is-invalid]="
+                couponForm.get('minOrderAmount')?.invalid &&
+                couponForm.get('minOrderAmount')?.touched
+              ">
+
+
+            <!-- Required -->
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('minOrderAmount')?.hasError('required') &&
+                couponForm.get('minOrderAmount')?.touched
+              ">
+
+              Minimum Order Amount is required.
+
+            </div>
+
+
+            <!-- Minimum -->
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('minOrderAmount')?.hasError('min') &&
+                couponForm.get('minOrderAmount')?.touched
+              ">
+
+              Minimum Order Amount cannot be negative.
+
+            </div>
+
+          </div>
+
+
+          <!-- ====================================== -->
+          <!-- EXPIRY DATE -->
+          <!-- ====================================== -->
+
+          <div class="form-group">
+
+            <label>
+              Expiry Date
+              <span class="required">*</span>
+            </label>
+
+
+            <input
+              type="date"
+              formControlName="expiryDate"
+              [class.is-invalid]="
+                couponForm.get('expiryDate')?.invalid &&
+                couponForm.get('expiryDate')?.touched
+              ">
+
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('expiryDate')?.hasError('required') &&
+                couponForm.get('expiryDate')?.touched
+              ">
+
+              Expiry Date is required.
+
+            </div>
+
+          </div>
+
+
+          <!-- ====================================== -->
+          <!-- STATUS -->
+          <!-- ====================================== -->
+
+          <div class="form-group">
+
+            <label>
+              Status
+              <span class="required">*</span>
+            </label>
+
+
+            <select
+              formControlName="isActive"
+              [class.is-invalid]="
+                couponForm.get('isActive')?.invalid &&
+                couponForm.get('isActive')?.touched
+              ">
+
+              <option [ngValue]="true">
+                Active
+              </option>
+
+              <option [ngValue]="false">
+                Inactive
+              </option>
+
+            </select>
+
+
+            <div
+              class="text-danger mt-1"
+              *ngIf="
+                couponForm.get('isActive')?.hasError('required') &&
+                couponForm.get('isActive')?.touched
+              ">
+
+              Status is required.
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- ====================================== -->
+        <!-- BUTTONS -->
+        <!-- ====================================== -->
 
         <div class="button-group">
 
           <button
             type="submit"
-            class="btn-create">
+            class="btn-create"
+            [disabled]="isLoading">
 
-            Save
+
+            <span *ngIf="!isLoading">
+              Save
+            </span>
+
+
+            <span *ngIf="isLoading">
+
+              <i class="fa fa-spinner fa-spin me-2"></i>
+
+              Saving...
+
+            </span>
 
           </button>
+
 
           <button
             type="button"
@@ -144,6 +395,7 @@
           </button>
 
         </div>
+
 
       </form>
 

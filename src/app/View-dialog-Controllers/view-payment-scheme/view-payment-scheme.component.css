@@ -1,6 +1,9 @@
+/* Dialog Title */
 .dialog-title {
   margin: 0;
-  padding: 14px 18px;
+  padding: 0;
+  background: linear-gradient(135deg, #7a1f1f 0%, #9b2c2c 100%);
+  color: #fff;
 }
 
 .title-wrapper {
@@ -8,143 +11,318 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 18px 24px;
 }
 
 .title-content {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f3f4f6;
-  color: #1f2937;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .title-text {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-close {
-  min-width: 36px;
-  width: 36px;
-  height: 36px;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+/* Dialog Content */
 .dialog-content {
   max-height: 75vh;
   overflow: auto;
-  padding: 18px;
-  background: #fff;
+  padding: 24px;
+  background: linear-gradient(to bottom, #fafafa, #f5f5f5);
 }
 
+/* Royal Cards */
 .royal-card {
-  background: #fafafa;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  border-left: 4px solid #7a1f1f;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(122, 31, 31, 0.1);
+  border-top: 4px solid #7a1f1f;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
+.royal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(122, 31, 31, 0.05) 0%, transparent 70%);
+  border-radius: 0 0 0 100%;
+}
+
+.royal-card:hover {
+  box-shadow: 0 8px 30px rgba(122, 31, 31, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Card Banner */
 .card-banner {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid rgba(122, 31, 31, 0.1);
+}
+
+.banner-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #7a1f1f 0%, #9b2c2c 100%);
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(122, 31, 31, 0.3);
 }
 
 .card-banner h3 {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
+  color: #7a1f1f;
+  letter-spacing: 0.3px;
 }
 
+/* Royal Grid */
 .royal-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px 18px;
+  gap: 16px 24px;
 }
 
 .royal-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 0;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
+.royal-item:hover {
+  background: #f5f5f5;
+  border-color: rgba(122, 31, 31, 0.2);
+}
+
+/* Item Label */
 .item-label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: #8a8a8a;
+  gap: 8px;
+  color: #666;
   font-size: 13px;
-}
-
-.item-value {
-  font-size: 14px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.item-label i {
+  color: #7a1f1f;
+  font-size: 14px;
+}
+
+/* Item Value */
+.item-value {
+  font-size: 15px;
+  font-weight: 700;
   color: #222;
-}
-
-.amount {
-  color: #111;
-}
-
-.code, .datetime {
-  font-family: monospace;
   word-break: break-word;
 }
 
+.amount {
+  color: #7a1f1f;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.code, .datetime {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #444;
+  background: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* IDs Row */
 .ids-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px 18px;
-  margin-top: 8px;
+  gap: 16px 24px;
+  margin-top: 12px;
 }
 
+/* Status Section */
 .status-wrapper {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  padding: 8px 0;
 }
 
 .payment-status {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  border-radius: 999px;
+  gap: 10px;
+  padding: 12px 28px;
+  border-radius: 50px;
   color: #fff;
-  font-weight: 600;
-  min-width: 220px;
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 240px;
   justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
 }
 
-.payment-status.paid { background: #198754; }
-.payment-status.pending { background: #ffc107; color: #222; }
-.payment-status.failed { background: #dc3545; }
+.payment-status i {
+  font-size: 10px;
+}
 
+.payment-status.paid {
+  background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+}
+
+.payment-status.pending {
+  background: linear-gradient(135deg, #ffc107 0%, #ffdb58 100%);
+  color: #222;
+}
+
+.payment-status.failed {
+  background: linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Status Tag */
+.status-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-tag.active {
+  background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+  color: #fff;
+}
+
+.status-tag.inactive {
+  background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+  color: #fff;
+}
+
+/* Remarks Box */
 .remarks-box {
-  background: #fff;
-  padding: 12px 14px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #fafafa, #f5f5f5);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border-left: 4px solid #7a1f1f;
 }
 
+.remarks-box p {
+  margin: 0;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Scrollbar Styling */
+.dialog-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #7a1f1f, #9b2c2c);
+  border-radius: 10px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #7a1f1f;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .royal-grid,
   .ids-row {
     grid-template-columns: 1fr;
+  }
+  
+  .title-wrapper {
+    padding: 16px 20px;
+  }
+  
+  .dialog-content {
+    padding: 16px;
+  }
+  
+  .royal-card {
+    padding: 16px;
   }
 }

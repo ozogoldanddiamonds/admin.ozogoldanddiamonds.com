@@ -1,0 +1,51 @@
+<div class="popup-overlay" *ngIf="isOpen">
+
+  <div class="popup-card">
+
+    <div class="popup-icon" [ngClass]="popupData.type">
+
+      <i class="fa-solid fa-check" *ngIf="popupData.type=='success'"></i>
+      <i class="fa-solid fa-xmark" *ngIf="popupData.type=='error'"></i>
+      <i class="fa-solid fa-exclamation" *ngIf="popupData.type=='warning'"></i>
+      <i class="fa-solid fa-circle-info" *ngIf="popupData.type=='info'"></i>
+      <i class="fa-solid fa-question" *ngIf="popupData.type=='confirm'"></i>
+
+    </div>
+
+    <h2>{{popupData.title}}</h2>
+
+    <p>{{popupData.message}}</p>
+
+    <div class="popup-actions">
+
+      <ng-container *ngIf="popupData.type!='confirm'">
+
+        <button class="ok-btn" (click)="close()">
+          {{popupData.okText || 'OK'}}
+        </button>
+
+      </ng-container>
+
+      <ng-container *ngIf="popupData.type=='confirm'">
+
+        <button class="cancel-btn" (click)="cancel()">
+          {{popupData.cancelText || 'Cancel'}}
+        </button>
+
+        <button class="ok-btn" (click)="confirm()">
+          {{popupData.okText || 'Yes'}}
+        </button>
+
+      </ng-container>
+      <div
+  class="popup-timer"
+  *ngIf="popupData.autoClose"
+  [style.animation-duration.ms]="popupData.duration || 3000">
+</div>
+
+    </div>
+
+  </div>
+  
+
+</div>

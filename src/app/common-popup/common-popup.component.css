@@ -1,0 +1,287 @@
+.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    backdrop-filter:blur(2px);
+
+    animation:overlayFade .25s ease;
+}
+
+.popup-card{
+    width:340px;
+    background:#fff;
+    border-radius:18px;
+    text-align:center;
+    padding:45px 30px 30px;
+    position:relative;
+    border-top:4px solid #6d0000;
+    border-bottom:4px solid #6d0000;
+    box-shadow:0 12px 40px rgba(0,0,0,.18);
+
+    animation: popupBounce .65s cubic-bezier(.18,.89,.32,1.28);
+    transform-origin: center;
+}
+
+.popup-icon{
+
+    width:95px;
+    height:95px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:4px solid #e8c8c8;
+
+    margin-bottom:30px;
+
+}
+
+.popup-icon i{
+
+    font-size:46px;
+
+}
+
+.popup-icon.success{
+
+    color:#6d0000;
+
+}
+
+.popup-icon.error{
+
+    color:#d32f2f;
+
+    border-color:#f5c2c2;
+
+}
+
+.popup-icon.warning{
+
+    color:#d97706;
+
+    border-color:#f8ddb0;
+
+}
+
+.popup-icon.info{
+
+    color:#2563eb;
+
+    border-color:#c8dafd;
+
+}
+
+.popup-icon.confirm{
+
+    color:#6d0000;
+
+}
+
+.popup-card h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#333;
+
+    margin-bottom:18px;
+
+}
+
+.popup-card p{
+
+    font-size:15px;
+
+    color:#8b8b8b;
+
+    line-height:1.6;
+
+    margin-bottom:28px;
+
+}
+
+.popup-actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+}
+
+.ok-btn{
+
+    min-width:120px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#6d0000;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+.cancel-btn{
+
+    min-width:120px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#d9d9d9;
+
+    color:#333;
+
+    cursor:pointer;
+
+}
+
+.ok-btn:hover{
+
+    background:#520000;
+
+}
+
+.cancel-btn:hover{
+
+    background:#cfcfcf;
+
+}
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+.popup-card{
+    position: relative;
+    overflow: hidden;
+}
+
+/* Bottom Timer Border */
+
+.popup-timer{
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 4px;
+
+    background: #6d0000;
+
+    border-radius: 0 0 18px 18px;
+
+    transform-origin: right center;
+
+    animation: timerBorder linear forwards;
+
+}
+
+@keyframes timerBorder{
+
+    from{
+
+        transform: scaleX(1);
+
+    }
+
+    to{
+
+        transform: scaleX(0);
+
+    }
+
+}
+.progress-bar{
+
+    animation: progress var(--duration) linear forwards;
+
+}
+.popup-icon.success{
+
+    animation: successBounce .7s ease;
+
+}
+
+@keyframes successBounce{
+
+    0%{
+
+        transform:scale(0);
+
+        opacity:0;
+
+    }
+
+    40%{
+
+        transform:scale(1.25);
+
+    }
+
+    60%{
+
+        transform:scale(.9);
+
+    }
+
+    80%{
+
+        transform:scale(1.08);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+

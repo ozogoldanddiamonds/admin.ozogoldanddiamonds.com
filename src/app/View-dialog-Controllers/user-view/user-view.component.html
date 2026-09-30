@@ -1,0 +1,220 @@
+<div class="user-dialog">
+
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="dialog-header">
+
+    <div class="header-content">
+
+      <div class="user-icon">
+
+        <i class="fa fa-user"></i>
+
+      </div>
+
+      <div>
+
+        <h4 class="mb-1">
+          User Details
+        </h4>
+
+        <p class="mb-0">
+          User information
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="close-btn"
+      (click)="close()">
+
+      <i class="fa fa-times"></i>
+
+    </button>
+
+  </div>
+
+
+
+  <!-- ================= BODY ================= -->
+
+  <div class="dialog-body">
+
+
+    <!-- USER NAME -->
+
+    <div class="profile-section">
+
+      <div class="profile-icon">
+
+        <i class="fa fa-user"></i>
+
+      </div>
+
+      <div>
+
+        <h5 class="mb-1">
+          {{ user.name || 'N/A' }}
+        </h5>
+
+        <span
+          class="status-badge"
+          [class.verified]="user.isVerified"
+          [class.not-verified]="!user.isVerified">
+
+          <i
+            class="fa"
+            [class.fa-check-circle]="user.isVerified"
+            [class.fa-times-circle]="!user.isVerified">
+          </i>
+
+          {{ user.isVerified ? 'Verified User' : 'Not Verified' }}
+
+        </span>
+
+      </div>
+
+    </div>
+  
+
+
+    <!-- DETAILS -->
+
+    <div class="details-grid">
+
+
+      <!-- NAME -->
+
+      <div class="detail-item">
+
+        <span class="detail-label">
+
+          <i class="fa fa-user"></i>
+
+          Name
+
+        </span>
+
+        <span class="detail-value">
+
+          {{ user.name || 'N/A' }}
+
+        </span>
+
+      </div>
+
+
+      <!-- PHONE -->
+
+      <div class="detail-item">
+
+        <span class="detail-label">
+
+          <i class="fa fa-phone"></i>
+
+          Phone
+
+        </span>
+
+        <span class="detail-value">
+
+          {{ user.phone || 'N/A' }}
+
+        </span>
+
+      </div>
+
+
+      <!-- EMAIL -->
+
+      <div class="detail-item full-width">
+
+        <span class="detail-label">
+
+          <i class="fa fa-envelope"></i>
+
+          Email
+
+        </span>
+
+        <span class="detail-value">
+
+          {{ user.email || 'N/A' }}
+
+        </span>
+
+      </div>
+
+
+      <!-- VERIFIED -->
+
+      <div class="detail-item">
+
+        <span class="detail-label">
+
+          <i class="fa fa-shield"></i>
+
+          Verification
+
+        </span>
+
+        <span class="detail-value">
+
+          {{ user.isVerified ? 'Verified' : 'Not Verified' }}
+
+        </span>
+
+      </div>
+
+
+      <!-- CREATED -->
+
+      <div class="detail-item">
+
+        <span class="detail-label">
+
+          <i class="fa fa-calendar"></i>
+
+          Created At
+
+        </span>
+
+        <span class="detail-value">
+
+          {{ user.createdAt | date:'medium' }}
+
+        </span>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <div class="dialog-footer">
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="close()">
+
+      <i class="fa fa-times me-2"></i>
+
+      Close
+
+    </button>
+
+  </div>
+
+
+</div>

@@ -1242,141 +1242,168 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   // SUBMIT ALL ITEMS
   // =====================================================
 
-  onSubmit(): void {
+// =====================================================
+// SUBMIT ALL ITEMS
+// =====================================================
 
-    // ================================================
-    // PURCHASE VALIDATION
-    // ================================================
+onSubmit(): void {
 
-    const purchaseId =
+  // ================================================
+  // MARK ALL FIELDS AS TOUCHED
+  // ================================================
 
-      this.supplierPurchaseItemForm
-        .get('purchase')
-        ?.value;
-
-
-    if (!purchaseId) {
-
-      this.alert.error(
-        'Please select supplier purchase'
-      );
-
-      return;
-
-    }
+  this.supplierPurchaseItemForm.markAllAsTouched();
 
 
-    // ================================================
-    // ITEMS VALIDATION
-    // ================================================
+  // ================================================
+  // PURCHASE VALIDATION
+  // ================================================
 
-    if (
-      this.supplierPurchaseItems.length === 0
-    ) {
-
-      this.alert.error(
-
-        'Please add at least one product variant'
-
-      );
-
-      return;
-
-    }
+  const purchaseId =
+    this.supplierPurchaseItemForm
+      .get('purchase')
+      ?.value;
 
 
-    // ================================================
-    // PREVENT DOUBLE SUBMIT
-    // ================================================
+  if (!purchaseId) {
 
-    if (this.isSaving) {
+    this.isSaving = false;
 
-      return;
-
-    }
-
-
-    this.isSaving = true;
-
-
-    // ================================================
-    // CREATE PAYLOADS
-    // ================================================
-
-    const requests =
-      this.supplierPurchaseItems.map(
-        item => {
-
-          return {
-
-            purchase:
-              item.purchase,
-
-            product:
-              item.product,
-
-            variantId:
-              item.variantId,
-
-            quantity:
-              Number(
-                item.quantity
-              ),
-
-            purchasePrice:
-              Number(
-                item.purchasePrice
-              ),
-
-            supplierProductCode:
-              item.supplierProductCode
-                ?.trim() || '',
-
-            batchNumber:
-              item.batchNumber
-                ?.trim() || '',
-
-            discount:
-              Number(
-                item.discount
-              ) || 0,
-
-            tax:
-              Number(
-                item.tax
-              ) || 0,
-
-            totalAmount:
-              Number(
-                item.totalAmount
-              ),
-
-            notes:
-              item.notes
-                ?.trim() || ''
-
-          };
-
-        }
-      );
-
-
-    console.log(
-      'All Supplier Purchase Item Payloads:',
-      requests
+    this.alert.error(
+      'Please select supplier purchase'
     );
 
-
-    // ================================================
-    // CREATE ITEMS ONE BY ONE
-    // ================================================
-
-    this.createItemsSequentially(
-      requests,
-      0
-    );
-
+    return;
   }
+
+
+  // ================================================
+  // FORM VALIDATION
+  // ================================================
+
+  if (this.supplierPurchaseItemForm.invalid) {
+
+    // IMPORTANT:
+    // Do not show spinner when validation fails
+    this.isSaving = false;
+
+    return;
+  }
+
+
+  // ================================================
+  // ITEMS VALIDATION
+  // ================================================
+
+  if (
+    this.supplierPurchaseItems.length === 0
+  ) {
+
+    this.isSaving = false;
+
+    this.alert.error(
+      'Please add at least one product variant'
+    );
+
+    return;
+  }
+
+
+  // ================================================
+  // PREVENT DOUBLE SUBMIT
+  // ================================================
+
+  if (this.isSaving) {
+    return;
+  }
+
+
+  // ================================================
+  // START LOADING
+  // ================================================
+
+  // Only now start spinner
+  this.isSaving = true;
+
+
+  // ================================================
+  // CREATE PAYLOADS
+  // ================================================
+
+  const requests =
+    this.supplierPurchaseItems.map(
+      item => {
+
+        return {
+
+          purchase:
+            item.purchase,
+
+          product:
+            item.product,
+
+          variantId:
+            item.variantId,
+
+          quantity:
+            Number(
+              item.quantity
+            ),
+
+          purchasePrice:
+            Number(
+              item.purchasePrice
+            ),
+
+          supplierProductCode:
+            item.supplierProductCode
+              ?.trim() || '',
+
+          batchNumber:
+            item.batchNumber
+              ?.trim() || '',
+
+          discount:
+            Number(
+              item.discount
+            ) || 0,
+
+          tax:
+            Number(
+              item.tax
+            ) || 0,
+
+          totalAmount:
+            Number(
+              item.totalAmount
+            ),
+
+          notes:
+            item.notes
+              ?.trim() || ''
+
+        };
+
+      }
+    );
+
+
+  console.log(
+    'All Supplier Purchase Item Payloads:',
+    requests
+  );
+
+
+  // ================================================
+  // CREATE ITEMS ONE BY ONE
+  // ================================================
+
+  this.createItemsSequentially(
+    requests,
+    0
+  );
+
+}
 
 
 

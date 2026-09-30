@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-supplier-purchase-item.component.css']
 })
 export class UpdateSupplierPurchaseItemComponent implements OnInit {
-
+selectedPurchase: any = null;
 
   // =========================
   // FORM
@@ -61,7 +61,7 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
   // SELECTED PURCHASE
   // =========================
 
-  selectedPurchase: any = null;
+ 
 
 
   constructor(
@@ -227,30 +227,54 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
   // GET ALL PURCHASES
   // =========================
 
-  getAllSupplierPurchases(): void {
+getAllSupplierPurchases(): void {
 
-    this.supplierPurchaseService
-      .getAllSupplierPurchases()
-      .subscribe({
+  this.supplierPurchaseService
+    .getAllSupplierPurchases()
+    .subscribe({
 
-        next: (response: any) => {
+      next: (response: any) => {
 
-          this.purchases =
-            response.data || [];
+        this.purchases =
+          response.data || [];
 
-        },
+        console.log(
+          'All Supplier Purchases:',
+          this.purchases
+        );
 
-        error: (error) => {
+        // Existing purchase ID from form
+        const purchaseId =
+          this.supplierPurchaseItemForm
+            .get('purchase')
+            ?.value;
 
-          console.error(
-            error
+        if (purchaseId) {
+
+          this.selectedPurchase =
+            this.purchases.find(
+              (purchase: any) =>
+                purchase._id === purchaseId
+            ) || null;
+
+          console.log(
+            'Selected Purchase after loading purchases:',
+            this.selectedPurchase
           );
-
         }
+      },
 
-      });
+      error: (error) => {
 
-  }
+        console.error(
+          'Get Supplier Purchases Error:',
+          error
+        );
+
+      }
+
+    });
+}
 
 
   // =========================
@@ -454,21 +478,26 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
   // PURCHASE CHANGE
   // =========================
 
-  onPurchaseChange(): void {
+onPurchaseChange(): void {
 
-    const purchaseId =
-      this.supplierPurchaseItemForm
-        .get('purchase')
-        ?.value;
+  const purchaseId =
+    this.supplierPurchaseItemForm
+      .get('purchase')
+      ?.value;
 
+  console.log('Selected Purchase ID:', purchaseId);
 
-    this.selectedPurchase =
-      this.purchases.find(
-        purchase =>
-          purchase._id === purchaseId
-      ) || null;
+  this.selectedPurchase =
+    this.purchases.find(
+      (purchase: any) =>
+        purchase._id === purchaseId
+    ) || null;
 
-  }
+  console.log(
+    'Selected Purchase:',
+    this.selectedPurchase
+  );
+}
 
 
   // =========================
@@ -629,46 +658,40 @@ export class UpdateSupplierPurchaseItemComponent implements OnInit {
       this.supplierPurchaseItemForm.value;
 
 
-    const updateData = {
+   const updateData = {
 
-      product:
-        formValue.product,
 
-      variantId:
-        formValue.variantId,
+  // IMPORTANT
+  purchase: formValue.purchase,
 
-      quantity:
-        Number(
-          formValue.quantity
-        ),
+  product: formValue.product,
 
-      purchasePrice:
-        Number(
-          formValue.purchasePrice
-        ),
-      supplierProductCode:
-        formValue.supplierProductCode,
-      batchNumber:
-        formValue.batchNumber,
-      discount:
-        Number(
-          formValue.discount
-        ) || 0,
+  variantId: formValue.variantId,
 
-      tax:
-        Number(
-          formValue.tax
-        ) || 0,
+  quantity:
+    Number(formValue.quantity),
 
-      totalAmount:
-        Number(
-          formValue.totalAmount
-        ),
+  purchasePrice:
+    Number(formValue.purchasePrice),
 
-      notes:
-        formValue.notes || ''
+  supplierProductCode:
+    formValue.supplierProductCode,
 
-    };
+  batchNumber:
+    formValue.batchNumber,
+
+  discount:
+    Number(formValue.discount) || 0,
+
+  tax:
+    Number(formValue.tax) || 0,
+
+  totalAmount:
+    Number(formValue.totalAmount),
+
+  notes:
+    formValue.notes || ''
+};
 
 
     console.log(

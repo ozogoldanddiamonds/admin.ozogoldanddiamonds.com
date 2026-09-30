@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
 import { AlertService } from 'src/app/Services/alert.service';
 import { MakersService } from 'src/app/Services/makers.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-makers-list',
@@ -19,27 +22,16 @@ export class MakersListComponent implements OnInit, AfterViewInit {
   // ==========================================
 
   displayedColumns: string[] = [
-
     'sno',
-
     'maker',
-
     'phone',
-
     'email',
-
     'address',
-
     'specialization',
-
     'status',
-
     'createdAt',
-
     'actions'
-
   ];
-
 
   // ==========================================
   // Maker List
@@ -47,44 +39,34 @@ export class MakersListComponent implements OnInit, AfterViewInit {
 
   makerList: any[] = [];
 
-
   // ==========================================
   // Data Source
   // ==========================================
 
-  dataSource =
-    new MatTableDataSource<any>();
-
+  dataSource = new MatTableDataSource<any>();
 
   // ==========================================
   // Paginator
   // ==========================================
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // ==========================================
   // Sort
   // ==========================================
 
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
+  // ==========================================
+  // Constructor
+  // ==========================================
 
   constructor(
-
-    private makerService:
-      MakersService,
-
-    private router:
-      Router,
-
-    private alertService:
-      AlertService
-
-  ) { }
-
+    private makerService: MakersService,
+    private router: Router,
+    private alertService: AlertService,
+    private dialog: MatDialog
+  ) {}
 
   // ==========================================
   // On Init
@@ -94,17 +76,13 @@ export class MakersListComponent implements OnInit, AfterViewInit {
 
     this.getAllMakers();
 
-
     // ========================================
     // Custom Search
     // ========================================
 
     this.dataSource.filterPredicate = (
-
       data: any,
-
       filter: string
-
     ) => {
 
       // ======================================
@@ -129,16 +107,12 @@ export class MakersListComponent implements OnInit, AfterViewInit {
       const country =
         data.address?.country || '';
 
-
       // ======================================
       // Status
       // ======================================
 
       const status =
-        data.isActive
-          ? 'active'
-          : 'inactive';
-
+        data.isActive ? 'active' : 'inactive';
 
       // ======================================
       // Search Text
@@ -146,49 +120,27 @@ export class MakersListComponent implements OnInit, AfterViewInit {
 
       const searchText = (
 
-        (data.name || '') +
+        (data.name || '') + ' ' +
 
-        ' ' +
+        (data.phone || '') + ' ' +
 
-        (data.phone || '') +
+        (data.email || '') + ' ' +
 
-        ' ' +
+        (data.specialization || '') + ' ' +
 
-        (data.email || '') +
+        (data.notes || '') + ' ' +
 
-        ' ' +
+        addressLine1 + ' ' +
 
-        (data.specialization || '') +
+        addressLine2 + ' ' +
 
-        ' ' +
+        city + ' ' +
 
-        (data.notes || '') +
+        state + ' ' +
 
-        ' ' +
+        pincode + ' ' +
 
-        addressLine1 +
-
-        ' ' +
-
-        addressLine2 +
-
-        ' ' +
-
-        city +
-
-        ' ' +
-
-        state +
-
-        ' ' +
-
-        pincode +
-
-        ' ' +
-
-        country +
-
-        ' ' +
+        country + ' ' +
 
         status
 
@@ -196,15 +148,9 @@ export class MakersListComponent implements OnInit, AfterViewInit {
         .toLowerCase()
         .trim();
 
-
-      return searchText.includes(
-        filter
-      );
-
+      return searchText.includes(filter);
     };
-
   }
-
 
   // ==========================================
   // After View Init
@@ -215,12 +161,9 @@ export class MakersListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator =
       this.paginator;
 
-
     this.dataSource.sort =
       this.sort;
-
   }
-
 
   // ==========================================
   // Get All Makers
@@ -232,6 +175,10 @@ export class MakersListComponent implements OnInit, AfterViewInit {
       .getAllMakers()
       .subscribe({
 
+        // ====================================
+        // Success
+        // ====================================
+
         next: (response: any) => {
 
           console.log(
@@ -239,40 +186,38 @@ export class MakersListComponent implements OnInit, AfterViewInit {
             response
           );
 
-
-          // ====================================
+          // ==================================
           // API Data
-          // ====================================
+          // ==================================
 
           this.makerList =
             response?.data || [];
 
-
-          // ====================================
+          // ==================================
           // Bind Table
-          // ====================================
+          // ==================================
 
           this.dataSource.data =
             this.makerList;
 
-
-          // ====================================
+          // ==================================
           // Paginator
-          // ====================================
+          // ==================================
 
           this.dataSource.paginator =
             this.paginator;
 
-
-          // ====================================
+          // ==================================
           // Sort
-          // ====================================
+          // ==================================
 
           this.dataSource.sort =
             this.sort;
-
         },
 
+        // ====================================
+        // Error
+        // ====================================
 
         error: (error: any) => {
 
@@ -281,163 +226,176 @@ export class MakersListComponent implements OnInit, AfterViewInit {
             error
           );
 
-
           this.makerList = [];
 
           this.dataSource.data = [];
 
-
           this.alertService.error(
-
             error?.error?.message ||
-
             'Failed to load makers'
-
           );
-
         }
-
       });
-
   }
-
 
   // ==========================================
   // Search Filter
   // ==========================================
 
-  applyFilter(
-    event: Event
-  ): void {
+  applyFilter(event: Event): void {
 
     const filterValue =
-      (
-        event.target as
-        HTMLInputElement
-      ).value;
-
+      (event.target as HTMLInputElement).value;
 
     this.dataSource.filter =
       filterValue
         .trim()
         .toLowerCase();
 
-
     // ========================================
     // Reset Page
     // ========================================
 
-    if (
-      this.dataSource.paginator
-    ) {
+    if (this.dataSource.paginator) {
 
       this.dataSource
         .paginator
         .firstPage();
-
     }
-
   }
-
-
-
-
-
 
   // ==========================================
   // Delete Maker
   // ==========================================
 
-  deleteMaker(
-    maker: any
-  ): void {
+  deleteMaker(data: any): void {
 
-    if (!maker?._id) {
+    // ========================================
+    // Maker ID Validation
+    // ========================================
+
+    if (!data?._id) {
 
       this.alertService.error(
         'Maker ID not found'
       );
 
       return;
-
     }
 
-
     // ========================================
-    // Confirmation
+    // Delete Confirmation Dialog
     // ========================================
 
-    const confirmed =
-      window.confirm(
-
-        `Are you sure you want to delete "${maker.name || 'this maker'}"?`
-
+    const dialogRef =
+      this.dialog.open(
+        DeleteConfirmationComponent,
+        {
+          width: '400px'
+        }
       );
 
-
-    if (!confirmed) {
-
-      return;
-
-    }
-
-
     // ========================================
-    // Delete API
+    // After Dialog Closed
     // ========================================
 
-    this.makerService
-      .deleteMaker(
-        maker._id
-      )
-      .subscribe({
+    dialogRef
+      .afterClosed()
+      .subscribe((result) => {
 
-        next: (response: any) => {
+        if (result) {
 
-          console.log(
-            'Delete Maker Response:',
-            response
-          );
+          // ==================================
+          // Delete API
+          // ==================================
 
+          this.makerService
+            .deleteMaker(data._id)
+            .subscribe({
 
-          this.alertService
-            .success(
+              // =================================
+              // Success
+              // =================================
 
-              response?.message ||
+              next: (response: any) => {
 
-              'Maker deleted successfully'
+                console.log(
+                  'Delete Maker Response:',
+                  response
+                );
 
-            )
-          this.getAllMakers();
+                Swal.fire({
 
-        },
+                  icon: 'success',
 
+                  title: 'Deleted',
 
-        error: (error: any) => {
+                  text:
+                    response?.message ||
+                    'Maker Deleted Successfully',
 
-          console.log(
-            'Delete Maker Error:',
-            error
-          );
+                  timer: 2500,
 
+                  timerProgressBar: true,
 
-          this.alertService.error(
+                  showConfirmButton: false,
 
-            error?.error?.message ||
+                  customClass: {
+                    popup: 'success-popup'
+                  }
 
-            'Failed to delete maker'
+                });
 
-          );
+                // ===============================
+                // Refresh Maker List
+                // ===============================
 
+                this.getAllMakers();
+              },
+
+              // =================================
+              // Error
+              // =================================
+
+              error: (error: any) => {
+
+                console.error(
+                  'Delete Maker Error:',
+                  error
+                );
+
+                Swal.fire({
+
+                  icon: 'error',
+
+                  title: 'Oops...',
+
+                  text:
+                    error?.error?.message ||
+                    'Delete Failed',
+
+                  timer: 2500,
+
+                  timerProgressBar: true,
+
+                  showConfirmButton: false,
+
+                  customClass: {
+                    popup: 'error-popup'
+                  }
+
+                });
+              }
+            });
         }
-
       });
-
   }
 
-  viewMaker(
-    element: any
-  ): void {
+  // ==========================================
+  // View Maker
+  // ==========================================
+
+  viewMaker(element: any): void {
 
     this.router.navigate(
       [
@@ -450,20 +408,18 @@ export class MakersListComponent implements OnInit, AfterViewInit {
         }
       }
     );
-
-
   }
 
+  // ==========================================
+  // Edit Maker
+  // ==========================================
 
-  editMaker(
-    maker: any
-  ): void {
+  editMaker(maker: any): void {
 
     console.log(
       'Edit Maker:',
       maker
     );
-
 
     if (!maker?._id) {
 
@@ -472,18 +428,11 @@ export class MakersListComponent implements OnInit, AfterViewInit {
       );
 
       return;
-
     }
 
-
     this.router.navigate([
-
       '/admin/update-gold-smith',
-
       maker._id
-
     ]);
-
   }
-
 }

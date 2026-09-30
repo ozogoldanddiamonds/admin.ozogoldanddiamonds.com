@@ -46,26 +46,30 @@
                                             Supplier Purchase
                                         </label>
 
-                                        <select class="form-control" formControlName="purchase"
-                                            (change)="onPurchaseChange()">
+                                      <select
+    class="form-control"
+    formControlName="purchase"
+    (change)="onPurchaseChange()">
 
-                                            <option value="">
-                                                Select Supplier Purchase
-                                            </option>
+    <option value="">
+        Select Supplier Purchase
+    </option>
 
-                                            <option *ngFor="let purchase of purchases" [value]="purchase._id">
+    <option
+        *ngFor="let purchase of purchases"
+        [value]="purchase._id">
 
-                                                {{ purchase.invoiceNumber }}
-                                                -
-                                                {{ purchase.supplier?.name }}
-                                                -
-                                                {{ purchase.invoiceDate | date:'dd-MM-yyyy' }}
-                                                -
-                                                ₹{{ purchase.totalAmount }}
+        {{ purchase.invoiceNumber }}
+        -
+        {{ purchase.supplier?.name }}
+        -
+        {{ purchase.invoiceDate | date:'dd-MM-yyyy' }}
+        -
+        ₹{{ purchase.totalAmount }}
 
-                                            </option>
+    </option>
 
-                                        </select>
+</select>
 
                                     </div>
 
@@ -107,10 +111,11 @@
                                             Invoice Number
                                         </label>
 
-                                        <input type="text" class="form-control" [value]="
-                                                                    selectedPurchase
-                                                                        ?.invoiceNumber || '-'
-                                                                " readonly>
+                                        <input
+    type="text"
+    class="form-control"
+    [value]="selectedPurchase?.invoiceNumber || '-'"
+    readonly>
 
                                     </div>
 

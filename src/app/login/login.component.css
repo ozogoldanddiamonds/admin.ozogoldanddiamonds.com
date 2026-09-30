@@ -276,3 +276,354 @@ form {
   font-size: 18px;
 
 }
+
+/* ==========================================
+   GLASS AUTH CARD
+========================================== */
+
+.auth-card>* {
+  z-index: 1;
+}
+
+.auth-card {
+  position: relative;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  isolation: isolate;
+}
+
+
+/* ==========================================
+   GLASS LIGHT SHINE
+========================================== */
+
+.auth-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -100%;
+  left: -80%;
+
+  width: 55%;
+  height: 300%;
+
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.10),
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.10),
+      transparent);
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  animation: glassShine 6s ease-in-out infinite;
+}
+
+/* ==========================================
+   GLASS AUTH CARD
+========================================== */
+
+.auth-card {
+  position: relative;
+
+  width: 900px;
+  height: 550px;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.78);
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  isolation: isolate;
+
+  animation:
+    authCardFadeIn 0.7s ease-out both;
+}
+
+
+/* ==========================================
+   MOVING GLASS SHINE
+========================================== */
+
+.auth-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -100%;
+  left: -80%;
+
+  width: 45%;
+  height: 300%;
+
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.04) 20%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.08) 75%,
+      transparent 100%);
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+
+  /*
+    IMPORTANT:
+    Before content ni cover cheyyadaniki
+    z-index high ga undali
+  */
+
+  z-index: 20;
+
+  animation:
+    glassShine 8s ease-in-out infinite;
+}
+
+
+/* ==========================================
+   GOLD GLASS GLOW
+========================================== */
+
+.auth-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 320px;
+  height: 320px;
+
+  right: -150px;
+  bottom: -160px;
+
+  background: rgba(212, 175, 55, 0.18);
+
+  border-radius: 50%;
+
+  filter: blur(75px);
+
+  pointer-events: none;
+
+  z-index: 15;
+
+  animation:
+    glassGlow 9s ease-in-out infinite alternate;
+}
+
+
+/* ==========================================
+   CARD CONTENT
+========================================== */
+
+.auth-card>* {
+  position: relative;
+
+  z-index: 5;
+}
+
+
+/* ==========================================
+   GLASS SHINE
+========================================== */
+
+@keyframes glassShine {
+
+  0% {
+    left: -80%;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.7;
+  }
+
+  35% {
+    left: 120%;
+    opacity: 0.35;
+  }
+
+  45% {
+    left: 150%;
+    opacity: 0;
+  }
+
+  100% {
+    left: 150%;
+    opacity: 0;
+  }
+
+}
+
+
+/* ==========================================
+   GOLD GLOW
+========================================== */
+
+@keyframes glassGlow {
+
+  0% {
+    transform: scale(0.85);
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+
+}
+
+
+/* ==========================================
+   CARD FADE / SCALE
+========================================== */
+
+@keyframes authCardFadeIn {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(20px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0) scale(1);
+  }
+
+}
+
+/* ==========================================
+   KEEP CONTENT ABOVE EFFECT
+========================================== */
+
+.auth-card>* {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ==========================================
+   GLASS SHINE ANIMATION
+========================================== */
+
+@keyframes glassShine {
+
+  0% {
+    left: -90%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  45% {
+    left: 130%;
+    opacity: 0.8;
+  }
+
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+
+}
+
+
+/* ==========================================
+   GLASS GLOW ANIMATION
+========================================== */
+
+@keyframes glassGlow {
+
+  0% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+}
+
+/* ==========================================
+   LOGIN BUTTON
+========================================== */
+
+.login-btn {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+
+.login-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+
+.login-btn:disabled {
+  opacity: 0.75;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* Spinner */
+
+.login-btn .spinner-border {
+  width: 17px;
+  height: 17px;
+
+  border-width: 2px;
+}

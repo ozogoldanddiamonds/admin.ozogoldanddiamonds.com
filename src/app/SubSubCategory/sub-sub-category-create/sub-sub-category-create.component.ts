@@ -13,10 +13,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./sub-sub-category-create.component.css']
 })
 export class SubSubCategoryCreateComponent implements OnInit {
+
   isSaving: boolean = false;
+
   subSubCategoryForm!: FormGroup;
 
   categories: any[] = [];
+
   subCategories: any[] = [];
 
   selectedFile:
@@ -25,7 +28,9 @@ export class SubSubCategoryCreateComponent implements OnInit {
   imagePreview:
     string | ArrayBuffer | null = null;
 
+
   constructor(
+
     private fb:
       FormBuilder,
 
@@ -40,9 +45,12 @@ export class SubSubCategoryCreateComponent implements OnInit {
 
     private router:
       Router,
-    private alert: AlertService
+
+    private alert:
+      AlertService
 
   ) { }
+
 
   ngOnInit(): void {
 
@@ -68,15 +76,21 @@ export class SubSubCategoryCreateComponent implements OnInit {
 
       });
 
+
     this.getCategories();
+
     this.getSubCategories();
+
   }
+
+
   onCategoryChange(
     event: any
   ): void {
 
     const categoryId =
       event.target.value;
+
 
     // RESET SUBCATEGORY
 
@@ -86,6 +100,7 @@ export class SubSubCategoryCreateComponent implements OnInit {
         subCategory: ''
 
       });
+
 
     // API CALL
 
@@ -114,162 +129,220 @@ export class SubSubCategoryCreateComponent implements OnInit {
 
   }
 
+
   /*
   GET CATEGORY
   */
+
   getCategories() {
+
     this.categoryService
       .getAllCategories()
       .subscribe((res: any) => {
+
         this.categories =
           res.data;
+
       });
+
   }
+
 
   /*
   GET SUBCATEGORY
   */
+
   getSubCategories() {
+
     this.subCategoryService
       .getAllSubCategories()
       .subscribe((res: any) => {
+
         this.subCategories =
           res.data;
+
       });
+
   }
+
 
   /*
   IMAGE CHANGE
   */
+
   onFileChange(
     event: any
   ) {
+
     if (
       event.target.files &&
       event.target.files.length > 0
     ) {
+
       const file =
         event.target.files[0];
+
 
       this.selectedFile =
         file;
 
+
       const reader =
         new FileReader();
 
+
       reader.onload = () => {
+
         this.imagePreview =
           reader.result;
+
       };
+
 
       reader.readAsDataURL(
         file
       );
+
     }
+
   }
+
 
   /*
- SUBMIT
- */
+  SUBMIT
+  */
 
   onSubmit() {
-    this.isSaving = true;
+
+    // Show all validation messages
+    this.subSubCategoryForm
+      .markAllAsTouched();
+
+
+    // Validation failed
+    // Loading must remain OFF
     if (
-      this.subSubCategoryForm.valid
+      this.subSubCategoryForm.invalid
     ) {
 
-      const formData =
-        new FormData();
+      this.isSaving = false;
 
-      formData.append(
-
-        'name',
-
-        this.subSubCategoryForm.value.name
-
-      );
-
-      formData.append(
-
-        'category',
-
-        this.subSubCategoryForm.value.category
-
-      );
-
-      formData.append(
-
-        'subCategory',
-
-        this.subSubCategoryForm.value.subCategory
-
-      );
-
-      formData.append(
-
-        'isActive',
-
-        this.subSubCategoryForm.value.isActive
-
-      );
-
-      if (this.selectedFile) {
-
-        formData.append(
-
-          'image',
-
-          this.selectedFile
-
-        );
-
-      }
-
-      this.subSubCategoryService
-        .createSubSubCategory(
-          formData
-        )
-        .subscribe({
-
-          // SUCCESS
-
-          next: (response) => {
-
-            console.log(response);
-
-            this.alert.success(
-              'SubSubCategory Created Successfully'
-            );
-            this.isSaving = true;
-            this.router.navigate([
-              '/admin/subsubcategory'
-            ]);
-
-          },
-
-          // ERROR
-
-          error: (err: any) => {
-
-            console.log(err);
-
-            this.alert.error(
-              err?.error?.message ||
-              'Failed To Create SubSubCategory'
-            );
-
-          }
-
-        });
+      return;
 
     }
 
+
+    // All required fields valid
+    // Start loading only before API call
+    this.isSaving = true;
+
+
+    const formData =
+      new FormData();
+
+
+    formData.append(
+      'name',
+      this.subSubCategoryForm.value.name
+    );
+
+
+    formData.append(
+      'category',
+      this.subSubCategoryForm.value.category
+    );
+
+
+    formData.append(
+      'subCategory',
+      this.subSubCategoryForm.value.subCategory
+    );
+
+
+    formData.append(
+      'isActive',
+      this.subSubCategoryForm.value.isActive
+    );
+
+
+    if (this.selectedFile) {
+
+      formData.append(
+        'image',
+        this.selectedFile
+      );
+
+    }
+
+
+    this.subSubCategoryService
+      .createSubSubCategory(
+        formData
+      )
+      .subscribe({
+
+        // SUCCESS
+
+        next: (response) => {
+
+          console.log(response);
+
+
+          // Stop loading
+          this.isSaving = false;
+
+
+          this.alert.success(
+            'SubSubCategory Created Successfully'
+          );
+
+
+          this.router.navigate([
+            '/admin/subsubcategory'
+          ]);
+
+        },
+
+
+        // ERROR
+
+        error: (err: any) => {
+
+          console.log(
+            'Create SubSubCategory Error:',
+            err
+          );
+
+
+          // Stop loading
+          this.isSaving = false;
+
+
+          // Actual backend error message
+          const backendMessage =
+            err?.error?.message ||
+            err?.error?.error ||
+            err?.message ||
+            'Something went wrong while creating SubSubCategory';
+
+
+          this.alert.error(
+            backendMessage
+          );
+
+        }
+
+      });
+
   }
 
+
   goBack() {
+
     this.router.navigate([
       '/admin/subsubcategory'
     ]);
+
   }
 
 }

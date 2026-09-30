@@ -4,16 +4,20 @@
   <div class="top-row">
 
     <div class="title-section">
+
       <h2>
         User Management
       </h2>
+
       <p>
         Total Users:
         {{ totalUsers }}
       </p>
+
     </div>
 
   </div>
+
 
   <!-- Search -->
   <div class="search-row">
@@ -35,6 +39,7 @@
 
   </div>
 
+
   <!-- Table -->
   <div class="table-row">
 
@@ -44,14 +49,17 @@
       matSort
       class="mat-elevation-z8">
 
-      <!-- S.No -->
-      <ng-container
-        matColumnDef="sno">
+
+      <!-- ================= S.NO ================= -->
+
+      <ng-container matColumnDef="sno">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           S.No
+
         </th>
 
         <td
@@ -60,131 +68,213 @@
             let element;
             let i = index
           ">
+
           {{ i + 1 }}
+
         </td>
 
       </ng-container>
 
-      <!-- Name -->
-      <ng-container
-        matColumnDef="name">
+
+      <!-- ================= NAME ================= -->
+
+      <ng-container matColumnDef="name">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           Name
+
         </th>
 
         <td
           mat-cell
           *matCellDef="let element">
+
           {{ element.name }}
+
         </td>
 
       </ng-container>
 
-      <!-- Phone -->
-      <ng-container
-        matColumnDef="phone">
+
+      <!-- ================= PHONE ================= -->
+
+      <ng-container matColumnDef="phone">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           Phone
+
         </th>
 
         <td
           mat-cell
           *matCellDef="let element">
+
           {{ element.phone }}
+
         </td>
 
       </ng-container>
 
-      <!-- Email -->
-      <ng-container
-        matColumnDef="email">
+
+      <!-- ================= EMAIL ================= -->
+
+      <ng-container matColumnDef="email">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           Email
+
         </th>
 
         <td
           mat-cell
           *matCellDef="let element">
+
           {{ element.email }}
+
         </td>
 
       </ng-container>
 
-      <!-- Verified -->
-      <ng-container
-        matColumnDef="isVerified">
+
+      <!-- ================= VERIFIED ================= -->
+
+      <ng-container matColumnDef="isVerified">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           Verified
+
         </th>
 
         <td
           mat-cell
           *matCellDef="let element">
-          {{
-            element.isVerified
-            ? 'Yes'
-            : 'No'
-          }}
+
+          <span
+            [class.text-success]="element.isVerified"
+            [class.text-danger]="!element.isVerified">
+
+            {{ element.isVerified ? 'Yes' : 'No' }}
+
+          </span>
+
         </td>
 
       </ng-container>
 
-      <!-- Created Date -->
-      <ng-container
-        matColumnDef="createdAt">
+
+      <!-- ================= CREATED DATE ================= -->
+
+      <ng-container matColumnDef="createdAt">
 
         <th
           mat-header-cell
           *matHeaderCellDef>
+
           Created At
+
         </th>
 
         <td
           mat-cell
           *matCellDef="let element">
-          {{
-            element.createdAt
-            | date:'short'
-          }}
+
+          {{ element.createdAt | date:'short' }}
+
         </td>
 
       </ng-container>
+
+
+      <!-- ================= ACTIONS ================= -->
+
+      <ng-container matColumnDef="actions">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+
+          Actions
+
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element">
+
+          <button
+            type="button"
+            class="btn btn-sm  view-btn"
+            (click)="viewUser(element)"
+            matTooltip="View User">
+
+            <i class="fa fa-eye me-1"></i>
+            View
+
+          </button>
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ================= HEADER ================= -->
 
       <tr
         mat-header-row
-        *matHeaderRowDef="
-          displayedColumns
-        ">
+        *matHeaderRowDef="displayedColumns">
+
       </tr>
+
+
+      <!-- ================= ROW ================= -->
 
       <tr
         mat-row
         *matRowDef="
           let row;
-          columns:
-          displayedColumns;
+          columns: displayedColumns;
         ">
+
+      </tr>
+
+
+      <!-- ================= NO DATA ================= -->
+
+      <tr
+        class="mat-row"
+        *matNoDataRow>
+
+        <td
+          class="mat-cell text-center py-4"
+          [attr.colspan]="displayedColumns.length">
+
+          No users found.
+
+        </td>
+
       </tr>
 
     </table>
 
+
+    <!-- PAGINATOR -->
+
     <mat-paginator
-      [pageSizeOptions]="
-        [5,10,20,50]
-      "
+      [pageSizeOptions]="[5,10,20,50]"
       showFirstLastButtons>
+
     </mat-paginator>
 
   </div>

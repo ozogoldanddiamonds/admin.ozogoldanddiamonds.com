@@ -56,3 +56,7 @@ table {
     border-radius: 10px;
     object-fit: cover;
 }
+h6{
+    font-size: 12px;
+    font-weight: 700;
+}

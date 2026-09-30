@@ -147,6 +147,7 @@
 
     color: #999;
     font-size: 14px;
+    
 }
 
 
@@ -162,7 +163,7 @@
 
     font-size: 14px !important;
 
-    background: transparent !important;
+    /* background: transparent !important; */
 }
 
 
@@ -179,6 +180,7 @@
     border-radius: 8px;
 
     overflow: hidden;
+    background-color: rgb(211, 207, 207);
 
     box-shadow:
         0 8px 20px rgba(0, 0, 0, 0.12);
@@ -199,7 +201,7 @@
 
 ::ng-deep .product-select .ng-dropdown-panel .ng-option:hover {
 
-    background: #f5f7fb;
+    background: #ffffff;
 }
 
 

@@ -80,19 +80,13 @@ export class CreateMakersComponent implements OnInit {
         ],
 
 
-        phone: [
-
-          '',
-
-          [
-            Validators.required,
-
-            Validators.pattern(
-              /^[0-9]{10}$/
-            )
-          ]
-
-        ],
+        // Required + Indian 10 digit mobile number
+    phone: ['', [
+      Validators.required,
+      Validators.pattern(/^[6-9][0-9]{9}$/),
+      Validators.minLength(10),
+      Validators.maxLength(10)
+    ]],
 
 
         email: [
@@ -150,15 +144,12 @@ export class CreateMakersComponent implements OnInit {
         ],
 
 
-        pincode: [
-
-          '',
-
-          Validators.pattern(
-            /^[0-9]{6}$/
-          )
-
-        ],
+       // Optional, but if entered must be exactly 6 digits
+    pincode: ['', [
+      Validators.pattern(/^[0-9]{6}$/),
+      Validators.minLength(6),
+      Validators.maxLength(6)
+    ]],
 
 
         country: [
@@ -387,6 +378,46 @@ export class CreateMakersComponent implements OnInit {
     ]);
 
   }
+  allowOnlyNumbers(event: KeyboardEvent): boolean {
+
+  const charCode = event.which ? event.which : event.keyCode;
+
+  // Allow only 0-9
+  if (charCode >= 48 && charCode <= 57) {
+    return true;
+  }
+
+  event.preventDefault();
+  return false;
+}
+onPhonePaste(event: ClipboardEvent): void {
+
+  event.preventDefault();
+
+  const pastedText = event.clipboardData?.getData('text') || '';
+
+  const numbersOnly = pastedText
+    .replace(/[^0-9]/g, '')
+    .slice(0, 10);
+
+  this.makerForm
+    .get('phone')
+    ?.setValue(numbersOnly);
+}
+onPincodePaste(event: ClipboardEvent): void {
+
+  event.preventDefault();
+
+  const pastedText = event.clipboardData?.getData('text') || '';
+
+  const numbersOnly = pastedText
+    .replace(/[^0-9]/g, '')
+    .slice(0, 6);
+
+  this.makerForm
+    .get('pincode')
+    ?.setValue(numbersOnly);
+}
 
 
 }

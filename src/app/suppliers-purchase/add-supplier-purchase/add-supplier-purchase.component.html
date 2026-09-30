@@ -4,11 +4,16 @@
 
         <div class="col-md-12">
 
+            <!-- TITLE -->
             <div class="title-section">
 
                 <h2>
                     Create Supplier Purchase
                 </h2>
+
+                <p>
+                    Add new supplier purchase
+                </p>
 
             </div>
 
@@ -17,22 +22,23 @@
 
         <div class="category-card">
 
-            <form [formGroup]="supplierPurchaseForm" (ngSubmit)="onSubmit()">
-
+            <form
+                [formGroup]="supplierPurchaseForm"
+                (ngSubmit)="onSubmit()"
+            >
 
                 <div class="form-layout">
-
-
-                    <!-- Left Section -->
 
                     <div class="left-section">
 
                         <div class="row">
 
 
-                            <!-- Supplier -->
+                            <!-- ================================= -->
+                            <!-- SUPPLIER -->
+                            <!-- ================================= -->
 
-                            <div class="col-4">
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -40,28 +46,50 @@
                                         Supplier
                                     </label>
 
-                                    <select class="form-control" formControlName="supplier">
+                                    <select
+                                        class="form-control"
+                                        formControlName="supplier"
+                                        [class.is-invalid]="
+                                            supplierPurchaseForm.get('supplier')?.touched &&
+                                            supplierPurchaseForm.get('supplier')?.invalid
+                                        "
+                                    >
 
                                         <option value="">
                                             Select Supplier
                                         </option>
 
-                                        <option *ngFor="let supplier of suppliers" [value]="supplier._id">
-
+                                        <option
+                                            *ngFor="let supplier of suppliers"
+                                            [value]="supplier._id"
+                                        >
                                             {{ supplier.name }}
-
                                         </option>
 
                                     </select>
+
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseForm.get('supplier')?.touched &&
+                                            supplierPurchaseForm.get('supplier')?.hasError('required')
+                                        "
+                                    >
+                                        Supplier is required.
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Invoice Number -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- INVOICE NUMBER -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -69,17 +97,50 @@
                                         Invoice Number
                                     </label>
 
-                                    <input type="text" class="form-control" formControlName="invoiceNumber"
-                                        placeholder="Enter Invoice Number">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        formControlName="invoiceNumber"
+                                        placeholder="Enter Invoice Number"
+                                        [class.is-invalid]="
+                                            supplierPurchaseForm.get('invoiceNumber')?.touched &&
+                                            supplierPurchaseForm.get('invoiceNumber')?.invalid
+                                        "
+                                    >
+
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseForm.get('invoiceNumber')?.touched &&
+                                            supplierPurchaseForm.get('invoiceNumber')?.hasError('required')
+                                        "
+                                    >
+                                        Invoice number is required.
+                                    </div>
+
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseForm.get('invoiceNumber')?.touched &&
+                                            supplierPurchaseForm.get('invoiceNumber')?.hasError('pattern')
+                                        "
+                                    >
+                                        Invoice number cannot be empty.
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Invoice Date -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- INVOICE DATE -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -87,16 +148,38 @@
                                         Invoice Date
                                     </label>
 
-                                    <input type="date" class="form-control" formControlName="invoiceDate">
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        formControlName="invoiceDate"
+                                        [class.is-invalid]="
+                                            supplierPurchaseForm.get('invoiceDate')?.touched &&
+                                            supplierPurchaseForm.get('invoiceDate')?.invalid
+                                        "
+                                    >
+
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseForm.get('invoiceDate')?.touched &&
+                                            supplierPurchaseForm.get('invoiceDate')?.hasError('required')
+                                        "
+                                    >
+                                        Invoice date is required.
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Purchase Date -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- PURCHASE DATE -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -104,16 +187,23 @@
                                         Purchase Date
                                     </label>
 
-                                    <input type="date" class="form-control" formControlName="purchaseDate">
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        formControlName="purchaseDate"
+                                    >
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Subtotal -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- SUBTOTAL -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -121,17 +211,24 @@
                                         Subtotal
                                     </label>
 
-                                    <input type="number" class="form-control" formControlName="subtotal"
-                                        placeholder="Enter Subtotal">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="subtotal"
+                                        placeholder="Enter Subtotal"
+                                    >
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Discount -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- DISCOUNT -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -139,17 +236,24 @@
                                         Discount
                                     </label>
 
-                                    <input type="number" class="form-control" formControlName="discount"
-                                        placeholder="Enter Discount">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="discount"
+                                        placeholder="Enter Discount"
+                                    >
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Tax -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- TAX -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -157,17 +261,24 @@
                                         Tax
                                     </label>
 
-                                    <input type="number" class="form-control" formControlName="tax"
-                                        placeholder="Enter Tax">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="tax"
+                                        placeholder="Enter Tax"
+                                    >
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Total Amount -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- TOTAL AMOUNT -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -175,17 +286,39 @@
                                         Total Amount
                                     </label>
 
-                                    <input type="number" class="form-control" formControlName="totalAmount"
-                                        placeholder="Enter Total Amount">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="totalAmount"
+                                        placeholder="Enter Total Amount"
+                                        [class.is-invalid]="
+                                            supplierPurchaseForm.get('totalAmount')?.touched &&
+                                            supplierPurchaseForm.get('totalAmount')?.invalid
+                                        "
+                                    >
+
+
+                                    <div
+                                        class="validation-message"
+                                        *ngIf="
+                                            supplierPurchaseForm.get('totalAmount')?.touched &&
+                                            supplierPurchaseForm.get('totalAmount')?.hasError('required')
+                                        "
+                                    >
+                                        Total amount is required.
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Payment Status -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- PAYMENT STATUS -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -193,7 +326,10 @@
                                         Payment Status
                                     </label>
 
-                                    <select class="form-control" formControlName="paymentStatus">
+                                    <select
+                                        class="form-control"
+                                        formControlName="paymentStatus"
+                                    >
 
                                         <option value="PENDING">
                                             Pending
@@ -214,9 +350,12 @@
                             </div>
 
 
-                            <!-- Status -->
 
-                            <div class="col-4">
+                            <!-- ================================= -->
+                            <!-- STATUS -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-4">
 
                                 <div class="form-group">
 
@@ -224,7 +363,10 @@
                                         Status
                                     </label>
 
-                                    <select class="form-control" formControlName="status">
+                                    <select
+                                        class="form-control"
+                                        formControlName="status"
+                                    >
 
                                         <option value="DRAFT">
                                             Draft
@@ -245,9 +387,12 @@
                             </div>
 
 
-                            <!-- Notes -->
 
-                            <div class="col-12">
+                            <!-- ================================= -->
+                            <!-- NOTES -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-12">
 
                                 <div class="form-group">
 
@@ -255,162 +400,225 @@
                                         Notes
                                     </label>
 
-                                    <textarea class="form-control" formControlName="notes" rows="3"
-                                        placeholder="Enter Notes">
-                                    </textarea>
+                                    <textarea
+                                        class="form-control"
+                                        formControlName="notes"
+                                        rows="3"
+                                        placeholder="Enter Notes"
+                                    ></textarea>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- Documents -->
 
-                            <div class="col-12">
+                            <!-- ================================= -->
+                            <!-- DOCUMENT UPLOAD -->
+                            <!-- ================================= -->
+
+                            <div class="col-md-12">
 
                                 <div class="form-group">
 
                                     <label>
-                                        Documents
+                                        Upload Documents
                                     </label>
 
-                                </div>
+                                    <input
+                                        type="file"
+                                        class="form-control"
+                                        multiple
+                                        accept=".jpg,.jpeg,.png,.pdf"
+                                        (change)="onDocumentsChange($event)"
+                                    >
 
-                            </div>
-
-
-                            <div class="form-layout">
-
-                                <!-- Left Section -->
-
-                                <div class="left-section">
-
-                                    <div class="form-group">
-
-                                        <label>
-                                            Upload Documents
-                                        </label>
-
-                                        <input type="file" multiple (change)="onDocumentsChange($event)"
-                                            accept=".jpg,.jpeg,.png,.pdf">
-
-                                        <small>
-                                            You can upload up to 10 documents
-                                        </small>
-
-                                    </div>
-
-                                </div>
-
-
-                                <!-- Right Section -->
-
-                                <div class="right-section">
-
-                                    <div class="preview-box">
-
-                                        <!-- Existing Documents -->
-
-                                        <div *ngIf="existingDocuments.length > 0" class="document-preview-list">
-
-                                            <div class="document-preview-item" *ngFor="
-                                                                            let document of existingDocuments
-                                                                        ">
-
-                                                <!-- Image -->
-
-                                                <img *ngIf="
-                                                                                document.url &&
-                                                                                isImage(document.url)
-                                                                            " [src]="document.url"
-                                                    alt="Document Preview">
-
-                                                <!-- PDF / Other -->
-
-                                                <div *ngIf="
-                                                                                document.url &&
-                                                                                !isImage(document.url)
-                                                                            " class="file-preview">
-
-                                                    <i class="fa fa-file-pdf-o"></i>
-
-                                                    <span>
-                                                        {{ document.description }}
-                                                    </span>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <!-- New Selected Documents -->
-
-                                        <div *ngIf="documentPreviews.length > 0" class="document-preview-list">
-
-                                            <div class="document-preview-item" *ngFor="
-                                                                            let preview of documentPreviews
-                                                                        ">
-
-                                                <img *ngIf="preview.isImage" [src]="preview.url" alt="Document Preview">
-
-                                                <div *ngIf="!preview.isImage" class="file-preview">
-
-                                                    <i class="fa fa-file-pdf-o"></i>
-
-                                                    <span>
-                                                        {{ preview.name }}
-                                                    </span>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <!-- No Preview -->
-
-                                        <p *ngIf="
-                                                                        existingDocuments.length === 0 &&
-                                                                        documentPreviews.length === 0
-                                                                    ">
-
-                                            Document Preview
-
-                                        </p>
-
-                                    </div>
+                                    <small class="text-muted">
+                                        You can upload maximum 10 documents
+                                    </small>
 
                                 </div>
 
                             </div>
 
+
+
+                            <!-- ================================= -->
+                            <!-- DOCUMENT PREVIEW -->
+                            <!-- ================================= -->
+
+                            <div
+                                class="col-md-12"
+                                *ngIf="documentPreviews.length > 0"
+                            >
+
+                                <div class="document-section">
+
+                                    <h5>
+                                        Selected Documents
+                                    </h5>
+
+
+                                    <div class="document-list">
+
+                                        <div
+                                            class="document-card"
+                                            *ngFor="
+                                                let preview of documentPreviews;
+                                                let i = index
+                                            "
+                                        >
+
+
+                                            <!-- IMAGE -->
+
+                                            <div
+                                                *ngIf="preview.isImage"
+                                                class="image-preview"
+                                            >
+
+                                                <img
+                                                    [src]="preview.url"
+                                                    [alt]="preview.name"
+                                                >
+
+                                            </div>
+
+
+
+                                            <!-- PDF -->
+
+                                            <div
+                                                *ngIf="!preview.isImage"
+                                                class="pdf-preview"
+                                            >
+
+                                                <i class="fa fa-file-pdf-o"></i>
+
+                                            </div>
+
+
+
+                                            <!-- FILE INFO -->
+
+                                            <div class="document-info">
+
+                                                <strong>
+                                                    {{ preview.name }}
+                                                </strong>
+
+                                                <small>
+                                                    Selected
+                                                </small>
+
+                                            </div>
+
+
+
+                                            <!-- VIEW -->
+
+                                            <button
+                                                type="button"
+                                                class="view-btn"
+                                                *ngIf="preview.isImage"
+                                                (click)="viewPreview(preview)"
+                                            >
+
+                                                <i class="fa fa-eye"></i>
+
+                                            </button>
+
+
+
+                                            <!-- REMOVE -->
+
+                                            <button
+                                                type="button"
+                                                class="delete-btn"
+                                                (click)="removeDocument(i)"
+                                            >
+
+                                                <i class="fa fa-trash"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- ================================= -->
+                            <!-- NO DOCUMENT -->
+                            <!-- ================================= -->
+
+                            <div
+                                class="col-md-12"
+                                *ngIf="documentPreviews.length === 0"
+                            >
+
+                                <div class="no-document">
+
+                                    No documents selected
+
+                                </div>
+
+                            </div>
 
 
                         </div>
 
                     </div>
 
-
                 </div>
 
 
-                <!-- Buttons -->
+
+                <!-- ================================= -->
+                <!-- BUTTONS -->
+                <!-- ================================= -->
 
                 <div class="button-group">
 
-                    <button type="submit" class="btn-create" [disabled]="isSaving">
 
-                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
-                        </span>
+                    <!-- SAVE -->
 
-                        {{ isSaving ? 'Saving...' : 'Save' }}
+                    <button
+                        type="submit"
+                        class="btn-create"
+                        [disabled]="isSaving"
+                    >
+
+                        <span
+                            *ngIf="isSaving"
+                            class="spinner-border spinner-border-sm me-2"
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+
+
+                        {{
+                            isSaving
+                                ? 'Saving...'
+                                : 'Save'
+                        }}
 
                     </button>
 
-                    <button type="button" class="btn-back" (click)="goBack()">
+
+
+                    <!-- BACK -->
+
+                    <button
+                        type="button"
+                        class="btn-back"
+                        (click)="goBack()"
+                        [disabled]="isSaving"
+                    >
 
                         Back
 

@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
 
     <div class="row">
@@ -33,13 +34,11 @@
 
                 <form [formGroup]="makerForm" (ngSubmit)="onSubmit()">
 
-
                     <div class="form-layout">
 
                         <div class="left-section">
 
                             <div class="row">
-
 
                                 <!-- ================================= -->
                                 <!-- BASIC INFORMATION -->
@@ -65,18 +64,24 @@
                                     <div class="form-group">
 
                                         <label>
-
                                             Gold Smith Name
-
-                                            <span class="required">
-                                                *
-                                            </span>
-
+                                            <span class="required">*</span>
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="name"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="name"
                                             placeholder="Enter Gold Smith Name">
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('name')?.touched &&
+                                                   makerForm.get('name')?.hasError('required')">
+
+                                            Gold Smith Name is required.
+
+                                        </div>
 
                                     </div>
 
@@ -90,18 +95,54 @@
                                     <div class="form-group">
 
                                         <label>
-
                                             Phone
-
-                                            <span class="required">
-                                                *
-                                            </span>
-
+                                            <span class="required">*</span>
                                         </label>
 
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="phone"
+                                            maxlength="10"
+                                            inputmode="numeric"
+                                            autocomplete="off"
+                                            placeholder="Enter Phone Number"
+                                            (keypress)="allowOnlyNumbers($event)"
+                                            (paste)="onPhonePaste($event)">
 
-                                        <input type="text" class="form-control" formControlName="phone" maxlength="10"
-                                            placeholder="Enter Phone Number">
+                                        <!-- Required -->
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('phone')?.touched &&
+                                                   makerForm.get('phone')?.hasError('required')">
+
+                                            Phone number is required.
+
+                                        </div>
+
+                                        <!-- Invalid Phone -->
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('phone')?.touched &&
+                                                   makerForm.get('phone')?.hasError('pattern')">
+
+                                            Enter a valid 10-digit mobile number.
+
+                                        </div>
+
+                                        <!-- Length -->
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('phone')?.touched &&
+                                                   (makerForm.get('phone')?.hasError('minlength') ||
+                                                    makerForm.get('phone')?.hasError('maxlength'))">
+
+                                            Phone number must contain exactly 10 digits.
+
+                                        </div>
 
                                     </div>
 
@@ -118,9 +159,20 @@
                                             Email
                                         </label>
 
-
-                                        <input type="email" class="form-control" formControlName="email"
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            formControlName="email"
                                             placeholder="Enter Email">
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('email')?.touched &&
+                                                   makerForm.get('email')?.hasError('email')">
+
+                                            Please enter a valid email address.
+
+                                        </div>
 
                                     </div>
 
@@ -137,8 +189,10 @@
                                             Specialization
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="specialization"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="specialization"
                                             placeholder="Enter Maker Specialization">
 
                                     </div>
@@ -156,8 +210,9 @@
                                             Status
                                         </label>
 
-
-                                        <select class="form-control" formControlName="isActive">
+                                        <select
+                                            class="form-control"
+                                            formControlName="isActive">
 
                                             <option [ngValue]="true">
                                                 Active
@@ -201,8 +256,10 @@
                                             Address Line 1
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="addressLine1"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="addressLine1"
                                             placeholder="Enter Address Line 1">
 
                                     </div>
@@ -220,8 +277,10 @@
                                             Address Line 2
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="addressLine2"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="addressLine2"
                                             placeholder="Enter Address Line 2">
 
                                     </div>
@@ -239,8 +298,10 @@
                                             City
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="city"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="city"
                                             placeholder="Enter City">
 
                                     </div>
@@ -258,8 +319,10 @@
                                             State
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="state"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="state"
                                             placeholder="Enter State">
 
                                     </div>
@@ -277,9 +340,35 @@
                                             Pincode
                                         </label>
 
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="pincode"
+                                            maxlength="6"
+                                            inputmode="numeric"
+                                            autocomplete="off"
+                                            placeholder="Enter Pincode"
+                                            (keypress)="allowOnlyNumbers($event)"
+                                            (paste)="onPincodePaste($event)">
 
-                                        <input type="text" class="form-control" formControlName="pincode" maxlength="6"
-                                            placeholder="Enter Pincode">
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('pincode')?.touched &&
+                                                   makerForm.get('pincode')?.hasError('pattern')">
+
+                                            Pincode must contain 6 digits.
+
+                                        </div>
+
+                                        <div
+                                            class="text-danger mt-1"
+                                            *ngIf="makerForm.get('pincode')?.touched &&
+                                                   (makerForm.get('pincode')?.hasError('minlength') ||
+                                                    makerForm.get('pincode')?.hasError('maxlength'))">
+
+                                            Pincode must contain exactly 6 digits.
+
+                                        </div>
 
                                     </div>
 
@@ -296,8 +385,10 @@
                                             Country
                                         </label>
 
-
-                                        <input type="text" class="form-control" formControlName="country"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            formControlName="country"
                                             placeholder="Enter Country">
 
                                     </div>
@@ -332,15 +423,16 @@
                                             Notes
                                         </label>
 
-
-                                        <textarea class="form-control" formControlName="notes" rows="4"
+                                        <textarea
+                                            class="form-control"
+                                            formControlName="notes"
+                                            rows="4"
                                             placeholder="Enter Notes">
                                         </textarea>
 
                                     </div>
 
                                 </div>
-
 
                             </div>
 
@@ -355,8 +447,10 @@
 
                     <div class="button-group">
 
-
-                        <button type="submit" class="btn-create" [disabled]="isLoading">
+                        <button
+                            type="submit"
+                            class="btn-create"
+                            [disabled]="isLoading">
 
                             <span *ngIf="!isLoading">
 
@@ -366,11 +460,9 @@
 
                             </span>
 
-
                             <span *ngIf="isLoading">
 
-                                <i class="fa fa-spinner fa-spin me-2">
-                                </i>
+                                <i class="fa fa-spinner fa-spin me-2"></i>
 
                                 Creating...
 
@@ -379,7 +471,10 @@
                         </button>
 
 
-                        <button type="button" class="btn-back" (click)="goBack()">
+                        <button
+                            type="button"
+                            class="btn-back"
+                            (click)="goBack()">
 
                             <i class="fa fa-arrow-left me-2"></i>
 
@@ -388,7 +483,6 @@
                         </button>
 
                     </div>
-
 
                 </form>
 
@@ -399,3 +493,4 @@
     </div>
 
 </div>
+

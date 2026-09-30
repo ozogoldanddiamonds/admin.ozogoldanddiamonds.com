@@ -435,8 +435,15 @@ button {
 
 }
 .add-btn{
-  color: black;
-    background: #ffffff;
+ background:var(--gray-colour);
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 10px;
+
+  cursor: pointer;
 }
 .delete-btn{
    color: var(--red-color);

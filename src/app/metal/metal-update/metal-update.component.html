@@ -21,12 +21,25 @@
                 <div class="form-layout">
 
                     <div class="left-section">
+
                         <div class="row">
+
+                            <!-- ========================= -->
+                            <!-- METAL TYPE -->
+                            <!-- ========================= -->
+
                             <div class="col-4">
-                                <!-- Metal Type -->
+
                                 <div class="form-group">
-                                    <label for="">Metal Type</label>
-                                    <select class="form-control" formControlName="metalType"
+
+                                    <label for="metalType">
+                                        Metal Type
+                                    </label>
+
+                                    <select
+                                        id="metalType"
+                                        class="form-control"
+                                        formControlName="metalType"
                                         (change)="onMetalTypeChange()">
 
                                         <option value="">
@@ -46,19 +59,50 @@
                                         </option>
 
                                     </select>
+
+
+                                    <!-- Validation -->
+
+                                    <div
+                                        class="text-danger mt-1"
+                                        *ngIf="
+                                            metalRateForm.get('metalType')?.touched &&
+                                            metalRateForm.get('metalType')?.hasError('required')
+                                        ">
+
+                                        Metal type is required.
+
+                                    </div>
+
                                 </div>
+
                             </div>
+
+
+                            <!-- ========================= -->
+                            <!-- PURITY -->
+                            <!-- ========================= -->
+
                             <div class="col-4">
-                                <!-- Purity -->
+
                                 <div class="form-group">
-                                    <label for="">Metal Purity</label>
-                                    <select class="form-control" formControlName="purity">
+
+                                    <label for="purity">
+                                        Metal Purity
+                                    </label>
+
+                                    <select
+                                        id="purity"
+                                        class="form-control"
+                                        formControlName="purity">
 
                                         <option value="">
                                             Select Purity
                                         </option>
 
-                                        <option *ngFor="let purity of purityOptions" [value]="purity">
+                                        <option
+                                            *ngFor="let purity of purityOptions"
+                                            [value]="purity">
 
                                             {{ purity }}
 
@@ -66,79 +110,196 @@
 
                                     </select>
 
+
+                                    <!-- Validation -->
+
+                                    <div
+                                        class="text-danger mt-1"
+                                        *ngIf="
+                                            metalRateForm.get('purity')?.touched &&
+                                            metalRateForm.get('purity')?.hasError('required')
+                                        ">
+
+                                        Metal purity is required.
+
+                                    </div>
+
                                 </div>
+
                             </div>
+
+
+                            <!-- ========================= -->
+                            <!-- UNIT -->
+                            <!-- ========================= -->
+
                             <div class="col-4">
-                                <!-- Unit -->
 
                                 <div class="form-group">
 
-                                    <label>
+                                    <label for="unit">
                                         Unit
                                     </label>
 
-                                    <select class="form-control" formControlName="unit">
+                                    <select
+                                        id="unit"
+                                        class="form-control"
+                                        formControlName="unit">
+
                                         <option value="">
                                             Please Select Unit
                                         </option>
+
                                         <option value="gram">
                                             Gram
                                         </option>
+
                                         <option value="gram">
                                             Caret
                                         </option>
+
                                         <option value="gram">
                                             Bar
                                         </option>
+
                                     </select>
 
+
+                                    <!-- Validation -->
+
+                                    <div
+                                        class="text-danger mt-1"
+                                        *ngIf="
+                                            metalRateForm.get('unit')?.touched &&
+                                            metalRateForm.get('unit')?.hasError('required')
+                                        ">
+
+                                        Unit is required.
+
+                                    </div>
+
                                 </div>
+
                             </div>
+
+
+                            <!-- ========================= -->
+                            <!-- RATE PER GRAM -->
+                            <!-- ========================= -->
+
                             <div class="col-4">
-                                <!-- Rate Per Gram -->
 
                                 <div class="form-group">
 
-                                    <label>
+                                    <label for="ratePerGram">
                                         Rate Per Gram
                                     </label>
 
-                                    <input type="number" formControlName="ratePerGram"
+                                    <input
+                                        id="ratePerGram"
+                                        type="number"
+                                        class="form-control"
+                                        formControlName="ratePerGram"
                                         placeholder="Enter Rate Per Gram">
 
+
+                                    <!-- Required Validation -->
+
+                                    <div
+                                        class="text-danger mt-1"
+                                        *ngIf="
+                                            metalRateForm.get('ratePerGram')?.touched &&
+                                            metalRateForm.get('ratePerGram')?.hasError('required')
+                                        ">
+
+                                        Rate per gram is required.
+
+                                    </div>
+
+
+                                    <!-- Minimum Validation -->
+
+                                    <div
+                                        class="text-danger mt-1"
+                                        *ngIf="
+                                            metalRateForm.get('ratePerGram')?.touched &&
+                                            metalRateForm.get('ratePerGram')?.hasError('min')
+                                        ">
+
+                                        Rate per gram must be greater than 0.
+
+                                    </div>
+
                                 </div>
+
                             </div>
+
+
+                            <!-- ========================= -->
+                            <!-- EFFECTIVE DATE -->
+                            <!-- ========================= -->
+
                             <div class="col-4">
-                                <!-- Effective Date -->
 
                                 <div class="form-group">
 
-                                    <label>
+                                    <label for="effectiveDate">
                                         Effective Date
                                     </label>
 
-                                    <input type="date" formControlName="effectiveDate">
+                                    <input
+                                        id="effectiveDate"
+                                        type="date"
+                                        class="form-control"
+                                        formControlName="effectiveDate">
 
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button type="submit" class="btn-create" [disabled]="isSaving">
 
-                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- BUTTONS -->
+                <!-- ========================= -->
+
+                <div class="button-group">
+
+                    <button
+                        type="submit"
+                        class="btn-create"
+                        [disabled]="isSaving">
+
+                        <span
+                            *ngIf="isSaving"
+                            class="spinner-border spinner-border-sm me-2">
                         </span>
 
                         {{ isSaving ? 'Updating...' : 'Update' }}
 
                     </button>
-                    <button type="button" class="btn-back" (click)="goBack()">
+
+
+                    <button
+                        type="button"
+                        class="btn-back"
+                        (click)="goBack()">
+
                         Back
+
                     </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>

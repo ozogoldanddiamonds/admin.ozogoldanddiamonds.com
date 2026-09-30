@@ -873,3 +873,488 @@ background:#157347;
     border-radius:10px !important;
     border:1px solid #ddd !important;
 }
+
+
+/* media quaries */
+/* =====================================================
+   BILLING RESPONSIVE DESIGN
+   Works for Desktop / Lenovo Laptop / Tablet / Mobile
+   ===================================================== */
+
+
+/* ==============================
+   DEFAULT
+   ============================== */
+
+.billing-page {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.bill-shell {
+    width: 100%;
+}
+
+
+/* ==============================
+   LARGE DESKTOP
+   1600px+
+   ============================== */
+
+@media (min-width: 1600px) {
+
+    .billing-page {
+        max-width: 1600px;
+    }
+
+    .bill-shell {
+        padding: 0 15px;
+    }
+
+}
+
+
+/* ==============================
+   NORMAL DESKTOP
+   1400px - 1599px
+   ============================== */
+
+@media (max-width: 1599px) {
+
+    .billing-page {
+        max-width: 1400px;
+    }
+
+    .bill-shell {
+        padding: 0 10px;
+    }
+
+}
+
+
+/* ==============================
+   LENOVO / LAPTOP
+   1200px - 1399px
+
+   Common:
+   1366 x 768
+   1280 x 720
+   ============================== */
+
+@media (max-width: 1399px) {
+
+    .billing-page {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .billing-header {
+        margin-bottom: 20px;
+    }
+
+    .billing-title {
+        font-size: 28px;
+    }
+
+    .billing-subtitle {
+        font-size: 14px;
+    }
+
+    .bill-card,
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    .card-body {
+        padding: 18px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 42px;
+        font-size: 14px;
+    }
+
+    .form-title {
+        font-size: 13px;
+    }
+
+    .details-container {
+        gap: 8px;
+    }
+
+    .detail-item {
+        font-size: 13px;
+    }
+
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        white-space: nowrap;
+    }
+
+}
+
+
+/* ==============================
+   SMALL LAPTOP
+   992px - 1199px
+   ============================== */
+
+@media (max-width: 1199px) {
+
+    .billing-page {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .billing-header {
+        padding: 15px;
+    }
+
+    .billing-title {
+        font-size: 25px;
+    }
+
+    .billing-subtitle {
+        font-size: 13px;
+    }
+
+    /*
+      Product section becomes full width
+    */
+
+    .details-sku {
+        margin-top: 0 !important;
+    }
+
+    /*
+      Product image
+    */
+
+    .details-sku img {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    /*
+      Product details
+    */
+
+    .details-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    /*
+      Order table
+    */
+
+    .table {
+        min-width: 850px;
+    }
+
+}
+
+
+/* ==============================
+   TABLET
+   768px - 991px
+   ============================== */
+
+@media (max-width: 991px) {
+
+    .billing-header {
+        margin-bottom: 15px;
+    }
+
+    .billing-title {
+        font-size: 23px;
+    }
+
+    .billing-subtitle {
+        font-size: 12px;
+    }
+
+    /*
+      Header logo
+    */
+
+    .company-logo {
+        max-width: 80px;
+        height: auto;
+    }
+
+    /*
+      Product details
+    */
+
+    .details-sku {
+        margin-top: 20px !important;
+    }
+
+    .details-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /*
+      Payment + Summary
+    */
+
+    .billing-page .row {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
+
+    /*
+      Customer details
+    */
+
+    .customer-details .form-control {
+        width: 100%;
+    }
+
+    /*
+      Buttons
+    */
+
+    .btn-create,
+    .btn-primary,
+    .btn-secondary {
+        min-height: 42px;
+    }
+
+}
+
+
+/* ==============================
+   MOBILE
+   Below 768px
+   ============================== */
+
+@media (max-width: 767px) {
+
+    .billing-page {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /*
+      Header
+    */
+
+    .billing-header {
+        padding: 12px;
+    }
+
+    .billing-header .row {
+        text-align: center;
+    }
+
+    .billing-title {
+        font-size: 20px;
+    }
+
+    .billing-subtitle {
+        font-size: 11px;
+    }
+
+    .company-logo {
+        max-width: 65px;
+        margin-bottom: 8px;
+    }
+
+
+    /*
+      Cards
+    */
+
+    .card {
+        border-radius: 8px;
+    }
+
+    .card-header {
+        font-size: 14px;
+        padding: 11px 12px;
+    }
+
+    .card-body {
+        padding: 14px !important;
+    }
+
+
+    /*
+      Product search area
+    */
+
+    .qty-box {
+        width: 100%;
+    }
+
+
+    /*
+      Product details
+    */
+
+    .details-sku {
+        margin-top: 15px !important;
+    }
+
+    .details-sku .card-body {
+        padding: 12px !important;
+    }
+
+    .details-sku img {
+        width: 90px !important;
+        height: 90px !important;
+    }
+
+    .details-container {
+        grid-template-columns: 1fr;
+        margin-top: 15px;
+    }
+
+
+    /*
+      Order table
+    */
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 850px;
+        font-size: 12px;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+
+
+    /*
+      Customer fields
+    */
+
+    .billing-page .form-control,
+    .billing-page .form-select {
+        font-size: 13px;
+    }
+
+
+    /*
+      Payment + Summary
+    */
+
+    .billing-page .table-borderless {
+        min-width: 0;
+    }
+
+
+    /*
+      Bottom buttons
+    */
+
+    .billing-page .text-end {
+        text-align: center !important;
+    }
+
+    .billing-page .text-end button {
+        margin-bottom: 8px;
+    }
+
+}
+
+
+/* ==============================
+   SMALL MOBILE
+   Below 576px
+   ============================== */
+
+@media (max-width: 575px) {
+
+    .billing-page {
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+    }
+
+    .billing-title {
+        font-size: 18px;
+    }
+
+    .billing-subtitle {
+        font-size: 10px;
+    }
+
+    .company-logo {
+        max-width: 55px;
+    }
+
+    .card-header {
+        font-size: 13px;
+    }
+
+    .form-title,
+    .form-label {
+        font-size: 12px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 40px;
+        padding: 8px 10px;
+    }
+
+    textarea.form-control {
+        min-height: 90px;
+    }
+
+    .details-container {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-create,
+    .billing-page .btn-primary,
+    .billing-page .btn-secondary {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+
+}
+@media (max-width: 1199px) {
+  .details-sku {
+    margin-top: 20px !important;
+  }
+
+  .details-sku .card-header {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .details-sku {
+    margin-top: 15px !important;
+  }
+
+  .details-sku .card-header {
+    font-size: 14px;
+    padding: 11px 12px;
+  }
+
+  .details-sku .card-body {
+    padding: 12px !important;
+  }
+}

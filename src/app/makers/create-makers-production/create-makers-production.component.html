@@ -4,7 +4,6 @@
 
         <div class="row">
 
-
             <!-- ========================================== -->
             <!-- TITLE -->
             <!-- ========================================== -->
@@ -34,8 +33,10 @@
 
                 <div class="category-card">
 
-                    <form [formGroup]="makerProductionForm" (ngSubmit)="onSubmit()">
-
+                    <form
+                        [formGroup]="makerProductionForm"
+                        (ngSubmit)="onSubmit()"
+                        novalidate>
 
                         <div class="form-layout">
 
@@ -61,56 +62,62 @@
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Maker -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
                                         <div class="form-group">
 
                                             <label>
-
                                                 Gold Smith
-
-                                                <span class="required">
-                                                    *
-                                                </span>
-
+                                                <span class="required">*</span>
                                             </label>
 
-
-                                            <select class="form-control" formControlName="maker">
+                                            <select
+                                                class="form-control"
+                                                formControlName="maker"
+                                                [class.is-invalid]="
+                                                    makerProductionForm.get('maker')?.invalid &&
+                                                    makerProductionForm.get('maker')?.touched
+                                                ">
 
                                                 <option value="">
-
                                                     Select Gold Smith
-
                                                 </option>
 
+                                                <option
+                                                    *ngFor="let maker of makerList"
+                                                    [value]="maker._id">
 
-                                                <option *ngFor="
-                                                        let maker
-                                                        of makerList
-                                                    " [value]="maker._id">
-
-                                                    {{
-                                                    maker.name
-                                                    }}
-
-                                                    -
-                                                    {{
-                                                    maker.phone
-                                                    }}
+                                                    {{ maker.name }} - {{ maker.phone }}
 
                                                 </option>
 
                                             </select>
+
+                                            <!-- Validation -->
+
+                                            <div
+                                                class="text-danger mt-1"
+                                                *ngIf="
+                                                    makerProductionForm.get('maker')?.invalid &&
+                                                    makerProductionForm.get('maker')?.touched
+                                                ">
+
+                                                Gold Smith is required.
+
+                                            </div>
 
                                         </div>
 
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Production Number -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
@@ -126,16 +133,51 @@
 
                                             </label>
 
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                formControlName="productionNumber"
+                                                placeholder="Enter Production Number"
+                                                maxlength="50"
+                                                [class.is-invalid]="
+                                                    makerProductionForm.get('productionNumber')?.invalid &&
+                                                    makerProductionForm.get('productionNumber')?.touched
+                                                ">
 
-                                            <input type="text" class="form-control" formControlName="productionNumber"
-                                                placeholder="Enter Production Number">
+                                            <!-- Required Validation -->
+
+                                            <div
+                                                class="text-danger mt-1"
+                                                *ngIf="
+                                                    makerProductionForm.get('productionNumber')?.hasError('required') &&
+                                                    makerProductionForm.get('productionNumber')?.touched
+                                                ">
+
+                                                Production Number is required.
+
+                                            </div>
+
+                                            <!-- Maximum Length Validation -->
+
+                                            <div
+                                                class="text-danger mt-1"
+                                                *ngIf="
+                                                    makerProductionForm.get('productionNumber')?.hasError('maxlength') &&
+                                                    makerProductionForm.get('productionNumber')?.touched
+                                                ">
+
+                                                Production Number cannot exceed 50 characters.
+
+                                            </div>
 
                                         </div>
 
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Status -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
@@ -145,41 +187,28 @@
                                                 Status
                                             </label>
 
-
-                                            <select class="form-control" formControlName="status">
+                                            <select
+                                                class="form-control"
+                                                formControlName="status">
 
                                                 <option value="DRAFT">
-
                                                     Draft
-
                                                 </option>
-
 
                                                 <option value="ISSUED">
-
                                                     Issued
-
                                                 </option>
-
 
                                                 <option value="IN_PROGRESS">
-
                                                     In Progress
-
                                                 </option>
-
 
                                                 <option value="COMPLETED">
-
                                                     Completed
-
                                                 </option>
 
-
                                                 <option value="CANCELLED">
-
                                                     Cancelled
-
                                                 </option>
 
                                             </select>
@@ -206,7 +235,9 @@
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Issue Date -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
@@ -216,15 +247,19 @@
                                                 Issue Date
                                             </label>
 
-
-                                            <input type="date" class="form-control" formControlName="issueDate">
+                                            <input
+                                                type="date"
+                                                class="form-control"
+                                                formControlName="issueDate">
 
                                         </div>
 
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Expected Date -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
@@ -234,15 +269,19 @@
                                                 Expected Date
                                             </label>
 
-
-                                            <input type="date" class="form-control" formControlName="expectedDate">
+                                            <input
+                                                type="date"
+                                                class="form-control"
+                                                formControlName="expectedDate">
 
                                         </div>
 
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Received Date -->
+                                    <!-- ================================= -->
 
                                     <div class="col-4">
 
@@ -252,8 +291,10 @@
                                                 Received Date
                                             </label>
 
-
-                                            <input type="date" class="form-control" formControlName="receivedDate">
+                                            <input
+                                                type="date"
+                                                class="form-control"
+                                                formControlName="receivedDate">
 
                                         </div>
 
@@ -277,7 +318,9 @@
                                     </div>
 
 
+                                    <!-- ================================= -->
                                     <!-- Notes -->
+                                    <!-- ================================= -->
 
                                     <div class="col-12">
 
@@ -287,10 +330,26 @@
                                                 Notes
                                             </label>
 
-
-                                            <textarea class="form-control" formControlName="notes" rows="5"
+                                            <textarea
+                                                class="form-control"
+                                                formControlName="notes"
+                                                rows="5"
+                                                maxlength="1000"
                                                 placeholder="Enter production notes">
                                             </textarea>
+
+                                            <!-- Character Limit -->
+
+                                            <div
+                                                class="text-danger mt-1"
+                                                *ngIf="
+                                                    makerProductionForm.get('notes')?.hasError('maxlength') &&
+                                                    makerProductionForm.get('notes')?.touched
+                                                ">
+
+                                                Notes cannot exceed 1000 characters.
+
+                                            </div>
 
                                         </div>
 
@@ -301,8 +360,6 @@
 
                             </div>
 
-
-
                         </div>
 
 
@@ -312,8 +369,10 @@
 
                         <div class="button-group">
 
-
-                            <button type="submit" class="btn-create" [disabled]="isLoading">
+                            <button
+                                type="submit"
+                                class="btn-create"
+                                [disabled]="isLoading">
 
                                 <span *ngIf="!isLoading">
 
@@ -323,11 +382,9 @@
 
                                 </span>
 
-
                                 <span *ngIf="isLoading">
 
-                                    <i class="fa fa-spinner fa-spin me-2">
-                                    </i>
+                                    <i class="fa fa-spinner fa-spin me-2"></i>
 
                                     Creating...
 
@@ -336,7 +393,10 @@
                             </button>
 
 
-                            <button type="button" class="btn-back" (click)="goBack()">
+                            <button
+                                type="button"
+                                class="btn-back"
+                                (click)="goBack()">
 
                                 <i class="fa fa-arrow-left me-2"></i>
 
@@ -345,7 +405,6 @@
                             </button>
 
                         </div>
-
 
                     </form>
 

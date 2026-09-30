@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Brand } from 'src/app/Models/brand';
 import { AlertService } from 'src/app/Services/alert.service';
+import { BrandService } from 'src/app/Services/brand.service';
 import { CategoryService } from 'src/app/Services/category.service';
 import { ProductService } from 'src/app/Services/product.service';
 import { SubcategoryService } from 'src/app/Services/subcategory.service';
@@ -14,6 +16,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent implements OnInit {
+  brands: Brand[] = [];
   isSaving: boolean = false;
 
   productForm!: FormGroup;
@@ -48,6 +51,7 @@ export class ProductCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private brandService: BrandService,
     private categoryService: CategoryService,
 
     private subCategoryService: SubcategoryService,
@@ -119,7 +123,43 @@ export class ProductCreateComponent implements OnInit {
   ngOnInit(): void {
 
     this.getCategories();
+    this.getActiveBrands();
   }
+  // brand list
+  getActiveBrands(): void {
+
+  this.brandService.getActiveBrands().subscribe({
+
+    next: (res) => {
+
+      console.log('Active Brands:', res);
+
+      if (res && res.success) {
+
+        this.brands = res.data || [];
+
+      } else {
+
+        this.brands = [];
+
+      }
+
+    },
+
+    error: (err) => {
+
+      console.error(
+        'Get active brands error:',
+        err
+      );
+
+      this.brands = [];
+
+    }
+
+  });
+
+}
 
   // =========================================================
   // VARIANTS
@@ -457,7 +497,7 @@ export class ProductCreateComponent implements OnInit {
   // =========================================================
   onSubmit(): void {
 
-    this.isSaving = true;
+    // this.isSaving = true;
 
     if (!this.productForm.get('name')?.value) {
       Swal.fire('Error', 'Product Name is required', 'error');
@@ -468,9 +508,17 @@ export class ProductCreateComponent implements OnInit {
       Swal.fire('Error', 'Category is required', 'error');
       return;
     }
+     if (!this.productForm.get('description')?.value) {
+    Swal.fire('Error', 'Description is required', 'error');
+    return;
+  }
 
     if (!this.productForm.get('subCategory')?.value) {
       Swal.fire('Error', 'Sub Category is required', 'error');
+      return;
+    }
+     if (!this.productForm.get('gender')?.value) {
+      Swal.fire('Error', 'gender is required', 'error');
       return;
     }
 
@@ -748,7 +796,7 @@ export class ProductCreateComponent implements OnInit {
     // =========================
     // API CALL
     // =========================
-
+this.isSaving = true;
     this.productService
       .createProduct(
         formData
@@ -792,4 +840,6 @@ export class ProductCreateComponent implements OnInit {
       '/admin/product'
     ]);
   }
+
+  
 }

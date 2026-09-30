@@ -1,0 +1,332 @@
+/* ==========================================
+   OZO BRAND CREATE
+========================================== */
+
+:root {
+  --lyt-yellow-color: #d4af375d;
+  --red-color: #640101;
+  --wight-color: #fff;
+  --gray-colour: rgb(98, 92, 92);
+}
+
+
+/* ==========================================
+   MAIN CONTAINER
+========================================== */
+
+.brand-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px;
+  background: var(--wight-color);
+  box-sizing: border-box;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.form-header {
+  margin-bottom: 25px;
+}
+
+.form-header h2 {
+  margin: 0;
+  color: var(--red-color);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.form-header p {
+  margin: 6px 0 0;
+  color: var(--gray-colour);
+  font-size: 14px;
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+.brand-container form {
+  background: var(--wight-color);
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--lyt-yellow-color);
+  box-shadow: 0 3px 12px var(--lyt-yellow-color);
+}
+
+
+/* ==========================================
+   LABEL
+========================================== */
+
+.form-label {
+  color: var(--red-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+
+/* ==========================================
+   INPUT / SELECT
+========================================== */
+
+.form-control,
+.form-select {
+  min-height: 44px;
+  border: 1px solid var(--lyt-yellow-color);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--gray-colour);
+  background: var(--wight-color);
+  box-shadow: none;
+  transition: 0.2s ease;
+}
+
+
+/* ==========================================
+   INPUT FOCUS
+========================================== */
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--red-color);
+  box-shadow: 0 0 0 0.15rem var(--lyt-yellow-color);
+}
+
+
+/* ==========================================
+   TEXTAREA
+========================================== */
+
+textarea.form-control {
+  min-height: 110px;
+  resize: vertical;
+}
+
+
+/* ==========================================
+   FILE INPUT
+========================================== */
+
+input[type="file"].form-control {
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   HELP TEXT
+========================================== */
+
+.text-muted {
+  display: block;
+  margin-top: 6px;
+  color: var(--gray-colour) !important;
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   VALIDATION
+========================================== */
+
+.validation-message {
+  margin-top: 5px;
+  color: var(--red-color) !important;
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   LOGO PREVIEW
+========================================== */
+
+.logo-preview {
+  width: 130px;
+  height: 130px;
+
+  border: 1px solid var(--lyt-yellow-color);
+  border-radius: 8px;
+
+  background: var(--wight-color);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  padding: 8px;
+}
+
+
+/* ==========================================
+   LOGO IMAGE
+========================================== */
+
+.logo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* ==========================================
+   BUTTON SECTION
+========================================== */
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 25px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--lyt-yellow-color);
+}
+
+
+/* ==========================================
+   BUTTON COMMON
+========================================== */
+
+.form-buttons .btn {
+  min-width: 120px;
+  min-height: 42px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: 0.3s ease;
+}
+
+
+/* ==========================================
+   CANCEL BUTTON
+========================================== */
+
+.form-buttons .btn-secondary {
+  color: var(--red-color);
+  background: var(--wight-color);
+  border: 1px solid var(--red-color);
+}
+
+.form-buttons .btn-secondary:hover {
+  color: var(--wight-color);
+  background: var(--red-color);
+}
+
+
+/* ==========================================
+   CREATE BUTTON
+========================================== */
+
+.form-buttons .btn-primary {
+  color: var(--wight-color);
+  background: var(--red-color);
+  border: 1px solid var(--red-color);
+}
+
+.form-buttons .btn-primary:hover {
+  color: var(--red-color);
+  background: var(--lyt-yellow-color);
+  border-color: var(--red-color);
+}
+
+
+/* ==========================================
+   DISABLED BUTTON
+========================================== */
+
+.form-buttons .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   INVALID INPUT
+========================================== */
+
+.form-control.ng-touched.ng-invalid,
+.form-select.ng-touched.ng-invalid {
+  border-color: var(--red-color);
+}
+
+
+/* ==========================================
+   VALID INPUT
+========================================== */
+
+.form-control.ng-touched.ng-valid,
+.form-select.ng-touched.ng-valid {
+  border-color: var(--lyt-yellow-color);
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .brand-container {
+    padding: 20px;
+  }
+
+  .brand-container form {
+    padding: 22px;
+  }
+
+  .form-header h2 {
+    font-size: 23px;
+  }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 576px) {
+
+  .brand-container {
+    padding: 12px;
+  }
+
+  .brand-container form {
+    padding: 18px;
+    border-radius: 8px;
+  }
+
+  .form-header h2 {
+    font-size: 21px;
+  }
+
+  .form-header p {
+    font-size: 13px;
+  }
+
+  .form-buttons {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-buttons .btn {
+    width: 100%;
+  }
+
+  .logo-preview {
+    width: 110px;
+    height: 110px;
+  }
+
+}

@@ -56,3 +56,74 @@ table {
     border-radius: 10px;
     object-fit: cover;
 }
+/* =========================
+   COMMON STATUS BADGE
+========================= */
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 75px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+/* =========================
+   PAYMENT STATUS
+========================= */
+
+/* PAID - Green */
+.paid-badge {
+    background-color: #d1fae5;
+    color: #047857;
+}
+
+/* PENDING - Orange */
+.pending-badge {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+/* PARTIAL - Blue */
+.partial-badge {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+
+/* =========================
+   PURCHASE STATUS
+========================= */
+
+/* DRAFT - Yellow */
+.draft-badge {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+/* RECEIVED - Green */
+.received-badge {
+    background-color: #d1fae5;
+    color: #047857;
+}
+
+/* CANCELLED - Red */
+.cancelled-badge {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+
+/* =========================
+   HOVER
+========================= */
+
+.status-badge:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}

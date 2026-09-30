@@ -1,0 +1,372 @@
+<div class="purchase-view">
+
+  <!-- TOP HEADER -->
+  <header class="purchase-header">
+
+    <div class="header-main">
+      <div class="purchase-icon">
+        <i class="fa fa-file-invoice"></i>
+      </div>
+
+      <div>
+        <span class="eyebrow">PURCHASE RECORD</span>
+
+        <h2>Supplier Purchase Details</h2>
+
+        <p>
+          Complete purchase and supplier information
+        </p>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="icon-close"
+      aria-label="Close"
+      (click)="close()">
+      <i class="fa fa-times"></i>
+    </button>
+
+  </header>
+
+
+  <!-- SUMMARY STRIP -->
+  <section class="summary-strip">
+
+    <div class="summary-item">
+      <span>Invoice number</span>
+      <strong>{{ data?.invoiceNumber || '-' }}</strong>
+    </div>
+
+    <div class="summary-item">
+      <span>Purchase date</span>
+      <strong>
+        {{ data?.purchaseDate
+          ? (data.purchaseDate | date:'dd MMM yyyy')
+          : '-' }}
+      </strong>
+    </div>
+
+    <div class="summary-item">
+      <span>Payment status</span>
+
+      <span
+        class="status-pill"
+        [ngClass]="{
+          'status-paid': data?.paymentStatus === 'PAID',
+          'status-pending': data?.paymentStatus !== 'PAID'
+        }">
+
+        <i class="fa fa-circle"></i>
+        {{ data?.paymentStatus || 'PENDING' }}
+      </span>
+    </div>
+
+  </section>
+
+
+  <!-- MAIN CONTENT -->
+  <div class="content-grid">
+
+    <!-- LEFT CONTENT -->
+    <div class="main-column">
+
+      <!-- SUPPLIER -->
+      <section class="content-card">
+
+        <div class="card-heading">
+          <div class="heading-icon blue">
+            <i class="fa fa-building"></i>
+          </div>
+
+          <div>
+            <h3>Supplier information</h3>
+            <p>Registered supplier details</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+
+          <div class="info-field">
+            <span>Supplier name</span>
+            <strong>
+              {{ data?.supplier?.name || '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Company name</span>
+            <strong>
+              {{ data?.supplier?.companyName || '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Phone number</span>
+            <strong>
+              {{ data?.supplier?.phone || '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Email address</span>
+            <strong>
+              {{ data?.supplier?.email || '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field full-field">
+            <span>GST number</span>
+            <strong>
+              {{ data?.supplier?.gstNumber || '-' }}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PURCHASE DETAILS -->
+      <section class="content-card">
+
+        <div class="card-heading">
+          <div class="heading-icon purple">
+            <i class="fa fa-calendar-check"></i>
+          </div>
+
+          <div>
+            <h3>Purchase information</h3>
+            <p>Invoice and purchase timeline</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+
+          <div class="info-field">
+            <span>Invoice number</span>
+            <strong>
+              {{ data?.invoiceNumber || '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Invoice date</span>
+            <strong>
+              {{ data?.invoiceDate
+                ? (data.invoiceDate | date:'dd MMM yyyy')
+                : '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Purchase date</span>
+            <strong>
+              {{ data?.purchaseDate
+                ? (data.purchaseDate | date:'dd MMM yyyy')
+                : '-' }}
+            </strong>
+          </div>
+
+          <div class="info-field">
+            <span>Purchase status</span>
+
+            <span
+              class="status-pill"
+              [ngClass]="{
+                'status-received': data?.status === 'RECEIVED',
+                'status-draft': data?.status === 'DRAFT'
+              }">
+
+              <i class="fa fa-circle"></i>
+              {{ data?.status || '-' }}
+            </span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- DOCUMENTS -->
+      <section
+        class="content-card"
+        *ngIf="data?.documents?.length">
+
+        <div class="card-heading">
+          <div class="heading-icon orange">
+            <i class="fa fa-paperclip"></i>
+          </div>
+
+          <div>
+            <h3>Attached documents</h3>
+            <p>Invoices and supporting files</p>
+          </div>
+        </div>
+
+        <div class="documents-list">
+
+          <div
+            class="document-row"
+            *ngFor="let document of data.documents">
+
+            <div class="file-icon">
+              <i
+                *ngIf="document.url?.toLowerCase().includes('.pdf')"
+                class="fa fa-file-pdf">
+              </i>
+
+              <i
+                *ngIf="!document.url?.toLowerCase().includes('.pdf')"
+                class="fa fa-image">
+              </i>
+            </div>
+
+            <div class="file-details">
+              <strong>
+                {{ document.description || 'Purchase document' }}
+              </strong>
+
+              <span>
+                {{ document.type || 'Attachment' }}
+              </span>
+            </div>
+
+            <a
+              class="view-file"
+              [href]="document.url"
+              target="_blank"
+              rel="noopener">
+              <i class="fa fa-arrow-up-right-from-square"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- NOTES -->
+      <section
+        class="content-card"
+        *ngIf="data?.notes">
+
+        <div class="card-heading">
+          <div class="heading-icon green">
+            <i class="fa fa-note-sticky"></i>
+          </div>
+
+          <div>
+            <h3>Notes</h3>
+            <p>Additional purchase remarks</p>
+          </div>
+        </div>
+
+        <div class="notes-content">
+          {{ data?.notes }}
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="side-column">
+
+      <!-- AMOUNT CARD -->
+      <section class="amount-card">
+
+        <div class="amount-top">
+          <div>
+            <span class="amount-label">TOTAL PURCHASE VALUE</span>
+            <p>Including applicable tax</p>
+          </div>
+
+          <div class="amount-icon">
+            <i class="fa fa-indian-rupee-sign"></i>
+          </div>
+        </div>
+
+        <div class="grand-total">
+          ₹{{ (data?.totalAmount || 0) | number:'1.2-2' }}
+        </div>
+
+        <div class="amount-divider"></div>
+
+        <div class="amount-line">
+          <span>Subtotal</span>
+          <strong>
+            ₹{{ (data?.subtotal || 0) | number:'1.2-2' }}
+          </strong>
+        </div>
+
+        <div class="amount-line">
+          <span>Discount</span>
+          <strong class="discount-value">
+            − ₹{{ (data?.discount || 0) | number:'1.2-2' }}
+          </strong>
+        </div>
+
+        <div class="amount-line">
+          <span>Tax</span>
+          <strong>
+            ₹{{ (data?.tax || 0) | number:'1.2-2' }}
+          </strong>
+        </div>
+
+      </section>
+
+
+      <!-- DATE CARD -->
+      <section class="mini-card">
+
+        <div class="mini-card-icon">
+          <i class="fa fa-clock"></i>
+        </div>
+
+        <div>
+          <span>Purchase status</span>
+          <strong>{{ data?.status || '-' }}</strong>
+        </div>
+
+      </section>
+
+
+      <!-- PAYMENT CARD -->
+      <section class="mini-card">
+
+        <div class="mini-card-icon success-icon">
+          <i class="fa fa-wallet"></i>
+        </div>
+
+        <div>
+          <span>Payment status</span>
+          <strong>{{ data?.paymentStatus || '-' }}</strong>
+        </div>
+
+      </section>
+
+    </aside>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer class="purchase-footer">
+    <span>
+      <i class="fa fa-shield-halved"></i>
+      Purchase information is read-only
+    </span>
+
+    <button
+      type="button"
+      class="close-button"
+      (click)="close()">
+      <i class="fa fa-times"></i>
+      Close
+    </button>
+  </footer>
+
+</div>

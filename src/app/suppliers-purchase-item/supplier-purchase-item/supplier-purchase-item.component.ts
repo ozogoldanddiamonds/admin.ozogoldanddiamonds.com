@@ -39,11 +39,11 @@ export class SupplierPurchaseItemComponent implements OnInit {
 
     'quantity',
 
-    'purchasePrice',
+    // 'purchasePrice',
 
-    'discount',
+    // 'discount',
 
-    'tax',
+    // 'tax',
 
     'totalAmount',
 

@@ -1,0 +1,547 @@
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.category-container {
+  width: 100%;
+  padding: 25px;
+  background: #ffffff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   TOP ROW
+========================================= */
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.title-section h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  color:var( --red-color);
+}
+
+.title-section p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #777;
+}
+
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.button-section button {
+  border: none;
+  outline: none;
+  background:var(--red-color);
+  color: #ffffff;
+  padding: 11px 22px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.button-section button:hover {
+  background:var(--red-color);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.search-row {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-row mat-form-field {
+  width: 100%;
+}
+
+
+/* =========================================
+   TABLE ROW
+========================================= */
+
+.table-row {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+table {
+  width: 100%;
+  min-width: 900px;
+  background: #ffffff;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+th.mat-header-cell {
+  background: #f7f6fb;
+  color: #2f2c4a;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 12px;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLE CELLS
+========================================= */
+
+td.mat-cell {
+  padding: 12px;
+  font-size: 14px;
+  color: #444;
+  vertical-align: middle;
+}
+
+
+/* =========================================
+   ROW HOVER
+========================================= */
+
+tr.mat-row:hover {
+  background: #faf9fd;
+}
+
+
+/* =========================================
+   BRAND LOGO
+========================================= */
+
+td img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #eeeeee;
+  padding: 4px;
+  background: #ffffff;
+}
+
+
+/* =========================================
+   NO LOGO
+========================================= */
+
+td span {
+  color: #999;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* =========================================
+   ACTION BUTTON COMMON
+========================================= */
+
+.action-buttons button {
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+}
+
+
+/* =========================================
+   VIEW BUTTON
+========================================= */
+
+.view-btn {
+  color: #2f2c4a !important;
+}
+
+.view-btn:hover {
+  background: rgba(47, 44, 74, 0.08);
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.edit-btn {
+  color:var(--btn-red-colour);
+}
+
+.edit-btn:hover {
+  background: rgba(86, 79, 156, 0.08);
+}
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.delete-btn {
+  color: #c62828 !important;
+}
+
+.delete-btn:hover {
+  background: rgba(198, 40, 40, 0.08);
+}
+
+
+/* =========================================
+   PAGINATOR
+========================================= */
+
+mat-paginator {
+  margin-top: 10px;
+  background: #ffffff;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .category-container {
+    padding: 15px;
+  }
+
+  .top-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button-section {
+    width: 100%;
+  }
+
+  .button-section button {
+    width: 100%;
+  }
+
+  .title-section h2 {
+    font-size: 22px;
+  }
+
+  .table-row {
+    overflow-x: auto;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .category-container {
+    padding: 10px;
+  }
+
+  .title-section h2 {
+    font-size: 20px;
+  }
+
+  .title-section p {
+    font-size: 13px;
+  }
+
+}
+
+/* ==========================================
+   BRAND DETAILS
+========================================== */
+
+.brand-details {
+  width: 100%;
+  margin-top: 25px;
+  padding: 25px;
+
+  background: var(--wight-color);
+
+  border: 1px solid var(--lyt-yellow-color);
+  border-radius: 10px;
+
+  box-shadow: 0 3px 12px var(--lyt-yellow-color);
+
+  animation: detailsOpen 0.3s ease;
+}
+
+
+/* ==========================================
+   DETAILS HEADER
+========================================== */
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid var(--lyt-yellow-color);
+}
+
+
+.details-header h3 {
+  margin: 0;
+
+  color: var(--red-color);
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+.details-header p {
+  margin: 5px 0 0;
+
+  color: var(--gray-colour);
+
+  font-size: 13px;
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.close-details {
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid var(--red-color);
+  border-radius: 50%;
+
+  background: var(--wight-color);
+  color: var(--red-color);
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+
+.close-details:hover {
+  background: var(--red-color);
+  color: var(--wight-color);
+}
+
+
+/* ==========================================
+   DETAILS CONTENT
+========================================== */
+
+.details-content {
+  display: flex;
+  gap: 30px;
+
+  padding-top: 25px;
+}
+
+
+/* ==========================================
+   LOGO SECTION
+========================================== */
+
+.detail-logo-section {
+  width: 180px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+
+.detail-logo {
+  width: 160px;
+  height: 160px;
+
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--wight-color);
+
+  border: 1px solid var(--lyt-yellow-color);
+  border-radius: 8px;
+
+  color: var(--gray-colour);
+}
+
+
+.detail-logo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* ==========================================
+   DETAIL INFORMATION
+========================================== */
+
+.detail-info {
+  flex: 1;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+
+/* ==========================================
+   DETAIL ITEM
+========================================== */
+
+.detail-item {
+  padding: 15px;
+
+  border: 1px solid var(--lyt-yellow-color);
+  border-radius: 7px;
+
+  background: var(--wight-color);
+}
+
+
+.detail-item label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--red-color);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+.detail-item p {
+  margin: 0;
+
+  color: var(--gray-colour);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.active-status {
+  color: var(--red-color) !important;
+  font-weight: 600;
+}
+
+
+.inactive-status {
+  color: var(--gray-colour) !important;
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
+@keyframes detailsOpen {
+
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .brand-details {
+    padding: 18px;
+  }
+
+
+  .details-content {
+    flex-direction: column;
+  }
+
+
+  .detail-logo-section {
+    width: 100%;
+  }
+
+
+  .detail-info {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .brand-details {
+    padding: 15px;
+  }
+
+
+  .details-header h3 {
+    font-size: 18px;
+  }
+
+
+  .detail-logo {
+    width: 130px;
+    height: 130px;
+  }
+
+}

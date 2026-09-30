@@ -235,68 +235,58 @@
 
 
             <!-- Payment Status -->
+          <ng-container matColumnDef="paymentStatus">
 
-            <ng-container matColumnDef="paymentStatus">
+    <th mat-header-cell *matHeaderCellDef>
+        Payment Status
+    </th>
 
-                <th mat-header-cell *matHeaderCellDef>
+    <td mat-cell *matCellDef="let element">
 
-                    Payment Status
+        <span
+            class="status-badge"
+            [ngClass]="{
+                'paid-badge': element.paymentStatus === 'PAID',
+                'pending-badge': element.paymentStatus === 'PENDING',
+                'partial-badge': element.paymentStatus === 'PARTIAL'
+            }"
+            (click)="changePaymentStatus(element)">
 
-                </th>
+            {{ element.paymentStatus }}
 
-                <td mat-cell *matCellDef="let element">
+        </span>
 
-                    <span [ngClass]="{
+    </td>
 
-                            'active-badge':
-                                element.paymentStatus === 'PAID',
-
-                            'inactive-badge':
-                                element.paymentStatus === 'PENDING',
-
-                            'partial-badge':
-                                element.paymentStatus === 'PARTIAL'
-
-                        }">
-
-                        {{
-                        element.paymentStatus
-                        }}
-
-                    </span>
-
-                </td>
-
-            </ng-container>
+</ng-container>
 
 
             <!-- Status -->
 
-            <ng-container matColumnDef="status">
+          <ng-container matColumnDef="status">
 
-                <th mat-header-cell *matHeaderCellDef>
+    <th mat-header-cell *matHeaderCellDef>
+        Status
+    </th>
 
-                    Status
+    <td mat-cell *matCellDef="let element">
 
-                </th>
+        <span
+            class="status-badge"
+            [ngClass]="{
+                'draft-badge': element.status === 'DRAFT',
+                'received-badge': element.status === 'RECEIVED',
+                'cancelled-badge': element.status === 'CANCELLED'
+            }"
+            (click)="changeStatus(element)">
 
-                <td mat-cell *matCellDef="let element">
+            {{ element.status }}
 
-                    <span [ngClass]="
-                            element.status === 'RECEIVED'
-                                ? 'active-badge'
-                                : 'inactive-badge'
-                        ">
+        </span>
 
-                        {{
-                        element.status
-                        }}
+    </td>
 
-                    </span>
-
-                </td>
-
-            </ng-container>
+</ng-container>
 
 
             <!-- Actions -->

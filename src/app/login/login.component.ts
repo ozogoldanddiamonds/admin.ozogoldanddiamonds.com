@@ -113,9 +113,12 @@ export class LoginComponent implements OnInit {
   // =====================
   // SUBMIT
   // =====================
+  onSubmit(): void {
 
-  onSubmit() {
-    this.isSaving = true;
+    // ==========================================
+    // ROLE VALIDATION
+    // ==========================================
+
     if (!this.selectedRole) {
 
       this.alertService.error(
@@ -125,6 +128,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+
+    // ==========================================
+    // START LOADING
+    // ==========================================
+
+    this.isSaving = true;
+
+
     const loginData = {
 
       email: this.authForm.value.email,
@@ -133,20 +144,38 @@ export class LoginComponent implements OnInit {
 
     };
 
+
+    // ==========================================
+    // LOGIN API
+    // ==========================================
+
     this.authService.login(loginData)
       .subscribe({
 
         next: (res: any) => {
 
           console.log(res);
-          console.log('SELECTED ROLE =>', this.selectedRole);
-          console.log('API ROLE =>', res.role);
-          console.log('API RESPONSE =>', res);
 
-          // Role Validation
+          console.log(
+            'SELECTED ROLE =>',
+            this.selectedRole
+          );
+
+          console.log(
+            'API ROLE =>',
+            res.role
+          );
+
+
+          // ==========================================
+          // ROLE VALIDATION
+          // ==========================================
+
           if (
             this.selectedRole !== res.role
           ) {
+
+            this.isSaving = false;
 
             this.alertService.error(
               'Selected Role Not Matched'
@@ -155,7 +184,11 @@ export class LoginComponent implements OnInit {
             return;
           }
 
-          // Save Login Data
+
+          // ==========================================
+          // SAVE LOGIN DATA
+          // ==========================================
+
           localStorage.setItem(
             'token',
             res.token
@@ -181,31 +214,47 @@ export class LoginComponent implements OnInit {
             res._id
           );
 
-          // Branch Login
-          if (
-            res.role === 'BRANCH'
-          ) {
-            this.isSaving = false;
+
+          // ==========================================
+          // NAVIGATION
+          // ==========================================
+
+          if (res.role === 'BRANCH') {
+
             this.router.navigate([
               '/admin/dashboard'
             ]);
 
           }
 
-          // Sub Branch Login
-          else if (
-            res.role === 'SUB_BRANCH'
-          ) {
-            this.isSaving = false;
+          else if (res.role === 'SUB_BRANCH') {
+
             this.router.navigate([
               '/SUB_BRANCH/dashboard'
             ]);
 
           }
 
+          else {
+
+            this.isSaving = false;
+
+            this.alertService.error(
+              'Invalid User Role'
+            );
+
+          }
+
         },
 
+
+        // ==========================================
+        // ERROR
+        // ==========================================
+
         error: (err) => {
+
+          this.isSaving = false;
 
           this.alertService.error(
             err.error?.message ||
@@ -217,7 +266,6 @@ export class LoginComponent implements OnInit {
       });
 
   }
-
   // =====================
   // FORGOT PASSWORD
   // =====================

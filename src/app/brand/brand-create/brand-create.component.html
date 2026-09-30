@@ -1,0 +1,186 @@
+<div class="brand-container">
+
+  <!-- Header -->
+  <div class="form-header">
+    <h2>Create Brand</h2>
+    <p>Add a new brand here</p>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="brandForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <div class="row">
+
+      <!-- Brand Name -->
+      <div class="col-md-6 mb-3">
+
+        <label for="name" class="form-label">
+          Brand Name <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          placeholder="Enter brand name"
+        >
+
+        <div
+          class="text-danger validation-message"
+          *ngIf="brandForm.get('name')?.touched &&
+                 brandForm.get('name')?.hasError('required')"
+        >
+          Brand name is required.
+        </div>
+
+      </div>
+
+
+      <!-- Brand Code -->
+      <div class="col-md-6 mb-3">
+
+        <label for="code" class="form-label">
+          Brand Code <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="code"
+          class="form-control"
+          formControlName="code"
+          placeholder="Enter brand code"
+          style="text-transform: uppercase;"
+        >
+
+        <div
+          class="text-danger validation-message"
+          *ngIf="brandForm.get('code')?.touched &&
+                 brandForm.get('code')?.hasError('required')"
+        >
+          Brand code is required.
+        </div>
+
+      </div>
+
+
+      <!-- Description -->
+      <div class="col-md-12 mb-3">
+
+        <label for="description" class="form-label">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          class="form-control"
+          rows="4"
+          formControlName="description"
+          placeholder="Enter brand description"
+        ></textarea>
+
+      </div>
+
+
+      <!-- Logo -->
+      <div class="col-md-6 mb-3">
+
+        <label for="logo" class="form-label">
+          Brand Logo
+        </label>
+
+        <input
+          type="file"
+          id="logo"
+          class="form-control"
+          accept="image/png,image/jpeg,image/jpg,image/webp"
+          (change)="onLogoSelected($event)"
+        >
+
+        <small class="text-muted">
+          JPG, JPEG, PNG or WEBP only. Maximum size 5MB.
+        </small>
+
+        <!-- File Validation -->
+        <div
+          class="text-danger validation-message"
+          *ngIf="logoError"
+        >
+          {{ logoError }}
+        </div>
+
+      </div>
+
+
+      <!-- Logo Preview -->
+      <div
+        class="col-md-6 mb-3"
+        *ngIf="logoPreview"
+      >
+
+        <label class="form-label">
+          Logo Preview
+        </label>
+
+        <div class="logo-preview">
+          <img
+            [src]="logoPreview"
+            alt="Brand Logo"
+          >
+        </div>
+
+      </div>
+
+
+      <!-- Active Status -->
+      <div class="col-md-6 mb-3">
+
+        <label for="isActive" class="form-label">
+          Status
+        </label>
+
+        <select
+          id="isActive"
+          class="form-select"
+          formControlName="isActive"
+        >
+          <option [ngValue]="true">Active</option>
+          <option [ngValue]="false">Inactive</option>
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- Buttons -->
+    <div class="form-buttons">
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        routerLink="/admin/brand-list"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="isSaving"
+      >
+
+        <span
+          *ngIf="isSaving"
+          class="spinner-border spinner-border-sm me-2"
+        ></span>
+
+        {{ isSaving ? 'Saving...' : 'Create Brand' }}
+
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

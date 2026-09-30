@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-scheema.component.css']
 })
 export class CreateScheemaComponent implements OnInit {
+  isSaving: boolean = false;
+
 
   schemeForm!: FormGroup;
 
@@ -196,13 +198,18 @@ export class CreateScheemaComponent implements OnInit {
 
     console.log(payload);
 
+    this.isSaving = true;
+
+
     this.schemeService.createScheme(payload)
 
       .subscribe({
 
         next: (res: any) => {
+             this.isSaving = false;
 
           Swal.fire({
+            
 
             icon: 'success',
 
@@ -227,6 +234,7 @@ export class CreateScheemaComponent implements OnInit {
         },
 
         error: (err: any) => {
+              this.isSaving = false;
 
           Swal.fire({
 

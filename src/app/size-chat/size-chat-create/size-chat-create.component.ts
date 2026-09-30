@@ -12,197 +12,127 @@ import Swal from 'sweetalert2';
   styleUrls: ['./size-chat-create.component.css']
 })
 export class SizeChatCreateComponent implements OnInit {
-
   isSaving: boolean = false;
+
   sizeChartForm!: FormGroup;
 
   selectedFile: File | null = null;
-
-  imagePreview: any = null;
+  imagePreview: string | ArrayBuffer | null = null;
 
   subCategories: any[] = [];
 
   constructor(
-
     private fb: FormBuilder,
-
     private sizeChartService: SizeChatService,
-
     private subCategoryService: SubcategoryService,
-
     private router: Router,
-
     private alert: AlertService
-
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     this.sizeChartForm = this.fb.group({
-
       title: ['', Validators.required],
-
       subCategory: ['', Validators.required],
-
       description: [''],
-
-      image: ['', Validators.required],
-
       isActive: [true]
-
     });
 
     this.getAllSubCategories();
-
   }
 
   //=========================
   // Get Sub Categories
   //=========================
-
-  getAllSubCategories() {
-
-    this.subCategoryService
-      .getAllSubCategories()
-      .subscribe({
-
-        next: (res: any) => {
-
-          this.subCategories = res.data;
-
-        },
-
-        error: (err) => {
-
-          console.log(err);
-
-        }
-
-      });
-
+  getAllSubCategories(): void {
+    this.subCategoryService.getAllSubCategories().subscribe({
+      next: (res: any) => {
+        this.subCategories = res?.data || [];
+      },
+      error: (err) => {
+        console.log('Sub Categories Error:', err);
+      }
+    });
   }
 
   //=========================
-  // Image
+  // Image Change
   //=========================
+  onFileChange(event: any): void {
+    const file = event?.target?.files?.[0];
 
-  onFileChange(event: any) {
-
-    if (event.target.files && event.target.files.length > 0) {
-
-      const file = event.target.files[0];
-
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-
-        this.imagePreview = reader.result;
-
-      };
-
-      reader.readAsDataURL(file);
-
-      this.sizeChartForm.patchValue({
-
-        image: file
-
-      });
-
+    if (!file) {
+      this.selectedFile = null;
+      this.imagePreview = null;
+      return;
     }
 
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   //=========================
   // Save
   //=========================
+  onSubmit(): void {
+    this.sizeChartForm.markAllAsTouched();
 
-  onSubmit() {
-    this.isSaving = true;
-    if (this.sizeChartForm.invalid) {
-
+    if (this.sizeChartForm.invalid || !this.selectedFile) {
+      this.isSaving = false;
       return;
-
     }
+
+    this.isSaving = true;
 
     const formData = new FormData();
 
-    formData.append(
-      'title',
-      this.sizeChartForm.value.title
-    );
-
-    formData.append(
-      'subCategory',
-      this.sizeChartForm.value.subCategory
-    );
-
-    formData.append(
-      'description',
-      this.sizeChartForm.value.description
-    );
-
-    formData.append(
-      'isActive',
-      this.sizeChartForm.value.isActive
-    );
+    formData.append('title', this.sizeChartForm.value.title);
+    formData.append('subCategory', this.sizeChartForm.value.subCategory);
+    formData.append('description', this.sizeChartForm.value.description || '');
+    formData.append('isActive', String(this.sizeChartForm.value.isActive));
 
     if (this.selectedFile) {
-
-      formData.append(
-        'image',
-        this.selectedFile
-      );
-
+      formData.append('image', this.selectedFile, this.selectedFile.name);
     }
 
-    this.sizeChartService
-      .createSizeChart(formData)
-      .subscribe({
+    this.sizeChartService.createSizeChart(formData).subscribe({
+      next: (res) => {
+        console.log(res);
 
-        next: (res) => {
+        this.isSaving = false;
 
-          console.log(res);
+        this.alert.success('Size Chart Created Successfully');
 
-          this.alert.success(
-            'Size Chart Created Successfully'
-          );
-          this.isSaving = false;
-          this.router.navigate([
-            '/admin/sizechat-list'
-          ]);
+        this.router.navigate(['/admin/sizechat-list']);
+      },
+      error: (err) => {
+        this.isSaving = false;
 
-        },
+        console.log('Create Size Chart Error:', err);
 
-        error: (err) => {
+        const backendMessage =
+          err?.error?.message ||
+          err?.error?.error ||
+          err?.message ||
+          'Something went wrong while creating Size Chart';
 
-          Swal.fire({
-
-            icon: 'error',
-
-            title: 'Oops...',
-
-            text:
-              err.error.message ||
-              'Failed To Create Size Chart'
-
-          });
-
-        }
-
-      });
-
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to Create Size Chart',
+          text: backendMessage
+        });
+      }
+    });
   }
 
   //=========================
-
-  goBack() {
-
-    this.router.navigate([
-      '/admin/sizechat-list'
-    ]);
-
+  // Back
+  //=========================
+  goBack(): void {
+    this.router.navigate(['/admin/sizechat-list']);
   }
-
 }

@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./coupon-update.component.css']
 })
 export class CouponUpdateComponent implements OnInit {
+  isSaving: boolean = false;
 
   couponForm!: FormGroup;
 
@@ -145,61 +146,37 @@ export class CouponUpdateComponent implements OnInit {
 
  onSubmit(): void {
 
-  if (
-    this.couponForm.invalid
-  ) {
+    if (this.couponForm.invalid) {
+        this.couponForm.markAllAsTouched();
+        return;
+    }
 
-    Swal.fire({
+    this.isSaving = true;
 
-      icon: 'warning',
+    const couponData = {
+        ...this.couponForm.value,
+        code: this.couponForm.value.code.trim().toUpperCase()
+    };
 
-      title: 'Validation Error',
+    this.couponService.createCoupon(couponData).subscribe({
 
-      text: 'Please fill all required fields'
+        next: (response) => {
+
+            this.isSaving = false;
+
+            // success logic
+            this.goBack();
+
+        },
+
+        error: (error) => {
+
+            this.isSaving = false;
+
+            // error logic
+        }
 
     });
-
-    return;
-
-  }
-
-  this.couponService
-    .updateCoupon(
-
-      this.couponId,
-
-      this.couponForm.value
-
-    )
-   .subscribe({
-
-  next: (response) => {
-
-    this.alert.success('Coupon Updated Successfully');
-
-    setTimeout(() => {
-
-      this.router.navigate([
-        '/admin/coupon-list'
-      ]);
-
-    }, 2000);
-
-  },
-
-  error: (error: any) => {
-
-    console.error(error);
-
-    this.alert.error(
-      error?.error?.message ||
-      'Something went wrong'
-    );
-
-  }
-
-});
-
 }
 
   // =====================
@@ -209,7 +186,7 @@ export class CouponUpdateComponent implements OnInit {
   goBack(): void {
 
     this.router.navigate([
-      '/admin/coupon-list'
+      '/admin/Coupon-lists'
     ]);
 
   }

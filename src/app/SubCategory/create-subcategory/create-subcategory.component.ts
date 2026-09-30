@@ -12,7 +12,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-subcategory.component.css']
 })
 export class CreateSubcategoryComponent implements OnInit {
+
   isSaving: boolean = false;
+
   subCategoryForm!: FormGroup;
 
   categories: any[] = [];
@@ -21,13 +23,21 @@ export class CreateSubcategoryComponent implements OnInit {
 
   imagePreview: any = null;
 
+
   constructor(
+
     private fb: FormBuilder,
+
     private subService: SubcategoryService,
+
     private categoryService: CategoryService,
+
     private router: Router,
+
     private alert: AlertService,
+
   ) { }
+
 
   ngOnInit(): void {
 
@@ -48,76 +58,113 @@ export class CreateSubcategoryComponent implements OnInit {
 
       });
 
+
     this.getCategories();
 
   }
 
+
   getCategories() {
-    this.categoryService.getAllCategories()
+
+    this.categoryService
+      .getAllCategories()
       .subscribe((res: any) => {
-        console.log(res, "this is category data");
+
+        console.log(
+          res,
+          "this is category data"
+        );
+
         this.categories = res.data;
+
       });
+
   }
+
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
+
+    const file =
+      event.target.files[0];
+
 
     if (file) {
+
       this.selectedFile = file;
 
-      const reader = new FileReader();
+
+      const reader =
+        new FileReader();
+
+
       reader.onload = () => {
-        this.imagePreview = reader.result;
+
+        this.imagePreview =
+          reader.result;
+
       };
+
+
       reader.readAsDataURL(file);
+
     }
+
   }
 
+
   onSubmit() {
+
+    // Show all validation messages
+    this.subCategoryForm.markAllAsTouched();
+
+
+    // Validation failed
+    // Loading must remain OFF
+    if (this.subCategoryForm.invalid) {
+
+      this.isSaving = false;
+
+      return;
+
+    }
+
+
+    // All required fields are valid
+    // Start loading only before API call
     this.isSaving = true;
-    if (
-      this.subCategoryForm.invalid
-    ) return;
+
 
     const formData =
       new FormData();
 
-    formData.append(
 
+    formData.append(
       'name',
-
       this.subCategoryForm.value.name
-
     );
 
-    formData.append(
 
+    formData.append(
       'category',
-
       this.subCategoryForm.value.category
-
     );
+
 
     formData.append(
-
       'isActive',
-
       this.subCategoryForm.value.isActive
-
     );
+
 
     if (this.selectedFile) {
 
       formData.append(
-
         'image',
-
         this.selectedFile
-
       );
 
     }
+
 
     this.subService
       .createSubCategory(
@@ -127,23 +174,44 @@ export class CreateSubcategoryComponent implements OnInit {
 
         next: () => {
 
+          // Stop loading
+          this.isSaving = false;
+
+
           this.alert.success(
             'SubCategory Created Successfully'
           );
-          this.isSaving = false;
+
+
           this.router.navigate([
             '/admin/list_subcategory'
           ]);
 
         },
 
+
         error: (err: any) => {
 
-          console.log(err);
+          console.log(
+            'Create SubCategory Error:',
+            err
+          );
+
+
+          // Stop loading on error
+          this.isSaving = false;
+
+
+          // Actual backend message
+          const backendMessage =
+            err?.error?.message ||
+            err?.error?.error ||
+            err?.message ||
+            'Something went wrong while creating SubCategory';
+
 
           this.alert.error(
-            err?.error?.message ||
-            'Failed To Create SubCategory'
+            backendMessage
           );
 
         }
@@ -152,7 +220,13 @@ export class CreateSubcategoryComponent implements OnInit {
 
   }
 
+
   goBack() {
-    this.router.navigate(['/admin/list_subcategory']);
+
+    this.router.navigate([
+      '/admin/list_subcategory'
+    ]);
+
   }
+
 }

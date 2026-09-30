@@ -1,91 +1,208 @@
 <div class="container">
+
   <div class="row">
 
     <div class="col-md-12">
+
       <div class="title-section">
+
         <h2>Create Sub SubCategory</h2>
+
       </div>
+
     </div>
+
 
     <div class="category-card">
 
-      <form [formGroup]="subSubCategoryForm" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="subSubCategoryForm"
+        (ngSubmit)="onSubmit()"
+      >
 
         <div class="form-layout">
 
-          <!-- Left -->
+
+          <!-- ========================= -->
+          <!-- LEFT -->
+          <!-- ========================= -->
           <div class="left-section">
 
-            <!-- Name -->
+
+            <!-- NAME -->
             <div class="form-group">
+
               <label>
                 Name
+                <span class="required">*</span>
               </label>
 
-              <input type="text" formControlName="name" placeholder="Enter name" />
+              <input
+                type="text"
+                formControlName="name"
+                placeholder="Enter name"
+                [class.is-invalid]="
+                  subSubCategoryForm.get('name')?.touched &&
+                  subSubCategoryForm.get('name')?.invalid
+                "
+              />
+
+
+              <!-- Required -->
+              <div
+                class="validation-message"
+                *ngIf="
+                  subSubCategoryForm.get('name')?.touched &&
+                  subSubCategoryForm.get('name')?.hasError('required')
+                "
+              >
+                Name is required.
+              </div>
+
+
+              <!-- Empty spaces -->
+              <div
+                class="validation-message"
+                *ngIf="
+                  subSubCategoryForm.get('name')?.touched &&
+                  subSubCategoryForm.get('name')?.hasError('pattern')
+                "
+              >
+                Name cannot be empty.
+              </div>
+
             </div>
 
-            <!-- Category -->
+
+
+            <!-- CATEGORY -->
             <div class="form-group">
+
               <label>
                 Category
+                <span class="required">*</span>
               </label>
 
-              <select formControlName="category" (change)="onCategoryChange($event)">
+
+              <select
+                formControlName="category"
+                (change)="onCategoryChange($event)"
+                [class.is-invalid]="
+                  subSubCategoryForm.get('category')?.touched &&
+                  subSubCategoryForm.get('category')?.invalid
+                "
+              >
 
                 <option value="">
                   Select Category
                 </option>
 
-                <option *ngFor="
-      let cat of categories
-    " [value]="cat._id">
 
+                <option
+                  *ngFor="let cat of categories"
+                  [value]="cat._id"
+                >
                   {{ cat.name }}
-
                 </option>
 
               </select>
+
+
+              <!-- Category Error -->
+              <div
+                class="validation-message"
+                *ngIf="
+                  subSubCategoryForm.get('category')?.touched &&
+                  subSubCategoryForm.get('category')?.hasError('required')
+                "
+              >
+                Category is required.
+              </div>
+
             </div>
 
-            <!-- SubCategory -->
+
+
+            <!-- SUBCATEGORY -->
             <div class="form-group">
+
               <label>
                 SubCategory
+                <span class="required">*</span>
               </label>
 
-              <select formControlName="subCategory">
+
+              <select
+                formControlName="subCategory"
+                [class.is-invalid]="
+                  subSubCategoryForm.get('subCategory')?.touched &&
+                  subSubCategoryForm.get('subCategory')?.invalid
+                "
+              >
 
                 <option value="">
                   Select SubCategory
                 </option>
 
-                <option *ngFor="let sub of subCategories" [value]="sub._id">
 
+                <option
+                  *ngFor="let sub of subCategories"
+                  [value]="sub._id"
+                >
                   {{ sub.name }}
-
                 </option>
 
               </select>
+
+
+              <!-- SubCategory Error -->
+              <div
+                class="validation-message"
+                *ngIf="
+                  subSubCategoryForm.get('subCategory')?.touched &&
+                  subSubCategoryForm.get('subCategory')?.hasError('required')
+                "
+              >
+                SubCategory is required.
+              </div>
+
             </div>
 
-            <!-- Image -->
+
+
+            <!-- IMAGE -->
             <div class="form-group">
+
               <label>
                 Image
               </label>
 
-              <input type="file" (change)="onFileChange($event)" />
+
+              <input
+                type="file"
+                (change)="onFileChange($event)"
+              />
+
             </div>
+
 
           </div>
 
-          <!-- Right -->
+
+
+          <!-- ========================= -->
+          <!-- RIGHT -->
+          <!-- ========================= -->
           <div class="right-section">
 
             <div class="preview-box">
 
-              <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" />
+              <img
+                *ngIf="imagePreview"
+                [src]="imagePreview"
+                alt="Preview"
+              />
+
 
               <p *ngIf="!imagePreview">
                 Image Preview
@@ -97,28 +214,53 @@
 
         </div>
 
-        <!-- Buttons -->
+
+
+        <!-- ========================= -->
+        <!-- BUTTONS -->
+        <!-- ========================= -->
         <div class="button-group">
 
-          <button type="submit" class="btn-create" [disabled]="isSaving">
 
-            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
-            </span>
+          <!-- SAVE -->
+          <button
+            type="submit"
+            class="btn-create"
+            [disabled]="isSaving"
+          >
+
+            <span
+              *ngIf="isSaving"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+
 
             {{ isSaving ? 'Saving...' : 'Save' }}
 
           </button>
 
-          <button type="button" class="btn-back" (click)="goBack()">
+
+          <!-- BACK -->
+          <button
+            type="button"
+            class="btn-back"
+            (click)="goBack()"
+            [disabled]="isSaving"
+          >
 
             Back
+
           </button>
 
         </div>
+
 
       </form>
 
     </div>
 
   </div>
+
 </div>

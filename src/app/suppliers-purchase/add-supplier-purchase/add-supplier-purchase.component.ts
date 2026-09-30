@@ -11,106 +11,102 @@ import Swal from 'sweetalert2';
   templateUrl: './add-supplier-purchase.component.html',
   styleUrls: ['./add-supplier-purchase.component.css']
 })
-export class AddSupplierPurchaseComponent implements OnInit {
+export class AddSupplierPurchaseComponent  implements OnInit {
+
+
+  // =====================================
+  // VARIABLES
+  // =====================================
+
   isSaving: boolean = false;
+
   supplierPurchaseForm!: FormGroup;
 
   suppliers: any[] = [];
 
   selectedDocuments: File[] = [];
 
-  existingDocuments: any[] = [];
   documentPreviews: any[] = [];
+
+
   constructor(
     private fb: FormBuilder,
-    private supplierService: SupplierService,
-    private supplierPurchaseService: SupplierPurchaseService,
+
+    private supplierService:
+      SupplierService,
+
+    private supplierPurchaseService:
+      SupplierPurchaseService,
+
     private router: Router,
+
     private alert: AlertService
   ) { }
 
 
-  // =========================
+  // =====================================
   // INIT
-  // =========================
+  // =====================================
 
   ngOnInit(): void {
+
+    this.createForm();
+
+    this.getAllSuppliers();
+
+  }
+
+
+  // =====================================
+  // CREATE FORM
+  // =====================================
+
+  createForm(): void {
 
     this.supplierPurchaseForm =
       this.fb.group({
 
-        // =========================
-        // SUPPLIER
-        // =========================
-
+        // Supplier
         supplier: [
           '',
           Validators.required
         ],
 
-
-        // =========================
-        // INVOICE NUMBER
-        // =========================
-
+        // Invoice Number
         invoiceNumber: [
           '',
           Validators.required
         ],
 
-
-        // =========================
-        // INVOICE DATE
-        // =========================
-
+        // Invoice Date
         invoiceDate: [
           '',
           Validators.required
         ],
 
-
-        // =========================
-        // PURCHASE DATE
-        // =========================
-
+        // Purchase Date
         purchaseDate: [
           new Date()
             .toISOString()
             .split('T')[0]
         ],
 
-
-        // =========================
-        // SUBTOTAL
-        // =========================
-
+        // Subtotal
         subtotal: [
           0
         ],
 
-
-        // =========================
-        // DISCOUNT
-        // =========================
-
+        // Discount
         discount: [
           0
         ],
 
-
-        // =========================
-        // TAX
-        // =========================
-
+        // Tax
         tax: [
           0
         ],
 
-
-        // =========================
-        // TOTAL AMOUNT
-        // =========================
-
+        // Total Amount
         totalAmount: [
           '',
           [
@@ -119,48 +115,29 @@ export class AddSupplierPurchaseComponent implements OnInit {
           ]
         ],
 
-
-        // =========================
-        // PAYMENT STATUS
-        // =========================
-
+        // Payment Status
         paymentStatus: [
           'PENDING'
         ],
 
-
-        // =========================
-        // NOTES
-        // =========================
-
+        // Notes
         notes: [
           ''
         ],
 
-
-        // =========================
-        // STATUS
-        // =========================
-
+        // Status
         status: [
           'DRAFT'
         ]
 
       });
 
-
-    // =========================
-    // GET SUPPLIERS
-    // =========================
-
-    this.getAllSuppliers();
-
   }
 
 
-  // =========================
+  // =====================================
   // GET ALL SUPPLIERS
-  // =========================
+  // =====================================
 
   getAllSuppliers(): void {
 
@@ -171,8 +148,8 @@ export class AddSupplierPurchaseComponent implements OnInit {
         next: (response: any) => {
 
           console.log(
-            response,
-            'suppliers'
+            'Supplier Response:',
+            response
           );
 
           this.suppliers =
@@ -183,8 +160,20 @@ export class AddSupplierPurchaseComponent implements OnInit {
         error: (error) => {
 
           console.error(
+            'Supplier Error:',
             error
           );
+
+          Swal.fire({
+
+            icon: 'error',
+
+            title: 'Error',
+
+            text:
+              'Failed to load suppliers'
+
+          });
 
         }
 
@@ -193,35 +182,34 @@ export class AddSupplierPurchaseComponent implements OnInit {
   }
 
 
-  // =========================
+  // =====================================
   // DOCUMENT CHANGE
-  // =========================
-
-  // =========================
-  // DOCUMENT CHANGE
-  // =========================
+  // =====================================
 
   onDocumentsChange(event: any): void {
 
+    const files =
+      event.target.files;
 
-
-    const files = event.target.files;
 
     if (
       !files ||
       files.length === 0
     ) {
-      this.selectedDocuments = [];
-      this.documentPreviews = [];
+
       return;
+
     }
 
 
-    // =========================
-    // MAX 10 DOCUMENTS
-    // =========================
+    // =====================================
+    // MAX 10 FILES
+    // =====================================
 
-    if (files.length > 10) {
+    if (
+      this.selectedDocuments.length +
+      files.length > 10
+    ) {
 
       Swal.fire({
 
@@ -236,30 +224,32 @@ export class AddSupplierPurchaseComponent implements OnInit {
 
       event.target.value = '';
 
-      this.selectedDocuments = [];
-      this.documentPreviews = [];
-
       return;
+
     }
 
 
-    this.selectedDocuments =
+    // =====================================
+    // ADD FILES
+    // =====================================
+
+    const newFiles =
       Array.from(files) as File[];
 
 
-    // =========================
-    // CLEAR OLD PREVIEWS
-    // =========================
-
-    this.documentPreviews = [];
+    this.selectedDocuments.push(
+      ...newFiles
+    );
 
 
-    // =========================
+    // =====================================
     // CREATE PREVIEWS
-    // =========================
+    // =====================================
 
-    this.selectedDocuments.forEach(
+    newFiles.forEach(
       (file: File) => {
+
+        // IMAGE
 
         if (
           file.type.startsWith('image/')
@@ -267,6 +257,7 @@ export class AddSupplierPurchaseComponent implements OnInit {
 
           const reader =
             new FileReader();
+
 
           reader.onload = () => {
 
@@ -285,9 +276,12 @@ export class AddSupplierPurchaseComponent implements OnInit {
 
           };
 
+
           reader.readAsDataURL(file);
 
         }
+
+        // PDF / OTHER
 
         else {
 
@@ -308,7 +302,18 @@ export class AddSupplierPurchaseComponent implements OnInit {
       }
     );
 
+
+    // Allow same file selection again
+
+    event.target.value = '';
+
   }
+
+
+  // =====================================
+  // CHECK IMAGE
+  // =====================================
+
   isImage(url: string): boolean {
 
     if (!url) {
@@ -320,216 +325,221 @@ export class AddSupplierPurchaseComponent implements OnInit {
 
   }
 
-  // =========================
-  // SUBMIT
-  // =========================
 
-  onSubmit(): void {
-    this.isSaving = true;
+  // =====================================
+  // VIEW NEW IMAGE
+  // =====================================
+
+  viewPreview(
+    preview: any
+  ): void {
+
     if (
-      this.supplierPurchaseForm
-        .invalid
+      preview?.isImage &&
+      preview?.url
     ) {
 
-      this.supplierPurchaseForm
-        .markAllAsTouched();
+      const newWindow =
+        window.open();
 
-      return;
+      if (newWindow) {
+
+        newWindow.document.write(`
+          <html>
+            <head>
+              <title>${preview.name}</title>
+            </head>
+
+            <body style="
+              margin:0;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              background:#111;
+              height:100vh;
+            ">
+
+              <img
+                src="${preview.url}"
+                style="
+                  max-width:95%;
+                  max-height:95%;
+                  object-fit:contain;
+                "
+              >
+
+            </body>
+          </html>
+        `);
+
+      }
 
     }
-
-
-    const formValue =
-      this.supplierPurchaseForm.value;
-
-
-    // =========================
-    // FORM DATA
-    // =========================
-
-    const formData =
-      new FormData();
-
-
-    // =========================
-    // BASIC DETAILS
-    // =========================
-
-    formData.append(
-      'supplier',
-      formValue.supplier
-    );
-
-
-    formData.append(
-      'invoiceNumber',
-      formValue.invoiceNumber
-    );
-
-
-    formData.append(
-      'invoiceDate',
-      formValue.invoiceDate
-    );
-
-
-    formData.append(
-      'purchaseDate',
-      formValue.purchaseDate || ''
-    );
-
-
-    // =========================
-    // AMOUNTS
-    // =========================
-
-    formData.append(
-      'subtotal',
-      String(
-        formValue.subtotal || 0
-      )
-    );
-
-
-    formData.append(
-      'discount',
-      String(
-        formValue.discount || 0
-      )
-    );
-
-
-    formData.append(
-      'tax',
-      String(
-        formValue.tax || 0
-      )
-    );
-
-
-    formData.append(
-      'totalAmount',
-      String(
-        formValue.totalAmount
-      )
-    );
-
-
-    // =========================
-    // PAYMENT STATUS
-    // =========================
-
-    formData.append(
-      'paymentStatus',
-      formValue.paymentStatus
-    );
-
-
-    // =========================
-    // NOTES
-    // =========================
-
-    formData.append(
-      'notes',
-      formValue.notes || ''
-    );
-
-
-    // =========================
-    // STATUS
-    // =========================
-
-    formData.append(
-      'status',
-      formValue.status
-    );
-
-
-    // =========================
-    // DOCUMENTS
-    // =========================
-
-    this.selectedDocuments
-      .forEach(
-        (file: File) => {
-
-          formData.append(
-            'documents',
-            file
-          );
-
-        }
-      );
-
-
-    console.log(
-      'Supplier Purchase FormData prepared'
-    );
-
-
-    // =========================
-    // CREATE
-    // =========================
-
-    this.supplierPurchaseService
-      .createSupplierPurchase(
-        formData
-      )
-      .subscribe({
-
-        next: (response) => {
-
-          console.log(
-            response
-          );
-
-          this.isSaving = false;
-          this.alert.success(
-            'Supplier Purchase Created Successfully'
-          );
-
-
-          this.router.navigate([
-            '/admin/supplier-purchase-list'
-          ]);
-
-
-          this.supplierPurchaseForm.reset();
-
-          this.selectedDocuments = [];
-
-        },
-
-
-        error: (error) => {
-
-          console.error(
-            error
-          );
-
-
-          Swal.fire({
-
-            icon: 'error',
-
-            title: 'Oops...',
-
-            text:
-              error?.error?.message ||
-              'Failed To Create Supplier Purchase'
-
-          });
-
-        }
-
-      });
 
   }
 
 
-  // =========================
+  // =====================================
+  // REMOVE DOCUMENT
+  // =====================================
+
+  removeDocument(
+    index: number
+  ): void {
+
+    this.selectedDocuments.splice(
+      index,
+      1
+    );
+
+    this.documentPreviews.splice(
+      index,
+      1
+    );
+
+  }
+
+
+  // =====================================
+  // SUBMIT
+  // =====================================
+
+ onSubmit(): void {
+
+    // Validation
+    if (this.supplierPurchaseForm.invalid) {
+
+        this.supplierPurchaseForm.markAllAsTouched();
+
+        return;
+    }
+
+    // Start loading
+    this.isSaving = true;
+
+    const formValue =
+        this.supplierPurchaseForm.value;
+
+    const formData =
+        new FormData();
+
+    // Existing functionality same
+    formData.append(
+        'supplier',
+        formValue.supplier
+    );
+
+    formData.append(
+        'invoiceNumber',
+        formValue.invoiceNumber
+    );
+
+    formData.append(
+        'invoiceDate',
+        formValue.invoiceDate
+    );
+
+    formData.append(
+        'purchaseDate',
+        formValue.purchaseDate || ''
+    );
+
+    formData.append(
+        'subtotal',
+        String(formValue.subtotal || 0)
+    );
+
+    formData.append(
+        'discount',
+        String(formValue.discount || 0)
+    );
+
+    formData.append(
+        'tax',
+        String(formValue.tax || 0)
+    );
+
+    formData.append(
+        'totalAmount',
+        String(formValue.totalAmount || 0)
+    );
+
+    formData.append(
+        'paymentStatus',
+        formValue.paymentStatus
+    );
+
+    formData.append(
+        'notes',
+        formValue.notes || ''
+    );
+
+    formData.append(
+        'status',
+        formValue.status
+    );
+
+    this.selectedDocuments.forEach(
+        (file: File) => {
+
+            formData.append(
+                'documents',
+                file
+            );
+
+        }
+    );
+
+
+    // API
+    this.supplierPurchaseService
+        .createSupplierPurchase(formData)
+        .subscribe({
+
+            next: (response) => {
+
+                // Stop loading
+                this.isSaving = false;
+
+                this.alert.success(
+                    'Supplier Purchase Created Successfully'
+                );
+
+                this.router.navigate([
+                    '/admin/supplier-purchase-list'
+                ]);
+
+                this.supplierPurchaseForm.reset();
+
+                this.selectedDocuments = [];
+
+                this.documentPreviews = [];
+
+            },
+
+            error: (error) => {
+
+                // Stop loading
+                this.isSaving = false;
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text:
+                        error?.error?.message ||
+                        'Failed To Create Supplier Purchase'
+                });
+
+            }
+
+        });
+
+}
+
+
+  // =====================================
   // BACK
-  // =========================
+  // =====================================
 
   goBack(): void {
 
@@ -538,6 +548,5 @@ export class AddSupplierPurchaseComponent implements OnInit {
     ]);
 
   }
-
 
 }

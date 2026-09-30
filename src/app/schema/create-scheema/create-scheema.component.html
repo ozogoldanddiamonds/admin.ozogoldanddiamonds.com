@@ -247,16 +247,22 @@
 
                 <div class="text-end">
 
+                   <button
+        type="submit"
+        class="btn-create"
+        [disabled]="isSaving">
+
+        <span
+            *ngIf="isSaving"
+            class="spinner-border spinner-border-sm me-2">
+        </span>
+
+        {{ isSaving ? 'Saving...' : 'Save' }}
+
+    </button>
+
                     <button
-                        class="btn btn-primary me-2"
-                        type="submit">
-
-                        Save Scheme
-
-                    </button>
-
-                    <button
-                        class="btn btn-secondary"
+                        class="btn btn-secondary ms-3"
                         type="reset">
 
                         Reset

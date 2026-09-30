@@ -8,6 +8,8 @@ import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-
 import { AdminLoginService } from 'src/app/Services/admin-login.service';
 import { AlertService } from 'src/app/Services/alert.service';
 import { SupplierPurchaseService } from 'src/app/Services/supplier-purchase.service';
+import { SupplierPurchaseViewComponent } from 'src/app/View-dialog-Controllers/supplier-purchase-view/supplier-purchase-view.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-supplier-purchase-list',
@@ -55,6 +57,7 @@ export class SupplierPurchaseListComponent implements OnInit {
     private dialog: MatDialog,
     public authService: AdminLoginService,
     private alert: AlertService
+      
   ) { }
 
 
@@ -132,21 +135,19 @@ export class SupplierPurchaseListComponent implements OnInit {
   // =========================
 
 
-  viewSupplierPurchase(element: any): void {
+viewSupplierPurchase(purchase: any): void {
 
-    this.router.navigate(
-      [
-        '/admin/update-supplier-purchase',
-        element._id
-      ],
-      {
-        queryParams: {
-          mode: 'view'
-        }
-      }
-    );
+  this.dialog.open(
+    SupplierPurchaseViewComponent,
+    {
+      width: '700px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      data: purchase
+    }
+  );
 
-  }
+}
 
 
   // =========================
@@ -242,6 +243,161 @@ export class SupplierPurchaseListComponent implements OnInit {
         .toLowerCase();
 
   }
+
+
+  // =========================
+// CHANGE PAYMENT STATUS
+// =========================
+
+changePaymentStatus(element: any): void {
+
+  Swal.fire({
+
+    title: 'Change Payment Status',
+
+    input: 'radio',
+
+    inputOptions: {
+
+      PAID: 'Paid',
+
+      PENDING: 'Pending',
+
+      PARTIAL: 'Partial'
+
+    },
+
+    inputValue: element.paymentStatus,
+
+    showCancelButton: true,
+
+    confirmButtonColor: '#640101',
+
+    cancelButtonColor: '#6c757d',
+
+    confirmButtonText: 'Update'
+
+  }).then((result) => {
+
+    if (result.isConfirmed && result.value) {
+
+      this.supplierPurchaseService
+        .updatePurchasePaymentStatus(
+          element._id,
+          result.value
+        )
+        .subscribe({
+
+          next: () => {
+
+            element.paymentStatus =
+              result.value;
+
+            this.alert.success(
+              'Payment Status Updated Successfully'
+            );
+
+          },
+
+          error: (error) => {
+
+            console.error(error);
+
+            this.alert.error(
+              'Failed to update payment status'
+            );
+
+          }
+
+        });
+
+    }
+
+  });
+
+}
+
+
+// =========================
+// CHANGE PURCHASE STATUS
+// =========================
+
+changeStatus(element: any): void {
+
+  Swal.fire({
+
+    title: 'Change Status',
+
+    input: 'radio',
+
+    inputOptions: {
+
+      DRAFT: 'Draft',
+
+      RECEIVED: 'Received',
+
+      CANCELLED: 'Cancelled'
+
+    },
+
+    inputValue: element.status,
+
+    showCancelButton: true,
+
+    confirmButtonColor: '#640101',
+
+    cancelButtonColor: '#6c757d',
+
+    confirmButtonText: 'Update'
+
+  }).then((result) => {
+
+    if (result.isConfirmed && result.value) {
+
+      this.supplierPurchaseService
+        .updateSupplierPurchaseStatus(
+          element._id,
+          result.value
+        )
+        .subscribe({
+
+          next: (response) => {
+
+            console.log(
+              'Status Updated:',
+              response
+            );
+
+            element.status =
+              result.value;
+
+            this.alert.success(
+              'Status Updated Successfully'
+            );
+
+          },
+
+          error: (error) => {
+
+            console.error(
+              'Status Update Error:',
+              error
+            );
+
+            this.alert.error(
+              error?.error?.message ||
+              'Failed to update status'
+            );
+
+          }
+
+        });
+
+    }
+
+  });
+
+}
 
 
 }

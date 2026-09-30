@@ -10,7 +10,7 @@
         <div class="title-section">
 
             <h2>
-                Gold Smith Production Items
+                Gold Smith Production Items 
             </h2>
 
             <p>
@@ -159,31 +159,25 @@
                         <h6>
 
                             {{
-                            element.production
-                            ?.maker
-                            ?.name
-                            ||
-                            element.maker
-                            ?.name
-                            ||
-                            '-'
-                            }}
+        element.production?.maker?.name
+        ||
+        element.maker?.name
+        ||
+        '-'
+    }}
 
                         </h6>
 
 
                         <small>
 
-                            {{
-                            element.production
-                            ?.maker
-                            ?.phone
-                            ||
-                            element.maker
-                            ?.phone
-                            ||
-                            ''
-                            }}
+                             {{
+        element.production?.maker?.phone
+        ||
+        element.maker?.phone
+        ||
+        ''
+    }}
 
                         </small>
 

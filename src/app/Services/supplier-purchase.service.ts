@@ -75,4 +75,40 @@ export class SupplierPurchaseService {
     );
 
   }
+ 
+
+
+
+updatePurchasePaymentStatus(
+  id: string,
+  paymentStatus: string
+): Observable<any> {
+
+  return this.http.put(
+    `${this.apiUrl}/update-purchase-payment-status/${id}`,
+    {
+      paymentStatus
+    }
+  );
+
+}
+
+
+// =========================
+// UPDATE PURCHASE STATUS
+// =========================
+
+updateSupplierPurchaseStatus(
+  id: string,
+  status: string
+): Observable<any> {
+
+  return this.http.put(
+    `${this.apiUrl}/update-supplier-purchase-status/${id}`,
+    {
+      status
+    }
+  );
+
+}
 }

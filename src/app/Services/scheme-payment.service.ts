@@ -17,14 +17,10 @@ export class SchemePaymentService {
   // Get All Payments
   // ==========================
 
-  getAllPayments(): Observable<any> {
-
-    return this.http.get(
-
+    getAllPayments(): Observable<PaymentResponse> {
+    return this.http.get<PaymentResponse>(
       `${this.apiUrl}/get-all-payments`
-
     );
-
   }
 
   // ==========================

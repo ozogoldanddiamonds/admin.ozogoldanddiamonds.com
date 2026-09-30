@@ -108,53 +108,87 @@ export class MetalCreateComponent {
   // SUBMIT
   // =========================
 
-  onSubmit(): void {
-    this.isSaving = true;
-    if (this.metalRateForm.invalid) {
+// =========================
+// SUBMIT
+// =========================
 
-      this.metalRateForm.markAllAsTouched();
+onSubmit(): void {
 
-      return;
+  // Show validation errors
+  this.metalRateForm.markAllAsTouched();
 
-    }
 
-    this.metalRateService
-      .createMetalRate(
-        this.metalRateForm.value
-      )
-      .subscribe({
+  // Validation error unte loading OFF
+  if (this.metalRateForm.invalid) {
 
-        next: (response) => {
+    this.isSaving = false;
 
-          this.alert.success('Created Successfully');
-
-          this.isSaving = false;
-          this.router.navigate([
-            '/admin/metal-rate'
-          ]);
-
-        },
-
-        error: (error) => {
-
-          console.error(error);
-
-          Swal.fire({
-
-            icon: 'error',
-
-            title: 'Oops...',
-
-            text:
-              'Create Failed'
-
-          });
-
-        }
-
-      });
+    return;
 
   }
+
+
+  // All fields valid ayyaka matrame loading ON
+  this.isSaving = true;
+
+
+  this.metalRateService
+    .createMetalRate(
+      this.metalRateForm.value
+    )
+    .subscribe({
+
+      next: (response) => {
+
+        // Success ayyaka loading OFF
+        this.isSaving = false;
+
+        this.alert.success(
+          'Created Successfully'
+        );
+
+        this.router.navigate([
+          '/admin/metal-rate'
+        ]);
+
+      },
+
+
+      error: (error) => {
+
+        console.error(
+          'Create Metal Rate Error:',
+          error
+        );
+
+
+        // Backend error vachina loading OFF
+        this.isSaving = false;
+
+
+        // Backend actual message
+        const backendMessage =
+          error?.error?.message ||
+          error?.error?.error ||
+          error?.message ||
+          'Something went wrong while creating metal rate';
+
+
+        Swal.fire({
+
+          icon: 'error',
+
+          title: 'Unable to Create Metal Rate',
+
+          text: backendMessage
+
+        });
+
+      }
+
+    });
+
+}
 
   // =========================
   // BACK
