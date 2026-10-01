@@ -1,128 +1,241 @@
-<div class="container-fluid container-one bg_lite">
+<div class="container-fluid container-one">
 
-  <div class="auth-card " *ngIf="isLogin">
+  <div class="auth-card" *ngIf="isLogin">
 
-    <!-- Left Panel -->
+    <!-- =====================================================
+         LEFT JEWELLERY VISUAL
+    ====================================================== -->
+
     <div class="left-panel">
 
-      <div class="tabs"></div>
+      <div class="luxury-overlay"></div>
+
+      <div class="left-glow glow-one"></div>
+      <div class="left-glow glow-two"></div>
+
+      <div class="brand-story">
+
+        <div class="brand-line"></div>
+
+        <span class="brand-small">
+          PREMIUM JEWELLERY
+        </span>
+
+        <h1>
+          Every Shine
+          <span>Has A Story.</span>
+        </h1>
+
+        <p>
+          Manage your jewellery business with
+          precision, elegance and complete control.
+        </p>
+
+        <div class="brand-line bottom-line"></div>
+
+        <div class="brand-feature">
+
+          <span>
+            <i class="fa fa-diamond"></i>
+          </span>
+
+          <div>
+            <strong>
+              OZO Jewellery
+            </strong>
+
+            <small>
+              Business Management System
+            </small>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
-    <!-- Right Panel -->
+
+    <!-- =====================================================
+         RIGHT LOGIN AREA
+    ====================================================== -->
+
     <div class="right-panel">
 
-      <div class="user-icon">
-        <img src="../../assets/Images/logo.jpg">
-      </div>
+      <div class="login-content">
 
-      <h2>
-        {{ isLogin ? 'LOGIN' : 'REGISTER' }}
-      </h2>
-      <div class=" role-selection" *ngIf="isLogin">
 
-        <button type="button" class="role-btn" [class.active]="selectedRole === 'BRANCH'"
-          (click)="selectedRole='BRANCH'"><i class="fa fa-user"></i>
+        <!-- =================================================
+             LOGO
+        ================================================== -->
 
-          Branch
+        <div class="user-icon">
 
-        </button>
-
-        <button type="button" class="role-btn" [class.active]="selectedRole === 'SUB_BRANCH'"
-          (click)="selectedRole='SUB_BRANCH'"><i class="fa fa-users"></i>
-
-          Sub Branch
-
-        </button>
-
-      </div>
-
-      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-
-        <!-- Name (Register Only) -->
-
-        <div class="input-box" *ngIf="!isLogin">
-
-          <i class="fa fa-user"></i>
-
-          <input type="text" placeholder="Name" formControlName="name">
+          <img src="../../assets/Images/logo.jpg" alt="OZO Jewellery">
 
         </div>
 
-        <!-- Role (Register Only) -->
 
-        <div class="input-box" *ngIf="!isLogin">
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
 
-          <i class="fa fa-users"></i>
+        <div class="welcome-section">
 
-          <select formControlName="role">
-
-            <option value="">
-              Select Role
-            </option>
-
-            <option value="BRANCH">
-              Branch
-            </option>
-
-            <option value="SUB_BRANCH">
-              Sub Branch
-            </option>
-
-          </select>
-
-        </div>
-
-        <!-- Email -->
-
-        <div class="input-box">
-
-          <i class="fa fa-envelope"></i>
-
-          <input type="email" placeholder="Email" formControlName="email">
-
-        </div>
-
-        <!-- Password -->
-
-        <div class="input-box">
-
-          <i class="fa fa-lock"></i>
-
-          <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password">
-
-          <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" aria-hidden="true" class="password-eye"
-            (click)="togglePassword()">
-          </i>
-
-        </div>
-        <!-- Login Links -->
-
-        <div class="auth-links" *ngIf="isLogin">
-
-          <span class="forgot" (click)="forgotPassword()">
-
-            Forgot Password?
-
+          <span class="welcome-label">
+            WELCOME BACK
           </span>
 
-          <!-- <span
-            class="signup-link"
-            (click)="signupForm()">
+          <h2>
+            Sign in to your account
+          </h2>
 
-            Sign Up
+          <p>
+            Access your jewellery management dashboard
+            securely.
+          </p>
 
-          </span> -->
+        </div>
+
+
+        <!-- =================================================
+             ROLE SELECTION
+        ================================================== -->
+
+        <div class="role-selection">
+
+          <button type="button" class="role-btn" [class.active]="selectedRole === 'BRANCH'"
+            (click)="selectedRole='BRANCH'">
+
+            <span class="role-icon">
+              <i class="fa fa-building"></i>
+            </span>
+
+            <span>
+              Branch
+            </span>
+
+          </button>
+
+
+          <button type="button" class="role-btn" [class.active]="selectedRole === 'SUB_BRANCH'"
+            (click)="selectedRole='SUB_BRANCH'">
+
+            <span class="role-icon">
+              <i class="fa fa-sitemap"></i>
+            </span>
+
+            <span>
+              Sub Branch
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+
+
+          <!-- ===============================================
+               EMAIL
+          ================================================ -->
+
+          <div class="input-box">
+
+            <div class="input-icon">
+              <i class="fa fa-envelope"></i>
+            </div>
+
+            <div class="input-content">
+
+              <label>
+                Email Address
+              </label>
+
+              <input type="email" placeholder="Enter your email" formControlName="email">
+
+            </div>
+
+          </div>
+
+
+          <!-- ===============================================
+               PASSWORD
+          ================================================ -->
+
+          <div class="input-box">
+
+            <div class="input-icon">
+              <i class="fa fa-lock"></i>
+            </div>
+
+            <div class="input-content">
+
+              <label>
+                Password
+              </label>
+
+              <input [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
+                formControlName="password">
+
+            </div>
+
+
+            <!-- Password Eye -->
+
+            <button type="button" class="password-eye" (click)="togglePassword()">
+
+              <i [class]="showPassword
+                  ? 'fa fa-eye-slash'
+                  : 'fa fa-eye'">
+              </i>
+
+            </button>
+
+          </div>
+
+
+          <!-- ===============================================
+               OPTIONS
+          ================================================ -->
+
+          <div class="auth-options">
+
+            <button type="button" class="forgot" (click)="forgotPassword()">
+
+              Forgot Password?
+
+            </button>
+
+          </div>
+
+
+          <!-- ===============================================
+               LOGIN BUTTON
+          ================================================ -->
+
           <button type="submit" class="login-btn" [disabled]="isSaving">
+
+
+            <!-- Normal -->
 
             <ng-container *ngIf="!isSaving">
 
-              <i class="fa fa-sign-in me-2"></i>
+              <span>
+                SIGN IN
+              </span>
 
-              LOGIN
+              <i class="fa fa-arrow-right"></i>
 
             </ng-container>
 
+
+            <!-- Loading -->
 
             <ng-container *ngIf="isSaving">
 
@@ -130,36 +243,52 @@
               </span>
 
               <span>
-                Logging in...
+                Signing in...
               </span>
 
             </ng-container>
 
+
           </button>
 
-        </div>
 
-        <!-- Register Links -->
+        </form>
 
-        <div class="auth-links" *ngIf="!isLogin">
 
-          <span>
-            Already have an account?
-          </span>
+        <!-- =================================================
+             SECURITY FOOTER
+        ================================================== -->
 
-          <button class="signup-link" (click)="signupForm()" [disabled]="isSaving">
+        <div class="security-footer">
 
-            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+          <div class="security-icon">
+
+            <i class="fa fa-shield"></i>
+
+          </div>
+
+          <div>
+
+            <strong>
+              Secure Access
+            </strong>
+
+            <span>
+              Your account is protected
             </span>
 
-            {{ isSaving ? 'Loging...' : 'Login' }}
+          </div>
 
+          <div class="footer-dot"></div>
 
-          </button>
+          <span class="system-name">
+            OZO ADMIN
+          </span>
 
         </div>
-        <!-- Submit Button -->
-      </form>
+
+
+      </div>
 
     </div>
 

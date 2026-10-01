@@ -1,417 +1,135 @@
+/* =========================================================
+   OZO JEWELLERY
+   PREMIUM ADMIN LOGIN
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
 .container-one {
   width: 100%;
-  height: 100vh;
-  /* background:var( --red-color); */
-  /* background-image: url("../../assets/Images/bg.png"); */
-  /* background:rgba(255, 255, 255, 0.129); */
+  min-height: 100vh;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
+  padding: 20px;
 
-}
-
-/* diagonal shapes */
-
-.shape1 {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background-image: url("../../assets/Images/bg.png");
-  transform: rotate(45deg);
-  top: -80px;
-  left: -180px;
-}
-
-.shape2 {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background-image: url("../../assets/Images/bg.png");
-  transform: rotate(45deg);
-  top: 80px;
-  left: -120px;
-}
-
-.shape3 {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background-image: url("../../assets/Images/bg.png");
-  transform: rotate(45deg);
-  top: -20px;
-  left: 40px;
-}
-
-
-
-
-.auth-card {
-  width: 900px;
-  height: 550px;
-  background: var(--wight-color);
-  box-shadow: rgba(0, 0, 0, 0.593) 0px 3px 8px;
-
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-}
-
-/* LEFT PANEL */
-
-/* .left-panel{
-  width:35%;
-  position:relative;
-  background:var(--red-color);
-  overflow:hidden;
-} */
-.left-panel {
-  width: 35%;
   position: relative;
   overflow: hidden;
 
   background:
-    linear-gradient(rgba(128, 0, 64, 0.5),
-      rgba(128, 0, 64, 0.5)),
-    url('../../assets/Images/dimond2.png');
+    radial-gradient(circle at 8% 15%,
+      rgba(212, 175, 55, 0.10),
+      transparent 28%),
+    radial-gradient(circle at 92% 85%,
+      rgba(100, 1, 1, 0.07),
+      transparent 30%),
+    #f6f5f3;
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  box-sizing: border-box;
 }
 
 
+/* Background soft light */
 
-/* TABS */
-
-.tabs {
-  position: absolute;
-  top: 170px;
-  left: 150px;
-  z-index: 10;
-}
-
-/* ACTIVE TAB */
-
-.login-tab {
-  width: 180px;
-  height: 80px;
-  background: var(--wight-color);
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 26px;
-
-  border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
-
-  position: relative;
-  cursor: pointer;
-}
-
-/* CURVE SHAPE */
-
-.login-tab::after {
-  content: "";
-  position: absolute;
-  right: 40px;
-  top: 0;
-  width: 40px;
-  height: 80px;
-
-
-
-}
-
-/* SECOND TEXT */
-
-.signup-tab {
-  margin-top: 40px;
-  margin-left: 30px;
-  color: var(--wight-color);
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* RIGHT PANEL */
-
-.right-panel {
-  width: 65%;
-  padding: 60px;
-}
-
-.user-icon {
-  margin-top: -30px;
-}
-
-.user-icon img {
-  width: 160px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-}
-
-.user-icon i {
-  color: var(--wight-color);
-  font-size: 40px;
-}
-
-h2 {
-  text-align: center;
-  margin: 20px 0 40px;
-  color: #8f1f5f;
-}
-
-.input-box {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--gray-colour);
-  margin-bottom: 20px;
-  padding: 15px 0;
-}
-
-.input-box i {
-  margin-right: 15px;
-  color: var(--gray-colour);
-}
-
-form {
-  margin-top: 45px;
-}
-
-.input-box input {
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 18px;
-}
-
-.forgot {
-  color: var(--gray-colour);
-  margin-top: 35px;
-}
-
-.login-btn {
-  margin-top: 30px;
-  padding: 15px 40px;
-  border: none;
-  border-radius: 30px;
-  background: var(--red-color);
-  color: var(--wight-color);
-  cursor: pointer;
-}
-
-
-.auth-links {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.forgot {
-  color: gray;
-  cursor: pointer;
-}
-
-.signup-link {
-  color: var(--red-color);
-  font-weight: 600;
-  cursor: pointer;
-
-
-}
-
-/* ===== */
-.role-selection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin-top: -20px;
-  margin-bottom: 20px;
-}
-
-.role-btn {
-  min-width: 120px;
-  height: 40px;
-  border: 1px solid var(--red-color);
-  border-radius: 25px;
-  background: #fff;
-  color: var(--red-color);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.role-btn.active {
-  background: var(--red-color);
-  color: #fff;
-}
-
-.input-box {
-
-  position: relative;
-
-}
-
-.password-eye {
-
-  position: absolute;
-
-  right: 15px;
-
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  cursor: pointer;
-
-  color: #666;
-
-  font-size: 18px;
-
-}
-
-/* ==========================================
-   GLASS AUTH CARD
-========================================== */
-
-.auth-card>* {
-  z-index: 1;
-}
-
-.auth-card {
-  position: relative;
-
-  overflow: hidden;
-
-  background: rgba(255, 255, 255, 0.72);
-
-  border: 1px solid rgba(255, 255, 255, 0.65);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-
-  isolation: isolate;
-}
-
-
-/* ==========================================
-   GLASS LIGHT SHINE
-========================================== */
-
-.auth-card::before {
+.container-one::before {
 
   content: "";
 
   position: absolute;
 
-  top: -100%;
-  left: -80%;
-
-  width: 55%;
-  height: 300%;
-
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.10),
-      rgba(255, 255, 255, 0.55),
-      rgba(255, 255, 255, 0.10),
-      transparent);
-
-  transform: rotate(25deg);
-
-  pointer-events: none;
-
-  z-index: 0;
-
-  animation: glassShine 6s ease-in-out infinite;
-}
-
-/* ==========================================
-   GLASS AUTH CARD
-========================================== */
-
-.auth-card {
-  position: relative;
-
-  width: 900px;
+  width: 550px;
   height: 550px;
 
-  overflow: hidden;
+  top: -300px;
+  right: -150px;
 
-  background: rgba(255, 255, 255, 0.78);
+  border-radius: 50%;
 
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background:
+    rgba(212, 175, 55, 0.08);
 
-  border-radius: 20px;
+  filter: blur(100px);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-
-  isolation: isolate;
-
-  animation:
-    authCardFadeIn 0.7s ease-out both;
+  pointer-events: none;
 }
 
 
-/* ==========================================
-   MOVING GLASS SHINE
-========================================== */
-
-.auth-card::before {
+.container-one::after {
 
   content: "";
 
   position: absolute;
 
-  top: -100%;
-  left: -80%;
+  width: 450px;
+  height: 450px;
 
-  width: 45%;
-  height: 300%;
+  bottom: -250px;
+  left: -150px;
 
-  background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.04) 20%,
-      rgba(255, 255, 255, 0.45) 50%,
-      rgba(255, 255, 255, 0.08) 75%,
-      transparent 100%);
+  border-radius: 50%;
 
-  transform: rotate(25deg);
+  background:
+    rgba(100, 1, 1, 0.07);
+
+  filter: blur(100px);
 
   pointer-events: none;
-
-  /*
-    IMPORTANT:
-    Before content ni cover cheyyadaniki
-    z-index high ga undali
-  */
-
-  z-index: 20;
-
-  animation:
-    glassShine 8s ease-in-out infinite;
 }
 
 
-/* ==========================================
-   GOLD GLASS GLOW
-========================================== */
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.auth-card {
+  width: min(1180px, 94vw);
+
+  /*
+    Laptop height ni respect chestundi.
+    768px screen lo around 700px kanna takkuva
+    available height unte automatic ga shrink avutundi.
+  */
+  height: min(700px, calc(100vh - 40px));
+
+  min-height: 0;
+
+  display: flex;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 35px 80px rgba(45, 20, 20, 0.15),
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+
+  animation:
+    cardEntrance 0.8s cubic-bezier(.2, .8, .2, 1) both;
+
+  z-index: 2;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CARD GLASS SHINE
+========================================================= */
 
 .auth-card::after {
 
@@ -419,211 +137,1643 @@ form {
 
   position: absolute;
 
-  width: 320px;
-  height: 320px;
+  top: -100%;
 
-  right: -150px;
-  bottom: -160px;
+  left: -80%;
 
-  background: rgba(212, 175, 55, 0.18);
+  width: 35%;
 
-  border-radius: 50%;
+  height: 300%;
 
-  filter: blur(75px);
+  background:
+
+    linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, .12),
+      rgba(255, 255, 255, .45),
+      rgba(255, 255, 255, .10),
+      transparent);
+
+  transform:
+    rotate(25deg);
 
   pointer-events: none;
 
-  z-index: 15;
+  z-index: 20;
 
   animation:
-    glassGlow 9s ease-in-out infinite alternate;
+    cardGlassShine 7s ease-in-out infinite;
 }
 
 
-/* ==========================================
-   CARD CONTENT
-========================================== */
+/* =========================================================
+   LEFT PANEL
+========================================================= */
 
-.auth-card>* {
+.left-panel {
+  width: 46%;
+
+  height: 100%;
+
+  min-height: 0;
+
   position: relative;
 
-  z-index: 5;
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  padding: clamp(35px, 4vw, 60px);
+
+  background-image:
+    url("../../assets/Images/dimond2.png");
+
+  background-size: cover;
+
+  background-position: center;
+
+  isolation: isolate;
+
+  box-sizing: border-box;
 }
 
+/* =========================================================
+   DARK JEWELLERY OVERLAY
+========================================================= */
 
-/* ==========================================
-   GLASS SHINE
-========================================== */
+.luxury-overlay {
 
-@keyframes glassShine {
+  position: absolute;
 
-  0% {
-    left: -80%;
-    opacity: 0;
-  }
+  inset: 0;
 
-  10% {
-    opacity: 0.7;
-  }
+  background:
 
-  35% {
-    left: 120%;
-    opacity: 0.35;
-  }
+    linear-gradient(180deg,
+      rgba(70, 0, 20, 0.35) 0%,
+      rgba(75, 0, 25, 0.55) 45%,
+      rgba(35, 0, 18, 0.95) 100%);
 
-  45% {
-    left: 150%;
-    opacity: 0;
-  }
-
-  100% {
-    left: 150%;
-    opacity: 0;
-  }
-
-}
-
-
-/* ==========================================
-   GOLD GLOW
-========================================== */
-
-@keyframes glassGlow {
-
-  0% {
-    transform: scale(0.85);
-    opacity: 0.3;
-  }
-
-  50% {
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: scale(1.2);
-    opacity: 0.9;
-  }
-
-}
-
-
-/* ==========================================
-   CARD FADE / SCALE
-========================================== */
-
-@keyframes authCardFadeIn {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      translateY(20px) scale(0.96);
-  }
-
-  100% {
-    opacity: 1;
-
-    transform:
-      translateY(0) scale(1);
-  }
-
-}
-
-/* ==========================================
-   KEEP CONTENT ABOVE EFFECT
-========================================== */
-
-.auth-card>* {
-  position: relative;
   z-index: 1;
 }
 
 
-/* ==========================================
-   GLASS SHINE ANIMATION
-========================================== */
+/* =========================================================
+   GOLD GLOW
+========================================================= */
 
-@keyframes glassShine {
+.left-glow {
 
-  0% {
-    left: -90%;
-    opacity: 0;
-  }
+  position: absolute;
 
-  15% {
-    opacity: 1;
-  }
+  border-radius: 50%;
 
-  45% {
-    left: 130%;
-    opacity: 0.8;
-  }
+  filter: blur(55px);
 
-  100% {
-    left: 130%;
-    opacity: 0;
-  }
+  pointer-events: none;
 
+  z-index: 2;
 }
 
 
-/* ==========================================
-   GLASS GLOW ANIMATION
-========================================== */
+.glow-one {
 
-@keyframes glassGlow {
+  width: 180px;
+  height: 180px;
 
-  0% {
-    transform: scale(0.9);
-    opacity: 0.5;
-  }
+  top: 10%;
 
-  100% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
+  left: 8%;
 
+  background:
+    rgba(212, 175, 55, 0.17);
+
+  animation:
+    jewelleryGlowOne 5s ease-in-out infinite alternate;
 }
 
-/* ==========================================
-   LOGIN BUTTON
-========================================== */
 
-.login-btn {
+.glow-two {
+
+  width: 240px;
+  height: 240px;
+
+  right: -80px;
+
+  bottom: 5%;
+
+  background:
+    rgba(255, 120, 60, 0.11);
+
+  animation:
+    jewelleryGlowTwo 6s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   BRAND STORY
+========================================================= */
+
+.brand-story {
+
   position: relative;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 5;
 
-  gap: 4px;
+  max-width: 410px;
 
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    opacity 0.25s ease;
+  color: #fff;
 }
 
 
-.login-btn:not(:disabled):hover {
-  transform: translateY(-2px);
+.brand-line {
+
+  width: 55px;
+
+  height: 2px;
+
+  margin-bottom: 20px;
+
+  background:
+
+    linear-gradient(90deg,
+      #d4af37,
+      transparent);
+}
+
+
+.brand-small {
+
+  display: block;
+
+  margin-bottom: 14px;
+
+  color:
+    #d4af37;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+
+.brand-story h1 {
+
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(40px, 4vw, 58px);
+
+  line-height: 1.04;
+
+  font-weight: 400;
+
+  letter-spacing: -1px;
+}
+
+
+.brand-story h1 span {
+
+  display: block;
+
+  color:
+    #d4af37;
+
+  font-style: italic;
+}
+
+
+.brand-story p {
+
+  max-width: 340px;
+
+  margin:
+    22px 0 0;
+
+  color:
+    rgba(255, 255, 255, .72);
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+
+.bottom-line {
+
+  margin-top: 30px;
+
+  margin-bottom: 18px;
+}
+
+
+.brand-feature {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.brand-feature>span {
+
+  width: 38px;
+
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color:
+    #d4af37;
+
+  border:
+    1px solid rgba(212, 175, 55, .45);
+
+  background:
+    rgba(255, 255, 255, .06);
+
+  backdrop-filter:
+    blur(8px);
+}
+
+
+.brand-feature strong {
+
+  display: block;
+
+  color: #fff;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+
+.brand-feature small {
+
+  display: block;
+
+  margin-top: 3px;
+
+  color:
+    rgba(255, 255, 255, .52);
+
+  font-size: 9px;
+
+  letter-spacing: .8px;
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.right-panel {
+  width: 54%;
+
+  height: 100%;
+
+  min-height: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    clamp(25px, 4vw, 50px) clamp(35px, 6vw, 75px);
+
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, .96),
+      rgba(250, 249, 247, .88));
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   LOGIN CONTENT
+========================================================= */
+
+.login-content {
+  width: 100%;
+
+  max-width: 480px;
+
+  position: relative;
+
+  animation:
+    loginContentIn .7s .15s ease both;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.user-icon {
+
+  width: 105px;
+
+  height: 105px;
+
+  margin:
+    0 auto 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, .8);
+
+  border:
+    1px solid rgba(212, 175, 55, .35);
+
+  box-shadow:
+
+    0 10px 30px rgba(0, 0, 0, .06),
+
+    inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+
+.user-icon::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: -7px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(212, 175, 55, .18);
+
+  animation:
+    logoRing 3s ease-in-out infinite;
+}
+
+
+.user-icon img {
+
+  width: 82px;
+
+  height: 82px;
+
+  object-fit: contain;
+
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome-section {
+
+  text-align: center;
+
+  margin-bottom: 27px;
+}
+
+
+.welcome-label {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  color:
+    #a88420;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+
+.welcome-section h2 {
+
+  margin: 0;
+
+  color:
+    #4e1119;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 30px;
+
+  font-weight: 500;
+
+  letter-spacing: -.4px;
+}
+
+
+.welcome-section p {
+
+  margin:
+    8px auto 0;
+
+  color:
+    #999;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   ROLE SELECTOR
+========================================================= */
+
+.role-selection {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 12px;
+
+  margin-bottom: 28px;
+}
+
+
+.role-btn {
+
+  height: 54px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 9px;
+
+  border:
+    1px solid #e3d8d3;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 255, 255, .72);
+
+  color:
+    #777;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    all .3s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+.role-btn::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: -120%;
+
+  width: 80%;
+
+  height: 100%;
+
+  background:
+    linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, .5),
+      transparent);
+
+  transform: skewX(-20deg);
+
+  transition:
+    left .5s ease;
+}
+
+
+.role-btn:hover::before {
+
+  left: 130%;
+}
+
+
+.role-btn:hover {
+
+  border-color:
+    rgba(100, 1, 1, .3);
+
+  color:
+    var(--red-color);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(100, 1, 1, .07);
+}
+
+
+.role-btn.active {
+
+  color: #fff;
+
+  border-color:
+    var(--red-color);
+
+  background:
+
+    linear-gradient(135deg,
+      #640101,
+      #8b1515);
+
+  box-shadow:
+
+    0 8px 22px rgba(100, 1, 1, .20);
+}
+
+
+.role-icon {
+
+  width: 26px;
+
+  height: 26px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+}
+
+
+.role-btn:not(.active) .role-icon {
+
+  background:
+    rgba(100, 1, 1, .06);
+}
+
+
+.role-btn.active .role-icon {
+
+  background:
+    rgba(255, 255, 255, .13);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+form {
+
+  margin-top: 0;
+}
+
+
+/* =========================================================
+   INPUT BOX
+========================================================= */
+
+.input-box {
+
+  width: 100%;
+
+  min-height: 68px;
+
+  display: flex;
+
+  align-items: center;
+
+  position: relative;
+
+  margin-bottom: 14px;
+
+  padding:
+    8px 18px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e6e1dd;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 255, 255, .72);
+
+  transition:
+    border-color .3s ease,
+    box-shadow .3s ease,
+    background .3s ease,
+    transform .3s ease;
+}
+
+
+.input-box:focus-within {
+
+  border-color:
+    rgba(164, 125, 26, .55);
+
+  background:
+    rgba(255, 255, 255, .95);
+
+  box-shadow:
+
+    0 0 0 4px rgba(212, 175, 55, .08),
+
+    0 8px 25px rgba(0, 0, 0, .05);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   INPUT ICON
+========================================================= */
+
+.input-icon {
+
+  width: 40px;
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  margin-right: 12px;
+
+  border-radius: 11px;
+
+  background:
+    rgba(100, 1, 1, .055);
+
+  color:
+    var(--red-color);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   INPUT CONTENT
+========================================================= */
+
+.input-content {
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.input-content label {
+
+  display: block;
+
+  margin-bottom: 3px;
+
+  color:
+    #8c8581;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: .5px;
+}
+
+
+.input-content input {
+
+  width: 100%;
+
+  padding: 0;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color:
+    #333;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+
+.input-content input::placeholder {
+
+  color:
+    #c0bbb8;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   PASSWORD EYE
+========================================================= */
+
+.password-eye {
+
+  width: 36px;
+
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color:
+    #aaa;
+
+  cursor: pointer;
+
+  border-radius: 9px;
+
+  transition:
+    all .25s ease;
+}
+
+
+.password-eye:hover {
+
+  color:
+    var(--red-color);
+
+  background:
+    rgba(100, 1, 1, .06);
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.auth-options {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin:
+    5px 2px 20px;
+}
+
+
+.forgot {
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color:
+    #8b7e78;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition:
+    color .25s ease;
+}
+
+
+.forgot:hover {
+
+  color:
+    var(--red-color);
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-btn {
+
+  width: 100%;
+
+  height: 56px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border: none;
+
+  border-radius: 15px;
+
+  background:
+
+    linear-gradient(110deg,
+      #5a0000,
+      #780707,
+      #640101);
+
+  color: #fff;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  cursor: pointer;
+
+  box-shadow:
+
+    0 12px 25px rgba(100, 1, 1, .22);
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease,
+    opacity .3s ease;
+}
+
+
+/* Gold shine */
+
+.login-btn::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: -120%;
+
+  width: 70%;
+
+  height: 100%;
+
+  background:
+
+    linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, .22),
+      transparent);
+
+  transform:
+    skewX(-20deg);
+
+  transition:
+    left .6s ease;
+}
+
+
+.login-btn:hover:not(:disabled)::before {
+
+  left: 140%;
+}
+
+
+.login-btn:hover:not(:disabled) {
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+
+    0 17px 32px rgba(100, 1, 1, .28);
+}
+
+
+.login-btn:active:not(:disabled) {
+
+  transform:
+    translateY(-1px);
 }
 
 
 .login-btn:disabled {
-  opacity: 0.75;
+
+  opacity: .72;
 
   cursor: not-allowed;
 
-  transform: none;
+  box-shadow:
+    0 8px 18px rgba(100, 1, 1, .13);
 }
 
 
-/* Spinner */
+/* =========================================================
+   SECURITY FOOTER
+========================================================= */
 
-.login-btn .spinner-border {
-  width: 17px;
-  height: 17px;
+.security-footer {
 
-  border-width: 2px;
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 25px;
+
+  padding-top: 17px;
+
+  border-top:
+    1px solid #eeeae7;
+
+  color:
+    #aaa;
+}
+
+
+.security-icon {
+
+  width: 30px;
+
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  background:
+    rgba(100, 1, 1, .055);
+
+  color:
+    var(--red-color);
+
+  font-size: 11px;
+}
+
+
+.security-footer strong {
+
+  display: block;
+
+  color:
+    #68615e;
+
+  font-size: 10px;
+}
+
+
+.security-footer span {
+
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 9px;
+}
+
+
+.footer-dot {
+
+  width: 4px;
+
+  height: 4px;
+
+  margin-left: auto;
+
+  border-radius: 50%;
+
+  background:
+    #d4af37;
+}
+
+
+.system-name {
+
+  color:
+    #a88420 !important;
+
+  font-size: 9px !important;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes cardEntrance {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateY(25px) scale(.97);
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translateY(0) scale(1);
+
+  }
+
+}
+
+
+@keyframes loginContentIn {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translateX(20px);
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translateX(0);
+
+  }
+
+}
+
+
+@keyframes cardGlassShine {
+
+  0% {
+
+    left: -80%;
+
+    opacity: 0;
+
+  }
+
+  12% {
+
+    opacity: .7;
+
+  }
+
+  35% {
+
+    left: 130%;
+
+    opacity: .25;
+
+  }
+
+  45% {
+
+    left: 150%;
+
+    opacity: 0;
+
+  }
+
+  100% {
+
+    left: 150%;
+
+    opacity: 0;
+
+  }
+
+}
+
+
+@keyframes logoRing {
+
+  0%,
+  100% {
+
+    transform:
+      scale(1);
+
+    opacity: .5;
+
+  }
+
+  50% {
+
+    transform:
+      scale(1.04);
+
+    opacity: 1;
+
+  }
+
+}
+
+
+@keyframes jewelleryGlowOne {
+
+  from {
+
+    transform:
+      translate(0, 0) scale(.9);
+
+  }
+
+  to {
+
+    transform:
+      translate(35px, 25px) scale(1.15);
+
+  }
+
+}
+
+
+@keyframes jewelleryGlowTwo {
+
+  from {
+
+    transform:
+      translate(0, 0) scale(.9);
+
+  }
+
+  to {
+
+    transform:
+      translate(-30px, -25px) scale(1.15);
+
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .auth-card {
+
+    width: 94vw;
+
+    min-height: 620px;
+  }
+
+
+  .left-panel {
+
+    width: 42%;
+
+    min-height: 620px;
+
+    padding: 40px;
+  }
+
+
+  .right-panel {
+
+    width: 58%;
+
+    min-height: 620px;
+
+    padding:
+      40px 50px;
+  }
+
+
+  .brand-story h1 {
+
+    font-size: 42px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .container-one {
+
+    min-height: 100vh;
+
+    padding: 20px;
+
+    align-items: center;
+  }
+
+
+  .auth-card {
+
+    width: 100%;
+
+    min-height: auto;
+
+    border-radius: 24px;
+
+    display: block;
+  }
+
+
+  /* Hide jewellery image */
+
+  .left-panel {
+
+    display: none;
+  }
+
+
+  .right-panel {
+
+    width: 100%;
+
+    min-height: auto;
+
+    padding:
+      42px 25px 30px;
+  }
+
+
+  .login-content {
+
+    max-width: 450px;
+  }
+
+
+  .user-icon {
+
+    width: 88px;
+
+    height: 88px;
+  }
+
+
+  .user-icon img {
+
+    width: 68px;
+
+    height: 68px;
+  }
+
+
+  .welcome-section h2 {
+
+    font-size: 26px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .container-one {
+
+    padding: 12px;
+  }
+
+
+  .auth-card {
+
+    border-radius: 20px;
+  }
+
+
+  .right-panel {
+
+    padding:
+      32px 18px 22px;
+  }
+
+
+  .role-selection {
+
+    gap: 8px;
+
+    margin-bottom: 22px;
+  }
+
+
+  .role-btn {
+
+    height: 50px;
+
+    font-size: 12px;
+  }
+
+
+  .input-box {
+
+    min-height: 62px;
+
+    padding:
+      7px 13px;
+  }
+
+
+  .input-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    margin-right: 9px;
+  }
+
+
+  .login-btn {
+
+    height: 53px;
+  }
+
+
+  .security-footer {
+
+    margin-top: 20px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .auth-card,
+  .login-content,
+  .auth-card::after,
+  .left-glow,
+  .user-icon::before {
+
+    animation: none !important;
+  }
+
+}
+
+/* =========================================================
+   SHORT LAPTOP SCREENS
+========================================================= */
+
+@media (max-height: 800px) and (min-width: 769px) {
+
+  .container-one {
+    padding: 12px;
+  }
+
+  .auth-card {
+    height: calc(100vh - 24px);
+
+    border-radius: 24px;
+  }
+
+  .right-panel {
+    padding:
+      20px 50px;
+  }
+
+  .user-icon {
+    width: 78px;
+    height: 78px;
+
+    margin-bottom: 12px;
+  }
+
+  .user-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .welcome-section {
+    margin-bottom: 18px;
+  }
+
+  .welcome-section h2 {
+    font-size: 25px;
+  }
+
+  .welcome-section p {
+    margin-top: 5px;
+  }
+
+  .role-selection {
+    margin-bottom: 18px;
+  }
+
+  .role-btn {
+    height: 46px;
+  }
+
+  .input-box {
+    min-height: 58px;
+
+    margin-bottom: 10px;
+  }
+
+  .auth-options {
+    margin-bottom: 14px;
+  }
+
+  .login-btn {
+    height: 50px;
+  }
+
+  .security-footer {
+    margin-top: 15px;
+    padding-top: 12px;
+  }
+
+  .brand-story h1 {
+    font-size: 40px;
+  }
+
+  .brand-story p {
+    margin-top: 15px;
+  }
+
+}
+
+@media (max-height: 700px) and (min-width: 769px) {
+
+  .container-one {
+    padding: 8px;
+  }
+
+  .auth-card {
+    height: calc(100vh - 16px);
+
+    border-radius: 20px;
+  }
+
+  .right-panel {
+    padding:
+      15px 40px;
+  }
+
+  .user-icon {
+    width: 65px;
+    height: 65px;
+
+    margin-bottom: 8px;
+  }
+
+  .user-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .welcome-section {
+    margin-bottom: 12px;
+  }
+
+  .welcome-label {
+    font-size: 8px;
+  }
+
+  .welcome-section h2 {
+    font-size: 22px;
+  }
+
+  .welcome-section p {
+    font-size: 10px;
+  }
+
+  .role-selection {
+    margin-bottom: 12px;
+  }
+
+  .role-btn {
+    height: 40px;
+  }
+
+  .input-box {
+    min-height: 50px;
+
+    margin-bottom: 7px;
+
+    padding: 5px 12px;
+  }
+
+  .input-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .input-content label {
+    font-size: 8px;
+  }
+
+  .input-content input {
+    font-size: 12px;
+  }
+
+  .auth-options {
+    margin-bottom: 9px;
+  }
+
+  .login-btn {
+    height: 44px;
+  }
+
+  .security-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+
 }
