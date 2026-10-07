@@ -511,10 +511,7 @@ export class SizeChatUpdateComponent implements OnInit {
           // GO TO LIST PAGE
           // =========================
 
-          this.router.navigate([
-            '/admin/size-chat-list'
-          ]);
-
+          this.router.navigate(['/admin/sizechat-list']);
         },
 
 
@@ -557,7 +554,7 @@ export class SizeChatUpdateComponent implements OnInit {
   goBack(): void {
 
     this.router.navigate([
-      '/admin/size-chat-list'
+      '/admin/sizechat-list'
     ]);
 
   }
