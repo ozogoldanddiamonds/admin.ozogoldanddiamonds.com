@@ -1,37 +1,37 @@
 .category-container {
-    padding: 20px;
+  padding: 20px;
 }
 
 /* Top Row */
 .top-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 /* Search Row */
 .search-row {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 /* Table Row */
 /* TABLE WRAPPER */
 
 .title-section p {
-    margin: 5px 0 0;
-    color: gray;
+  margin: 5px 0 0;
+  color: gray;
 }
 
 /* Search Width */
 .w-100 {
-    width: 100%;
+  width: 100%;
 }
 
 /* Table */
 table {
-    width: 100%;
+  width: 100%;
 }
 
 
@@ -39,64 +39,135 @@ table {
 /* ============details========== */
 
 .view-card {
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 12px;
-    background: #f9f9f9;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .details-grid {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .image-preview img {
-    border-radius: 10px;
-    object-fit: cover;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 /* Status Badge in Table */
+/* =========================================
+   STATUS BADGE
+   ========================================= */
+
 .status-badge {
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 15px;
-  font-size: 11px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 82px;
+  height: 28px;
+
+  padding: 0 12px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  line-height: 1;
+  letter-spacing: 0.3px;
+
   text-transform: uppercase;
+  white-space: nowrap;
+
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  border: 1px solid transparent;
+
+  box-sizing: border-box;
+
+  transition:
+    all 0.2s ease;
 }
 
-.status-badge:hover {
-  opacity: 0.85;
-  transform: scale(1.05);
-}
+
+/* =========================================
+   DRAFT
+   ========================================= */
 
 .status-badge.draft {
-  background: #6c757d;
-  color: #fff;
+  background-color: #6c757d !important;
+  color: #ffffff !important;
+  border-color: #6c757d;
 }
+
+
+/* =========================================
+   ISSUED
+   ========================================= */
 
 .status-badge.issued {
-  background: #17a2b8;
-  color: #fff;
+  background-color: #17a2b8 !important;
+  color: #ffffff !important;
+  border-color: #17a2b8;
 }
+
+
+/* =========================================
+   IN PROGRESS
+   ========================================= */
 
 .status-badge.progress {
-  background: #ffc107;
-  color: #333;
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+  border-color: #ffc107;
 }
+
+
+/* =========================================
+   COMPLETED
+   ========================================= */
 
 .status-badge.completed {
-  background: #28a745;
-  color: #fff;
+  background-color: #28a745 !important;
+  color: #ffffff !important;
+  border-color: #28a745;
 }
 
+
+/* =========================================
+   CANCELLED
+   ========================================= */
+
 .status-badge.cancelled {
-  background: #dc3545;
-  color: #fff;
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  border-color: #dc3545;
+}
+
+
+/* =========================================
+   HOVER
+   ========================================= */
+
+.status-badge:hover {
+  opacity: 1;
+
+  transform: translateY(-1px) scale(1.03);
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================
+   ACTIVE / CLICK
+   ========================================= */
+
+.status-badge:active {
+  transform: scale(0.98);
 }
 
 /* Production Status Grid - 2 Columns */
@@ -187,13 +258,13 @@ table {
   transition: all 0.25s ease;
 }
 
-.production-status-option input[type="radio"]:checked ~ .status-selected {
+.production-status-option input[type="radio"]:checked~.status-selected {
   opacity: 1;
   transform: scale(1);
 }
 
 /* Selected State */
-.production-status-option input[type="radio"]:checked + .status-content {
+.production-status-option input[type="radio"]:checked+.status-content {
   color: #640101;
 }
 

@@ -423,7 +423,7 @@
 
   border-radius: 50%;
 
-  background: #d4af37;
+  background: #11161b;
 
   color: #fff;
 
@@ -463,6 +463,10 @@
 
 }
 
+.fa-chart-line {
+  color: #11161b;
+}
+
 .profile-img {
 
   width: 42px;
@@ -471,7 +475,7 @@
 
   border-radius: 50%;
 
-  background: linear-gradient(135deg, #d4af37, #8b0000);
+  background: linear-gradient(135deg, #11161b, #8b0000);
 
   color: #fff;
 

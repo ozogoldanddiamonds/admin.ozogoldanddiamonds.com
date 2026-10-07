@@ -385,31 +385,6 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // =====================================================
-  // CLOSE SEARCH OUTSIDE CLICK
-  // =====================================================
-
-  @HostListener(
-    'document:click',
-    ['$event']
-  )
-  onDocumentClick(event: MouseEvent): void {
-
-    const target =
-      event.target as HTMLElement;
-
-
-    if (
-      !target.closest(
-        '.search-wrapper'
-      )
-    ) {
-
-      this.showSearchResults = false;
-
-    }
-
-  }
 
 
   // =====================================================
@@ -516,5 +491,19 @@ export class DashboardComponent implements OnInit {
 
     });
 
+
+  }
+
+  @HostListener('document:click', ['$event']) onDocumentClick(event: MouseEvent): void {
+
+    const target = event.target as HTMLElement;
+
+    // Logout/Profile area lopala click chesthe dropdown close cheyyakudadhu
+    if (target.closest('.nav-right')) {
+      return;
+    }
+
+    // Page lo ekkadaina click chesthe close
+    this.showDropdown = false;
   }
 }

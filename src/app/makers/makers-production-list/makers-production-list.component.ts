@@ -38,7 +38,7 @@ export class MakersProductionListComponent implements OnInit, AfterViewInit {
 
     'status',
 
-    'notes',
+    // 'notes',
 
     'actions'
 
@@ -90,7 +90,7 @@ export class MakersProductionListComponent implements OnInit, AfterViewInit {
 
     private alertService:
       AlertService,
-          private alert: AlertService,
+    private alert: AlertService,
 
 
     private dialog:
@@ -570,14 +570,14 @@ export class MakersProductionListComponent implements OnInit, AfterViewInit {
 
   }
   // =========================
-// CHANGE MAKER PRODUCTION STATUS
-// =========================
+  // CHANGE MAKER PRODUCTION STATUS
+  // =========================
 
-changeStatus(element: any): void {
+  changeStatus(element: any): void {
 
-  Swal.fire({
-    title: 'Change Production Status',
-    html: `
+    Swal.fire({
+      title: 'Change Production Status',
+      html: `
       <div class="production-status-grid">
 
         <!-- ISSUED -->
@@ -650,60 +650,60 @@ changeStatus(element: any): void {
 
       </div>
     `,
-    width: '500px',
-    showCancelButton: true,
-    confirmButtonText: 'Update Status',
-    cancelButtonText: 'Cancel',
-    confirmButtonColor: '#640101',
-    cancelButtonColor: '#6c757d',
-    reverseButtons: true,
-    customClass: {
-      popup: 'production-status-popup',
-      title: 'production-status-title',
-      confirmButton: 'production-status-confirm',
-      cancelButton: 'production-status-cancel'
-    },
-    didOpen: () => {
-      // Grid layout apply via JavaScript
-      const grid = document.querySelector('.production-status-grid') as HTMLElement;
-      if (grid) {
-        grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = '1fr 1fr';
-        grid.style.gap = '12px';
-        grid.style.margin = '10px 0';
+      width: '500px',
+      showCancelButton: true,
+      confirmButtonText: 'Update Status',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#640101',
+      cancelButtonColor: '#6c757d',
+      reverseButtons: true,
+      customClass: {
+        popup: 'production-status-popup',
+        title: 'production-status-title',
+        confirmButton: 'production-status-confirm',
+        cancelButton: 'production-status-cancel'
+      },
+      didOpen: () => {
+        // Grid layout apply via JavaScript
+        const grid = document.querySelector('.production-status-grid') as HTMLElement;
+        if (grid) {
+          grid.style.display = 'grid';
+          grid.style.gridTemplateColumns = '1fr 1fr';
+          grid.style.gap = '12px';
+          grid.style.margin = '10px 0';
+        }
+      },
+      preConfirm: () => {
+        const selected = document.querySelector(
+          'input[name="productionStatus"]:checked'
+        ) as HTMLInputElement;
+
+        if (!selected) {
+          Swal.showValidationMessage('Please select a status');
+          return false;
+        }
+
+        return selected.value;
       }
-    },
-    preConfirm: () => {
-      const selected = document.querySelector(
-        'input[name="productionStatus"]:checked'
-      ) as HTMLInputElement;
 
-      if (!selected) {
-        Swal.showValidationMessage('Please select a status');
-        return false;
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        this.makerProductionService
+          .updateMakerProductionStatus(element._id, result.value)
+          .subscribe({
+            next: (response) => {
+              console.log('Status Updated:', response);
+              element.status = result.value;
+              this.alert.success('Status Updated Successfully');
+            },
+            error: (error) => {
+              console.error('Status Update Error:', error);
+              this.alert.error(error?.error?.message || 'Failed to update status');
+            }
+          });
       }
+    });
 
-      return selected.value;
-    }
-
-  }).then((result) => {
-    if (result.isConfirmed && result.value) {
-      this.makerProductionService
-        .updateMakerProductionStatus(element._id, result.value)
-        .subscribe({
-          next: (response) => {
-            console.log('Status Updated:', response);
-            element.status = result.value;
-            this.alert.success('Status Updated Successfully');
-          },
-          error: (error) => {
-            console.error('Status Update Error:', error);
-            this.alert.error(error?.error?.message || 'Failed to update status');
-          }
-        });
-    }
-  });
-
-}
+  }
 
 }

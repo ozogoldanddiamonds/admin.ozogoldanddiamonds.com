@@ -13,7 +13,7 @@
                 <div>
 
                     <p>Total Revenue</p>
-<h2>{{ ordersCount }}</h2>
+                    <h2>{{ ordersCount }}</h2>
 
                 </div>
 
@@ -51,7 +51,7 @@
 
                     <p>Branch Orders</p>
 
-        <h2>{{ branchOrdersCount }}</h2>
+                    <h2>{{ branchOrdersCount }}</h2>
 
                 </div>
 
@@ -204,7 +204,23 @@
             <canvas #donutChart></canvas>
 
         </div>
+        <div class="dashboard-card">
 
+            <div class="card-header">
+
+                <div>
+
+                    <h4>Traffic Source</h4>
+
+                    <p>Customer visits</p>
+
+                </div>
+
+            </div>
+
+            <canvas #lineChart></canvas>
+
+        </div>
         <!-- RECENT ORDERS -->
 
         <div class="dashboard-card">
@@ -277,23 +293,7 @@
 
         <!-- TRAFFIC -->
 
-        <div class="dashboard-card">
 
-            <div class="card-header">
-
-                <div>
-
-                    <h4>Traffic Source</h4>
-
-                    <p>Customer visits</p>
-
-                </div>
-
-            </div>
-
-            <canvas #lineChart></canvas>
-
-        </div>
 
     </div>
 
