@@ -117,6 +117,9 @@ import { BrandCreateComponent } from './brand/brand-create/brand-create.componen
 import { BrandUpdateComponent } from './brand/brand-update/brand-update.component';
 import { CreateAdsComponent } from './AdsController/create-ads/create-ads.component';
 import { UserViewComponent } from './View-dialog-Controllers/user-view/user-view.component';
+import { CustomDesignListComponent } from './custom-design/custom-design-list/custom-design-list.component';
+import { CustomDesignViewComponent } from './custom-design-view/custom-design-view.component';
+import { ViewSizeChartComponent } from './view-size-chart/view-size-chart.component';
 
 
 @NgModule({
@@ -217,7 +220,12 @@ import { UserViewComponent } from './View-dialog-Controllers/user-view/user-view
     BrandUpdateComponent,
     CreateAdsComponent,
     UserViewComponent,
-  
+    SizeChatListComponent,
+    CustomDesignListComponent,
+    CustomDesignViewComponent,
+    ViewSizeChartComponent
+
+
 
   ],
   imports: [

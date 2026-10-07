@@ -1,0 +1,210 @@
+<div class="dialog-container">
+
+  <!-- Header -->
+  <div class="dialog-header">
+
+    <div>
+      <h2>Custom Design Request</h2>
+
+      <span class="request-number">
+        {{ request.requestNumber }}
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="close-btn"
+      (click)="close()">
+      <i class="fa fa-times"></i>
+    </button>
+
+  </div>
+
+
+  <!-- Content -->
+  <div class="dialog-content">
+
+    <!-- Customer Details -->
+    <div class="section">
+
+      <h3>Customer Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Name</label>
+          <span>{{ request.customer?.name || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Email</label>
+          <span>{{ request.customer?.email || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Phone</label>
+<span>{{ request.customer?.mobile || '-' }}</span>        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Category -->
+    <div class="section">
+
+      <h3>Category Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Category</label>
+          <span>{{ request.category?.name || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Sub Category</label>
+          <span>{{ request.subCategory?.name || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Sub Sub Category</label>
+          <span>{{ request.subSubCategory?.name || '-' }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Design Details -->
+    <div class="section">
+
+      <h3>Design Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Metal Type</label>
+          <span>{{ request.metalType || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Metal Purity</label>
+          <span>{{ request.metalPurity || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Metal Color</label>
+          <span>{{ request.metalColor || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Stone Preference</label>
+          <span>{{ request.stonePreference || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Budget</label>
+          <span>
+            {{ request.budget ? ('₹' + request.budget) : '-' }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <label>Required Date</label>
+          <span>
+            {{
+              request.requiredDate
+                ? (request.requiredDate | date:'dd-MM-yyyy')
+                : '-'
+            }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <label>Status</label>
+
+          <span
+            class="status-badge"
+            [ngClass]="getStatusClass(request.status)">
+            {{ request.status }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Description -->
+    <div class="section">
+
+      <h3>Description</h3>
+
+      <div class="description">
+        {{ request.description || '-' }}
+      </div>
+
+    </div>
+
+
+    <!-- Reference Images -->
+    <div class="section">
+
+      <h3>Reference Images</h3>
+
+      <div
+        class="image-grid"
+        *ngIf="request.referenceImages?.length; else noImages">
+
+        <div
+          class="image-box"
+          *ngFor="let image of request.referenceImages">
+
+          <img
+            [src]="image.url"
+            alt="Reference Image">
+
+        </div>
+
+      </div>
+
+      <ng-template #noImages>
+
+        <div class="no-data">
+          No reference images available.
+        </div>
+
+      </ng-template>
+
+    </div>
+
+
+    <!-- Admin Notes -->
+    <div class="section">
+
+      <h3>Admin Notes</h3>
+
+      <div class="description">
+        {{ request.adminNotes || 'No admin notes added.' }}
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Footer -->
+  <div class="dialog-footer">
+
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="close()">
+      Close
+    </button>
+
+  </div>
+
+</div>

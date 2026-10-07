@@ -22,6 +22,7 @@
     "@angular/router": "^16.2.0",
     "@ng-select/ng-select": "^11.2.0",
     "chart.js": "^4.5.1",
+    "ngx-bootstrap": "^11.0.2",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.26.25",
     "tslib": "^2.3.0",

@@ -81,6 +81,8 @@ import { BrandComponent } from './brand/brand/brand.component';
 import { BrandCreateComponent } from './brand/brand-create/brand-create.component';
 import { BrandUpdateComponent } from './brand/brand-update/brand-update.component';
 import { CreateAdsComponent } from './AdsController/create-ads/create-ads.component';
+import { SizeChatUpdateComponent } from './size-chat/size-chat-update/size-chat-update.component';
+import { CustomDesignListComponent } from './custom-design/custom-design-list/custom-design-list.component';
 
 const routes: Routes = [
 
@@ -190,10 +192,15 @@ const routes: Routes = [
       { path: 'view-scheme/:id', component: ViewScheemaComponent },
       { path: "userpayment-scheema-list", component: SchemaPaymentListComponent },
       { path: "sizechat-list", component: SizeChatListComponent },
+      { path: "update-size-chart/:id", component: SizeChatUpdateComponent },
       { path: "create-sizechat", component: SizeChatCreateComponent },
       { path: "brand-list", component: BrandComponent },
       { path: "brand-create", component: BrandCreateComponent },
-      {path: 'update-brand/:id',component: BrandUpdateComponent},
+      { path: 'update-brand/:id', component: BrandUpdateComponent },
+      { path: 'custom-desigen-list', component: CustomDesignListComponent },
+      { path: "brand-list", component: BrandComponent },
+      { path: "brand-create", component: BrandCreateComponent },
+      { path: 'update-brand/:id', component: BrandUpdateComponent },
 
 
 

@@ -925,6 +925,6 @@ export class ProductUpdateComponent implements OnInit {
       '/admin/product'
     ]);
   }
-  
+
 
 }

@@ -17,10 +17,9 @@ import Swal from 'sweetalert2';
 })
 export class ProductCreateComponent implements OnInit {
   brands: Brand[] = [];
-  isSaving: boolean = false;
 
   productForm!: FormGroup;
-
+  isSaving: boolean = false;
   // =========================
   // FILES
   // =========================
@@ -497,7 +496,7 @@ export class ProductCreateComponent implements OnInit {
   // =========================================================
   onSubmit(): void {
 
-    // this.isSaving = true;
+
 
     if (!this.productForm.get('name')?.value) {
       Swal.fire('Error', 'Product Name is required', 'error');
@@ -558,28 +557,62 @@ export class ProductCreateComponent implements OnInit {
     // =========================
     // TAGS ARRAY
     // =========================
+    // =========================
+    // TAGS ARRAY
+    // =========================
 
-    formValue.tags =
-      formValue.tags
+    if (typeof formValue.tags === 'string') {
+      formValue.tags = formValue.tags
         ? formValue.tags
           .split(',')
-          .map((tag: string) =>
-            tag.trim()
-          )
+          .map((tag: string) => tag.trim())
+          .filter((tag: string) => tag)
         : [];
+    } else if (Array.isArray(formValue.tags)) {
+      formValue.tags = formValue.tags
+        .map((tag: string) => tag.trim())
+        .filter((tag: string) => tag);
+    } else {
+      formValue.tags = [];
+    }
+    // formValue.tags =
+    //   formValue.tags
+    //     ? formValue.tags
+    //       .split(',')
+    //       .map((tag: string) =>
+    //         tag.trim()
+    //       )
+    //     : [];
 
     // =========================
     // META KEYWORDS ARRAY
     // =========================
+    // =========================
+    // META KEYWORDS ARRAY
+    // =========================
 
-    formValue.metaKeywords =
-      formValue.metaKeywords
+    if (typeof formValue.metaKeywords === 'string') {
+      formValue.metaKeywords = formValue.metaKeywords
         ? formValue.metaKeywords
           .split(',')
-          .map((keyword: string) =>
-            keyword.trim()
-          )
+          .map((keyword: string) => keyword.trim())
+          .filter((keyword: string) => keyword)
         : [];
+    } else if (Array.isArray(formValue.metaKeywords)) {
+      formValue.metaKeywords = formValue.metaKeywords
+        .map((keyword: string) => keyword.trim())
+        .filter((keyword: string) => keyword);
+    } else {
+      formValue.metaKeywords = [];
+    }
+    // formValue.metaKeywords =
+    //   formValue.metaKeywords
+    //     ? formValue.metaKeywords
+    //       .split(',')
+    //       .map((keyword: string) =>
+    //         keyword.trim()
+    //       )
+    //     : [];
 
     // =========================
     // VARIANTS
@@ -792,11 +825,11 @@ export class ProductCreateComponent implements OnInit {
       );
 
     }
+    this.isSaving = true;
 
     // =========================
     // API CALL
     // =========================
-    this.isSaving = true;
     this.productService
       .createProduct(
         formData
@@ -809,7 +842,6 @@ export class ProductCreateComponent implements OnInit {
 
           this.alert.success('Created Successfully');
           this.isSaving = false;
-
           this.router.navigate([
 
             '/admin/product'

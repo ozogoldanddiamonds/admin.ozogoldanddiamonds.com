@@ -1,488 +1,518 @@
-<!-- ========================= -->
-<!-- BILLING HEADER -->
-<!-- ========================= -->
+<!-- =========================================================
+     BILLING / POS HEADER
+========================================================= -->
+<div class="billing-header">
+    <div class="billing-header-inner">
 
-<div class="billing-header mb-4">
+        <div class="billing-brand">
+            <div class="logo-box">
+                <img src="assets/Images/logo2.png" class="company-logo" alt="Logo">
+            </div>
 
-    <div class="row align-items-center">
-
-        <!-- Logo -->
-
-        <div class="col-md-2 text-center">
-
-            <img src="assets/Images/logo2.png" class="company-logo" alt="Logo">
-
+            <div class="billing-heading">
+                <h1>CREATE BILL</h1>
+                <span>Jewellery Retail POS</span>
+            </div>
         </div>
 
-        <!-- Company -->
+        <div class="billing-header-right">
+            <div class="pos-status">
+                <span class="status-dot"></span>
+                <span>Billing Counter</span>
+            </div>
 
-
-        <!-- Title -->
-
-        <div class="col-md-8 ">
-
-            <h1 class="billing-title">
-
-                CREATE BILLING
-
-            </h1>
-
-            <span class="billing-subtitle">
-
-                Jewellery Billing System
-
-            </span>
-            <!-- Right Empty -->
-        <div class="col-md-2"></div>
-
+            <div class="pos-type">
+                DIRECT CUSTOMER SALE
+            </div>
         </div>
 
     </div>
-
 </div>
 
 
-
-
-
-
-<div class="container-fluid py-4 billing-page">
+<div class="container-fluid billing-page">
 
     <form [formGroup]="orderForm" (ngSubmit)="createOrder()">
-
 
         <div class="bill-shell">
 
 
-            <!-- ========================= -->
-            <!-- ORDER ITEMS -->
-            <!-- ========================= -->
-            <!-- PRODUCT -->
-            <div class="row">
+            <!-- =====================================================
+                 PRODUCT SEARCH / ADD TO BILL
+            ====================================================== -->
+            <section class="pos-section product-entry-section">
 
-                <div class="col-md-5">
+                <div class="section-heading">
+                    <div class="section-heading-left">
+                        <span class="section-number">01</span>
 
-                    <div class="card bill-card">
-
-                        <div class="card-header bg-danger text-white">
-                            <span class="header-bar"></span>
-                            Product & Variant Details
+                        <div>
+                            <h3>Add Product</h3>
+                            <p>Search SKU and add jewellery to the bill</p>
                         </div>
-
-                        <div class="card-body">
-
-                            <div class="row align-items-end g-3">
-
-                                <!-- SKU -->
-                                <div class="col-md-7">
-
-                                    <label class="form-title">
-
-                                        Search SKU
-
-                                    </label>
-
-                                    <ng-select class="bill-select" [items]="filteredVariants" bindLabel="sku"
-                                        bindValue="_id" [searchable]="true" [clearable]="true" [virtualScroll]="true"
-                                        appendTo="body" formControlName="variant" placeholder="Enter SKU"(open)="loadAllSkus()"
-                                        (search)="onSearch($event)" (change)="onVariantChange()">
-
-                                        <ng-template ng-option-tmp let-item="item">
-
-                                            <div class="sku-item">
-
-                                                <div class="sku-code">
-                                                    {{item.sku}}
-                                                </div>
-
-                                                <div class="sku-info">
-                                                    {{item.product.name}} |
-                                                    {{item.metalPurity}}
-                                                </div>
-
-                                            </div>
-
-                                        </ng-template>
-
-                                    </ng-select>
-
-                                </div>
-
-                                <div class="col-md-2">
-
-                                    <label class="form-title">
-
-                                        Qty
-
-                                    </label>
-
-                                    <input type="number" class="form-control qty-box" formControlName="quantity">
-
-                                </div>
-
-                                <div class="col-md-3 d-flex align-items-end">
-
-                                    <button class="btn add-btn w-100" type="button" (click)="addItem()">
-
-                                        <!-- <i class="fa fa-plus me-2"></i> -->
-
-                                        Add
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
                     </div>
 
+                    <span class="section-badge">
+                        PRODUCT ENTRY
+                    </span>
                 </div>
 
 
-                <div class="col-7">
-                    <div class="details-sku">
-                        <div class="card mt-4" *ngIf="selectedProduct">
+                <div class="product-entry-box">
 
-                            <div class="card-header bg-danger text-white">
-                                <span class="header-bar"></span>
+                    <!-- SKU -->
+                    <div class="sku-search-area">
 
-                                Product & Variant Details
+                        <label class="pos-label">
+                            Search SKU / Product
+                        </label>
 
-                            </div>
+                        <ng-select class="bill-select" [items]="filteredVariants" bindLabel="sku" bindValue="_id"
+                            [searchable]="true" [clearable]="true" [virtualScroll]="true" appendTo="body"
+                            formControlName="variant" placeholder="Enter SKU or search product" (open)="loadAllSkus()"
+                            (search)="onSearch($event)" (change)="onVariantChange()">
 
-                            <div class="card-body">
+                            <ng-template ng-option-tmp let-item="item">
 
-                                <div class="row align-items-center">
+                                <div class="sku-option">
 
-                                    <!-- Image -->
-
-
-                                    <div class="col-lg-3 text-center">
-
-                                        <img [src]="selectedProduct.images[0]" class="img-fluid rounded shadow"
-                                            style="height:120px;width:120px;object-fit:cover;">
-
+                                    <div class="sku-option-main">
+                                        <strong>{{ item.sku }}</strong>
                                     </div>
 
-
-                                    <!-- Product Details -->
-
-                                    <div class="col-lg-9">
-
-                                        <div class="details-container">
-
-                                            <!-- <div class="detail-item">
-            <span class="label">Product</span>
-            <span class="value">{{selectedProduct.name}}</span>
-        </div> -->
-
-                                            <div class="detail-item">
-                                                <span class="label">Product Type</span>
-                                                <span class="value">{{selectedProduct.productType}}</span>
-                                            </div>
-
-                                            <ng-container *ngIf="selectedVariant">
-                                                <div class="detail-item">
-                                                    <span class="label">Purity</span>
-                                                    <span class="value">{{selectedVariant.metalPurity}}</span>
-                                                </div>
-
-                                                <div class="detail-item">
-                                                    <span class="label">SKU</span>
-                                                    <span class="value">{{selectedVariant.sku}}</span>
-                                                </div>
-
-
-
-                                                <div class="detail-item">
-                                                    <span class="label">Metal</span>
-                                                    <span class="value">{{selectedVariant.metalType}}</span>
-                                                </div>
-
-                                                <!-- <div class="detail-item">
-                <span class="label">Color</span>
-                <span class="value">{{selectedVariant.metalColor}}</span>
-            </div> -->
-
-                                                <!-- <div class="detail-item">
-                <span class="label">Gross Weight</span>
-                <span class="value">{{selectedVariant.grossWeight}} g</span>
-            </div> -->
-
-                                                <div class="detail-item">
-                                                    <span class="label">Net Weight</span>
-                                                    <span class="value">{{selectedVariant.netWeight}} g</span>
-                                                </div>
-
-                                                <div class="detail-item">
-                                                    <span class="label">Size</span>
-                                                    <span class="value">{{selectedVariant.size}}</span>
-                                                </div>
-
-                                                <!-- <div class="detail-item">
-                <span class="label">Making Charge</span>
-                <span class="value">₹ {{selectedVariant.makingCharges}}</span>
-            </div> -->
-
-                                            </ng-container>
-
-                                        </div>
-
+                                    <div class="sku-option-info">
+                                        {{ item.product.name }}
+                                        <span>•</span>
+                                        {{ item.metalPurity }}
                                     </div>
 
                                 </div>
 
-                            </div>
+                            </ng-template>
+
+                        </ng-select>
+
+                    </div>
+
+
+                    <!-- QTY -->
+                    <div class="quantity-area">
+
+                        <label class="pos-label">
+                            Qty
+                        </label>
+
+                        <input type="number" min="1" class="form-control qty-box" formControlName="quantity">
+
+                    </div>
+
+
+                    <!-- ADD -->
+                    <div class="add-product-area">
+
+                        <label class="pos-label invisible">
+                            Add
+                        </label>
+
+                        <button class="btn add-product-btn" type="button" (click)="addItem()">
+
+                            <i class="fa fa-plus"></i>
+                            <span>Add Item</span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+                 SELECTED PRODUCT PREVIEW
+            ====================================================== -->
+            <section class="selected-product-section" *ngIf="selectedProduct">
+
+                <div class="selected-product-header">
+
+                    <div>
+                        <span class="mini-label">
+                            SELECTED PRODUCT
+                        </span>
+
+                        <h3>
+                            {{ selectedProduct.name || 'Jewellery Item' }}
+                        </h3>
+                    </div>
+
+                    <span class="selected-badge">
+                        READY TO BILL
+                    </span>
+
+                </div>
+
+
+                <div class="selected-product-content">
+
+                    <!-- IMAGE -->
+                    <div class="selected-product-image">
+
+                        <img [src]="selectedProduct.images[0]" alt="Product" class="product-preview-image">
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+                    <div class="product-information">
+
+                        <div class="product-info-item">
+
+                            <span class="info-label">
+                                Product Type
+                            </span>
+
+                            <strong>
+                                {{ selectedProduct.productType || '-' }}
+                            </strong>
 
                         </div>
+
+
+                        <ng-container *ngIf="selectedVariant">
+
+                            <div class="product-info-item">
+
+                                <span class="info-label">
+                                    SKU
+                                </span>
+
+                                <strong class="sku-value">
+                                    {{ selectedVariant.sku || '-' }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="product-info-item">
+
+                                <span class="info-label">
+                                    Purity
+                                </span>
+
+                                <strong>
+                                    {{ selectedVariant.metalPurity || '-' }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="product-info-item">
+
+                                <span class="info-label">
+                                    Metal
+                                </span>
+
+                                <strong>
+                                    {{ selectedVariant.metalType || '-' }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="product-info-item">
+
+                                <span class="info-label">
+                                    Net Weight
+                                </span>
+
+                                <strong>
+                                    {{ selectedVariant.netWeight || '-' }} g
+                                </strong>
+
+                            </div>
+
+
+                            <div class="product-info-item">
+
+                                <span class="info-label">
+                                    Size
+                                </span>
+
+                                <strong>
+                                    {{ selectedVariant.size || '-' }}
+                                </strong>
+
+                            </div>
+
+                        </ng-container>
+
                     </div>
-                    <!-- PRODUCT PREVIEW -->
-                    <!-- ========================= -->
-
-
-                </div>
-            </div>
-
-            <div class="card mt-4">
-
-                <div class="card-header">
-                    <span class="header-bar"></span>
-
-                    <h5 class="mb-0">
-
-                        Order Items
-
-                    </h5>
 
                 </div>
 
-                <div class="card-body p-0">
-
-                    <div class="table-responsive">
-
-                        <table class="table table-bordered table-hover mb-0">
-
-                            <thead class="table-light">
-
-                                <tr>
-
-                                    <th>#</th>
-
-                                    <th>Image</th>
-
-                                    <th>Product</th>
-
-                                    <th>Variant</th>
-
-                                    <th>Qty</th>
-
-                                    <th>Metal Value</th>
-
-                                    <!-- <th>Making</th> -->
-
-                                    <th>GST</th>
-
-                                    <th>Total</th>
-
-                                    <th>Action</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr *ngFor="let item of cartItems; let i=index">
-
-                                    <td>{{i+1}}</td>
-
-                                    <td>
-
-                                        <img [src]="item.image" width="60" height="60"
-                                            style="object-fit:cover;border-radius:8px;">
-
-                                    </td>
-
-                                    <td>
-
-                                        {{item.productName}}
-
-                                    </td>
-
-                                    <td>
-
-                                        {{item.variantName}}
-
-                                    </td>
-
-                                    <td>
-
-                                        {{item.quantity}}
-
-                                    </td>
-
-                                    <td>
-
-                                        {{item.metalValue | currency:'INR'}}
-
-                                    </td>
-
-                                    <!-- <td>
-
-                                        {{item.makingCharge | currency:'INR'}}
-
-                                    </td> -->
-
-                                    <td>
-
-                                        {{item.gstAmount | currency:'INR'}}
-
-                                        <br>
-
-                                        <h5>
-
-                                            {{item.gstPercentage}} %
-
-                                        </h5>
-
-                                    </td>
-
-                                    <td>
-
-                                        {{item.totalPrice | currency:'INR'}}
-
-                                    </td>
-
-                                    <td>
+            </section>
 
 
-                                        <div class="d-flex justify-content-center gap-2">
 
-                                            <!-- View Button -->
-                                            <button class="btn btn-info btn-sm action-btn" type="button"
-                                                (click)="viewItem(item)">
+            <!-- =====================================================
+                 ORDER ITEMS / CART
+            ====================================================== -->
+            <section class="pos-section cart-section">
 
-                                                <i class="fa fa-eye"></i>
+                <div class="section-heading">
 
-                                            </button>
+                    <div class="section-heading-left">
 
-                                            <!-- Remove Button -->
-                                            <button class="btn btn-danger btn-sm action-btn" type="button"
-                                                (click)="removeItem(i)">
+                        <span class="section-number">
+                            02
+                        </span>
 
-                                                <i class="fa fa-trash"></i>
+                        <div>
 
-                                            </button>
+                            <h3>
+                                Order Items
+                            </h3>
 
+                            <p>
+                                Products added to the current bill
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cart-count">
+
+                        <span>
+                            {{ cartItems.length }}
+                        </span>
+
+                        Items
+
+                    </div>
+
+                </div>
+
+
+                <div class="cart-table-wrapper">
+
+                    <table class="table pos-cart-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="serial-column">
+                                    #
+                                </th>
+
+                                <th class="image-column">
+                                    Item
+                                </th>
+
+                                <th>
+                                    Product
+                                </th>
+
+                                <th>
+                                    Variant / SKU
+                                </th>
+
+                                <th class="qty-column">
+                                    Qty
+                                </th>
+
+                                <th class="amount-column">
+                                    Metal Value
+                                </th>
+
+                                <th class="amount-column">
+                                    GST
+                                </th>
+
+                                <th class="total-column">
+                                    Total
+                                </th>
+
+                                <th class="action-column">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr *ngFor="let item of cartItems; let i=index" class="cart-row">
+
+                                <!-- NUMBER -->
+                                <td class="serial-cell">
+                                    {{ i + 1 }}
+                                </td>
+
+
+                                <!-- IMAGE -->
+                                <td class="item-image-cell">
+
+                                    <div class="table-product-image">
+
+                                        <img [src]="item.image" alt="Product">
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- PRODUCT -->
+                                <td class="product-name-cell">
+
+                                    <strong>
+                                        {{ item.productName }}
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- VARIANT -->
+                                <td class="variant-cell">
+
+                                    <span class="variant-chip">
+                                        {{ item.variantName }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- QTY -->
+                                <td class="qty-cell">
+
+                                    <span class="qty-value">
+                                        {{ item.quantity }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- METAL VALUE -->
+                                <td class="amount-cell">
+
+                                    {{ item.metalValue | currency:'INR' }}
+
+                                </td>
+
+
+                                <!-- GST -->
+                                <td class="gst-cell">
+
+                                    <strong>
+                                        {{ item.gstAmount | currency:'INR' }}
+                                    </strong>
+
+                                    <small>
+                                        {{ item.gstPercentage }}%
+                                    </small>
+
+                                </td>
+
+
+                                <!-- TOTAL -->
+                                <td class="total-cell">
+
+                                    <strong>
+                                        {{ item.totalPrice | currency:'INR' }}
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+                                <td class="action-cell">
+
+                                    <div class="item-actions">
+
+                                        <button class="item-action view" type="button" title="View"
+                                            (click)="viewItem(item)">
+
+                                            <i class="fa fa-eye"></i>
+
+                                        </button>
+
+
+                                        <button class="item-action delete" type="button" title="Remove"
+                                            (click)="removeItem(i)">
+
+                                            <i class="fa fa-trash"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- EMPTY -->
+                            <tr *ngIf="cartItems.length == 0">
+
+                                <td colspan="9" class="empty-cart">
+
+                                    <div class="empty-cart-content">
+
+                                        <div class="empty-cart-icon">
+                                            <i class="fa fa-shopping-bag"></i>
                                         </div>
 
-                                    </td>
+                                        <strong>
+                                            No Products Added
+                                        </strong>
 
-                                </tr>
+                                        <span>
+                                            Search an SKU above to add products to this bill
+                                        </span>
 
-                                <tr *ngIf="cartItems.length==0">
+                                    </div>
 
-                                    <td colspan="10" class="text-center">
+                                </td>
 
-                                        No Products Added
+                            </tr>
 
-                                    </td>
+                        </tbody>
 
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
+                    </table>
 
                 </div>
 
-            </div>
+            </section>
 
 
 
+            <!-- =====================================================
+                 CHECKOUT SECTION
+            ====================================================== -->
+            <section class="checkout-section">
 
+                <div class="section-heading checkout-heading">
 
-            <!-- ========================= -->
-            <!-- VARIANT DETAILS -->
-            <!-- ========================= -->
+                    <div class="section-heading-left">
 
-            <!-- ========================= -->
-            <!-- PAYMENT + SUMMARY -->
-            <!-- ========================= -->
+                        <span class="section-number">
+                            03
+                        </span>
 
-            <div class="row mt-4">
+                        <div>
 
-                <!-- PAYMENT -->
+                            <h3>
+                                Checkout
+                            </h3>
 
-                <div class="col-lg-5">
-
-                    <div class="card">
-
-                        <div class="card-header">
-                            <span class="header-bar"></span>
-
-                            <h5> Payment Details</h5>
-
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="mb-3">
-
-                                <label>
-
-                                    Payment Method
-
-                                </label>
-
-                                <select class="form-select" formControlName="paymentMethod">
-
-                                    <option value="CASH">
-
-                                        Cash
-
-                                    </option>
-
-                                    <option value="UPI">
-
-                                        UPI
-
-                                    </option>
-
-                                    <option value="CARD">
-
-                                        Card
-
-                                    </option>
-
-                                    <option value="NETBANKING">
-
-                                        Net Banking
-
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <div>
-
-                                <label>
-
-                                    Notes
-
-                                </label>
-
-                                <textarea rows="4" class="form-control" formControlName="notes">
-
-                        </textarea>
-
-                            </div>
+                            <p>
+                                Customer, payment and final bill details
+                            </p>
 
                         </div>
 
@@ -490,51 +520,70 @@
 
                 </div>
 
-                <!-- SUMMARY -->
 
-                <div class="col-lg-7">
-                    <!-- ========================= -->
-                    <!-- CUSTOMER + PRODUCT -->
-                    <!-- ========================= -->
+                <div class="row g-3 checkout-grid">
 
-                    <div class="row">
 
-                        <!-- CUSTOMER -->
+                    <!-- =================================================
+                         CUSTOMER
+                    ================================================== -->
+                    <div class="col-xl-4 col-lg-4">
 
-                        <div class="col-12">
+                        <div class="checkout-card customer-card">
 
-                            <div class="card bill-card mb-4">
+                            <div class="checkout-card-header">
 
-                                <div class="card-header">
-                                    <span class="header-bar"></span>
+                                <div class="checkout-icon">
+                                    <i class="fa fa-user"></i>
+                                </div>
 
-                                    <h5>
-
+                                <div>
+                                    <h4>
                                         Customer Details
+                                    </h4>
 
-                                    </h5>
+                                    <span>
+                                        Direct customer information
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="checkout-card-body">
+
+                                <div class="customer-field">
+
+                                    <label>
+                                        Customer Name
+                                    </label>
+
+                                    <input type="text" class="form-control" formControlName="customerName"
+                                        placeholder="Enter customer name">
 
                                 </div>
 
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label>Name</label>
 
-                                            <input type="text" class="form-control" formControlName="customerName">
-                                        </div>
-                                        <div class="col-4">
-                                            <label>Phone</label>
+                                <div class="customer-field">
 
-                                            <input type="text" class="form-control" formControlName="customerPhone">
-                                        </div>
-                                        <div class="col-4">
-                                            <label>Email</label>
+                                    <label>
+                                        Phone Number
+                                    </label>
 
-                                            <input type="email" class="form-control" formControlName="customerEmail">
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" formControlName="customerPhone"
+                                        placeholder="Enter mobile number">
 
+                                </div>
+
+
+                                <div class="customer-field">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input type="email" class="form-control" formControlName="customerEmail"
+                                        placeholder="Enter email address">
 
                                 </div>
 
@@ -542,103 +591,190 @@
 
                         </div>
 
-
-
                     </div>
-                    <div class="card">
 
-                        <div class="card-header">
-                            <span class="header-bar"></span>
-                            <h5> Order Summary</h5>
 
+
+                    <!-- =================================================
+                         PAYMENT
+                    ================================================== -->
+                    <div class="col-xl-4 col-lg-4">
+
+                        <div class="checkout-card payment-card">
+
+                            <div class="checkout-card-header">
+
+                                <div class="checkout-icon payment-icon">
+                                    <i class="fa fa-credit-card"></i>
+                                </div>
+
+                                <div>
+                                    <h4>
+                                        Payment Details
+                                    </h4>
+
+                                    <span>
+                                        Select payment method
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="checkout-card-body">
+
+                                <div class="payment-field">
+
+                                    <label>
+                                        Payment Method
+                                    </label>
+
+                                    <select class="form-select payment-select" formControlName="paymentMethod">
+
+                                        <option value="CASH">
+                                            Cash
+                                        </option>
+
+                                        <option value="UPI">
+                                            UPI
+                                        </option>
+
+                                        <option value="CARD">
+                                            Card
+                                        </option>
+
+                                        <option value="NETBANKING">
+                                            Net Banking
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="payment-field">
+
+                                    <label>
+                                        Billing Notes
+                                    </label>
+
+                                    <textarea rows="4" class="form-control notes-box" formControlName="notes"
+                                        placeholder="Add notes if required..."></textarea>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                    </div>
 
-                            <table class="table table-borderless">
 
-                                <tr>
 
-                                    <th>
+                    <!-- =================================================
+                         ORDER SUMMARY
+                    ================================================== -->
+                    <div class="col-xl-4 col-lg-4">
 
+                        <div class="checkout-card summary-card">
+
+                            <div class="checkout-card-header summary-header">
+
+                                <div class="checkout-icon summary-icon">
+                                    <i class="fa fa-file-invoice-dollar"></i>
+                                </div>
+
+                                <div>
+                                    <h4>
+                                        Bill Summary
+                                    </h4>
+
+                                    <span>
+                                        Final payable amount
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="summary-body">
+
+                                <div class="summary-row">
+
+                                    <span>
                                         Sub Total
+                                    </span>
 
-                                    </th>
+                                    <strong>
+                                        {{ subTotal | currency:'INR' }}
+                                    </strong>
 
-                                    <td class="text-end">
+                                </div>
 
-                                        {{subTotal | currency:'INR'}}
 
-                                    </td>
+                                <div class="summary-row">
 
-                                </tr>
-
-                                <tr>
-
-                                    <th>
-
+                                    <span>
                                         Discount
+                                    </span>
 
-                                    </th>
+                                    <strong class="discount-value">
+                                        {{ discount | currency:'INR' }}
+                                    </strong>
 
-                                    <td class="text-end">
+                                </div>
 
-                                        {{discount | currency:'INR'}}
 
-                                    </td>
+                                <div class="summary-row">
 
-                                </tr>
-
-                                <tr>
-
-                                    <th>
-
+                                    <span>
                                         GST
+                                    </span>
 
-                                    </th>
+                                    <strong>
+                                        {{ gst | currency:'INR' }}
+                                    </strong>
 
-                                    <td class="text-end">
+                                </div>
 
-                                        {{gst | currency:'INR'}}
 
-                                    </td>
+                                <div class="summary-row">
 
-                                </tr>
-
-                                <tr>
-
-                                    <th>
-
+                                    <span>
                                         Shipping
+                                    </span>
 
-                                    </th>
+                                    <strong>
+                                        ₹0.00
+                                    </strong>
 
-                                    <td class="text-end">
+                                </div>
 
-                                        ₹0
 
-                                    </td>
+                                <div class="summary-divider"></div>
 
-                                </tr>
 
-                                <tr class="table-warning">
+                                <div class="grand-total-row">
 
-                                    <th>
+                                    <div>
 
-                                        Grand Total
+                                        <span>
+                                            GRAND TOTAL
+                                        </span>
 
-                                    </th>
+                                        <small>
+                                            Amount Payable
+                                        </small>
 
-                                    <th class="text-end">
+                                    </div>
 
-                                        {{grandTotal | currency:'INR'}}
+                                    <strong>
+                                        {{ grandTotal | currency:'INR' }}
+                                    </strong>
 
-                                    </th>
+                                </div>
 
-                                </tr>
-
-                            </table>
+                            </div>
 
                         </div>
 
@@ -646,40 +782,54 @@
 
                 </div>
 
-            </div>
+            </section>
 
-            <!-- ========================= -->
-            <!-- BUTTONS -->
-            <!-- ========================= -->
 
-            <div class="row mt-4">
 
-                <div class="col text-end">
-                    <button type="button" class="btn btn-primary" *ngIf="orderSummary?._id">
+            <!-- =====================================================
+                 BILL ACTIONS
+            ====================================================== -->
+            <div class="bill-actions">
 
-                        Print Invoice
+                <div class="bill-action-left">
 
-                    </button>
+                    <span class="secure-billing">
+                        <i class="fa fa-shield-alt"></i>
+                        Secure Billing
+                    </span>
 
-                    <button type="button" class="btn btn-secondary me-2" (click)="goBack()">
+                </div>
 
+
+                <div class="bill-action-right">
+
+                    <button type="button" class="btn pos-back-btn" (click)="goBack()">
+
+                        <i class="fa fa-arrow-left"></i>
                         Back
 
                     </button>
 
 
+                    <button type="button" class="btn print-invoice-btn" *ngIf="orderSummary?._id">
 
-                    <button type="submit" class="btn-create">
-
-                        Create Order
+                        <i class="fa fa-print"></i>
+                        Print Invoice
 
                     </button>
 
 
+                    <button type="submit" class="btn-create">
+
+                        <i class="fa fa-check-circle"></i>
+                        Create Order
+
+                    </button>
 
                 </div>
 
             </div>
+
 
         </div>
 

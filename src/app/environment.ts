@@ -5,5 +5,4 @@ export const environment = {
   apiUrl: 'https://ozo-backend-nqas.onrender.com/api'
 
 
-
 };

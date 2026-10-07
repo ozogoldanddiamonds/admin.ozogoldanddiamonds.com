@@ -263,29 +263,23 @@
             </div> -->
             <div class="form-group">
 
-  <label>
-    Brand
-  </label>
+              <label>
+                Brand
+              </label>
 
-  <select
-    class="form-control"
-    formControlName="brand"
-  >
+              <select class="form-control" formControlName="brand">
 
-    <option value="" disabled>
-      Select Brand
-    </option>
+                <option value="" disabled>
+                  Select Brand
+                </option>
 
-    <option
-      *ngFor="let brand of brands"
-      [value]="brand._id"
-    >
-      {{ brand.name }}
-    </option>
+                <option *ngFor="let brand of brands" [value]="brand._id">
+                  {{ brand.name }}
+                </option>
 
-  </select>
+              </select>
 
-</div>
+            </div>
             <div class="form-group">
 
               <label>
@@ -308,7 +302,7 @@
 
             </div>
 
-            
+
 
           </div>
 
@@ -346,15 +340,15 @@
           </div>
           <!-- SEO TITLE -->
 
-            <div class="form-group">
+          <div class="form-group">
 
-              <label>
-                SEO Title
-              </label>
+            <label>
+              SEO Title
+            </label>
 
-              <input type="text" placeholder="Enter SEO Title" formControlName="seoTitle">
+            <input type="text" placeholder="Enter SEO Title" formControlName="seoTitle">
 
-            </div>
+          </div>
 
           <!-- SEO DESCRIPTION -->
 
@@ -493,7 +487,7 @@
           <h2>
             Product Video
           </h2>
-<!-- 
+          <!-- 
           <div class="form-group">
 
             <label>
@@ -513,93 +507,70 @@
      VIDEO UPLOAD
 ========================= -->
 
-<div class="form-group">
+          <div class="form-group">
 
-    <label class="upload-label">
-        Upload Video
-    </label>
-
-    <div
-        class="video-upload-box"
-        [class.has-video]="videoPreview"
-    >
-
-        <!-- File Input -->
-        <input
-            type="file"
-            accept="video/*"
-            id="videoInput"
-            class="video-file-input"
-            (change)="onVideoSelect($event)"
-        >
-
-
-        <!-- Before Video Selection -->
-        <label
-            for="videoInput"
-            class="video-upload-content"
-            *ngIf="!videoPreview"
-        >
-
-            <div class="upload-icon">
-
-                <i class="fa fa-cloud-upload"></i>
-
-            </div>
-
-            <div class="upload-text">
-
-                <span class="upload-main-text">
-                    Drop your video here, or
-                    <strong>browse</strong>
-                </span>
-
-                <span class="upload-sub-text">
-                    Supports: MP4, WebM, MOV
-                </span>
-
-            </div>
-
-        </label>
-
-
-        <!-- Video Preview -->
-        <div
-            class="video-preview-wrapper"
-            *ngIf="videoPreview"
-        >
-
-            <video
-                class="video-preview"
-                controls
-            >
-
-                <source
-                    [src]="videoPreview"
-                >
-
-                Your browser does not support video playback.
-
-            </video>
-
-
-            <!-- Change Video -->
-            <label
-                for="videoInput"
-                class="change-video-btn"
-            >
-
-                <i class="fa fa-pencil"></i>
-
-                Change Video
-
+            <label class="upload-label">
+              Upload Video
             </label>
 
-        </div>
+            <div class="video-upload-box" [class.has-video]="videoPreview">
 
-    </div>
+              <!-- File Input -->
+              <input type="file" accept="video/*" id="videoInput" class="video-file-input"
+                (change)="onVideoSelect($event)">
 
-</div>
+
+              <!-- Before Video Selection -->
+              <label for="videoInput" class="video-upload-content" *ngIf="!videoPreview">
+
+                <div class="upload-icon">
+
+                  <i class="fa fa-cloud-upload"></i>
+
+                </div>
+
+                <div class="upload-text">
+
+                  <span class="upload-main-text">
+                    Drop your video here, or
+                    <strong>browse</strong>
+                  </span>
+
+                  <span class="upload-sub-text">
+                    Supports: MP4, WebM, MOV
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <!-- Video Preview -->
+              <div class="video-preview-wrapper" *ngIf="videoPreview">
+
+                <video class="video-preview" controls>
+
+                  <source [src]="videoPreview">
+
+                  Your browser does not support video playback.
+
+                </video>
+
+
+                <!-- Change Video -->
+                <label for="videoInput" class="change-video-btn">
+
+                  <i class="fa fa-pencil"></i>
+
+                  Change Video
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
 
           <!-- ========================================= -->
           <!-- CERTIFICATE -->
@@ -809,20 +780,15 @@
 
                 <!-- MAKING CHARGES -->
 
-               <div class="form-group">
+                <div class="form-group">
 
-  <label>
-    Making Charges%
-  </label>
+                  <label>
+                    Making Charges%
+                  </label>
 
-  <input
-    type="text"
-    placeholder="Enter Making Charges"
-    formControlName="makingCharges"
-    
-  >
+                  <input type="text" placeholder="Enter Making Charges" formControlName="makingCharges">
 
-</div>
+                </div>
 
                 <div class="form-group">
 
@@ -1056,14 +1022,13 @@
           <br><br>
           <div class="button-group">
 
-           <button type="submit" class="btn-create" [disabled]="isSaving">
+            <button type="submit" class="btn-create">
 
-  <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
-  </span>
+              <span class="spinner-border spinner-border-sm me-2" *ngIf="isSaving">
+              </span>
+              {{ isSaving ? 'Saving...' : 'Save' }}
 
-  {{ isSaving ? 'Saving...' : 'Save' }}
-
-</button>
+            </button>
 
             <button type="button" class="btn-back" (click)="goBack()">
 

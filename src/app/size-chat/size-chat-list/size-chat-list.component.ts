@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
 import { SizeChart } from 'src/app/models/size-chart';
 import { SizeChatService } from 'src/app/Services/size-chat.service';
+import { ViewSizeChartComponent } from 'src/app/view-size-chart/view-size-chart.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -95,13 +96,13 @@ export class SizeChatListComponent implements OnInit {
 
   viewSizeChart(sizeChart: SizeChart): void {
 
-    // this.dialog.open(
-    //   ViewSizeChartComponent,
-    //   {
-    //     width: '500px',
-    //     data: sizeChart
-    //   }
-    // );
+    this.dialog.open(
+      ViewSizeChartComponent,
+      {
+        width: '500px',
+        data: sizeChart
+      }
+    );
 
   }
 

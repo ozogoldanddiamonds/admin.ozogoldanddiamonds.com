@@ -1,0 +1,384 @@
+<div class="category-container">
+
+  <!-- ========================================================= -->
+  <!-- TOP ROW -->
+  <!-- ========================================================= -->
+
+  <div class="top-row">
+
+    <div class="title-section">
+
+      <h2>
+        Custom Design Requests
+      </h2>
+
+      <p>
+        Manage all custom design requests here
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- SEARCH ROW -->
+  <!-- ========================================================= -->
+
+  <div class="search-row">
+
+    <mat-form-field appearance="outline" class="w-100">
+
+      <mat-label>
+        Search Custom Design Request
+      </mat-label>
+
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search request number, category or description" />
+
+    </mat-form-field>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- TABLE ROW -->
+  <!-- ========================================================= -->
+
+  <div class="table-row">
+
+    <table mat-table [dataSource]="dataSource" matSort class="custom-design-table">
+
+
+      <!-- ===================================================== -->
+      <!-- S.NO -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="sno">
+
+        <th mat-header-cell *matHeaderCellDef>
+          S.No
+        </th>
+
+        <td mat-cell *matCellDef="let element; let i = index">
+
+          {{ i + 1 }}
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- REQUEST NUMBER -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="requestNumber">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Request Number
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          <span class="request-number">
+
+            {{ element.requestNumber || '-' }}
+
+          </span>
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- CUSTOMER -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="customer">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Customer
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          <div class="customer-main">
+
+            <img [src]="element.customer?.profileImage" alt="Customer" class="customer-image" />
+
+            <div class="customer-details">
+
+              <div class="customer-name">
+                {{
+                element.customer?.fullName
+                || element.customer?.name
+                || (
+                (element.customer?.firstName || '') +
+                ' ' +
+                (element.customer?.lastName || '')
+                ).trim()
+                || '-'
+                }}
+              </div>
+
+              <div class="customer-email">
+                {{ element.customer?.email || '-' }}
+              </div>
+
+              <div class="customer-phone">
+                <i class="fa fa-phone"></i>
+                {{ element.customer?.phoneNumber || '-' }}
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- CATEGORY -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="category">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Category
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          {{
+          element.category?.name ||
+          element.category ||
+          '-'
+          }}
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- SUB CATEGORY -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="subCategory">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Sub Category
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          {{
+          element.subCategory?.name ||
+          element.subCategory ||
+          '-'
+          }}
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- DESCRIPTION -->
+      <!-- ===================================================== -->
+
+      <!-- <ng-container matColumnDef="description">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Description
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let element"
+        >
+
+          <span
+            class="description-text"
+            [title]="element.description"
+          >
+
+            {{ element.description || '-' }}
+
+          </span>
+
+        </td>
+
+      </ng-container> -->
+
+
+      <!-- ===================================================== -->
+      <!-- REQUIRED DATE -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="requiredDate">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Required Date
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          {{
+          element.requiredDate
+          ? (element.requiredDate | date:'dd-MM-yyyy')
+          : '-'
+          }}
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- STATUS -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="status">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Status
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          <span class="status-badge" [ngClass]="{
+              'status-new':
+                element.status === 'NEW',
+
+              'status-contacted':
+                element.status === 'CONTACTED',
+
+              'status-discussion':
+                element.status === 'DISCUSSION',
+
+              'status-quotation':
+                element.status === 'QUOTATION_SENT',
+
+              'status-accepted':
+                element.status === 'ACCEPTED',
+
+              'status-order':
+                element.status === 'ORDER_CREATED',
+
+              'status-production':
+                element.status === 'IN_PRODUCTION',
+
+              'status-completed':
+                element.status === 'COMPLETED',
+
+              'status-rejected':
+                element.status === 'REJECTED',
+
+              'status-cancelled':
+                element.status === 'CANCELLED'
+            }">
+
+            {{ element.status || 'NEW' }}
+
+          </span>
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- ACTIONS -->
+      <!-- ===================================================== -->
+
+      <ng-container matColumnDef="actions">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          <div class="action-buttons">
+
+
+            <!-- VIEW -->
+
+            <button mat-icon-button class="view-btn" (click)="viewRequest(element)" matTooltip="View Details">
+
+              <i class="fa fa-eye" aria-hidden="true"></i>
+
+            </button>
+
+
+            <!-- DELETE -->
+
+            <button mat-icon-button class="delete-btn" (click)="deleteRequest(element)" matTooltip="Delete Request">
+
+              <i class="fa fa-trash" aria-hidden="true"></i>
+
+            </button>
+
+
+          </div>
+
+        </td>
+
+      </ng-container>
+
+
+      <!-- ===================================================== -->
+      <!-- HEADER -->
+      <!-- ===================================================== -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+
+      <!-- ===================================================== -->
+      <!-- ROW -->
+      <!-- ===================================================== -->
+
+      <tr mat-row *matRowDef="
+          let row;
+          columns: displayedColumns;
+        "></tr>
+
+
+      <!-- ===================================================== -->
+      <!-- NO DATA -->
+      <!-- ===================================================== -->
+
+      <tr class="mat-row" *matNoDataRow>
+
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+
+          No custom design requests found.
+
+        </td>
+
+      </tr>
+
+
+    </table>
+
+
+    <!-- ======================================================= -->
+    <!-- PAGINATOR -->
+    <!-- ======================================================= -->
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons>
+    </mat-paginator>
+
+
+  </div>
+
+</div>
