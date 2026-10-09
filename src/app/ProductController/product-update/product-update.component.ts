@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Brand } from 'src/app/models/brand';
 import { AlertService } from 'src/app/Services/alert.service';
+import { BrandService } from 'src/app/Services/brand.service';
 import { CategoryService } from 'src/app/Services/category.service';
 import { ProductService } from 'src/app/Services/product.service';
 import { SubcategoryService } from 'src/app/Services/subcategory.service';
@@ -18,6 +20,7 @@ export class ProductUpdateComponent implements OnInit {
   // =====================================
   // FORM
   // =====================================
+  brands: Brand[] = [];
 
   productForm!: FormGroup;
 
@@ -83,7 +86,8 @@ export class ProductUpdateComponent implements OnInit {
 
     private subSubCategoryService:
       SubsubcategoryService,
-    private alert: AlertService
+    private alert: AlertService,
+    private brandService: BrandService,
 
 
   ) { }
@@ -102,6 +106,42 @@ export class ProductUpdateComponent implements OnInit {
     this.getCategories();
 
     this.getProductById();
+    this.getActiveBrands();
+
+  }
+
+  getActiveBrands(): void {
+
+    this.brandService.getActiveBrands().subscribe({
+
+      next: (res) => {
+
+        console.log('Active Brands:', res);
+
+        if (res && res.success) {
+
+          this.brands = res.data || [];
+
+        } else {
+
+          this.brands = [];
+
+        }
+
+      },
+
+      error: (err) => {
+
+        console.error(
+          'Get active brands error:',
+          err
+        );
+
+        this.brands = [];
+
+      }
+
+    });
 
   }
 
@@ -341,7 +381,7 @@ export class ProductUpdateComponent implements OnInit {
               product.occasion,
 
             brand:
-              product.brand,
+              product.brand._id,
 
             hallmarkNumber:
               product.hallmarkNumber,

@@ -252,7 +252,17 @@
                 Brand
               </label>
 
-              <input type="text" placeholder="Enter Brand" formControlName="brand">
+              <select class="form-control" formControlName="brand">
+
+                <option value="" disabled>
+                  Select Brand
+                </option>
+
+                <option *ngFor="let brand of brands" [value]="brand._id">
+                  {{ brand.name }}
+                </option>
+
+              </select>
 
             </div>
             <div class="form-group">
