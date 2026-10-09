@@ -248,7 +248,7 @@ export class ProductListComponent implements OnInit {
   viewProduct(
     product: Product
   ): void {
-
+    console.log(product);
     this.dialog.open(
 
       ViewProductComponent,
@@ -259,10 +259,10 @@ export class ProductListComponent implements OnInit {
 
         maxHeight: '90vh',
 
-        data: product
+        data: product,
+
 
       }
-
     );
 
   }
