@@ -499,8 +499,8 @@ export class CreateMakersProductionItemComponent implements OnInit {
 
         queryParams: {
 
-          name: productName
-
+          name: productName,
+          returnUrl: '/admin/create-gold-smith-production-item'
         }
 
       }

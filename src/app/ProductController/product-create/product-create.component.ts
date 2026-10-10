@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Brand } from 'src/app/models/brand';
 import { AlertService } from 'src/app/Services/alert.service';
 import { BrandService } from 'src/app/Services/brand.service';
@@ -60,7 +60,8 @@ export class ProductCreateComponent implements OnInit {
       SubsubcategoryService,
     public router:
       Router,
-    private alert: AlertService
+    private alert: AlertService,
+    private activateRouter: ActivatedRoute
 
   ) {
 
@@ -842,11 +843,13 @@ export class ProductCreateComponent implements OnInit {
 
           this.alert.success('Created Successfully');
           this.isSaving = false;
-          this.router.navigate([
+          const returnUrl = this.activateRouter.snapshot.queryParamMap.get('returnUrl');
 
-            '/admin/product'
-
-          ]);
+          if (returnUrl === '/admin/maker-production-item') {
+            this.router.navigate(['/admin/maker-production-item']);
+          } else {
+            this.router.navigate(['/admin/product']);
+          }
 
         },
 

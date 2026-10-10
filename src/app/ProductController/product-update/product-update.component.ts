@@ -227,7 +227,7 @@ export class ProductUpdateComponent implements OnInit {
 
       size: [''],
 
-      sku: [''],
+      // sku: [''],
 
       stock: [0],
 
