@@ -1,0 +1,102 @@
+<div class="seo-dialog">
+
+    <!-- HEADER -->
+    <div class="seo-dialog-header">
+        <div>
+            <h2>Meta SEO Details</h2>
+            <p>Homepage search engine settings</p>
+        </div>
+
+        <button type="button" class="close-btn" (click)="close()">
+            &times;
+        </button>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-container" *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Loading SEO details...
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-message" *ngIf="!isLoading && errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <!-- DETAILS -->
+    <div class="seo-details" *ngIf="!isLoading && seo">
+
+        <div class="seo-field">
+            <label>Meta Title</label>
+            <p>{{ seo.metaTitle || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Meta Description</label>
+            <p>{{ seo.metaDescription || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Meta Keywords</label>
+            <div class="keyword-list">
+                <span *ngFor="let keyword of seo.metaKeywords">
+                    {{ keyword | titlecase}}
+                </span>
+                <span *ngIf="!seo.metaKeywords?.length">—</span>
+            </div>
+        </div>
+
+        <div class="seo-field">
+            <label>Canonical URL</label>
+            <p class="url-text">{{ seo.canonicalUrl || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Open Graph Title</label>
+            <p>{{ seo.ogTitle || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Open Graph Description</label>
+            <p>{{ seo.ogDescription || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Open Graph Image</label>
+
+            <a *ngIf="seo.ogImage" [href]="seo.ogImage" target="_blank" rel="noopener noreferrer">
+                {{ seo.ogImage }}
+            </a>
+
+            <p *ngIf="!seo.ogImage">—</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Status</label>
+            <span [class.active-status]="seo.isActive" [class.inactive-status]="!seo.isActive">
+                {{ seo.isActive ? 'Active' : 'Inactive' }}
+            </span>
+        </div>
+
+        <div class="seo-field">
+            <label>Page Key</label>
+            <p>{{ seo.pageKey || '—' }}</p>
+        </div>
+
+        <div class="seo-field">
+            <label>Last Updated</label>
+            <p>
+                {{ seo.updatedAt ? (seo.updatedAt | date:'medium') : '—' }}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="seo-dialog-footer">
+        <button type="button" class="btn-back" (click)="close()">
+            Close
+        </button>
+    </div>
+
+</div>

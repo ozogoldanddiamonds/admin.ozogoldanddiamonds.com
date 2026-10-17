@@ -83,6 +83,8 @@ import { BrandUpdateComponent } from './brand/brand-update/brand-update.componen
 import { CreateAdsComponent } from './AdsController/create-ads/create-ads.component';
 import { SizeChatUpdateComponent } from './size-chat/size-chat-update/size-chat-update.component';
 import { CustomDesignListComponent } from './custom-design/custom-design-list/custom-design-list.component';
+import { MetaKeyWordsComponent } from './meta-key-words/meta-key-words.component';
+import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-words-upsert.component';
 
 const routes: Routes = [
 
@@ -157,6 +159,8 @@ const routes: Routes = [
       { path: 'employee-list', component: EmployeeListComponent },
       { path: 'employee-create', component: EmployeeCreateComponent },
       { path: 'employee-update/:id', component: EmployeeUpdateComponent },
+      { path: 'meta-key-words', component: MetaKeyWordsComponent },
+      { path: 'meta-key-words-upsert/:id', component: MetaKeyWordsUpsertComponent },
       { path: 'assign-products/:subBranchId', component: AssignedProductsComponent },
       { path: 'supplier-list', component: SuppliersListComponent },
       { path: 'create-supplier', component: CreateSuppliersComponent },

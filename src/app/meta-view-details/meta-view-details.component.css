@@ -1,0 +1,125 @@
+.seo-dialog {
+    color: #252525;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.seo-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #e9e2d7;
+}
+
+.seo-dialog-header h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.seo-dialog-header p {
+    margin: 6px 0 0;
+    font-size: 13px;
+}
+
+.close-btn {
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.seo-details {
+    padding: 22px 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.seo-field {
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.seo-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.seo-field p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.seo-field a {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.keyword-list span {
+    padding: 6px 10px;
+    background: #fff5e4;
+    border: 1px solid #ead9b8;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.active-status,
+.inactive-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.active-status {
+    background: #e6f5e9;
+}
+
+.inactive-status {
+    background: #fdeaea;
+}
+
+.loading-container,
+.error-message {
+    padding: 30px 24px;
+    text-align: center;
+}
+
+.error-message {
+    color: #b42318;
+}
+
+.seo-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 24px;
+    border-top: 1px solid #eee;
+}
+
+.btn-back {
+    padding: 9px 22px;
+    border: 1px solid #d7c6a5;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    color: #252525;
+}
+
+.btn-back:hover {
+    background: #fff5e4;
+    color: #252525;
+}

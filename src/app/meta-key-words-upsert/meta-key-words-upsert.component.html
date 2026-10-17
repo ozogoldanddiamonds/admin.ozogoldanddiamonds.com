@@ -1,0 +1,109 @@
+<div class="container-fluid product-page">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+                <div>
+                    <h2>Update Meta SEO</h2>
+                    <p>Manage homepage meta tags and search engine settings</p>
+                </div>
+            </div>
+
+            <!-- FORM CARD -->
+            <div class="product-card">
+
+                <form [formGroup]="seoForm" (ngSubmit)="onSubmit()">
+
+                    <!-- SEO DETAILS -->
+                    <div class="product-grid">
+
+                        <!-- META TITLE -->
+                        <div class="form-group">
+                            <label>Meta Title</label>
+                            <input type="text" placeholder="Enter Meta Title" formControlName="metaTitle">
+                        </div>
+
+                        <!-- CANONICAL URL -->
+                        <div class="form-group">
+                            <label>Canonical URL</label>
+                            <input type="url" placeholder="https://your-domain.com/" formControlName="canonicalUrl">
+                        </div>
+
+                        <!-- OG TITLE -->
+                        <div class="form-group">
+                            <label>Open Graph Title</label>
+                            <input type="text" placeholder="Enter Open Graph Title" formControlName="ogTitle">
+                        </div>
+
+                        <!-- OG IMAGE -->
+                        <div class="form-group">
+                            <label>Open Graph Image URL</label>
+                            <input type="url" placeholder="Enter Open Graph Image URL" formControlName="ogImage">
+                        </div>
+
+                    </div>
+
+                    <!-- META DESCRIPTION -->
+                    <div class="form-group">
+                        <label>Meta Description</label>
+                        <textarea placeholder="Enter Meta Description" formControlName="metaDescription"
+                            rows="4"></textarea>
+                    </div>
+
+                    <!-- META KEYWORDS -->
+                    <div class="form-group">
+                        <label>Meta Keywords</label>
+                        <textarea placeholder="gold jewellery, diamond jewellery, bridal jewellery"
+                            formControlName="metaKeywordsText" rows="3"></textarea>
+                        <small>Enter multiple keywords separated by commas.</small>
+                    </div>
+
+                    <!-- OG DESCRIPTION -->
+                    <div class="form-group">
+                        <label>Open Graph Description</label>
+                        <textarea placeholder="Enter Open Graph Description" formControlName="ogDescription"
+                            rows="4"></textarea>
+                    </div>
+
+                    <!-- ACTIVE CHECKBOX -->
+                    <div class="checkbox-container">
+
+                        <div class="checkbox-row">
+                            <label>
+                                <input type="checkbox" formControlName="isActive">
+                                Active
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="button-group">
+
+                        <button type="submit" class="btn-create" [disabled]="isSaving || seoForm.invalid">
+
+                            <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2">
+                            </span>
+
+                            {{ isSaving ? 'Updating...' : 'Update' }}
+
+                        </button>
+
+                        <button type="button" class="btn-back" (click)="goBack()" [disabled]="isSaving">
+                            Back
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -120,6 +120,9 @@ import { UserViewComponent } from './View-dialog-Controllers/user-view/user-view
 import { CustomDesignListComponent } from './custom-design/custom-design-list/custom-design-list.component';
 import { CustomDesignViewComponent } from './custom-design-view/custom-design-view.component';
 import { ViewSizeChartComponent } from './view-size-chart/view-size-chart.component';
+import { MetaKeyWordsComponent } from './meta-key-words/meta-key-words.component';
+import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-words-upsert.component';
+import { MetaViewDetailsComponent } from './meta-view-details/meta-view-details.component';
 
 
 @NgModule({
@@ -223,7 +226,10 @@ import { ViewSizeChartComponent } from './view-size-chart/view-size-chart.compon
     SizeChatListComponent,
     CustomDesignListComponent,
     CustomDesignViewComponent,
-    ViewSizeChartComponent
+    ViewSizeChartComponent,
+    MetaKeyWordsComponent,
+    MetaKeyWordsUpsertComponent,
+    MetaViewDetailsComponent
 
 
 
