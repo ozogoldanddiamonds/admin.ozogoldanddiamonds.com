@@ -275,7 +275,7 @@ export class ProductCreateComponent implements OnInit {
 
       // sku: ['', Validators.required],
 
-      stock: [null, Validators.required],
+      // stock: [null, Validators.required],
 
 
       metalType: [''],
@@ -508,6 +508,10 @@ export class ProductCreateComponent implements OnInit {
       Swal.fire('Error', 'Category is required', 'error');
       return;
     }
+    if (!this.productForm.get('subSubCategory')?.value) {
+      Swal.fire('Error', 'Sub Sub Category is required', 'error');
+      return;
+    }
     if (!this.productForm.get('description')?.value) {
       Swal.fire('Error', 'Description is required', 'error');
       return;
@@ -635,19 +639,19 @@ export class ProductCreateComponent implements OnInit {
       //   return;
       // }
 
-      if (
-        variant.stock === null ||
-        variant.stock === undefined
-      ) {
+      // if (
+      //   variant.stock === null ||
+      //   variant.stock === undefined
+      // ) {
 
-        Swal.fire({
-          icon: 'error',
-          title: 'Validation Error',
-          text: `Variant ${i + 1} - Stock is required`
-        });
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Validation Error',
+      //     text: `Variant ${i + 1} - Stock is required`
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
 
       if (!variant.metalType) {
 

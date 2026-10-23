@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./update-supplier-purchase-item.component.css']
 })
 export class UpdateSupplierPurchaseItemComponent implements OnInit {
-selectedPurchase: any = null;
+  selectedPurchase: any = null;
 
   // =========================
   // FORM
@@ -61,7 +61,7 @@ selectedPurchase: any = null;
   // SELECTED PURCHASE
   // =========================
 
- 
+
 
 
   constructor(
@@ -227,54 +227,54 @@ selectedPurchase: any = null;
   // GET ALL PURCHASES
   // =========================
 
-getAllSupplierPurchases(): void {
+  getAllSupplierPurchases(): void {
 
-  this.supplierPurchaseService
-    .getAllSupplierPurchases()
-    .subscribe({
+    this.supplierPurchaseService
+      .getAllSupplierPurchases()
+      .subscribe({
 
-      next: (response: any) => {
+        next: (response: any) => {
 
-        this.purchases =
-          response.data || [];
-
-        console.log(
-          'All Supplier Purchases:',
-          this.purchases
-        );
-
-        // Existing purchase ID from form
-        const purchaseId =
-          this.supplierPurchaseItemForm
-            .get('purchase')
-            ?.value;
-
-        if (purchaseId) {
-
-          this.selectedPurchase =
-            this.purchases.find(
-              (purchase: any) =>
-                purchase._id === purchaseId
-            ) || null;
+          this.purchases =
+            response.data || [];
 
           console.log(
-            'Selected Purchase after loading purchases:',
-            this.selectedPurchase
+            'All Supplier Purchases:',
+            this.purchases
           );
+
+          // Existing purchase ID from form
+          const purchaseId =
+            this.supplierPurchaseItemForm
+              .get('purchase')
+              ?.value;
+
+          if (purchaseId) {
+
+            this.selectedPurchase =
+              this.purchases.find(
+                (purchase: any) =>
+                  purchase._id === purchaseId
+              ) || null;
+
+            console.log(
+              'Selected Purchase after loading purchases:',
+              this.selectedPurchase
+            );
+          }
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Get Supplier Purchases Error:',
+            error
+          );
+
         }
-      },
 
-      error: (error) => {
-
-        console.error(
-          'Get Supplier Purchases Error:',
-          error
-        );
-
-      }
-
-    });
-}
+      });
+  }
 
 
   // =========================
@@ -282,28 +282,27 @@ getAllSupplierPurchases(): void {
   // =========================
 
   getAllProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (response: any) => {
+        this.products = response.data || [];
 
-    this.productService
-      .getAllProducts()
-      .subscribe({
+        const productId =
+          this.supplierPurchaseItemForm.get('product')?.value;
 
-        next: (response: any) => {
+        const selectedProduct = this.products.find(
+          (product: any) => product._id === productId
+        );
 
-          this.products =
-            response.data || [];
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            error
-          );
-
+        // Do not reset the existing variant selection here.
+        if (selectedProduct && this.variants.length === 0) {
+          this.variants = selectedProduct.variants || [];
         }
+      },
 
-      });
-
+      error: (error: any) => {
+        console.error('Get products error:', error);
+      }
+    });
   }
 
 
@@ -312,192 +311,135 @@ getAllSupplierPurchases(): void {
   // =========================
 
   getSupplierPurchaseItemById(): void {
+    if (!this.purchaseId || !this.itemId) {
+      console.error('Purchase ID or Item ID missing:', {
+        purchaseId: this.purchaseId,
+        itemId: this.itemId
+      });
+      return;
+    }
 
     this.supplierPurchaseItemService
       .getSupplierPurchaseItemById(this.purchaseId)
       .subscribe({
-
         next: (response: any) => {
+          const items = Array.isArray(response.data)
+            ? response.data
+            : [];
 
-          console.log(
-            response,
-            'supplier purchase item response'
+          // Select the clicked item, NOT the first item.
+          const item = items.find(
+            (entry: any) => entry._id === this.itemId
           );
 
-
-          // =========================
-          // DATA ARRAY
-          // =========================
-          const item =
-            response.data?.[0];
-
-          console.log(
-            item,
-            'supplier purchase item'
-          );
-
-
-          // =========================
-          // PURCHASE ID
-          // =========================
-
-          const purchaseId =
-            item.purchase;
-
-
-          // =========================
-          // PRODUCT ID
-          // =========================
-
-          const productId =
-            item.product?._id;
-
-
-          // =========================
-          // PURCHASE
-          // =========================
-
-          this.selectedPurchase =
-            this.purchases.find(
-              (purchase: any) =>
-                purchase._id === purchaseId
-            ) || null;
-
-
-          // =========================
-          // IMPORTANT
-          // LOAD VARIANTS DIRECTLY
-          // FROM API RESPONSE
-          // =========================
-
-          this.variants =
-            item.product?.variants || [];
-
-
-          console.log(
-            this.variants,
-            'loaded variants'
-          );
-
-
-          // =========================
-          // CHECK VARIANT
-          // =========================
-
-          const selectedVariant =
-            this.variants.find(
-              (variant: any) =>
-                variant._id === item.variantId
-            );
-
-
-          console.log(
-            selectedVariant,
-            'selected variant'
-          );
-
-
-          // =========================
-          // PATCH FORM
-          // =========================
-
-          this.supplierPurchaseItemForm
-            .patchValue({
-
-              id:
-                item._id,
-
-              purchase:
-                purchaseId,
-
-              product:
-                productId,
-
-              variantId:
-                selectedVariant?._id ||
-                item.variantId,
-
-              quantity:
-                item.quantity,
-
-              purchasePrice:
-                item.purchasePrice,
-              supplierProductCode:
-                item.supplierProductCode,
-              batchNumber:
-                item.batchNumber,
-
-              discount:
-                item.discount,
-
-              tax:
-                item.tax,
-
-              totalAmount:
-                item.totalAmount,
-
-              notes:
-                item.notes
-
+          if (!item) {
+            console.error('Matching purchase item not found:', {
+              itemId: this.itemId,
+              items
             });
-
-
-          console.log(
-            this.supplierPurchaseItemForm.value,
-            'patched form values'
-          );
-
-
-          // =========================
-          // VIEW MODE
-          // =========================
-
-          if (this.isViewMode) {
-
-            this.supplierPurchaseItemForm
-              .disable();
-
+            return;
           }
 
-        },
+          console.log('Correct selected item:', item);
 
+          const purchaseId =
+            typeof item.purchase === 'string'
+              ? item.purchase
+              : item.purchase?._id || '';
 
-        error: (error) => {
+          const productId =
+            typeof item.product === 'string'
+              ? item.product
+              : item.product?._id || '';
 
-          console.error(
-            error
+          const variantId =
+            typeof item.variantId === 'string'
+              ? item.variantId
+              : item.variantId?._id || '';
+
+          // Prefer the populated product returned with this item.
+          const product =
+            item.product && typeof item.product === 'object'
+              ? item.product
+              : this.products.find(
+                (entry: any) => entry._id === productId
+              );
+
+          // Load dropdown options before patching the variant ID.
+          this.variants = product?.variants || [];
+
+          this.supplierPurchaseItemForm.patchValue(
+            {
+              id: item._id,
+              purchase: purchaseId,
+              product: productId,
+              variantId: variantId,
+
+              quantity: item.quantity ?? 1,
+              purchasePrice: item.purchasePrice ?? 0,
+              supplierProductCode: item.supplierProductCode ?? '',
+              batchNumber: item.batchNumber ?? '',
+
+              discount: item.discount ?? 0,
+              tax: item.tax ?? 0,
+              totalAmount: item.totalAmount ?? 0,
+              notes: item.notes ?? ''
+            },
+            { emitEvent: false }
           );
 
+          this.onPurchaseChange();
+
+          console.log('Loaded variants:', this.variants);
+          console.log(
+            'Patched form:',
+            this.supplierPurchaseItemForm.getRawValue()
+          );
+
+          if (!productId) {
+            console.warn(
+              'Selected item has no product in the API response:',
+              item
+            );
+          }
+
+          if (this.isViewMode) {
+            this.supplierPurchaseItemForm.disable({
+              emitEvent: false
+            });
+          }
+        },
+
+        error: (error: any) => {
+          console.error('Get supplier purchase item error:', error);
         }
-
       });
-
   }
 
   // =========================
   // PURCHASE CHANGE
   // =========================
 
-onPurchaseChange(): void {
+  onPurchaseChange(): void {
 
-  const purchaseId =
-    this.supplierPurchaseItemForm
-      .get('purchase')
-      ?.value;
+    const purchaseId =
+      this.supplierPurchaseItemForm
+        .get('purchase')
+        ?.value;
 
-  console.log('Selected Purchase ID:', purchaseId);
+    console.log('Selected Purchase ID:', purchaseId);
 
-  this.selectedPurchase =
-    this.purchases.find(
-      (purchase: any) =>
-        purchase._id === purchaseId
-    ) || null;
+    this.selectedPurchase =
+      this.purchases.find(
+        (purchase: any) =>
+          purchase._id === purchaseId
+      ) || null;
 
-  console.log(
-    'Selected Purchase:',
-    this.selectedPurchase
-  );
-}
+    console.log(
+      'Selected Purchase:',
+      this.selectedPurchase
+    );
+  }
 
 
   // =========================
@@ -658,40 +600,40 @@ onPurchaseChange(): void {
       this.supplierPurchaseItemForm.value;
 
 
-   const updateData = {
+    const updateData = {
 
 
-  // IMPORTANT
-  purchase: formValue.purchase,
+      // IMPORTANT
+      purchase: formValue.purchase,
 
-  product: formValue.product,
+      product: formValue.product,
 
-  variantId: formValue.variantId,
+      variantId: formValue.variantId,
 
-  quantity:
-    Number(formValue.quantity),
+      quantity:
+        Number(formValue.quantity),
 
-  purchasePrice:
-    Number(formValue.purchasePrice),
+      purchasePrice:
+        Number(formValue.purchasePrice),
 
-  supplierProductCode:
-    formValue.supplierProductCode,
+      supplierProductCode:
+        formValue.supplierProductCode,
 
-  batchNumber:
-    formValue.batchNumber,
+      batchNumber:
+        formValue.batchNumber,
 
-  discount:
-    Number(formValue.discount) || 0,
+      discount:
+        Number(formValue.discount) || 0,
 
-  tax:
-    Number(formValue.tax) || 0,
+      tax:
+        Number(formValue.tax) || 0,
 
-  totalAmount:
-    Number(formValue.totalAmount),
+      totalAmount:
+        Number(formValue.totalAmount),
 
-  notes:
-    formValue.notes || ''
-};
+      notes:
+        formValue.notes || ''
+    };
 
 
     console.log(

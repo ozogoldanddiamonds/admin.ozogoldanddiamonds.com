@@ -229,7 +229,7 @@ export class ProductUpdateComponent implements OnInit {
 
       // sku: [''],
 
-      stock: [0],
+      // stock: [0],
 
       metalType: ['gold'],
 
@@ -484,8 +484,8 @@ export class ProductUpdateComponent implements OnInit {
                 sku:
                   variant.sku,
 
-                stock:
-                  variant.stock,
+                // stock:
+                //   variant.stock,
 
                 metalType:
                   variant.metalType,

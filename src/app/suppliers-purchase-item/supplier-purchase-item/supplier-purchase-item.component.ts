@@ -277,34 +277,24 @@ export class SupplierPurchaseItemComponent implements OnInit {
   // =========================
 
   editSupplierPurchaseItem(element: any): void {
-
-    console.log('CLICK ELEMENT:', element);
-
     const purchaseId =
-      element.purchase?._id;
+      typeof element.purchase === 'string'
+        ? element.purchase
+        : element.purchase?._id;
 
-    if (!purchaseId) {
+    const itemId = element._id;
 
-      console.error(
-        'Purchase ID not found'
-      );
-
+    if (!purchaseId || !itemId) {
+      console.error('Purchase ID or Item ID missing:', element);
       return;
     }
 
-    console.log(
-      'PURCHASE ID:',
-      purchaseId
-    );
-
     this.router.navigate([
       '/admin/update-supplier-purchase-item',
-      element.purchase._id,
-      element._id
+      purchaseId,
+      itemId
     ]);
-
   }
-
 
   // =========================
   // SEARCH

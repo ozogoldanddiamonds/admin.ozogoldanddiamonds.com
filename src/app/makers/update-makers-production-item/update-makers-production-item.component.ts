@@ -456,208 +456,106 @@ export class UpdateMakersProductionItemComponent implements OnInit {
   // GET ITEM BY ID
   // ==========================================
   getMakerProductionItemById(): void {
-
     this.isLoading = true;
 
     this.makerProductionItemService
       .getMakerProductionItemById(this.itemId)
       .subscribe({
-
         next: (response: any) => {
-
-          console.log(
-            'Maker Production Item Details:',
-            response
-          );
-
+          console.log('Maker Production Item Details:', response);
 
           const item = response?.data;
 
-
           if (!item) {
-
             this.isLoading = false;
-
             this.alertService.error(
               'Maker production item details not found'
             );
-
             return;
-
           }
-
-
-          // ==========================================
-          // GET IDS
-          // ==========================================
 
           const productionId =
-            item.production?._id ||
-            item.production ||
-            '';
-
+            item.production?._id || item.production || '';
 
           const productId =
-            item.product?._id ||
-            item.product ||
-            '';
+            item.product?._id || item.product || '';
 
+          const savedVariantId =
+            item.variantId?._id || item.variantId || '';
 
-          const variantId =
-            item.variantId ||
-            '';
-
-
-          // ==========================================
-          // SET SELECTED PRODUCTION
-          // ==========================================
-
+          // Find production from loaded list or API response
           this.selectedProduction =
             this.productionList.find(
-              production =>
-                String(production._id) ===
-                String(productionId)
+              (production: any) =>
+                String(production._id) === String(productionId)
             ) || item.production || null;
 
-
-          // ==========================================
-          // SET SELECTED PRODUCT
-          // ==========================================
-
+          // Find product from product list; use populated API product as fallback
           this.selectedProduct =
             this.productList.find(
-              product =>
-                String(product._id) ===
-                String(productId)
+              (product: any) =>
+                String(product._id) === String(productId)
             ) || item.product || null;
 
+          // Get current variants from selected product
+          this.variantList =
+            this.selectedProduct?.variants || [];
 
-          // ==========================================
-          // LOAD VARIANTS
-          // ==========================================
-
-          if (this.selectedProduct) {
-
-            this.variantList =
-              this.selectedProduct.variants || [];
-
-          }
-          else {
-
-            // API response lo product populated ga
-            // vastundi kabatti direct ga use cheyyachu
-
-            this.variantList =
-              item.product?.variants || [];
-
-          }
-
-
-          console.log(
-            'Variant List:',
-            this.variantList
-          );
-
-
-          // ==========================================
-          // PATCH FORM
-          // ==========================================
-
+          // Patch basic form values
           this.makerProductionItemForm.patchValue({
-
-            production:
-              productionId,
-
-            product:
-              productId,
-
-            quantityGiven:
-              item.quantityGiven ?? 0,
-
-            quantityReceived:
-              item.quantityReceived ?? 0,
-
-            notes:
-              item.notes || ''
-
+            production: productionId,
+            product: productId,
+            quantityGiven: item.quantityGiven ?? 0,
+            quantityReceived: item.quantityReceived ?? 0,
+            notes: item.notes || ''
           });
 
+          // Find saved variant ID in current product variants
+          let selectedVariant = this.variantList.find(
+            (variant: any) =>
+              String(variant._id) === String(savedVariantId)
+          ) || null;
 
-          // ==========================================
-          // PATCH VARIANT AFTER VARIANT LIST LOAD
-          // ==========================================
+          // If the stored variant ID no longer exists,
+          // use the only current variant when exactly one exists.
+          if (!selectedVariant && this.variantList.length === 1) {
+            selectedVariant = this.variantList[0];
+          }
 
-          const selectedVariant =
-            this.variantList.find(
-              variant =>
-                String(variant._id) ===
-                String(variantId)
-            ) || null;
+          this.selectedVariant = selectedVariant;
 
-
-          this.selectedVariant =
-            selectedVariant;
-
-
+          // Patch the current variant ID into the form
           this.makerProductionItemForm.patchValue({
-
-            variantId:
-              selectedVariant?._id || variantId || ''
-
+            variantId: selectedVariant?._id || ''
           });
 
-
+          console.log('Selected Product:', this.selectedProduct);
+          console.log('Current Variant List:', this.variantList);
+          console.log('Saved Variant ID:', savedVariantId);
+          console.log('Selected Variant:', this.selectedVariant);
           console.log(
-            'Selected Variant:',
-            this.selectedVariant
+            'Form Values:',
+            this.makerProductionItemForm.getRawValue()
           );
-
-
-          console.log(
-            'Final Form:',
-            this.makerProductionItemForm.value
-          );
-
-
-          // ==========================================
-          // VIEW MODE
-          // ==========================================
 
           if (this.isViewMode) {
-
             this.makerProductionItemForm.disable();
-
           }
 
-
           this.isLoading = false;
-
         },
 
-
         error: (error: any) => {
-
-          console.log(
-            'Get Item Details Error:',
-            error
-          );
-
+          console.error('Get Item Details Error:', error);
 
           this.isLoading = false;
 
-
           this.alertService.error(
-
             error?.error?.message ||
-
             'Failed to load maker production item details'
-
           );
-
         }
-
       });
-
   }
 
   // ==========================================
