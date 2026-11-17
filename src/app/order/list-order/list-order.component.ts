@@ -1,14 +1,16 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+
+
 import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
 import { OrderViewDialogComponent } from 'src/app/order-view-dialog/order-view-dialog.component';
-import { AlertService } from 'src/app/Services/alert.service';
 import { OrderService } from 'src/app/Services/order.service';
-import { ViewOrdersComponent } from 'src/app/View-dialog-Controllers/view-orders/view-orders.component';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,35 +20,27 @@ import Swal from 'sweetalert2';
 })
 export class ListOrderComponent implements OnInit {
 
-
-
   displayedColumns: string[] = [
-
+    'select',
     'sno',
-
     'orderNumber',
-
     'customer',
-
     'phone',
-
     'orderSource',
     'subBranch',
-
     'payment',
-
     'status',
-
     'amount',
-
     'date',
     'shipment',
-
     'actions'
-
   ];
 
   dataSource = new MatTableDataSource<any>();
+
+  selectedOrderIds: string[] = [];
+
+  isBulkTracking = false;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -55,29 +49,40 @@ export class ListOrderComponent implements OnInit {
   sort!: MatSort;
 
   constructor(
-
     private orderService: OrderService,
-
     private router: Router,
-    private alert: AlertService,
-
     private dialog: MatDialog
-
   ) { }
 
+  // ==========================================
+  // INITIALIZATION
+  // ==========================================
+
   ngOnInit(): void {
+    this.getOrders();
+  }
+
+  // ==========================================
+  // GET ORDERS
+  // Handles Admin and SUB_BRANCH separately
+  // ==========================================
+
+  getOrders(): void {
+
     const role = localStorage.getItem('role');
 
-    // Your localStorage has adminId, not subBranchId
-    const adminId = localStorage.getItem('adminId');
+    // SUB BRANCH ORDERS
     if (role === 'SUB_BRANCH') {
 
-      if (!adminId) {
+      const adminId = localStorage.getItem('adminId');
 
+      if (!adminId) {
         console.error('Sub Branch ID not found');
 
         this.dataSource.data = [];
+        this.selectedOrderIds = [];
 
+        this.setTable();
         return;
       }
 
@@ -85,17 +90,11 @@ export class ListOrderComponent implements OnInit {
 
         next: (res: any) => {
 
-          console.log('Sub Branch Orders:', res);
+          this.dataSource.data = res?.success
+            ? (res.data || [])
+            : [];
 
-          if (res.success) {
-
-            this.dataSource.data = res.data || [];
-
-          } else {
-
-            this.dataSource.data = [];
-
-          }
+          this.selectedOrderIds = [];
 
           this.setTable();
 
@@ -103,12 +102,10 @@ export class ListOrderComponent implements OnInit {
 
         error: (err: any) => {
 
-          console.error(
-            'Error fetching Sub Branch orders:',
-            err
-          );
+          console.error('Error fetching Sub Branch orders:', err);
 
           this.dataSource.data = [];
+          this.selectedOrderIds = [];
 
           this.setTable();
 
@@ -119,42 +116,27 @@ export class ListOrderComponent implements OnInit {
       return;
     }
 
-    this.getOrders();
-
-  }
-  // ===========================
-  // SET PAGINATOR & SORT
-  // ===========================
-
-  private setTable(): void {
-
-    this.dataSource.paginator = this.paginator;
-
-    this.dataSource.sort = this.sort;
-
-  }
-
-  // ===========================
-  // GET ALL ORDERS
-  // ===========================
-
-  getOrders(): void {
-
+    // NORMAL ORDERS
     this.orderService.getAllOrders().subscribe({
 
       next: (res: any) => {
 
-        this.dataSource.data = res.data;
+        this.dataSource.data = res?.data || [];
 
-        this.dataSource.paginator = this.paginator;
+        this.selectedOrderIds = [];
 
-        this.dataSource.sort = this.sort;
+        this.setTable();
 
       },
 
       error: (err: any) => {
 
-        console.log(err);
+        console.error('Error fetching orders:', err);
+
+        this.dataSource.data = [];
+        this.selectedOrderIds = [];
+
+        this.setTable();
 
       }
 
@@ -162,9 +144,20 @@ export class ListOrderComponent implements OnInit {
 
   }
 
-  // ===========================
+  // ==========================================
+  // SET PAGINATOR & SORT
+  // ==========================================
+
+  private setTable(): void {
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+  }
+
+  // ==========================================
   // SEARCH
-  // ===========================
+  // ==========================================
 
   applyFilter(event: Event): void {
 
@@ -175,58 +168,54 @@ export class ListOrderComponent implements OnInit {
 
     this.dataSource.filter = filterValue;
 
+    // Clear selection when search changes
+    this.selectedOrderIds = [];
+
   }
 
-  // ===========================
-  // VIEW
-  // ===========================
+  // ==========================================
+  // VIEW ORDER
+  // ==========================================
 
   viewOrder(order: any): void {
-    this.dialog.open(
-      OrderViewDialogComponent,
-      {
 
-        width: '1000px',
+    this.dialog.open(OrderViewDialogComponent, {
 
-        maxWidth: '95vw',
+      width: '1000px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      data: order,
+      autoFocus: false
 
-        maxHeight: '90vh',
-
-        data: order,
-
-        autoFocus: false
-
-      }
-
-    );
+    });
 
   }
 
-  // ===========================
-  // EDIT
-  // ===========================
+  // ==========================================
+  // EDIT ORDER
+  // ==========================================
 
   editOrder(id: string): void {
 
     this.router.navigate([
-
       '/admin/order/edit',
-
       id
-
     ]);
 
   }
 
-  // ===========================
-  // DELETE
-  // ===========================
+  // ==========================================
+  // DELETE ORDER
+  // ==========================================
 
   deleteCategory(id: string): void {
 
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '400px'
-    });
+    const dialogRef = this.dialog.open(
+      DeleteConfirmationComponent,
+      {
+        width: '400px'
+      }
+    );
 
     dialogRef.afterClosed().subscribe(result => {
 
@@ -244,6 +233,7 @@ export class ListOrderComponent implements OnInit {
               showConfirmButton: false
             });
 
+            // Role-based refresh
             this.getOrders();
 
           },
@@ -266,6 +256,10 @@ export class ListOrderComponent implements OnInit {
 
   }
 
+  // ==========================================
+  // OPEN SHIPMENT
+  // ==========================================
+
   openShipment(order: any): void {
 
     if (
@@ -278,14 +272,248 @@ export class ListOrderComponent implements OnInit {
         title: 'Shipment Not Allowed',
         text: 'Only paid online orders are eligible for shipment.'
       });
+      return;
+    }
+
+    const isCancelled =
+      order.sequelShipment?.bookingStatus === 'CANCELLED';
+
+    this.router.navigate(
+      ['/admin/order-shipment', order._id],
+      {
+        queryParams: isCancelled
+          ? { newShipment: 'true' }
+          : {}
+      }
+    );
+  }
+
+  // ==========================================
+  // CHECK SHIPMENT ELIGIBILITY
+  // ==========================================
+
+  isTrackable(order: any): boolean {
+
+    return (
+      order.orderSource === 'ONLINE' &&
+      order.paymentStatus === 'Paid' &&
+      order.paymentMethod !== 'COD' &&
+      order.sequelShipment?.bookingStatus === 'BOOKED' &&
+      /^\d{10}$/.test(
+        order.sequelShipment?.docketNumber || ''
+      ) &&
+      !['SDELVD', 'SCANCELLED'].includes(
+        order.sequelShipment?.shipmentStatus
+      )
+    );
+
+  }
+
+  // ==========================================
+  // INDIVIDUAL CHECKBOX SELECTION
+  // ==========================================
+
+  toggleOrderSelection(order: any, checked: boolean): void {
+
+    if (!this.isTrackable(order)) {
+      return;
+    }
+
+    if (checked) {
+
+      if (!this.selectedOrderIds.includes(order._id)) {
+        this.selectedOrderIds.push(order._id);
+      }
+
+    } else {
+
+      this.selectedOrderIds = this.selectedOrderIds.filter(
+        id => id !== order._id
+      );
+
+    }
+
+  }
+
+  // ==========================================
+  // CHECK WHETHER ORDER IS SELECTED
+  // ==========================================
+
+  isOrderSelected(order: any): boolean {
+
+    return this.selectedOrderIds.includes(order._id);
+
+  }
+
+  // ==========================================
+  // GET ELIGIBLE FILTERED ORDERS
+  // ==========================================
+
+  get eligibleFilteredOrders(): any[] {
+
+    return this.dataSource.filteredData.filter(
+      (order: any) => this.isTrackable(order)
+    );
+
+  }
+
+  // ==========================================
+  // CHECK SELECT ALL STATUS
+  // ==========================================
+
+  isAllSelected(): boolean {
+
+    const eligible = this.eligibleFilteredOrders;
+
+    return (
+      eligible.length > 0 &&
+      eligible.every(order => this.isOrderSelected(order))
+    );
+
+  }
+
+  // ==========================================
+  // SELECT ALL / DESELECT ALL
+  // ==========================================
+
+  toggleSelectAll(checked: boolean): void {
+
+    if (checked) {
+
+      this.eligibleFilteredOrders.forEach(order => {
+
+        if (!this.selectedOrderIds.includes(order._id)) {
+          this.selectedOrderIds.push(order._id);
+        }
+
+      });
+
+    } else {
+
+      const visibleIds = this.eligibleFilteredOrders.map(
+        order => order._id
+      );
+
+      this.selectedOrderIds = this.selectedOrderIds.filter(
+        id => !visibleIds.includes(id)
+      );
+
+    }
+
+  }
+
+  // ==========================================
+  // BULK SHIPMENT TRACKING
+  // ==========================================
+
+  trackSelectedShipments(): void {
+
+    if (this.isBulkTracking) {
+      return;
+    }
+
+    if (!this.selectedOrderIds.length) {
+
+      Swal.fire(
+        'Select Orders',
+        'Please select at least one booked shipment.',
+        'warning'
+      );
 
       return;
     }
 
-    this.router.navigate([
-      '/admin/order-shipment',
-      order._id
-    ]);
+    // Keep a snapshot of selected IDs
+    const orderIds = [...this.selectedOrderIds];
+
+    Swal.fire({
+
+      title: 'Track Shipments?',
+
+      text: `Are you sure you want to track ${orderIds.length} selected shipments?`,
+
+      icon: 'question',
+
+      showCancelButton: true,
+
+      confirmButtonText: 'Yes, Track',
+
+      cancelButtonText: 'Cancel'
+
+    }).then(result => {
+
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      this.isBulkTracking = true;
+
+      this.orderService.trackMultipleOrders(orderIds).subscribe({
+
+        next: (res: any) => {
+
+          this.isBulkTracking = false;
+
+          if (res?.success) {
+
+            const data = res.data || {};
+
+            this.selectedOrderIds = [];
+
+            Swal.fire({
+
+              icon: 'success',
+
+              title: 'Bulk Tracking Completed',
+
+              html: `
+                <div style="text-align:left">
+                  <p><b>Requested:</b> ${data.requested ?? 0}</p>
+                  <p><b>Eligible:</b> ${data.eligible ?? 0}</p>
+                  <p><b>Tracked:</b> ${data.tracked ?? 0}</p>
+                  <p><b>Updated:</b> ${data.updated ?? 0}</p>
+                  <p><b>Skipped:</b> ${data.skipped ?? 0}</p>
+                  <p><b>Errors:</b> ${data.errors?.length ?? 0}</p>
+                </div>
+              `
+
+            }).then(() => {
+
+              // Refresh according to logged-in role
+              this.getOrders();
+
+            });
+
+          } else {
+
+            Swal.fire(
+              'Tracking Failed',
+              res?.message || 'Unable to track shipments.',
+              'error'
+            );
+
+          }
+
+        },
+
+        error: (err: any) => {
+
+          this.isBulkTracking = false;
+
+          console.error('Bulk tracking error:', err);
+
+          Swal.fire(
+            'Error',
+            err.error?.message || 'Bulk shipment tracking failed.',
+            'error'
+          );
+
+        }
+
+      });
+
+    });
 
   }
+
 }

@@ -2,209 +2,248 @@
 
   <!-- Header -->
   <div class="dialog-header">
-
     <div>
       <h2>Custom Design Request</h2>
-
       <span class="request-number">
-        {{ request.requestNumber }}
+        {{ request.requestNumber || '-' }}
       </span>
     </div>
 
-    <button
-      type="button"
-      class="close-btn"
-      (click)="close()">
+    <button type="button" class="close-btn" (click)="close()">
       <i class="fa fa-times"></i>
     </button>
-
   </div>
 
-
-  <!-- Content -->
   <div class="dialog-content">
 
     <!-- Customer Details -->
     <div class="section">
-
-      <h3>Customer Details</h3>
+      <h3><i class="fa fa-user"></i> Customer Details</h3>
 
       <div class="details-grid">
 
         <div class="detail-item">
-          <label>Name</label>
+          <label>Customer Name</label>
           <span>{{ request.customer?.name || '-' }}</span>
         </div>
 
         <div class="detail-item">
-          <label>Email</label>
+          <label>Email Address</label>
           <span>{{ request.customer?.email || '-' }}</span>
         </div>
 
         <div class="detail-item">
-          <label>Phone</label>
-<span>{{ request.customer?.mobile || '-' }}</span>        </div>
+          <label>Mobile Number</label>
+          <span>{{ request.customer?.phone || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Customer ID</label>
+          <span>{{ request.customer?._id || '-' }}</span>
+        </div>
 
       </div>
-
     </div>
 
-
-    <!-- Category -->
+    <!-- Request Details -->
     <div class="section">
-
-      <h3>Category Details</h3>
+      <h3><i class="fa fa-file-text"></i> Request Details</h3>
 
       <div class="details-grid">
 
         <div class="detail-item">
-          <label>Category</label>
-          <span>{{ request.category?.name || '-' }}</span>
+          <label>Request Number</label>
+          <span>{{ request.requestNumber || '-' }}</span>
         </div>
 
         <div class="detail-item">
-          <label>Sub Category</label>
-          <span>{{ request.subCategory?.name || '-' }}</span>
+          <label>Jewellery Type</label>
+          <span>{{ request.jewelleryType || '-' }}</span>
         </div>
 
         <div class="detail-item">
-          <label>Sub Sub Category</label>
-          <span>{{ request.subSubCategory?.name || '-' }}</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- Design Details -->
-    <div class="section">
-
-      <h3>Design Details</h3>
-
-      <div class="details-grid">
-
-        <div class="detail-item">
-          <label>Metal Type</label>
-          <span>{{ request.metalType || '-' }}</span>
+          <label>Design Type</label>
+          <span>{{ getDesignType(request.designType) }}</span>
         </div>
 
         <div class="detail-item">
-          <label>Metal Purity</label>
-          <span>{{ request.metalPurity || '-' }}</span>
-        </div>
-
-        <div class="detail-item">
-          <label>Metal Color</label>
-          <span>{{ request.metalColor || '-' }}</span>
-        </div>
-
-        <div class="detail-item">
-          <label>Stone Preference</label>
-          <span>{{ request.stonePreference || '-' }}</span>
-        </div>
-
-        <div class="detail-item">
-          <label>Budget</label>
-          <span>
-            {{ request.budget ? ('₹' + request.budget) : '-' }}
-          </span>
+          <label>Quantity</label>
+          <span>{{ request.quantity ?? '-' }}</span>
         </div>
 
         <div class="detail-item">
           <label>Required Date</label>
           <span>
-            {{
-              request.requiredDate
-                ? (request.requiredDate | date:'dd-MM-yyyy')
-                : '-'
-            }}
+            {{ request.requiredDate ? (request.requiredDate | date:'dd-MM-yyyy') : '-' }}
           </span>
         </div>
 
         <div class="detail-item">
-          <label>Status</label>
+          <label>Preferred Contact Method</label>
+          <span>{{ getContactMethod(request.preferredContactMethod) }}</span>
+        </div>
 
-          <span
-            class="status-badge"
-            [ngClass]="getStatusClass(request.status)">
-            {{ request.status }}
+        <div class="detail-item">
+          <label>Request Created</label>
+          <span>
+            {{ request.createdAt ? (request.createdAt | date:'dd-MM-yyyy, h:mm a') : '-' }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <label>Last Updated</label>
+          <span>
+            {{ request.updatedAt ? (request.updatedAt | date:'dd-MM-yyyy, h:mm a') : '-' }}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Metal Details -->
+    <div class="section">
+      <h3><i class="fa fa-diamond"></i> Metal Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Metal Type</label>
+          <span>{{ getMetalType(request.metalType) }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Gold Purity</label>
+          <span>{{ request.goldPurity || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Gold Color</label>
+          <span>{{ request.goldColor || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Gold Weight</label>
+          <span>
+            {{ request.goldWeight != null ? request.goldWeight + ' Grams' : '-' }}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Stone Details -->
+    <div class="section">
+      <h3><i class="fa fa-star"></i> Stone Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Stone Type</label>
+          <span>{{ getStoneType(request.stoneType) }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Diamond Type</label>
+          <span>{{ request.diamondType || '-' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Gemstone Type</label>
+          <span>{{ request.gemstoneType || '-' }}</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Design Description -->
+    <div class="section">
+      <h3><i class="fa fa-align-left"></i> Design Description</h3>
+
+      <div class="description">
+        {{ request.description || '-' }}
+      </div>
+    </div>
+
+    <!-- Additional Notes -->
+    <div class="section">
+      <h3><i class="fa fa-sticky-note"></i> Additional Notes</h3>
+
+      <div class="description">
+        {{ request.additionalNotes || 'No additional notes provided.' }}
+      </div>
+    </div>
+
+    <!-- Reference Images -->
+    <div class="section">
+      <h3><i class="fa fa-image"></i> Reference Images</h3>
+
+      <div class="image-grid" *ngIf="request.referenceImages?.length; else noImages">
+
+        <div class="image-box" *ngFor="let image of request.referenceImages">
+
+          <img [src]="image.url" alt="Custom Design Reference" loading="lazy">
+
+        </div>
+      </div>
+
+      <ng-template #noImages>
+        <div class="no-data">
+          <i class="fa fa-image"></i>
+          No reference images available.
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Admin & Quotation Details -->
+    <div class="section">
+      <h3><i class="fa fa-user-shield"></i> Admin & Quotation Details</h3>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <label>Request Status</label>
+
+          <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+            {{ request.status || '-' }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <label>Quoted Price</label>
+          <span>
+            {{ request.quotedPrice != null
+            ? ('₹' + (request.quotedPrice | number:'1.2-2'))
+            : 'Not Quoted' }}
+          </span>
+        </div>
+
+        <div class="detail-item">
+          <label>Estimated Delivery Date</label>
+          <span>
+            {{ request.estimatedDeliveryDate
+            ? (request.estimatedDeliveryDate | date:'dd-MM-yyyy')
+            : 'Not Scheduled' }}
           </span>
         </div>
 
       </div>
 
-    </div>
+      <div class="detail-item admin-notes">
+        <label>Admin Notes</label>
 
-
-    <!-- Description -->
-    <div class="section">
-
-      <h3>Description</h3>
-
-      <div class="description">
-        {{ request.description || '-' }}
-      </div>
-
-    </div>
-
-
-    <!-- Reference Images -->
-    <div class="section">
-
-      <h3>Reference Images</h3>
-
-      <div
-        class="image-grid"
-        *ngIf="request.referenceImages?.length; else noImages">
-
-        <div
-          class="image-box"
-          *ngFor="let image of request.referenceImages">
-
-          <img
-            [src]="image.url"
-            alt="Reference Image">
-
+        <div class="description">
+          {{ request.adminNotes || 'No admin notes added.' }}
         </div>
-
       </div>
-
-      <ng-template #noImages>
-
-        <div class="no-data">
-          No reference images available.
-        </div>
-
-      </ng-template>
-
-    </div>
-
-
-    <!-- Admin Notes -->
-    <div class="section">
-
-      <h3>Admin Notes</h3>
-
-      <div class="description">
-        {{ request.adminNotes || 'No admin notes added.' }}
-      </div>
-
     </div>
 
   </div>
 
-
   <!-- Footer -->
   <div class="dialog-footer">
-
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="close()">
+    <button type="button" class="btn btn-secondary" (click)="close()">
       Close
     </button>
-
   </div>
 
 </div>

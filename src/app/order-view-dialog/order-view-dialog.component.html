@@ -1456,6 +1456,142 @@
 
 
         <!-- ================================================= -->
+        <!-- SEQUEL247 SHIPMENT TRACKING -->
+        <!-- ================================================= -->
+
+        <div class="details-card" *ngIf="order?.sequelShipment">
+
+            <div class="section-heading">
+
+                <div class="section-icon">
+                    <i class="fa fa-truck"></i>
+                </div>
+
+                <div>
+                    <h4>Shipment Tracking</h4>
+                    <span>Sequel247 courier information</span>
+                </div>
+
+            </div>
+
+            <!-- Shipment Information -->
+
+            <div class="details-list">
+
+                <div class="detail-row">
+                    <span>Booking Status</span>
+                    <strong>{{ order.sequelShipment.bookingStatus || '-' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Shipment Status</span>
+                    <strong>{{ order.sequelShipment.shipmentStatus || '-' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Docket Number</span>
+                    <strong>{{ order.sequelShipment.docketNumber || '-' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>BRN</span>
+                    <strong>{{ order.sequelShipment.brn || '-' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Estimated Delivery</span>
+                    <strong>{{ order.sequelShipment.estimatedDelivery || '-' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Last Tracked</span>
+                    <strong>
+                        {{
+                        order.sequelShipment.lastTrackedAt
+                        ? (order.sequelShipment.lastTrackedAt | date:'dd-MM-yyyy hh:mm a')
+                        : '-'
+                        }}
+                    </strong>
+                </div>
+
+            </div>
+
+            <!-- Track Button -->
+
+            <div class="mt-3" *ngIf="order.sequelShipment.bookingStatus === 'BOOKED'">
+
+                <button type="button" class="btn btn-primary" (click)="trackShipment()" [disabled]="isTrackingLoading">
+
+                    <i class="fa" [ngClass]="isTrackingLoading ? 'fa-spinner fa-spin' : 'fa-sync-alt'">
+                    </i>
+
+                    {{ isTrackingLoading ? 'Fetching Tracking...' : 'Track Shipment' }}
+
+                </button>
+
+            </div>
+
+            <!-- Tracking History -->
+
+            <div class="mt-4">
+
+                <h5>Tracking History</h5>
+
+                <div class="timeline" *ngIf="order.sequelShipment.trackingHistory?.length; else noTracking">
+
+                    <div class="timeline-item" *ngFor="let event of order.sequelShipment.trackingHistory">
+
+                        <div class="timeline-dot">
+                            <i class="fa fa-check"></i>
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-top">
+
+                                <strong>
+                                    {{ event.description || event.code || '-' }}
+                                </strong>
+
+                                <span>{{ event.date_time || '-' }}</span>
+
+                            </div>
+
+                            <p>Status: {{ event.code || '-' }}</p>
+
+                            <p *ngIf="event.location">
+                                Location: {{ event.location }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <ng-template #noTracking>
+                    <div class="empty-state">
+                        No tracking events available.
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <!-- External Tracking Link -->
+
+            <div class="mt-3" *ngIf="order.sequelShipment.trackingLink">
+
+                <a [href]="order.sequelShipment.trackingLink" target="_blank" rel="noopener noreferrer">
+                    View Sequel247 Tracking
+                    <i class="fa fa-external-link-alt"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
         <!-- STATUS HISTORY -->
         <!-- ================================================= -->
 

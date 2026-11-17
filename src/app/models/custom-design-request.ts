@@ -1,123 +1,77 @@
-export interface ReferenceImage {
+
+export interface CustomDesignCustomer {
+    _id?: string;
+    name?: string;
+    phone?: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    fullName?: string;
+    mobile?: string;
+    alternateMobile?: string;
+}
+
+export interface CustomDesignReferenceImage {
     _id?: string;
     url: string;
     publicId?: string | null;
 }
 
-export interface Customer {
-    _id: string;
-
-    firstName?: string;
-    lastName?: string;
-    fullName?: string;
-    name?: string;
-
-    mobile?: string;
-    phone?: string;
-    mobileNumber?: string;
-    alternateMobile?: string;
-
-    email?: string;
-    profileImage?: string;
-
-    address?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    pincode?: string;
-}
-
-export interface Category {
-    _id: string;
-    name: string;
-    image?: string;
-}
-
-export interface SubCategory {
-    _id: string;
-    name: string;
-    image?: string;
-}
-
-export interface SubSubCategory {
-    _id: string;
-    name: string;
-    image?: string;
-}
-
 export interface CustomDesignRequest {
     _id: string;
+    requestNumber?: string;
 
-    requestNumber: string;
+    customer?: CustomDesignCustomer | null;
 
-    customer: Customer;
+    jewelleryType?: string;
+    designType?: string;
 
-    category: Category;
+    referenceImages?: CustomDesignReferenceImage[];
 
-    subCategory: SubCategory;
+    description?: string;
 
-    subSubCategory: SubSubCategory;
+    metalType?: string | null;
+    goldPurity?: string | null;
+    goldColor?: string | null;
+    goldWeight?: number | null;
 
-    referenceImages: ReferenceImage[];
+    stoneType?: string;
+    diamondType?: string | null;
+    gemstoneType?: string | null;
 
-    description: string;
+    requiredDate?: string | Date | null;
+    quantity?: number;
 
-    metalType?: 'gold' | 'silver' | 'platinum' | null;
+    preferredContactMethod?: string;
+    additionalNotes?: string;
 
-    metalPurity?: string | null;
+    status?: string;
+    adminNotes?: string;
 
-    metalColor?: 'yellow' | 'white' | 'rose' | null;
+    quotedPrice?: number | null;
+    estimatedDeliveryDate?: string | Date | null;
 
-    stonePreference?: string | null;
+    createdAt?: string | Date;
+    updatedAt?: string | Date;
 
-    budget?: number | null;
+    __v?: number;
+}
 
-    requiredDate?: string | null;
-
-    status:
-    | 'NEW'
-    | 'CONTACTED'
-    | 'DISCUSSION'
-    | 'QUOTATION_SENT'
-    | 'ACCEPTED'
-    | 'ORDER_CREATED'
-    | 'IN_PRODUCTION'
-    | 'COMPLETED'
-    | 'REJECTED'
-    | 'CANCELLED';
-
-    adminNotes?: string | null;
-
-    createdAt: string;
-
-    updatedAt: string;
+export interface CustomDesignActionResponse {
+    success: boolean;
+    message?: string;
+    data?: CustomDesignRequest;
 }
 
 export interface CustomDesignListResponse {
     success: boolean;
-
+    message?: string;
+    count?: number;
     data: CustomDesignRequest[];
-
-    pagination: {
+    pagination?: {
         total: number;
         page: number;
         limit: number;
         totalPages: number;
     };
-}
-
-export interface CustomDesignSingleResponse {
-    success: boolean;
-
-    message?: string;
-
-    data: CustomDesignRequest;
-}
-
-export interface CustomDesignActionResponse {
-    success: boolean;
-
-    message: string;
-
-    data?: CustomDesignRequest;
 }

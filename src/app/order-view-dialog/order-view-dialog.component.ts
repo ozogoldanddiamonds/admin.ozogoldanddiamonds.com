@@ -10,7 +10,7 @@ import { OrderService } from '../Services/order.service';
   styleUrls: ['./order-view-dialog.component.css']
 })
 export class OrderViewDialogComponent implements OnInit {
-
+  isTrackingLoading = false;
 
   // ==========================================
   // ORDER
@@ -675,6 +675,61 @@ export class OrderViewDialogComponent implements OnInit {
       '/admin/order-list'
 
     ]);
+
+  }
+
+
+  trackShipment(): void {
+
+    if (!this.orderId || this.isTrackingLoading) {
+      return;
+    }
+
+    this.isTrackingLoading = true;
+
+    this.orderService
+      .getSequelShipmentTracking(this.orderId)
+      .subscribe({
+
+        next: (response: any) => {
+
+          if (!response?.success) {
+            this.alertService.error(
+              response?.message || 'Tracking information not found'
+            );
+            this.isTrackingLoading = false;
+            return;
+          }
+
+          const trackingData = response.data;
+
+          this.order.sequelShipment = {
+            ...this.order.sequelShipment,
+            docketNumber: trackingData.docketNumber,
+            brn: trackingData.brn,
+            shipmentStatus: trackingData.shipmentStatus,
+            estimatedDelivery: trackingData.estimatedDelivery,
+            trackingHistory: trackingData.tracking || [],
+            lastTrackedAt: trackingData.lastTrackedAt
+          };
+
+          this.isTrackingLoading = false;
+
+        },
+
+        error: (error: any) => {
+
+          console.error('Shipment Tracking Error:', error);
+
+          this.alertService.error(
+            error?.error?.message || 'Unable to fetch shipment tracking'
+          );
+
+          this.isTrackingLoading = false;
+
+        }
+
+      });
 
   }
 

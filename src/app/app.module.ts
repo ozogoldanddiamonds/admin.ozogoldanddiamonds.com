@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -253,6 +253,8 @@ import { authInterceptor } from './auth_guard/auth.interceptor';
     MatDialogModule,
     MatSelectModule,
     NgSelectModule,
+    MatCheckboxModule,
+    MatButtonModule
     //  MatButtonModule 
 
   ],

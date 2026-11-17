@@ -150,4 +150,24 @@ export class OrderService {
     );
   }
 
+
+  getSequelShipmentTracking(orderId: string) {
+    return this.http.get(
+      `${this.apiUrl}/orders/${orderId}/track-shipment`
+    );
+  }
+
+  trackMultipleOrders(orderIds: string[]) {
+    return this.http.post<any>(
+      `${this.apiUrl}/orders/track-shipments/bulk`,
+      { orderIds }
+    );
+  }
+
+  cancelSequelShipment(orderId: string, cancelReason: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/orders/${orderId}/cancel-shipment`,
+      { cancelReason }
+    );
+  }
 }
