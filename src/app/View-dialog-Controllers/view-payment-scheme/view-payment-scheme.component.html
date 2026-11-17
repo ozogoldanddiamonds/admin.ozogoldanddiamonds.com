@@ -9,12 +9,7 @@
       </div>
     </div>
 
-    <button
-      mat-flat-button
-      mat-dialog-close
-      class="btn-close"
-      type="button"
-      aria-label="Close">
+    <button mat-flat-button mat-dialog-close class="btn-close" type="button" aria-label="Close">
       <i class="fas fa-times"></i>
     </button>
   </div>
@@ -36,21 +31,21 @@
           <i class="fas fa-user-tag"></i>
           <span>Name</span>
         </div>
-        <div class="item-value">{{ data?.user?.name }}</div>
+        <div class="item-value">{{ payment?.user?.name | titlecase}}</div>
       </div>
       <div class="royal-item">
         <div class="item-label">
           <i class="fas fa-envelope"></i>
           <span>Email</span>
         </div>
-        <div class="item-value">{{ data?.user?.email }}</div>
+        <div class="item-value">{{ payment?.user?.email }}</div>
       </div>
       <div class="royal-item">
         <div class="item-label">
           <i class="fas fa-phone"></i>
           <span>Phone</span>
         </div>
-        <div class="item-value">{{ data?.user?.phone }}</div>
+        <div class="item-value">{{ payment?.user?.phone }}</div>
       </div>
     </div>
   </div>
@@ -69,14 +64,14 @@
           <i class="fas fa-list"></i>
           <span>Scheme Name</span>
         </div>
-        <div class="item-value">{{ data?.subscription?.schemeName }}</div>
+        <div class="item-value">{{ payment?.subscription?.schemeName | titlecase}}</div>
       </div>
       <div class="royal-item">
         <div class="item-label">
           <i class="fas fa-rupee-sign"></i>
           <span>Monthly Amount</span>
         </div>
-        <div class="item-value amount">₹ {{ data?.subscription?.monthlyAmount | number:'1.2-2' }}</div>
+        <div class="item-value amount">₹ {{ payment?.subscription?.monthlyAmount | number:'1.2-2' }}</div>
       </div>
       <div class="royal-item">
         <div class="item-label">
@@ -84,8 +79,8 @@
           <span>Status</span>
         </div>
         <div class="item-value">
-          <span class="status-tag" [ngClass]="data?.subscription?.status?.toLowerCase()">
-            {{ data?.subscription?.status }}
+          <span class="status-tag" [ngClass]="payment?.subscription?.status?.toLowerCase()">
+            {{ payment?.subscription?.status }}
           </span>
         </div>
       </div>
@@ -107,7 +102,7 @@
           <i class="fas fa-calendar"></i>
           <span>Month No</span>
         </div>
-        <div class="item-value">{{ data?.monthNo }}</div>
+        <div class="item-value">{{ payment?.monthNo }}</div>
       </div>
 
       <div class="royal-item">
@@ -115,7 +110,7 @@
           <i class="fas fa-coins"></i>
           <span>Amount</span>
         </div>
-        <div class="item-value amount">₹ {{ data?.amount | number:'1.2-2' }}</div>
+        <div class="item-value amount">₹ {{ payment?.amount | number:'1.2-2' }}</div>
       </div>
 
       <div class="royal-item">
@@ -123,7 +118,7 @@
           <i class="fas fa-hourglass-half"></i>
           <span>Due Date</span>
         </div>
-        <div class="item-value">{{ data?.dueDate | date:'dd MMM yyyy' }}</div>
+        <div class="item-value">{{ payment?.dueDate | date:'dd MMM yyyy' }}</div>
       </div>
 
       <div class="royal-item">
@@ -131,7 +126,7 @@
           <i class="fas fa-check-circle"></i>
           <span>Payment Date</span>
         </div>
-        <div class="item-value">{{ data?.paymentDate | date:'dd MMM yyyy' }}</div>
+        <div class="item-value">{{ payment?.paymentDate | date:'dd MMM yyyy' }}</div>
       </div>
 
       <div class="royal-item">
@@ -139,7 +134,7 @@
           <i class="fas fa-wallet"></i>
           <span>Payment Mode</span>
         </div>
-        <div class="item-value">{{ data?.paymentMode }}</div>
+        <div class="item-value">{{ payment?.paymentMode }}</div>
       </div>
 
       <div class="royal-item">
@@ -147,7 +142,7 @@
           <i class="fas fa-building"></i>
           <span>Gateway</span>
         </div>
-        <div class="item-value">{{ data?.gateway }}</div>
+        <div class="item-value">{{ payment?.gateway }}</div>
       </div>
     </div>
 
@@ -157,7 +152,7 @@
           <i class="fas fa-hashtag"></i>
           <span>Transaction Id</span>
         </div>
-        <div class="item-value code">{{ data?.transactionId || '--' }}</div>
+        <div class="item-value code">{{ payment?.transactionId || '--' }}</div>
       </div>
 
       <div class="royal-item">
@@ -165,7 +160,7 @@
           <i class="fas fa-barcode"></i>
           <span>Gateway Order Id</span>
         </div>
-        <div class="item-value code">{{ data?.gatewayOrderId || '--' }}</div>
+        <div class="item-value code">{{ payment?.gatewayOrderId || '--' }}</div>
       </div>
 
       <div class="royal-item">
@@ -173,16 +168,16 @@
           <i class="fas fa-receipt"></i>
           <span>Gateway Payment Id</span>
         </div>
-        <div class="item-value code">{{ data?.gatewayPaymentId || '--' }}</div>
+        <div class="item-value code">{{ payment?.gatewayPaymentId || '--' }}</div>
       </div>
 
-      <div class="royal-item">
+      <!-- <div class="royal-item">
         <div class="item-label">
           <i class="fas fa-file-invoice"></i>
           <span>Receipt No</span>
         </div>
-        <div class="item-value code">{{ data?.receiptNo || '--' }}</div>
-      </div>
+        <div class="item-value code">{{ payment?.receiptNo || '--' }}</div>
+      </div> -->
     </div>
   </div>
 
@@ -195,20 +190,19 @@
       <h3>Payment Status</h3>
     </div>
     <div class="status-wrapper">
-      <span class="payment-status"
-            [ngClass]="{
-              'paid': data?.status === 'PAID',
-              'pending': data?.status === 'PENDING',
-              'failed': data?.status === 'FAILED'
+      <span class="payment-status" [ngClass]="{
+              'paid': payment?.status === 'PAID',
+              'pending': payment?.status === 'PENDING',
+              'failed': payment?.status === 'FAILED'
             }">
         <i class="fas fa-circle"></i>
-        <span>{{ data?.status }}</span>
+        <span>{{ payment?.status }}</span>
       </span>
     </div>
   </div>
 
   <!-- ================= Remarks ================= -->
-  <div class="royal-card remarks-section" *ngIf="data?.remarks">
+  <div class="royal-card remarks-section" *ngIf="payment?.remarks">
     <div class="card-banner">
       <div class="banner-icon">
         <i class="fas fa-comment-dots"></i>
@@ -216,7 +210,7 @@
       <h3>Remarks</h3>
     </div>
     <div class="remarks-box">
-      <p>{{ data?.remarks }}</p>
+      <p>{{ payment?.remarks }}</p>
     </div>
   </div>
 
@@ -234,14 +228,14 @@
           <i class="fas fa-plus-square"></i>
           <span>Created</span>
         </div>
-        <div class="item-value datetime">{{ data?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</div>
+        <div class="item-value datetime">{{ payment?.createdAt | date:'dd MMM yyyy, hh:mm a' }}</div>
       </div>
       <div class="royal-item">
         <div class="item-label">
           <i class="fas fa-edit"></i>
           <span>Updated</span>
         </div>
-        <div class="item-value datetime">{{ data?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</div>
+        <div class="item-value datetime">{{ payment?.updatedAt | date:'dd MMM yyyy, hh:mm a' }}</div>
       </div>
     </div>
   </div>
