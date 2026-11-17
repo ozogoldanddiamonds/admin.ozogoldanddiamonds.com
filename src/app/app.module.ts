@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -123,6 +123,8 @@ import { ViewSizeChartComponent } from './view-size-chart/view-size-chart.compon
 import { MetaKeyWordsComponent } from './meta-key-words/meta-key-words.component';
 import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-words-upsert.component';
 import { MetaViewDetailsComponent } from './meta-view-details/meta-view-details.component';
+import { OrderShipmentComponent } from './sequel-shipment-management/order-shipment/order-shipment.component';
+import { authInterceptor } from './auth_guard/auth.interceptor';
 
 
 @NgModule({
@@ -229,7 +231,8 @@ import { MetaViewDetailsComponent } from './meta-view-details/meta-view-details.
     ViewSizeChartComponent,
     MetaKeyWordsComponent,
     MetaKeyWordsUpsertComponent,
-    MetaViewDetailsComponent
+    MetaViewDetailsComponent,
+    OrderShipmentComponent
 
 
 
@@ -253,7 +256,11 @@ import { MetaViewDetailsComponent } from './meta-view-details/meta-view-details.
     //  MatButtonModule 
 
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    )
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

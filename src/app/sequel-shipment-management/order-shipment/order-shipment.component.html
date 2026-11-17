@@ -1,0 +1,242 @@
+<div class="shipment-page container-fluid p-4">
+
+    <h2>Shipment Management</h2>
+
+    <div *ngIf="loading">
+        Loading order details...
+    </div>
+
+    <div *ngIf="order && !loading">
+
+        <!-- ORDER DETAILS -->
+
+        <div class="card p-3 mb-3">
+
+            <h4>Order Details</h4>
+
+            <p><strong>Order No:</strong>
+                {{ order.orderNumber }}
+            </p>
+
+            <p><strong>Customer:</strong>
+                {{ order.addressSnapshot?.fullName }}
+            </p>
+
+            <p><strong>Phone:</strong>
+                {{ order.addressSnapshot?.phone }}
+            </p>
+
+            <p><strong>Payment:</strong>
+                {{ order.paymentMethod }}
+            </p>
+
+            <p><strong>Payment Status:</strong>
+                {{ order.paymentStatus }}
+            </p>
+            <p>
+                <strong>Total Amount:</strong>
+                ₹{{ order.totalAmount }}
+            </p>
+
+        </div>
+
+        <!-- DELIVERY ADDRESS -->
+
+        <div class="card p-3 mb-3">
+
+            <h4>Delivery Address</h4>
+
+            <p>
+                {{ order.addressSnapshot?.addressLine1 }},
+                {{ order.addressSnapshot?.addressLine2 }}
+            </p>
+
+            <p>
+                {{ order.addressSnapshot?.city }},
+                {{ order.addressSnapshot?.state }}
+            </p>
+
+            <p>
+                <strong>PIN:</strong>
+                {{
+                order?.address?.pincode ||
+                order?.addressSnapshot?.postalCode ||
+                order?.addressSnapshot?.pincode ||
+                'Pincode not available'
+                }}
+            </p>
+
+            <p>
+                Country: {{ order.addressSnapshot?.country }}
+            </p>
+
+        </div>
+
+        <!-- PRODUCTS -->
+
+        <div class="card p-3 mb-3">
+
+            <h4>Order Products</h4>
+
+            <div *ngFor="let item of order.items" class="border-bottom py-2">
+
+                <strong>
+                    {{ item.productSnapshot?.name }}
+                </strong>
+
+                <p>
+                    SKU: {{ item.variantSnapshot?.sku }}
+                </p>
+
+                <p>
+                    Quantity: {{ item.quantity }}
+                </p>
+
+                <p>
+                    Product Gross Weight:
+                    {{ item.variantSnapshot?.grossWeight }} g
+                </p>
+
+                <p>
+                    Product Net Weight:
+                    {{ item.variantSnapshot?.netWeight }} g
+                </p>
+                <p>
+                    <strong>Price:</strong>
+                    ₹{{ item.totalPrice }}
+                </p>
+            </div>
+
+        </div>
+        <div class="card mt-3" *ngIf="order?.sequelShipment">
+            <div class="card-body">
+
+                <h5>Shipment Information</h5>
+
+                <p>
+                    <strong>Booking Status:</strong>
+                    {{ order.sequelShipment.bookingStatus }}
+                </p>
+
+                <p *ngIf="order.sequelShipment.docketNumber">
+                    <strong>Docket Number:</strong>
+                    {{ order.sequelShipment.docketNumber }}
+                </p>
+
+                <p *ngIf="order.sequelShipment.brn">
+                    <strong>BRN:</strong>
+                    {{ order.sequelShipment.brn }}
+                </p>
+
+                <p *ngIf="order.sequelShipment.estimatedDelivery">
+                    <strong>Estimated Delivery:</strong>
+                    {{ order.sequelShipment.estimatedDelivery }}
+                </p>
+
+                <p *ngIf="order.sequelShipment.bookingError" class="text-danger">
+                    <strong>Error:</strong>
+                    {{ order.sequelShipment.bookingError }}
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+
+        <h5 class="text-danger mb-3">Package Details</h5>
+
+        <form [formGroup]="shipmentForm">
+
+            <div formArrayName="boxes">
+
+                <div class="border rounded p-3 mb-3" *ngFor="let box of boxes.controls; let i = index"
+                    [formGroupName]="i">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">Box {{ i + 1 }}</h6>
+
+                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeBox(i)"
+                            [disabled]="boxes.length === 1">
+                            Remove
+                        </button>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label>Box Number</label>
+                            <input type="text" class="form-control" formControlName="boxNumber"
+                                placeholder="Enter box number" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Lock Number</label>
+                            <input type="text" class="form-control" formControlName="lockNumber"
+                                placeholder="Enter lock number" />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label>Length</label>
+                            <input type="number" class="form-control" formControlName="length" placeholder="Length" />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label>Breadth</label>
+                            <input type="number" class="form-control" formControlName="breadth" placeholder="Breadth" />
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label>Height</label>
+                            <input type="number" class="form-control" formControlName="height" placeholder="Height" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Gross Weight</label>
+                            <input type="number" class="form-control" formControlName="grossWeight"
+                                placeholder="Enter packed box weight" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button type="button" class="btn btn-outline-primary" (click)="addBox()">
+                + Add Another Box
+            </button>
+
+            <hr />
+
+            <button type="button" class="btn btn-success" (click)="savePackageDetails()">
+                Save Package Details
+            </button>
+
+            <button type="button" class="btn btn-primary ms-2" (click)="bookShipment()" [disabled]="
+    !order?.sequelShipment?.packages?.length ||
+    order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+    order?.sequelShipment?.bookingStatus === 'PENDING' ||
+    order?.sequelShipment?.bookingStatus === 'FAILED'
+  ">
+
+                {{
+                order?.sequelShipment?.bookingStatus === 'BOOKED'
+                ? 'Shipment Booked'
+                : order?.sequelShipment?.bookingStatus === 'PENDING'
+                ? 'Booking Pending'
+                : order?.sequelShipment?.bookingStatus === 'FAILED'
+                ? 'Verification Required'
+                : 'Book Shipment'
+                }}
+
+            </button>
+
+
+        </form>
+
+    </div>
+</div>

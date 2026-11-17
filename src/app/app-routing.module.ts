@@ -85,6 +85,7 @@ import { SizeChatUpdateComponent } from './size-chat/size-chat-update/size-chat-
 import { CustomDesignListComponent } from './custom-design/custom-design-list/custom-design-list.component';
 import { MetaKeyWordsComponent } from './meta-key-words/meta-key-words.component';
 import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-words-upsert.component';
+import { OrderShipmentComponent } from './sequel-shipment-management/order-shipment/order-shipment.component';
 
 const routes: Routes = [
 
@@ -147,6 +148,7 @@ const routes: Routes = [
       { path: "update-banner/:id", component: UpdateBannerComponent },
       { path: "user", component: UserListComponent },
       { path: "order-list", component: ListOrderComponent },
+      { path: "order-shipment/:id", component: OrderShipmentComponent },
       { path: "Order-create", component: CreateOrderComponent },
       { path: 'view-order/:id', component: OrderViewDialogComponent },
       { path: "Ads", component: AdsListComponent },

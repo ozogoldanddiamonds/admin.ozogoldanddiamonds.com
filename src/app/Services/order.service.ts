@@ -136,4 +136,18 @@ export class OrderService {
 
   }
 
+  saveShipmentPackages(orderId: string, boxes: any[]) {
+    return this.http.put(
+      `${this.apiUrl}/orders/${orderId}/shipment-packages`,
+      { boxes }
+    );
+  }
+
+  bookSequelShipment(orderId: string) {
+    return this.http.post(
+      `${this.apiUrl}/orders/${orderId}/book-shipment`,
+      {}
+    );
+  }
+
 }

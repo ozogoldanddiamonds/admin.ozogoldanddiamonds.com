@@ -40,6 +40,7 @@ export class ListOrderComponent implements OnInit {
     'amount',
 
     'date',
+    'shipment',
 
     'actions'
 
@@ -117,38 +118,6 @@ export class ListOrderComponent implements OnInit {
 
       return;
     }
-
-
-    // ==========================================
-    // ADMIN / OTHER LOGIN
-    // ==========================================
-
-    this.orderService.getAllOrders().subscribe({
-
-      next: (res: any) => {
-
-        console.log('All Orders:', res);
-
-        this.dataSource.data = res.data || [];
-
-        this.setTable();
-
-      },
-
-      error: (err: any) => {
-
-        console.error(
-          'Error fetching orders:',
-          err
-        );
-
-        this.dataSource.data = [];
-
-        this.setTable();
-
-      }
-
-    });
 
     this.getOrders();
 
@@ -297,5 +266,26 @@ export class ListOrderComponent implements OnInit {
 
   }
 
+  openShipment(order: any): void {
 
+    if (
+      order.orderSource !== 'ONLINE' ||
+      order.paymentStatus !== 'Paid' ||
+      order.paymentMethod === 'COD'
+    ) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Shipment Not Allowed',
+        text: 'Only paid online orders are eligible for shipment.'
+      });
+
+      return;
+    }
+
+    this.router.navigate([
+      '/admin/order-shipment',
+      order._id
+    ]);
+
+  }
 }

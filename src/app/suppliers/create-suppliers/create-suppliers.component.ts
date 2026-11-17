@@ -44,12 +44,12 @@ export class CreateSuppliersComponent {
       // =========================
 
       phone: [
-  '',
-  [
-    Validators.required,
-    Validators.pattern(/^[0-9]{10}$/)
-  ]
-],
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{10}$/)
+        ]
+      ],
 
       // =========================
       // EMAIL
@@ -64,14 +64,15 @@ export class CreateSuppliersComponent {
       // GST NUMBER
       // =========================
 
-     gstNumber: [
-  '',
-  [
-    Validators.pattern(
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/
-    )
-  ]
-],
+      gstNumber: [
+        '',
+        [
+          Validators.pattern(
+            /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/
+          )
+        ]
+
+      ],
 
       // =========================
       // ADDRESS
@@ -125,144 +126,144 @@ export class CreateSuppliersComponent {
   // =========================
   // SUBMIT
   // =========================
-// =========================
-// SUBMIT
-// =========================
-
-onSubmit(): void {
-
-  // Show validation messages
-  this.supplierForm.markAllAsTouched();
-
-  // Stop here if form is invalid
-  // Spinner will NOT show
-  // API will NOT be called
-  if (this.supplierForm.invalid) {
-    this.isSaving = false;
-    return;
-  }
-
-  // Start spinner only after validation passes
-  this.isSaving = true;
-
-  const formValue = this.supplierForm.value;
-
   // =========================
-  // PREPARE DATA
+  // SUBMIT
   // =========================
 
-  const supplierData = {
+  onSubmit(): void {
 
-    name: formValue.name,
+    // Show validation messages
+    this.supplierForm.markAllAsTouched();
 
-    companyName:
-      formValue.companyName,
+    // Stop here if form is invalid
+    // Spinner will NOT show
+    // API will NOT be called
+    if (this.supplierForm.invalid) {
+      this.isSaving = false;
+      return;
+    }
 
-    phone:
-      formValue.phone,
+    // Start spinner only after validation passes
+    this.isSaving = true;
 
-    email:
-      formValue.email,
+    const formValue = this.supplierForm.value;
 
-    gstNumber:
-      formValue.gstNumber,
+    // =========================
+    // PREPARE DATA
+    // =========================
 
-    address: {
+    const supplierData = {
 
-      addressLine1:
-        formValue.addressLine1?.trim() || '',
+      name: formValue.name,
 
-      addressLine2:
-        formValue.addressLine2?.trim() || '',
+      companyName:
+        formValue.companyName,
 
-      city:
-        formValue.city?.trim() || '',
+      phone:
+        formValue.phone,
 
-      state:
-        formValue.state?.trim() || '',
+      email:
+        formValue.email,
 
-      pincode:
-        formValue.pincode?.trim() || '',
+      gstNumber:
+        formValue.gstNumber,
 
-      country:
-        formValue.country?.trim() || 'India'
+      address: {
 
-    },
+        addressLine1:
+          formValue.addressLine1?.trim() || '',
 
-    notes:
-      formValue.notes,
+        addressLine2:
+          formValue.addressLine2?.trim() || '',
 
-    isActive:
-      formValue.isActive
+        city:
+          formValue.city?.trim() || '',
 
-  };
+        state:
+          formValue.state?.trim() || '',
 
+        pincode:
+          formValue.pincode?.trim() || '',
 
-  // =========================
-  // CREATE SUPPLIER
-  // =========================
-
-  this.supplierService
-    .createSupplier(supplierData)
-    .subscribe({
-
-      // =========================
-      // SUCCESS
-      // =========================
-
-      next: (response) => {
-
-        console.log('Create Supplier Response:', response);
-
-        // Stop spinner
-        this.isSaving = false;
-
-        this.alert.success(
-          'Created Successfully'
-        );
-
-        this.router.navigate([
-          '/admin/supplier-list'
-        ]);
+        country:
+          formValue.country?.trim() || 'India'
 
       },
 
-      // =========================
-      // ERROR
-      // =========================
+      notes:
+        formValue.notes,
 
-      error: (error) => {
+      isActive:
+        formValue.isActive
 
-        console.error(
-          'Create Supplier Error:',
-          error
-        );
+    };
 
-        // Stop spinner
-        this.isSaving = false;
 
-        // Get actual backend error message
-        const backendMessage =
-          error?.error?.message ||
-          error?.error?.error ||
-          error?.message ||
-          'Something went wrong while creating supplier';
+    // =========================
+    // CREATE SUPPLIER
+    // =========================
 
-        Swal.fire({
+    this.supplierService
+      .createSupplier(supplierData)
+      .subscribe({
 
-          icon: 'error',
+        // =========================
+        // SUCCESS
+        // =========================
 
-          title: 'Unable to Create Supplier',
+        next: (response) => {
 
-          text: backendMessage
+          console.log('Create Supplier Response:', response);
 
-        });
+          // Stop spinner
+          this.isSaving = false;
 
-      }
+          this.alert.success(
+            'Created Successfully'
+          );
 
-    });
+          this.router.navigate([
+            '/admin/supplier-list'
+          ]);
 
-}
+        },
+
+        // =========================
+        // ERROR
+        // =========================
+
+        error: (error) => {
+
+          console.error(
+            'Create Supplier Error:',
+            error
+          );
+
+          // Stop spinner
+          this.isSaving = false;
+
+          // Get actual backend error message
+          const backendMessage =
+            error?.error?.message ||
+            error?.error?.error ||
+            error?.message ||
+            'Something went wrong while creating supplier';
+
+          Swal.fire({
+
+            icon: 'error',
+
+            title: 'Unable to Create Supplier',
+
+            text: backendMessage
+
+          });
+
+        }
+
+      });
+
+  }
 
 
   // =========================
@@ -278,17 +279,28 @@ onSubmit(): void {
   }
   onPhoneInput(event: any): void {
 
-  const input = event.target;
+    const input = event.target;
 
-  // Remove anything except numbers
-  input.value = input.value.replace(/[^0-9]/g, '');
+    // Remove anything except numbers
+    input.value = input.value.replace(/[^0-9]/g, '');
 
-  // Keep only first 10 digits
-  input.value = input.value.substring(0, 10);
+    // Keep only first 10 digits
+    input.value = input.value.substring(0, 10);
 
-  // Update form value
-  this.supplierForm
-    .get('phone')
-    ?.setValue(input.value, { emitEvent: false });
-}
+    // Update form value
+    this.supplierForm
+      .get('phone')
+      ?.setValue(input.value, { emitEvent: false });
+  }
+
+  onGstNumberInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const uppercaseValue = input.value.toUpperCase();
+
+    this.supplierForm
+      .get('gstNumber')
+      ?.setValue(uppercaseValue, { emitEvent: false });
+
+    input.value = uppercaseValue;
+  }
 }
