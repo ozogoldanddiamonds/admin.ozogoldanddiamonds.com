@@ -105,7 +105,8 @@
 
           <div class="customer-main">
 
-            <img [src]="element.customer?.profileImage" alt="Customer" class="customer-image" />
+            <img [src]="element.customer?.profileImage" alt="Customer" class="customer-image"
+              *ngIf="element.customer?.profileImage" />
 
             <div class="customer-details">
 
@@ -126,12 +127,12 @@
                 {{ element.customer?.email || '-' }}
               </div>
 
-              <div class="customer-phone">
+              <!-- <div class="customer-phone">
                 <i class="fa fa-phone"></i>
                 {{ element.customer?.phoneNumber || '-' }}
 
 
-              </div>
+              </div> -->
 
             </div>
 
@@ -146,46 +147,22 @@
       <!-- CATEGORY -->
       <!-- ===================================================== -->
 
-      <ng-container matColumnDef="category">
+      <ng-container matColumnDef="jewelleryType">
 
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Category
+          JewelleryType
         </th>
 
         <td mat-cell *matCellDef="let element">
 
           {{
-          element.category?.name ||
-          element.category ||
-          '-'
+          element.jewelleryType | titlecase
           }}
 
         </td>
 
       </ng-container>
 
-
-      <!-- ===================================================== -->
-      <!-- SUB CATEGORY -->
-      <!-- ===================================================== -->
-
-      <ng-container matColumnDef="subCategory">
-
-        <th mat-header-cell *matHeaderCellDef>
-          Sub Category
-        </th>
-
-        <td mat-cell *matCellDef="let element">
-
-          {{
-          element.subCategory?.name ||
-          element.subCategory ||
-          '-'
-          }}
-
-        </td>
-
-      </ng-container>
 
 
       <!-- ===================================================== -->

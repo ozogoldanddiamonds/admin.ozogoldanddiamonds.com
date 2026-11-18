@@ -20,9 +20,7 @@ export class CustomDesignListComponent implements OnInit, AfterViewInit {
     'sno',
     'requestNumber',
     'customer',
-    'category',
-    'subCategory',
-    // 'description',
+    'jewelleryType',
     'requiredDate',
     'status',
     'actions'
