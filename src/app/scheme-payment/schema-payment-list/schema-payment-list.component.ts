@@ -8,15 +8,14 @@ import { ViewPaymentSchemeComponent } from 'src/app/View-dialog-Controllers/view
 @Component({
   selector: 'app-schema-payment-list',
   templateUrl: './schema-payment-list.component.html',
-  styleUrls: ['./schema-payment-list.component.css']
+  styleUrls: ['./schema-payment-list.component.css'],
 })
 export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
-
   displayedColumns: string[] = [
-
     'sno',
 
     'user',
+    'phone',
 
     'monthNo',
 
@@ -30,8 +29,7 @@ export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
 
     'paymentDate',
 
-    'actions'
-
+    'actions',
   ];
 
   paymentList: any[] = [];
@@ -42,55 +40,39 @@ export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator;
 
   constructor(
-
     private paymentService: SchemePaymentService,
 
-    private dialog: MatDialog
-
-  ) { }
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
-
     this.getAllPayments();
 
     // Search Filter
 
     this.dataSource.filterPredicate = (
-
       data: any,
 
-      filter: string
-
+      filter: string,
     ) => {
-
       const search = (
-
         (data.user?.name || '') +
-
         ' ' +
-
+        (data.user?.phone || '') +
+        ' ' +
         (data.paymentMode || '') +
-
         ' ' +
-
         (data.gateway || '') +
-
         ' ' +
-
         (data.status || '')
-
       ).toLowerCase();
 
       return search.includes(filter);
-
     };
-
   }
 
   ngAfterViewInit(): void {
-
     this.dataSource.paginator = this.paginator;
-
   }
 
   // ==========================
@@ -98,29 +80,22 @@ export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
   // ==========================
 
   getAllPayments(): void {
-
-    this.paymentService.getAllPayments()
+    this.paymentService
+      .getAllPayments()
 
       .subscribe({
-
         next: (res: any) => {
-
           console.log(res);
 
           this.paymentList = res.data;
 
           this.dataSource.data = this.paymentList;
-
         },
 
         error: (err: any) => {
-
           console.log(err);
-
-        }
-
+        },
       });
-
   }
 
   // ==========================
@@ -128,23 +103,13 @@ export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
   // ==========================
 
   applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
 
-    const filterValue = (
-
-      event.target as HTMLInputElement
-
-    ).value;
-
-    this.dataSource.filter =
-
-      filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
-
       this.dataSource.paginator.firstPage();
-
     }
-
   }
 
   // ==========================
@@ -152,21 +117,14 @@ export class SchemaPaymentListComponent implements OnInit, AfterViewInit {
   // ==========================
 
   viewPayment(element: any): void {
-
     this.dialog.open(
-
       ViewPaymentSchemeComponent,
 
       {
-
         width: '850px',
 
-        data: element
-
-      }
-
+        data: element,
+      },
     );
-
   }
-
 }
