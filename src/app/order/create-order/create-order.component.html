@@ -580,7 +580,7 @@
 
           <button
             type="submit"
-            class="btn-create"
+            class="btn btn-primary"
             [disabled]="
               isSubmitting ||
               orderForm.get('customerName')?.invalid ||
@@ -589,15 +589,9 @@
               !cartItems.length
             "
           >
-            <i
-              class="fa"
-              [ngClass]="
-                isSubmitting ? 'fa-spinner fa-spin' : 'fa-check-circle'
-              "
-            >
-            </i>
+            <span *ngIf="isSubmitting"> Processing... </span>
 
-            {{ isSubmitting ? "Creating Order..." : "Create Order" }}
+            <span *ngIf="!isSubmitting"> Create Order </span>
           </button>
         </div>
       </div>

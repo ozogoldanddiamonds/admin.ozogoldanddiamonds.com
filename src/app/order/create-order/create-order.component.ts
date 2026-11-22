@@ -242,7 +242,9 @@ export class CreateOrderComponent implements OnInit {
       0,
     );
 
-    this.grandTotal = this.subTotal - this.discount + this.gst;
+    // Backend finalTotal = subTotal - discount + shippingCharge
+    // GST is displayed separately, not added again.
+    this.grandTotal = this.subTotal - this.discount;
   }
 
   // ===========================
@@ -271,13 +273,11 @@ export class CreateOrderComponent implements OnInit {
       paymentMethodControl?.markAsTouched();
 
       this.alert.error('Please enter valid customer details');
-
       return;
     }
 
     if (!this.cartItems.length) {
       this.alert.error('Please add at least one product');
-
       return;
     }
 
@@ -286,26 +286,15 @@ export class CreateOrderComponent implements OnInit {
 
     if (!['BRANCH', 'SUB_BRANCH'].includes(role || '')) {
       this.alert.error('Invalid branch user');
-
       return;
     }
 
     if (!adminId) {
       this.alert.error('Admin session not found. Please login again.');
-
       return;
     }
 
     const paymentMethod = this.orderForm.value.paymentMethod;
-
-    // Staff must confirm actual payment receipt.
-    const paymentConfirmed = window.confirm(
-      `Please confirm that the customer has paid ₹${this.grandTotal.toFixed(2)} through ${paymentMethod}. Continue creating the order?`,
-    );
-
-    if (!paymentConfirmed) {
-      return;
-    }
 
     const body = {
       orderSource: role,
@@ -318,9 +307,7 @@ export class CreateOrderComponent implements OnInit {
 
       customerDetails: {
         name: this.orderForm.value.customerName.trim(),
-
         phone: this.orderForm.value.customerPhone.trim(),
-
         email: this.orderForm.value.customerEmail?.trim() || '',
       },
 
@@ -328,71 +315,34 @@ export class CreateOrderComponent implements OnInit {
 
       items: this.cartItems.map((item: any) => ({
         product: item.product,
-
         variant: item.variant,
-
         quantity: Number(item.quantity),
       })),
 
       notes: this.orderForm.value.notes,
     };
 
+    // UPI - Razorpay flow
+    if (paymentMethod === 'UPI') {
+      this.startPosRazorpayPayment(body);
+      return;
+    }
+
+    // CASH / CARD - Direct order flow
+    const paymentConfirmed = window.confirm(
+      `Please confirm that the customer has paid ₹${this.grandTotal.toFixed(2)} through ${paymentMethod}. Continue creating the order?`,
+    );
+
+    if (!paymentConfirmed) {
+      return;
+    }
+
     this.isSubmitting = true;
 
     this.orderService.createOrder(body).subscribe({
       next: (res: any) => {
-        if (!res.success || !res.data) {
-          this.alert.error('Order creation failed');
-
-          this.isSubmitting = false;
-
-          return;
-        }
-
-        this.orderSummary = res.data;
-
-        this.invoicePdfUrl = res.data.invoicePdfUrl || null;
-
-        this.whatsappInvoiceStatus = res.data.whatsappInvoiceStatus || null;
-
-        this.whatsappInvoiceError = res.data.whatsappInvoiceError || null;
-
-        this.cartItems = res.data.items || [];
-
-        this.subTotal = Number(res.data.subTotal) || 0;
-
-        this.discount = Number(res.data.discountAmount) || 0;
-
-        this.gst = Number(res.data.gstAmount) || 0;
-
-        this.grandTotal = Number(res.data.totalAmount) || 0;
-
-        this.alert.success('Order Created Successfully');
-
-        // Reset customer and product form
-        this.orderForm.reset({
-          customerName: '',
-          customerPhone: '',
-          customerEmail: '',
-          variant: '',
-          quantity: 1,
-          paymentMethod: 'CASH',
-          notes: '',
-        });
-
-        // Keep order summary for invoice printing
-        this.cartItems = [];
-
-        this.selectedProduct = null;
-        this.selectedVariant = null;
-
-        this.variants = [];
-
-        this.calculateTotal();
-
-        this.isSubmitting = false;
+        this.handleOrderSuccess(res);
       },
-
       error: (err: any) => {
         console.error('Create Order Error:', err);
 
@@ -401,6 +351,189 @@ export class CreateOrderComponent implements OnInit {
         this.isSubmitting = false;
       },
     });
+  }
+
+  startPosRazorpayPayment(body: any): void {
+    const RazorpayConstructor = (window as any).Razorpay;
+
+    if (!RazorpayConstructor) {
+      this.alert.error(
+        'Razorpay Checkout is not loaded. Please refresh the page.',
+      );
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const paymentRequest = {
+      customerDetails: body.customerDetails,
+      items: body.items,
+    };
+
+    this.orderService.createPosRazorpayOrder(paymentRequest).subscribe({
+      next: (res: any) => {
+        if (!res.success || !res.data) {
+          this.alert.error(
+            res.message || 'Unable to initiate Razorpay payment',
+          );
+          this.isSubmitting = false;
+          return;
+        }
+
+        const paymentData = res.data;
+
+        const options = {
+          key: paymentData.keyId,
+          amount: paymentData.amount,
+          currency: paymentData.currency,
+          name: 'OZO Gold and Diamonds',
+          description: 'Branch POS Order Payment',
+          order_id: paymentData.razorpayOrderId,
+
+          prefill: {
+            name: body.customerDetails.name,
+            email: body.customerDetails.email,
+            contact: body.customerDetails.phone,
+          },
+
+          notes: {
+            paymentAttemptId: paymentData.paymentAttemptId,
+            orderSource: body.orderSource,
+          },
+
+          theme: {
+            color: '#B8860B',
+          },
+
+          handler: (response: any) => {
+            this.verifyPosPayment(paymentData.paymentAttemptId, response);
+          },
+
+          modal: {
+            ondismiss: () => {
+              this.isSubmitting = false;
+              this.alert.error('Payment was cancelled');
+            },
+          },
+        };
+
+        const razorpay = new RazorpayConstructor(options);
+
+        razorpay.on('payment.failed', (response: any) => {
+          console.error('Razorpay Payment Failed:', response);
+
+          this.isSubmitting = false;
+
+          this.alert.error(
+            response?.error?.description ||
+              'UPI payment failed. Please try again.',
+          );
+        });
+
+        razorpay.open();
+      },
+
+      error: (err: any) => {
+        console.error('Create POS Razorpay Error:', err);
+
+        this.alert.error(
+          err?.error?.message || 'Unable to initiate UPI payment',
+        );
+
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  verifyPosPayment(paymentAttemptId: string, paymentResponse: any): void {
+    const verifyBody = {
+      paymentAttemptId,
+
+      razorpay_order_id: paymentResponse.razorpay_order_id,
+
+      razorpay_payment_id: paymentResponse.razorpay_payment_id,
+
+      razorpay_signature: paymentResponse.razorpay_signature,
+    };
+
+    this.orderService.verifyPosRazorpayPayment(verifyBody).subscribe({
+      next: (res: any) => {
+        if (!res.success) {
+          this.alert.error(res.message || 'Payment verification failed');
+
+          this.isSubmitting = false;
+          return;
+        }
+
+        const order = res.data?.order || res.data;
+
+        this.handleOrderSuccess({
+          success: true,
+          data: order,
+        });
+      },
+
+      error: (err: any) => {
+        console.error('POS Payment Verification Error:', err);
+
+        if (err?.error?.paymentCaptured) {
+          this.alert.error(
+            'Payment successful, but order creation failed. Do not collect payment again. Contact support or retry order recovery.',
+          );
+        } else {
+          this.alert.error(
+            err?.error?.message ||
+              'Payment verification failed. Check payment status before retrying.',
+          );
+        }
+
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  handleOrderSuccess(res: any): void {
+    if (!res?.success || !res?.data) {
+      this.alert.error('Order creation failed');
+      this.isSubmitting = false;
+      return;
+    }
+
+    this.orderSummary = res.data;
+
+    this.invoicePdfUrl = res.data.invoicePdfUrl || null;
+
+    this.whatsappInvoiceStatus = res.data.whatsappInvoiceStatus || null;
+
+    this.whatsappInvoiceError = res.data.whatsappInvoiceError || null;
+
+    // Preserve completed order totals for invoice summary
+    this.subTotal = Number(res.data.subTotal) || 0;
+    this.discount = Number(res.data.discountAmount) || 0;
+    this.gst = Number(res.data.gstAmount) || 0;
+    this.grandTotal = Number(res.data.totalAmount) || 0;
+
+    this.alert.success('Order Created Successfully');
+
+    this.orderForm.reset({
+      customerName: '',
+      customerPhone: '',
+      customerEmail: '',
+      variant: '',
+      quantity: 1,
+      paymentMethod: 'CASH',
+      notes: '',
+    });
+
+    this.cartItems = [];
+    this.selectedProduct = null;
+    this.selectedVariant = null;
+    this.variants = [];
+
+    // Do not call calculateTotal() here.
+    // It would reset the completed order summary to zero.
+
+    this.isSubmitting = false;
   }
 
   // ===========================

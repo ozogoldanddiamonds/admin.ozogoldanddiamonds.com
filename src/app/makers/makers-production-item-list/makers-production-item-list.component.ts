@@ -30,7 +30,7 @@ export class MakersProductionItemListComponent
 
     'product',
 
-    'variant',
+    'variants',
 
     'quantityGiven',
 
@@ -433,6 +433,7 @@ export class MakersProductionItemListComponent
       }
     });
   }
+
   getVariantSize(element: any): string {
     const variant = element?.product?.variants?.find(
       (v: any) => v._id === element?.variantId,

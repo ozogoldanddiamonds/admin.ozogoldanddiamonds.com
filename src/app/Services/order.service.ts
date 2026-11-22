@@ -140,4 +140,20 @@ export class OrderService {
   getAllSubOrders(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/admin/orders/sub-branch`);
   }
+
+  // ==========================================
+  // CREATE POS RAZORPAY ORDER
+  // ==========================================
+
+  createPosRazorpayOrder(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/pos/create-razorpay-order`, data);
+  }
+
+  // ==========================================
+  // VERIFY POS RAZORPAY PAYMENT
+  // ==========================================
+
+  verifyPosRazorpayPayment(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/pos/verify-razorpay-payment`, data);
+  }
 }
