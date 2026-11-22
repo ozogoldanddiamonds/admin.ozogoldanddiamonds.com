@@ -1,199 +1,100 @@
 <div class="container">
-
   <div class="row">
-
     <!-- ============================= -->
     <!-- TITLE -->
     <!-- ============================= -->
 
     <div class="col-md-12">
-
       <div class="title-section">
-
-        <h2>
-          Create Banner
-        </h2>
-
+        <h2>Create Banner</h2>
       </div>
-
     </div>
-
 
     <!-- ============================= -->
     <!-- CARD -->
     <!-- ============================= -->
 
     <div class="category-card">
-
-      <form
-        [formGroup]="bannerForm"
-        (ngSubmit)="onSubmit()"
-      >
-
+      <form [formGroup]="bannerForm" (ngSubmit)="onSubmit()">
         <div class="form-layout">
-
-
           <!-- ============================= -->
           <!-- LEFT SECTION -->
           <!-- ============================= -->
 
           <div class="left-section">
-
-
             <!-- ============================= -->
             <!-- BANNER TITLE -->
             <!-- ============================= -->
 
             <div class="form-group">
-
               <label>
                 Banner Title
                 <span class="text-danger">*</span>
               </label>
-
 
               <input
                 type="text"
                 class="form-control"
                 formControlName="title"
                 placeholder="Enter banner title"
-                [class.is-invalid]="
-                  bannerForm.get('title')?.touched &&
-                  bannerForm.get('title')?.invalid
-                "
-              >
-
-
-              <!-- Required -->
-
-              <div
-                class="validation-message"
-                *ngIf="
-                  bannerForm.get('title')?.touched &&
-                  bannerForm.get('title')?.hasError('required')
-                "
-              >
-
-                Banner title is required.
-
-              </div>
-
+              />
             </div>
-
-
 
             <!-- ============================= -->
             <!-- DESCRIPTION -->
             <!-- ============================= -->
 
             <div class="form-group">
-
               <label>
                 Description
                 <span class="text-danger">*</span>
               </label>
 
-
               <textarea
                 class="form-control"
                 formControlName="description"
                 placeholder="Enter banner description"
-                [class.is-invalid]="
-                  bannerForm.get('description')?.touched &&
-                  bannerForm.get('description')?.invalid
-                "
               ></textarea>
 
-
               <!-- Required -->
-
-              <div
-                class="validation-message"
-                *ngIf="
-                  bannerForm.get('description')?.touched &&
-                  bannerForm.get('description')?.hasError('required')
-                "
-              >
-
-                Banner description is required.
-
-              </div>
-
             </div>
-
-
 
             <!-- ============================= -->
             <!-- BANNER IMAGE -->
             <!-- ============================= -->
 
             <div class="form-group">
-
-              <label>
-                Banner Image
-              </label>
-
+              <label> Banner Image </label>
 
               <input
                 type="file"
                 class="form-control"
                 (change)="onFileChange($event)"
-              >
-
+              />
             </div>
-
-
           </div>
-
-
 
           <!-- ============================= -->
           <!-- RIGHT SECTION -->
           <!-- ============================= -->
 
           <div class="right-section">
-
             <div class="preview-box">
+              <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" />
 
-              <img
-                *ngIf="imagePreview"
-                [src]="imagePreview"
-                alt="Preview"
-              >
-
-
-              <p
-                *ngIf="!imagePreview"
-              >
-
-                Image Preview
-
-              </p>
-
+              <p *ngIf="!imagePreview">Image Preview</p>
             </div>
-
           </div>
-
-
         </div>
-
-
 
         <!-- ============================= -->
         <!-- BUTTONS -->
         <!-- ============================= -->
 
         <div class="button-group">
-
-
           <!-- SAVE -->
 
-          <button
-            type="submit"
-            class="btn-create"
-            [disabled]="isSaving"
-          >
-
+          <button type="submit" class="btn-create" [disabled]="isSaving">
             <span
               *ngIf="isSaving"
               class="spinner-border spinner-border-sm me-2"
@@ -201,12 +102,8 @@
               aria-hidden="true"
             ></span>
 
-
-            {{ isSaving ? 'Saving...' : 'Save' }}
-
+            {{ isSaving ? "Saving..." : "Save" }}
           </button>
-
-
 
           <!-- BACK -->
 
@@ -216,19 +113,10 @@
             (click)="goBack()"
             [disabled]="isSaving"
           >
-
             Back
-
           </button>
-
-
         </div>
-
-
       </form>
-
     </div>
-
   </div>
-
 </div>

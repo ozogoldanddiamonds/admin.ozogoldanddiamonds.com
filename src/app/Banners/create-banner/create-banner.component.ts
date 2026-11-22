@@ -8,10 +8,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-banner',
   templateUrl: './create-banner.component.html',
-  styleUrls: ['./create-banner.component.css']
+  styleUrls: ['./create-banner.component.css'],
 })
 export class CreateBannerComponent implements OnInit {
-
   bannerForm!: FormGroup;
 
   selectedFile: File | null = null;
@@ -22,7 +21,6 @@ export class CreateBannerComponent implements OnInit {
 
   isSaving: boolean = false;
 
-
   constructor(
     private fb: FormBuilder,
 
@@ -30,29 +28,16 @@ export class CreateBannerComponent implements OnInit {
 
     private router: Router,
 
-    private alert: AlertService
-  ) { }
-
+    private alert: AlertService,
+  ) {}
 
   ngOnInit(): void {
+    this.bannerForm = this.fb.group({
+      title: [''],
 
-    this.bannerForm =
-      this.fb.group({
-
-        title: [
-          '',
-          Validators.required
-        ],
-
-        description: [
-          '',
-          Validators.required
-        ]
-
-      });
-
+      description: [''],
+    });
   }
-
 
   /*
   =================================
@@ -60,36 +45,21 @@ export class CreateBannerComponent implements OnInit {
   =================================
   */
 
-  onFileChange(
-    event: any
-  ): void {
-
-    const file =
-      event.target.files[0];
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
 
     if (file) {
+      this.selectedFile = file;
 
-      this.selectedFile =
-        file;
-
-      const reader =
-        new FileReader();
+      const reader = new FileReader();
 
       reader.onload = () => {
-
-        this.imagePreview =
-          reader.result;
-
+        this.imagePreview = reader.result;
       };
 
-      reader.readAsDataURL(
-        file
-      );
-
+      reader.readAsDataURL(file);
     }
-
   }
-
 
   /*
   =================================
@@ -98,26 +68,21 @@ export class CreateBannerComponent implements OnInit {
   */
 
   onSubmit(): void {
-
     // Show validation messages
     this.bannerForm.markAllAsTouched();
-
 
     // =================================
     // VALIDATION
     // =================================
 
     if (this.bannerForm.invalid) {
-
       // IMPORTANT:
       // Spinner should NOT show
       this.isSaving = false;
 
       // API should NOT be called
       return;
-
     }
-
 
     // =================================
     // START LOADING
@@ -125,113 +90,68 @@ export class CreateBannerComponent implements OnInit {
 
     this.isSaving = true;
 
-
     // =================================
     // PREPARE FORM DATA
     // =================================
 
     const formData = new FormData();
 
+    formData.append('title', this.bannerForm.value.title);
 
-    formData.append(
-      'title',
-      this.bannerForm.value.title
-    );
-
-
-    formData.append(
-      'description',
-      this.bannerForm.value.description
-    );
-
+    formData.append('description', this.bannerForm.value.description);
 
     // Image is optional
     if (this.selectedFile) {
-
-      formData.append(
-        'image',
-        this.selectedFile
-      );
-
+      formData.append('image', this.selectedFile);
     }
-
 
     // =================================
     // CREATE BANNER API
     // =================================
 
-    this.bannerService
-      .createBanner(formData)
-      .subscribe({
+    this.bannerService.createBanner(formData).subscribe({
+      // =================================
+      // SUCCESS
+      // =================================
 
-        // =================================
-        // SUCCESS
-        // =================================
+      next: (response) => {
+        console.log('Create Banner Response:', response);
 
-        next: (response) => {
+        // Stop spinner
+        this.isSaving = false;
 
-          console.log(
-            'Create Banner Response:',
-            response
-          );
+        this.alert.success('Banner Created Successfully');
 
+        this.router.navigate(['/admin/banners']);
+      },
 
-          // Stop spinner
-          this.isSaving = false;
+      // =================================
+      // ERROR
+      // =================================
 
+      error: (error) => {
+        console.error('Create Banner Error:', error);
 
-          this.alert.success(
-            'Banner Created Successfully'
-          );
+        // Stop spinner
+        this.isSaving = false;
 
+        // Get actual backend message
+        const backendMessage =
+          error?.error?.message ||
+          error?.error?.error ||
+          error?.message ||
+          'Something went wrong while creating banner';
 
-          this.router.navigate([
-            '/admin/banners'
-          ]);
+        Swal.fire({
+          icon: 'error',
 
-        },
+          title: 'Unable to Create Banner',
 
-
-        // =================================
-        // ERROR
-        // =================================
-
-        error: (error) => {
-
-          console.error(
-            'Create Banner Error:',
-            error
-          );
-
-
-          // Stop spinner
-          this.isSaving = false;
-
-
-          // Get actual backend message
-          const backendMessage =
-            error?.error?.message ||
-            error?.error?.error ||
-            error?.message ||
-            'Something went wrong while creating banner';
-
-
-          Swal.fire({
-
-            icon: 'error',
-
-            title: 'Unable to Create Banner',
-
-            text: backendMessage
-
-          });
-
-        }
-
-      });
-
+          text: backendMessage,
+        });
+      },
+    });
   }
-
 
   /*
   =================================
@@ -240,11 +160,6 @@ export class CreateBannerComponent implements OnInit {
   */
 
   goBack(): void {
-
-    this.router.navigate([
-      '/admin/banners'
-    ]);
-
+    this.router.navigate(['/admin/banners']);
   }
-
 }
