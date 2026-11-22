@@ -14,10 +14,10 @@ export class AlertService {
     buttonsStyling: false
   });
 
-  success(message: string) {
+  success(message: string, title: string = 'Success!') {
     Swal.fire({
       icon: 'success',
-      title: 'Success!',
+      title,
       text: message,
       timer: 3000,
       timerProgressBar: true,
@@ -25,41 +25,59 @@ export class AlertService {
     });
   }
 
-  error(message: string) {
+  error(message: string, title: string = 'Oops!') {
     Swal.fire({
       icon: 'error',
-      title: 'Oops!',
+      title,
       text: message,
       timer: 3000,
       timerProgressBar: true,
       showConfirmButton: false
     });
   }
+
+  warning(
+    message: string,
+    title: string = 'Warning!'
+  ) {
+    Swal.fire({
+      icon: 'warning',
+      title,
+      text: message,
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+  }
+
+  info(message: string, title: string = 'Info') {
+    Swal.fire({
+      icon: 'info',
+      title,
+      text: message,
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+  }
+
   confirm(
     title: string,
     text: string,
     confirmButtonText: string = 'Yes',
     cancelButtonText: string = 'Cancel'
   ): Promise<SweetAlertResult> {
-
     return Swal.fire({
-      title: title,
-      text: text,
+      title,
+      text,
       icon: 'warning',
-
       width: '400px',
-
       showCancelButton: true,
-
-      confirmButtonText: confirmButtonText,
-      cancelButtonText: cancelButtonText,
-
+      confirmButtonText,
+      cancelButtonText,
       reverseButtons: true,
-
       focusCancel: true,
-
       buttonsStyling: false,
-
       customClass: {
         popup: 'modern-confirm-popup',
         icon: 'modern-confirm-icon',
@@ -71,5 +89,4 @@ export class AlertService {
       }
     });
   }
-
 }

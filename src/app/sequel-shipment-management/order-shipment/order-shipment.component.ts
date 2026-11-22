@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/Services/alert.service';
 import { OrderService } from 'src/app/Services/order.service';
 import Swal from 'sweetalert2';
 
@@ -11,7 +12,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./order-shipment.component.css']
 })
 export class OrderShipmentComponent implements OnInit {
+  podLoading = false;
 
+  podFromDate = '';
+  podToDate = '';
   trackingLoading = false;
   trackingData: any = null;
   trackingChecked = false;
@@ -28,7 +32,8 @@ export class OrderShipmentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -589,4 +594,93 @@ export class OrderShipmentComponent implements OnInit {
 
   }
 
+  downloadPOD(): void {
+
+    if (this.podLoading) {
+      return;
+    }
+
+    if (!this.order?._id) {
+      this.alertService.error('Order details not available.', 'Error');
+      return;
+    }
+
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (
+      !dateRegex.test(this.podFromDate) ||
+      !dateRegex.test(this.podToDate)
+    ) {
+      this.alertService.warning(
+        'Please select valid From Date and To Date.',
+        'Date Required'
+      );
+      return;
+    }
+
+    if (this.podFromDate > this.podToDate) {
+      this.alertService.warning(
+        'From Date cannot be greater than To Date.',
+        'Invalid Date Range'
+      );
+      return;
+    }
+
+    const shipment = this.order.sequelShipment;
+
+    if (
+      shipment?.bookingStatus !== 'BOOKED' ||
+      !/^\d{10}$/.test(shipment?.docketNumber || '')
+    ) {
+      this.alertService.warning(
+        'No valid booked shipment found.',
+        'POD Not Available'
+      );
+      return;
+    }
+
+    this.podLoading = true;
+
+    this.orderService
+      .downloadOrderPOD(this.orderId, {
+        fromDate: this.podFromDate,
+        toDate: this.podToDate
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.podLoading = false;
+
+          if (res?.success && res?.data?.podLink) {
+            const link = document.createElement('a');
+            link.href = res.data.podLink;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            this.alertService.success(
+              'POD link generated successfully.',
+              'POD Ready'
+            );
+          } else {
+            this.alertService.warning(
+              res?.message || 'POD is not available.',
+              'POD Not Available'
+            );
+          }
+        },
+        error: (err) => {
+          this.podLoading = false;
+
+          this.alertService.error(
+            err?.error?.message || 'Unable to download POD.',
+            'POD Download Failed'
+          );
+
+          console.error('POD Download Error:', err);
+        }
+      });
+  }
 }

@@ -125,6 +125,8 @@ import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-wo
 import { MetaViewDetailsComponent } from './meta-view-details/meta-view-details.component';
 import { OrderShipmentComponent } from './sequel-shipment-management/order-shipment/order-shipment.component';
 import { authInterceptor } from './auth_guard/auth.interceptor';
+import { MainBranchOrdersComponent } from './main-branch-orders/main-branch-orders.component';
+import { SubBranchesOrdersComponent } from './sub-branches-orders/sub-branches-orders.component';
 
 
 @NgModule({
@@ -232,7 +234,9 @@ import { authInterceptor } from './auth_guard/auth.interceptor';
     MetaKeyWordsComponent,
     MetaKeyWordsUpsertComponent,
     MetaViewDetailsComponent,
-    OrderShipmentComponent
+    OrderShipmentComponent,
+    MainBranchOrdersComponent,
+    SubBranchesOrdersComponent
 
 
 

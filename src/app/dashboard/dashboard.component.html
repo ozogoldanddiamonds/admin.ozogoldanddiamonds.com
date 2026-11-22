@@ -1,7 +1,11 @@
 <div class="layout">
-
   <!-- Sidebar -->
-  <div class="sidebar" [class.closed]="isSidebarClosed" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <div
+    class="sidebar"
+    [class.closed]="isSidebarClosed"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
     <div class="logo_card">
       <img src="../../assets/Images/logo.jpg" />
       <span>OZO Gold and DiamondJewellery Mart TM.</span>
@@ -9,164 +13,112 @@
     <!-- MENU -->
 
     <ul>
-
       <!-- DASHBOARD -->
 
       <li routerLink="home" routerLinkActive="active">
-
         <i class="fa-solid fa-chart-line"></i>
 
         <span>Dashboard</span>
-
       </li>
 
       <!-- ================= CATALOG ================= -->
 
-
       <li (click)="toggleMenu('catalog')">
-
         <div class="menu-left">
-
           <i class="fa-solid fa-layer-group"></i>
 
           <span>Catalog</span>
-
         </div>
 
-        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'catalog'">
+        <i
+          class="fa-solid fa-angle-down"
+          [class.rotate]="openMenu === 'catalog'"
+        >
         </i>
-
       </li>
 
       <ul class="submenu" [class.show]="openMenu === 'catalog'">
-        <li routerLink="sizechat-list">
-          Size Chat
-        </li>
-        <li routerLink="metal-list">
-          Metal List
-        </li>
-        <li routerLink="stones-list">
-          Stones List
-        </li>
+        <li routerLink="sizechat-list">Size Chat</li>
+        <li routerLink="metal-list">Metal List</li>
+        <li routerLink="stones-list">Stones List</li>
 
-        <li routerLink="category">
-          Category
-        </li>
+        <li routerLink="category">Category</li>
 
+        <li routerLink="list_subcategory">SubCategory</li>
 
-        <li routerLink="list_subcategory">
-          SubCategory
-        </li>
+        <li routerLink="subsubcategory">Sub-SubCategory</li>
 
-        <li routerLink="subsubcategory">
-          Sub-SubCategory
-        </li>
-
-        <li routerLink="product">
-          Products
-        </li>
-
-
-
+        <li routerLink="product">Products</li>
       </ul>
       <!-- SUPPLIER MANAGEMENT -->
       <!-- ================= SUPPLIER MANAGEMENT ================= -->
 
       <li (click)="toggleMenu('suppliers')">
-
         <div class="menu-left">
-
           <i class="fa-solid fa-truck-field"></i>
 
           <span>Suppliers</span>
-
         </div>
 
-        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'suppliers'">
+        <i
+          class="fa-solid fa-angle-down"
+          [class.rotate]="openMenu === 'suppliers'"
+        >
         </i>
-
       </li>
 
-
       <ul class="submenu" [class.show]="openMenu === 'suppliers'">
+        <li routerLink="supplier-list">Suppliers</li>
+        <li routerLink="supplier-purchase-list">Supplier Purchases</li>
 
-        <li routerLink="supplier-list">
-          Suppliers
-        </li>
-        <li routerLink="supplier-purchase-list">
-          Supplier Purchases
-        </li>
-
-        <li routerLink="supplier-purchase-item">
-          Supplier Purchases Item
-        </li>
-
-
+        <li routerLink="supplier-purchase-item">Supplier Purchases Item</li>
       </ul>
 
       <li (click)="toggleMenu('makers')">
-
         <div class="menu-left">
-
           <i class="fa-solid fa-truck-field"></i>
 
           <span>Gold Smiths</span>
-
         </div>
 
-        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'makers'">
+        <i
+          class="fa-solid fa-angle-down"
+          [class.rotate]="openMenu === 'makers'"
+        >
         </i>
-
       </li>
 
-
       <ul class="submenu" [class.show]="openMenu === 'makers'">
-
-        <li routerLink="gold-smith-list">
-          Gold Smith
-        </li>
-        <li routerLink="gold-smiths-production-list">
-          Gold Smith Production
-        </li>
+        <li routerLink="gold-smith-list">Gold Smith</li>
+        <li routerLink="gold-smiths-production-list">Gold Smith Production</li>
 
         <li routerLink="gold-smith-production-item-list">
           Gold Smith Production Item
         </li>
-
-
       </ul>
-
 
       <!-- ================= SALES ================= -->
 
-
       <li (click)="toggleMenu('sales')">
-
         <div class="menu-left">
-
           <i class="fa-solid fa-bag-shopping"></i>
 
           <span>Sales</span>
-
         </div>
 
         <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'sales'">
         </i>
-
       </li>
 
-
-
       <ul class="submenu" [class.show]="openMenu === 'sales'">
-        <li routerLink="order-list">
-          Order
-        </li>
+        <li routerLink="order-list">Customer Online Order</li>
         <!-- <li routerLink="transactions">
           Transactions
         </li> -->
-        <li routerLink="Coupon-lists">
-          Coupons
-        </li>
+        <li routerLink="main-branch-orders">Main Branch Orders</li>
+        <li routerLink="sub-branches-orders">Sub Branch Orders</li>
+
+        <li routerLink="Coupon-lists">Coupons</li>
         <!-- <li routerLink="returns">
           Returns
         </li> -->
@@ -181,18 +133,10 @@
         </i>
       </li>
       <ul class="submenu" [class.show]="openMenu === 'users'">
-        <li routerLink="user">
-          Customers
-        </li>
-        <li routerLink="address">
-          Customers Addresses
-        </li>
-        <li routerLink="get-all-review">
-          Reviews
-        </li>
-        <li routerLink="custom-desigen-list">
-          Customer Design Requests
-        </li>
+        <li routerLink="user">Customers</li>
+        <li routerLink="address">Customers Addresses</li>
+        <li routerLink="get-all-review">Reviews</li>
+        <li routerLink="custom-desigen-list">Customer Design Requests</li>
       </ul>
       <!-- ================= CMS ================= -->
       <li (click)="toggleMenu('cms')">
@@ -204,18 +148,12 @@
         </i>
       </li>
       <ul class="submenu" [class.show]="openMenu === 'cms'">
-        <li routerLink="banners">
-          Banners
-        </li>
+        <li routerLink="banners">Banners</li>
         <!-- <li routerLink="offers">
           Offers
         </li> -->
-        <li routerLink="brand-list">
-          Brand
-        </li>
-        <li routerLink="Ads">
-          Ads
-        </li>
+        <li routerLink="brand-list">Brand</li>
+        <li routerLink="Ads">Ads</li>
       </ul>
 
       <!-- ================= SETTINGS ================= -->
@@ -224,7 +162,10 @@
           <i class="fa-solid fa-gear"></i>
           <span>Settings</span>
         </div>
-        <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'settings'">
+        <i
+          class="fa-solid fa-angle-down"
+          [class.rotate]="openMenu === 'settings'"
+        >
         </i>
       </li>
       <ul class="submenu" [class.show]="openMenu === 'settings'">
@@ -232,127 +173,95 @@
           Gold Rate
         </li> -->
 
-        <li routerLink="subranch-list">
-          Sub Branch
-        </li>
+        <li routerLink="subranch-list">Sub Branch</li>
 
-        <li routerLink="employee-list">
-          Employee
-        </li>
-        <li routerLink="meta-key-words">
-          Meta Key Words
-        </li>
-
+        <li routerLink="employee-list">Employee</li>
+        <li routerLink="meta-key-words">Meta Key Words</li>
       </ul>
 
       <!-- ==============schems===================== -->
       <li (click)="toggleMenu('Schem')">
-
         <div class="menu-left">
-
           <i class="fa-solid fa-image"></i>
 
           <span>Schems</span>
-
         </div>
 
         <i class="fa-solid fa-angle-down" [class.rotate]="openMenu === 'Schem'">
         </i>
-
       </li>
 
       <ul class="submenu" [class.show]="openMenu === 'Schem'">
-
-        <li routerLink="scheme-list">
-          Scheema
-        </li>
-        <li routerLink="user-scheema-list">
-          User-SCheema
-        </li>
-        <li routerLink="userpayment-scheema-list">
-          scheme payment
-        </li>
-
-
-
-
+        <li routerLink="scheme-list">Scheema</li>
+        <li routerLink="user-scheema-list">User-SCheema</li>
+        <li routerLink="userpayment-scheema-list">scheme payment</li>
       </ul>
 
       <div class="menu-left" (click)="logout()">
-
-        <li><i class="fa-solid fa-right-from-bracket"></i>
+        <li>
+          <i class="fa-solid fa-right-from-bracket"></i>
 
           <span>logout</span>
         </li>
-
       </div>
 
       <!-- <li (click)="openLogoutPopup()">
           LOGOUT <i class="fa-solid fa-right-from-bracket"></i>
         </li> -->
-
     </ul>
   </div>
 
   <!-- Main -->
   <div class="main">
-
     <!-- Navbar -->
     <!-- Navbar -->
 
     <div class="navbar">
-
       <!-- LEFT -->
 
       <div class="nav-left">
-
         <button (click)="toggleSidebar()" class="menu-btn">
-
           <i class="fa-solid fa-bars-staggered"></i>
-
         </button>
 
         <div class="page-info">
-
           <h4>Dashboard</h4>
 
-          <p>
-            Welcome back, Admin 👋
-          </p>
-
+          <p>Welcome back, Admin 👋</p>
         </div>
-
       </div>
 
       <!-- CENTER SEARCH -->
 
       <div class="search-wrapper">
-
         <i class="fa-solid fa-magnifying-glass"></i>
 
-        <input type="text" placeholder="Search products, orders, users..." [(ngModel)]="searchText"
-          (focus)="openSearch()" (input)="onSearch()" autocomplete="off" />
-
+        <input
+          type="text"
+          placeholder="Search products, orders, users..."
+          [(ngModel)]="searchText"
+          (focus)="openSearch()"
+          (input)="onSearch()"
+          autocomplete="off"
+        />
 
         <!-- ========================================= -->
         <!-- SEARCH ROUTES -->
         <!-- ========================================= -->
 
         <div class="search-results" *ngIf="showSearchResults">
-
           <!-- ROUTES -->
 
-          <div class="search-result-item" *ngFor="let route of filteredSearchRoutes" (click)="navigateToRoute(route)">
-
+          <div
+            class="search-result-item"
+            *ngFor="let route of filteredSearchRoutes"
+            (click)="navigateToRoute(route)"
+          >
             <div class="route-icon">
-
               <i class="fa-solid fa-arrow-right"></i>
-
             </div>
 
-
             <div class="route-details">
-
               <div class="route-label">
                 {{ route.label }}
               </div>
@@ -360,76 +269,48 @@
               <small>
                 {{ route.fullPath }}
               </small>
-
             </div>
-
           </div>
-
 
           <!-- NO RESULTS -->
 
-          <div class="no-results" *ngIf="
-          filteredSearchRoutes.length === 0
-        ">
-
+          <div class="no-results" *ngIf="filteredSearchRoutes.length === 0">
             <i class="fa-solid fa-magnifying-glass"></i>
 
-            <span>
-              No routes found
-            </span>
-
+            <span> No routes found </span>
           </div>
-
         </div>
-
       </div>
 
       <!-- RIGHT -->
 
       <div class="nav-right">
-
         <!-- NOTIFICATION -->
 
         <div class="nav-icon">
-
           <i class="fa-regular fa-bell"></i>
 
-          <span class="badge-count">
-            3
-          </span>
-
+          <span class="badge-count"> 3 </span>
         </div>
 
         <!-- MESSAGE -->
 
         <div class="nav-icon">
-
           <i class="fa-regular fa-envelope"></i>
 
-          <span class="badge-count">
-            5
-          </span>
-
+          <span class="badge-count"> 5 </span>
         </div>
 
         <!-- PROFILE -->
 
         <div class="profile-box">
-
-          <div class="profile-img">
-
-            A
-
-          </div>
+          <div class="profile-img">A</div>
 
           <div class="profile-info">
-
             <h6>Admin</h6>
 
             <p>Super Admin</p>
-
           </div>
-
         </div>
 
         <!-- LOGOUT -->
@@ -440,57 +321,42 @@
 
         </button> -->
         <div class="nav-right">
-
           <button class="logout-btn" (click)="toggleDropdown()">
-
             <i class="fa-solid fa-right-from-bracket"></i>
-
           </button>
 
           <div class="profile-dropdown" *ngIf="showDropdown">
-
             <div class="dropdown-item" (click)="goToProfile()">
-
               <i class="fa fa-user"></i>
 
               <span>Profile</span>
-
             </div>
 
             <div class="dropdown-item" (click)="logout()">
-
               <i class="fa fa-right-from-bracket"></i>
 
               <span>Logout</span>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
 
     <!-- 🔥 CONTENT AREA (IMPORTANT) -->
-    <div class="content" [ngStyle]="{ marginLeft: isSidebarClosed ? '0px' : '0px' }">
-
+    <div
+      class="content"
+      [ngStyle]="{ marginLeft: isSidebarClosed ? '0px' : '0px' }"
+    >
       <router-outlet></router-outlet>
-
     </div>
 
-
     <div class="profile-overlay" *ngIf="showProfilePopup">
-
       <div class="profile-popup">
-
         <button class="close-icon" (click)="closeProfile()">
           <i class="fa-solid fa-xmark"></i>
         </button>
 
         <div class="profile-header">
-
           <div class="profile-avatar">
             <i class="fa-solid fa-user"></i>
           </div>
@@ -498,13 +364,10 @@
           <h2>{{ userName }}</h2>
 
           <p>{{ role }}</p>
-
         </div>
 
         <div class="profile-body">
-
           <div class="profile-card">
-
             <div class="icon-box">
               <i class="fa-solid fa-user"></i>
             </div>
@@ -513,11 +376,9 @@
               <label>Full Name</label>
               <h5>{{ userName }}</h5>
             </div>
-
           </div>
 
           <div class="profile-card">
-
             <div class="icon-box">
               <i class="fa-solid fa-envelope"></i>
             </div>
@@ -526,11 +387,9 @@
               <label>Email Address</label>
               <h5>{{ userEmail }}</h5>
             </div>
-
           </div>
 
           <div class="profile-card">
-
             <div class="icon-box">
               <i class="fa-solid fa-user-shield"></i>
             </div>
@@ -539,20 +398,11 @@
               <label>Role</label>
               <h5>{{ role }}</h5>
             </div>
-
           </div>
-
         </div>
 
-        <button class="close-btn" (click)="closeProfile()">
-
-          Close
-
-        </button>
-
+        <button class="close-btn" (click)="closeProfile()">Close</button>
       </div>
-
     </div>
-
   </div>
 </div>

@@ -1,11 +1,9 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-
 
 import { DeleteConfirmationComponent } from 'src/app/delete-confirmation/delete-confirmation.component';
 import { OrderViewDialogComponent } from 'src/app/order-view-dialog/order-view-dialog.component';
@@ -16,10 +14,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-list-order',
   templateUrl: './list-order.component.html',
-  styleUrls: ['./list-order.component.css']
+  styleUrls: ['./list-order.component.css'],
 })
 export class ListOrderComponent implements OnInit {
-
   displayedColumns: string[] = [
     'select',
     'sno',
@@ -27,13 +24,13 @@ export class ListOrderComponent implements OnInit {
     'customer',
     'phone',
     'orderSource',
-    'subBranch',
+    // 'subBranch',
     'payment',
     'status',
     'amount',
     'date',
     'shipment',
-    'actions'
+    'actions',
   ];
 
   dataSource = new MatTableDataSource<any>();
@@ -51,8 +48,8 @@ export class ListOrderComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private router: Router,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+  ) {}
 
   // ==========================================
   // INITIALIZATION
@@ -67,81 +64,88 @@ export class ListOrderComponent implements OnInit {
   // Handles Admin and SUB_BRANCH separately
   // ==========================================
 
+  // getOrders(): void {
+  //   const role = localStorage.getItem('role');
+
+  //   // SUB BRANCH ORDERS
+  //   if (role === 'SUB_BRANCH') {
+  //     const adminId = localStorage.getItem('adminId');
+
+  //     if (!adminId) {
+  //       console.error('Sub Branch ID not found');
+
+  //       this.dataSource.data = [];
+  //       this.selectedOrderIds = [];
+
+  //       this.setTable();
+  //       return;
+  //     }
+
+  //     this.orderService.getSubBranchOrders(adminId).subscribe({
+  //       next: (res: any) => {
+  //         this.dataSource.data = res?.success ? res.data || [] : [];
+
+  //         this.selectedOrderIds = [];
+
+  //         this.setTable();
+  //       },
+
+  //       error: (err: any) => {
+  //         console.error('Error fetching Sub Branch orders:', err);
+
+  //         this.dataSource.data = [];
+  //         this.selectedOrderIds = [];
+
+  //         this.setTable();
+  //       },
+  //     });
+
+  //     return;
+  //   }
+
+  //   // NORMAL ORDERS
+  //   this.orderService.getAllOrders().subscribe({
+  //     next: (res: any) => {
+  //       this.dataSource.data = res?.data || [];
+
+  //       this.selectedOrderIds = [];
+
+  //       this.setTable();
+  //     },
+
+  //     error: (err: any) => {
+  //       console.error('Error fetching orders:', err);
+
+  //       this.dataSource.data = [];
+  //       this.selectedOrderIds = [];
+
+  //       this.setTable();
+  //     },
+  //   });
+  // }
+
   getOrders(): void {
+    this.selectedOrderIds = [];
+    this.isBulkTracking = false;
 
-    const role = localStorage.getItem('role');
-
-    // SUB BRANCH ORDERS
-    if (role === 'SUB_BRANCH') {
-
-      const adminId = localStorage.getItem('adminId');
-
-      if (!adminId) {
-        console.error('Sub Branch ID not found');
-
-        this.dataSource.data = [];
-        this.selectedOrderIds = [];
-
-        this.setTable();
-        return;
-      }
-
-      this.orderService.getSubBranchOrders(adminId).subscribe({
-
-        next: (res: any) => {
-
-          this.dataSource.data = res?.success
-            ? (res.data || [])
-            : [];
-
-          this.selectedOrderIds = [];
-
-          this.setTable();
-
-        },
-
-        error: (err: any) => {
-
-          console.error('Error fetching Sub Branch orders:', err);
-
-          this.dataSource.data = [];
-          this.selectedOrderIds = [];
-
-          this.setTable();
-
-        }
-
-      });
-
-      return;
-    }
-
-    // NORMAL ORDERS
-    this.orderService.getAllOrders().subscribe({
-
+    this.orderService.getCustomerOrders().subscribe({
       next: (res: any) => {
+        console.log('ONLINE CUSTOMER ORDERS:', res);
 
-        this.dataSource.data = res?.data || [];
-
-        this.selectedOrderIds = [];
+        this.dataSource.data = res?.success ? res.data || [] : [];
 
         this.setTable();
-
       },
 
       error: (err: any) => {
-
-        console.error('Error fetching orders:', err);
+        console.error('Error fetching customer orders:', err);
 
         this.dataSource.data = [];
         this.selectedOrderIds = [];
 
         this.setTable();
-
-      }
-
+      },
     });
-
   }
 
   // ==========================================
@@ -149,10 +153,8 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   private setTable(): void {
-
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
   }
 
   // ==========================================
@@ -160,9 +162,7 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   applyFilter(event: Event): void {
-
-    const filterValue = (event.target as HTMLInputElement)
-      .value
+    const filterValue = (event.target as HTMLInputElement).value
       .trim()
       .toLowerCase();
 
@@ -170,7 +170,6 @@ export class ListOrderComponent implements OnInit {
 
     // Clear selection when search changes
     this.selectedOrderIds = [];
-
   }
 
   // ==========================================
@@ -178,17 +177,13 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   viewOrder(order: any): void {
-
     this.dialog.open(OrderViewDialogComponent, {
-
       width: '1000px',
       maxWidth: '95vw',
       maxHeight: '90vh',
       data: order,
-      autoFocus: false
-
+      autoFocus: false,
     });
-
   }
 
   // ==========================================
@@ -196,12 +191,7 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   editOrder(id: string): void {
-
-    this.router.navigate([
-      '/admin/order/edit',
-      id
-    ]);
-
+    this.router.navigate(['/admin/order/edit', id]);
   }
 
   // ==========================================
@@ -209,51 +199,36 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   deleteCategory(id: string): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '400px',
+    });
 
-    const dialogRef = this.dialog.open(
-      DeleteConfirmationComponent,
-      {
-        width: '400px'
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-
         this.orderService.deleteOrder(id).subscribe({
-
           next: () => {
-
             Swal.fire({
               icon: 'success',
               title: 'Deleted',
               text: 'Order Deleted Successfully',
               timer: 2500,
-              showConfirmButton: false
+              showConfirmButton: false,
             });
 
             // Role-based refresh
             this.getOrders();
-
           },
 
           error: () => {
-
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: 'Delete Failed'
+              text: 'Delete Failed',
             });
-
-          }
-
+          },
         });
-
       }
-
     });
-
   }
 
   // ==========================================
@@ -261,7 +236,6 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   openShipment(order: any): void {
-
     if (
       order.orderSource !== 'ONLINE' ||
       order.paymentStatus !== 'Paid' ||
@@ -270,22 +244,16 @@ export class ListOrderComponent implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: 'Shipment Not Allowed',
-        text: 'Only paid online orders are eligible for shipment.'
+        text: 'Only paid online orders are eligible for shipment.',
       });
       return;
     }
 
-    const isCancelled =
-      order.sequelShipment?.bookingStatus === 'CANCELLED';
+    const isCancelled = order.sequelShipment?.bookingStatus === 'CANCELLED';
 
-    this.router.navigate(
-      ['/admin/order-shipment', order._id],
-      {
-        queryParams: isCancelled
-          ? { newShipment: 'true' }
-          : {}
-      }
-    );
+    this.router.navigate(['/admin/order-shipment', order._id], {
+      queryParams: isCancelled ? { newShipment: 'true' } : {},
+    });
   }
 
   // ==========================================
@@ -293,20 +261,14 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   isTrackable(order: any): boolean {
-
     return (
       order.orderSource === 'ONLINE' &&
       order.paymentStatus === 'Paid' &&
       order.paymentMethod !== 'COD' &&
       order.sequelShipment?.bookingStatus === 'BOOKED' &&
-      /^\d{10}$/.test(
-        order.sequelShipment?.docketNumber || ''
-      ) &&
-      !['SDELVD', 'SCANCELLED'].includes(
-        order.sequelShipment?.shipmentStatus
-      )
+      /^\d{10}$/.test(order.sequelShipment?.docketNumber || '') &&
+      !['SDELVD', 'SCANCELLED'].includes(order.sequelShipment?.shipmentStatus)
     );
-
   }
 
   // ==========================================
@@ -314,25 +276,19 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   toggleOrderSelection(order: any, checked: boolean): void {
-
     if (!this.isTrackable(order)) {
       return;
     }
 
     if (checked) {
-
       if (!this.selectedOrderIds.includes(order._id)) {
         this.selectedOrderIds.push(order._id);
       }
-
     } else {
-
       this.selectedOrderIds = this.selectedOrderIds.filter(
-        id => id !== order._id
+        (id) => id !== order._id,
       );
-
     }
-
   }
 
   // ==========================================
@@ -340,9 +296,7 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   isOrderSelected(order: any): boolean {
-
     return this.selectedOrderIds.includes(order._id);
-
   }
 
   // ==========================================
@@ -350,11 +304,9 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   get eligibleFilteredOrders(): any[] {
-
-    return this.dataSource.filteredData.filter(
-      (order: any) => this.isTrackable(order)
+    return this.dataSource.filteredData.filter((order: any) =>
+      this.isTrackable(order),
     );
-
   }
 
   // ==========================================
@@ -362,14 +314,12 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   isAllSelected(): boolean {
-
     const eligible = this.eligibleFilteredOrders;
 
     return (
       eligible.length > 0 &&
-      eligible.every(order => this.isOrderSelected(order))
+      eligible.every((order) => this.isOrderSelected(order))
     );
-
   }
 
   // ==========================================
@@ -377,29 +327,19 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   toggleSelectAll(checked: boolean): void {
-
     if (checked) {
-
-      this.eligibleFilteredOrders.forEach(order => {
-
+      this.eligibleFilteredOrders.forEach((order) => {
         if (!this.selectedOrderIds.includes(order._id)) {
           this.selectedOrderIds.push(order._id);
         }
-
       });
-
     } else {
-
-      const visibleIds = this.eligibleFilteredOrders.map(
-        order => order._id
-      );
+      const visibleIds = this.eligibleFilteredOrders.map((order) => order._id);
 
       this.selectedOrderIds = this.selectedOrderIds.filter(
-        id => !visibleIds.includes(id)
+        (id) => !visibleIds.includes(id),
       );
-
     }
-
   }
 
   // ==========================================
@@ -407,17 +347,15 @@ export class ListOrderComponent implements OnInit {
   // ==========================================
 
   trackSelectedShipments(): void {
-
     if (this.isBulkTracking) {
       return;
     }
 
     if (!this.selectedOrderIds.length) {
-
       Swal.fire(
         'Select Orders',
         'Please select at least one booked shipment.',
-        'warning'
+        'warning',
       );
 
       return;
@@ -427,7 +365,6 @@ export class ListOrderComponent implements OnInit {
     const orderIds = [...this.selectedOrderIds];
 
     Swal.fire({
-
       title: 'Track Shipments?',
 
       text: `Are you sure you want to track ${orderIds.length} selected shipments?`,
@@ -438,10 +375,8 @@ export class ListOrderComponent implements OnInit {
 
       confirmButtonText: 'Yes, Track',
 
-      cancelButtonText: 'Cancel'
-
-    }).then(result => {
-
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
       if (!result.isConfirmed) {
         return;
       }
@@ -449,19 +384,15 @@ export class ListOrderComponent implements OnInit {
       this.isBulkTracking = true;
 
       this.orderService.trackMultipleOrders(orderIds).subscribe({
-
         next: (res: any) => {
-
           this.isBulkTracking = false;
 
           if (res?.success) {
-
             const data = res.data || {};
 
             this.selectedOrderIds = [];
 
             Swal.fire({
-
               icon: 'success',
 
               title: 'Bulk Tracking Completed',
@@ -475,29 +406,21 @@ export class ListOrderComponent implements OnInit {
                   <p><b>Skipped:</b> ${data.skipped ?? 0}</p>
                   <p><b>Errors:</b> ${data.errors?.length ?? 0}</p>
                 </div>
-              `
-
+              `,
             }).then(() => {
-
               // Refresh according to logged-in role
               this.getOrders();
-
             });
-
           } else {
-
             Swal.fire(
               'Tracking Failed',
               res?.message || 'Unable to track shipments.',
-              'error'
+              'error',
             );
-
           }
-
         },
 
         error: (err: any) => {
-
           this.isBulkTracking = false;
 
           console.error('Bulk tracking error:', err);
@@ -505,15 +428,10 @@ export class ListOrderComponent implements OnInit {
           Swal.fire(
             'Error',
             err.error?.message || 'Bulk shipment tracking failed.',
-            'error'
+            'error',
           );
-
-        }
-
+        },
       });
-
     });
-
   }
-
 }

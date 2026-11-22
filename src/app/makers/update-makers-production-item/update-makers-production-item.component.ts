@@ -511,32 +511,36 @@ export class UpdateMakersProductionItemComponent implements OnInit {
           });
 
           // Find saved variant ID in current product variants
+          // Find saved variant ID in current product variants
           let selectedVariant = this.variantList.find(
             (variant: any) =>
               String(variant._id) === String(savedVariantId)
           ) || null;
 
-          // If the stored variant ID no longer exists,
-          // use the only current variant when exactly one exists.
-          if (!selectedVariant && this.variantList.length === 1) {
+          // Saved variant current product lo lekapothe
+          // first variant select cheyyi
+          if (!selectedVariant && this.variantList.length > 0) {
             selectedVariant = this.variantList[0];
           }
 
           this.selectedVariant = selectedVariant;
 
-          // Patch the current variant ID into the form
+          // Patch current variant ID
           this.makerProductionItemForm.patchValue({
             variantId: selectedVariant?._id || ''
           });
 
-          console.log('Selected Product:', this.selectedProduct);
-          console.log('Current Variant List:', this.variantList);
-          console.log('Saved Variant ID:', savedVariantId);
-          console.log('Selected Variant:', this.selectedVariant);
-          console.log(
-            'Form Values:',
-            this.makerProductionItemForm.getRawValue()
-          );
+          // First variant select ayyaka,
+          // aa variant quantity patch cheyyi
+          if (selectedVariant) {
+            const variantQuantity =
+              Number(selectedVariant.stock ?? 0);
+
+            this.makerProductionItemForm.patchValue({
+              quantityGiven:
+                variantQuantity > 0 ? variantQuantity : 0
+            });
+          }
 
           if (this.isViewMode) {
             this.makerProductionItemForm.disable();
@@ -781,23 +785,30 @@ export class UpdateMakersProductionItemComponent implements OnInit {
   // ==========================================
 
   onVariantChange(): void {
-
     const variantId =
       this.makerProductionItemForm
         .get('variantId')
         ?.value;
 
-
     this.selectedVariant =
       this.variantList.find(
-
         variant =>
-
           String(variant._id) ===
           String(variantId)
-
       ) || null;
 
+    // Variant change chesinappudu
+    // aa variant stock ni quantityGiven lo set cheyyi
+    if (this.selectedVariant) {
+      const variantQuantity =
+        Number(this.selectedVariant.stock ?? 0);
+
+      this.makerProductionItemForm
+        .get('quantityGiven')
+        ?.setValue(
+          variantQuantity > 0 ? variantQuantity : 0
+        );
+    }
   }
 
 

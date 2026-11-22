@@ -2,837 +2,605 @@
      BILLING / POS HEADER
 ========================================================= -->
 <div class="billing-header">
-    <div class="billing-header-inner">
+  <div class="billing-header-inner">
+    <div class="billing-brand">
+      <div class="logo-box">
+        <img src="assets/Images/logo2.png" class="company-logo" alt="Logo" />
+      </div>
 
-        <div class="billing-brand">
-            <div class="logo-box">
-                <img src="assets/Images/logo2.png" class="company-logo" alt="Logo">
-            </div>
-
-            <div class="billing-heading">
-                <h1>CREATE BILL</h1>
-                <span>Jewellery Retail POS</span>
-            </div>
-        </div>
-
-        <div class="billing-header-right">
-            <div class="pos-status">
-                <span class="status-dot"></span>
-                <span>Billing Counter</span>
-            </div>
-
-            <div class="pos-type">
-                DIRECT CUSTOMER SALE
-            </div>
-        </div>
-
+      <div class="billing-heading">
+        <h1>CREATE BILL</h1>
+        <span>Jewellery Retail POS</span>
+      </div>
     </div>
+
+    <div class="billing-header-right">
+      <div class="pos-status">
+        <span class="status-dot"></span>
+        <span>Billing Counter</span>
+      </div>
+
+      <div class="pos-type">DIRECT CUSTOMER SALE</div>
+    </div>
+  </div>
 </div>
 
-
 <div class="container-fluid billing-page">
-
-    <form [formGroup]="orderForm" (ngSubmit)="createOrder()">
-
-        <div class="bill-shell">
-
-
-            <!-- =====================================================
+  <form [formGroup]="orderForm" (ngSubmit)="createOrder()">
+    <div class="bill-shell">
+      <!-- =====================================================
                  PRODUCT SEARCH / ADD TO BILL
             ====================================================== -->
-            <section class="pos-section product-entry-section">
-
-                <div class="section-heading">
-                    <div class="section-heading-left">
-                        <span class="section-number">01</span>
-
-                        <div>
-                            <h3>Add Product</h3>
-                            <p>Search SKU and add jewellery to the bill</p>
-                        </div>
-                    </div>
-
-                    <span class="section-badge">
-                        PRODUCT ENTRY
-                    </span>
-                </div>
-
-
-                <div class="product-entry-box">
-
-                    <!-- SKU -->
-                    <div class="sku-search-area">
-
-                        <label class="pos-label">
-                            Search SKU / Product
-                        </label>
-
-                        <ng-select class="bill-select" [items]="filteredVariants" bindLabel="sku" bindValue="_id"
-                            [searchable]="true" [clearable]="true" [virtualScroll]="true" appendTo="body"
-                            formControlName="variant" placeholder="Enter SKU or search product" (open)="loadAllSkus()"
-                            (search)="onSearch($event)" (change)="onVariantChange()">
-
-                            <ng-template ng-option-tmp let-item="item">
-
-                                <div class="sku-option">
-
-                                    <div class="sku-option-main">
-                                        <strong>{{ item.sku }}</strong>
-                                    </div>
-
-                                    <div class="sku-option-info">
-                                        {{ item.product.name }}
-                                        <span>•</span>
-                                        {{ item.metalPurity }}
-                                    </div>
-
-                                </div>
-
-                            </ng-template>
-
-                        </ng-select>
-
-                    </div>
-
-
-                    <!-- QTY -->
-                    <div class="quantity-area">
-
-                        <label class="pos-label">
-                            Qty
-                        </label>
-
-                        <input type="number" min="1" class="form-control qty-box" formControlName="quantity">
-
-                    </div>
-
-
-                    <!-- ADD -->
-                    <div class="add-product-area">
-
-                        <label class="pos-label invisible">
-                            Add
-                        </label>
-
-                        <button class="btn add-product-btn" type="button" (click)="addItem()">
-
-                            <i class="fa fa-plus"></i>
-                            <span>Add Item</span>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =====================================================
-                 SELECTED PRODUCT PREVIEW
-            ====================================================== -->
-            <section class="selected-product-section" *ngIf="selectedProduct">
-
-                <div class="selected-product-header">
-
-                    <div>
-                        <span class="mini-label">
-                            SELECTED PRODUCT
-                        </span>
-
-                        <h3>
-                            {{ selectedProduct.name || 'Jewellery Item' }}
-                        </h3>
-                    </div>
-
-                    <span class="selected-badge">
-                        READY TO BILL
-                    </span>
-
-                </div>
-
-
-                <div class="selected-product-content">
-
-                    <!-- IMAGE -->
-                    <div class="selected-product-image">
-
-                        <img [src]="selectedProduct.images[0]" alt="Product" class="product-preview-image">
-
-                    </div>
-
-
-                    <!-- DETAILS -->
-                    <div class="product-information">
-
-                        <div class="product-info-item">
-
-                            <span class="info-label">
-                                Product Type
-                            </span>
-
-                            <strong>
-                                {{ selectedProduct.productType || '-' }}
-                            </strong>
-
-                        </div>
-
-
-                        <ng-container *ngIf="selectedVariant">
-
-                            <div class="product-info-item">
-
-                                <span class="info-label">
-                                    SKU
-                                </span>
-
-                                <strong class="sku-value">
-                                    {{ selectedVariant.sku || '-' }}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="product-info-item">
-
-                                <span class="info-label">
-                                    Purity
-                                </span>
-
-                                <strong>
-                                    {{ selectedVariant.metalPurity || '-' }}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="product-info-item">
-
-                                <span class="info-label">
-                                    Metal
-                                </span>
-
-                                <strong>
-                                    {{ selectedVariant.metalType || '-' }}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="product-info-item">
-
-                                <span class="info-label">
-                                    Net Weight
-                                </span>
-
-                                <strong>
-                                    {{ selectedVariant.netWeight || '-' }} g
-                                </strong>
-
-                            </div>
-
-
-                            <div class="product-info-item">
-
-                                <span class="info-label">
-                                    Size
-                                </span>
-
-                                <strong>
-                                    {{ selectedVariant.size || '-' }}
-                                </strong>
-
-                            </div>
-
-                        </ng-container>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =====================================================
-                 ORDER ITEMS / CART
-            ====================================================== -->
-            <section class="pos-section cart-section">
-
-                <div class="section-heading">
-
-                    <div class="section-heading-left">
-
-                        <span class="section-number">
-                            02
-                        </span>
-
-                        <div>
-
-                            <h3>
-                                Order Items
-                            </h3>
-
-                            <p>
-                                Products added to the current bill
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="cart-count">
-
-                        <span>
-                            {{ cartItems.length }}
-                        </span>
-
-                        Items
-
-                    </div>
-
-                </div>
-
-
-                <div class="cart-table-wrapper">
-
-                    <table class="table pos-cart-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th class="serial-column">
-                                    #
-                                </th>
-
-                                <th class="image-column">
-                                    Item
-                                </th>
-
-                                <th>
-                                    Product
-                                </th>
-
-                                <th>
-                                    Variant / SKU
-                                </th>
-
-                                <th class="qty-column">
-                                    Qty
-                                </th>
-
-                                <th class="amount-column">
-                                    Metal Value
-                                </th>
-
-                                <th class="amount-column">
-                                    GST
-                                </th>
-
-                                <th class="total-column">
-                                    Total
-                                </th>
-
-                                <th class="action-column">
-                                    Action
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            <tr *ngFor="let item of cartItems; let i=index" class="cart-row">
-
-                                <!-- NUMBER -->
-                                <td class="serial-cell">
-                                    {{ i + 1 }}
-                                </td>
-
-
-                                <!-- IMAGE -->
-                                <td class="item-image-cell">
-
-                                    <div class="table-product-image">
-
-                                        <img [src]="item.image" alt="Product">
-
-                                    </div>
-
-                                </td>
-
-
-                                <!-- PRODUCT -->
-                                <td class="product-name-cell">
-
-                                    <strong>
-                                        {{ item.productName }}
-                                    </strong>
-
-                                </td>
-
-
-                                <!-- VARIANT -->
-                                <td class="variant-cell">
-
-                                    <span class="variant-chip">
-                                        {{ item.variantName }}
-                                    </span>
-
-                                </td>
-
-
-                                <!-- QTY -->
-                                <td class="qty-cell">
-
-                                    <span class="qty-value">
-                                        {{ item.quantity }}
-                                    </span>
-
-                                </td>
-
-
-                                <!-- METAL VALUE -->
-                                <td class="amount-cell">
-
-                                    {{ item.metalValue | currency:'INR' }}
-
-                                </td>
-
-
-                                <!-- GST -->
-                                <td class="gst-cell">
-
-                                    <strong>
-                                        {{ item.gstAmount | currency:'INR' }}
-                                    </strong>
-
-                                    <small>
-                                        {{ item.gstPercentage }}%
-                                    </small>
-
-                                </td>
-
-
-                                <!-- TOTAL -->
-                                <td class="total-cell">
-
-                                    <strong>
-                                        {{ item.totalPrice | currency:'INR' }}
-                                    </strong>
-
-                                </td>
-
-
-                                <!-- ACTION -->
-                                <td class="action-cell">
-
-                                    <div class="item-actions">
-
-                                        <button class="item-action view" type="button" title="View"
-                                            (click)="viewItem(item)">
-
-                                            <i class="fa fa-eye"></i>
-
-                                        </button>
-
-
-                                        <button class="item-action delete" type="button" title="Remove"
-                                            (click)="removeItem(i)">
-
-                                            <i class="fa fa-trash"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- EMPTY -->
-                            <tr *ngIf="cartItems.length == 0">
-
-                                <td colspan="9" class="empty-cart">
-
-                                    <div class="empty-cart-content">
-
-                                        <div class="empty-cart-icon">
-                                            <i class="fa fa-shopping-bag"></i>
-                                        </div>
-
-                                        <strong>
-                                            No Products Added
-                                        </strong>
-
-                                        <span>
-                                            Search an SKU above to add products to this bill
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =====================================================
-                 CHECKOUT SECTION
-            ====================================================== -->
-            <section class="checkout-section">
-
-                <div class="section-heading checkout-heading">
-
-                    <div class="section-heading-left">
-
-                        <span class="section-number">
-                            03
-                        </span>
-
-                        <div>
-
-                            <h3>
-                                Checkout
-                            </h3>
-
-                            <p>
-                                Customer, payment and final bill details
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="row g-3 checkout-grid">
-
-
-                    <!-- =================================================
-                         CUSTOMER
-                    ================================================== -->
-                    <div class="col-xl-4 col-lg-4">
-
-                        <div class="checkout-card customer-card">
-
-                            <div class="checkout-card-header">
-
-                                <div class="checkout-icon">
-                                    <i class="fa fa-user"></i>
-                                </div>
-
-                                <div>
-                                    <h4>
-                                        Customer Details
-                                    </h4>
-
-                                    <span>
-                                        Direct customer information
-                                    </span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="checkout-card-body">
-
-                                <div class="customer-field">
-
-                                    <label>
-                                        Customer Name
-                                    </label>
-
-                                    <input type="text" class="form-control" formControlName="customerName"
-                                        placeholder="Enter customer name">
-
-                                </div>
-
-
-                                <div class="customer-field">
-
-                                    <label>
-                                        Phone Number
-                                    </label>
-
-                                    <input type="text" class="form-control" formControlName="customerPhone"
-                                        placeholder="Enter mobile number">
-
-                                </div>
-
-
-                                <div class="customer-field">
-
-                                    <label>
-                                        Email
-                                    </label>
-
-                                    <input type="email" class="form-control" formControlName="customerEmail"
-                                        placeholder="Enter email address">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =================================================
-                         PAYMENT
-                    ================================================== -->
-                    <div class="col-xl-4 col-lg-4">
-
-                        <div class="checkout-card payment-card">
-
-                            <div class="checkout-card-header">
-
-                                <div class="checkout-icon payment-icon">
-                                    <i class="fa fa-credit-card"></i>
-                                </div>
-
-                                <div>
-                                    <h4>
-                                        Payment Details
-                                    </h4>
-
-                                    <span>
-                                        Select payment method
-                                    </span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="checkout-card-body">
-
-                                <div class="payment-field">
-
-                                    <label>
-                                        Payment Method
-                                    </label>
-
-                                    <select class="form-select payment-select" formControlName="paymentMethod">
-
-                                        <option value="CASH">
-                                            Cash
-                                        </option>
-
-                                        <option value="UPI">
-                                            UPI
-                                        </option>
-
-                                        <option value="CARD">
-                                            Card
-                                        </option>
-
-                                        <option value="NETBANKING">
-                                            Net Banking
-                                        </option>
-
-                                    </select>
-
-                                </div>
-
-
-                                <div class="payment-field">
-
-                                    <label>
-                                        Billing Notes
-                                    </label>
-
-                                    <textarea rows="4" class="form-control notes-box" formControlName="notes"
-                                        placeholder="Add notes if required..."></textarea>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =================================================
-                         ORDER SUMMARY
-                    ================================================== -->
-                    <div class="col-xl-4 col-lg-4">
-
-                        <div class="checkout-card summary-card">
-
-                            <div class="checkout-card-header summary-header">
-
-                                <div class="checkout-icon summary-icon">
-                                    <i class="fa fa-file-invoice-dollar"></i>
-                                </div>
-
-                                <div>
-                                    <h4>
-                                        Bill Summary
-                                    </h4>
-
-                                    <span>
-                                        Final payable amount
-                                    </span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="summary-body">
-
-                                <div class="summary-row">
-
-                                    <span>
-                                        Sub Total
-                                    </span>
-
-                                    <strong>
-                                        {{ subTotal | currency:'INR' }}
-                                    </strong>
-
-                                </div>
-
-
-                                <div class="summary-row">
-
-                                    <span>
-                                        Discount
-                                    </span>
-
-                                    <strong class="discount-value">
-                                        {{ discount | currency:'INR' }}
-                                    </strong>
-
-                                </div>
-
-
-                                <div class="summary-row">
-
-                                    <span>
-                                        GST
-                                    </span>
-
-                                    <strong>
-                                        {{ gst | currency:'INR' }}
-                                    </strong>
-
-                                </div>
-
-
-                                <div class="summary-row">
-
-                                    <span>
-                                        Shipping
-                                    </span>
-
-                                    <strong>
-                                        ₹0.00
-                                    </strong>
-
-                                </div>
-
-
-                                <div class="summary-divider"></div>
-
-
-                                <div class="grand-total-row">
-
-                                    <div>
-
-                                        <span>
-                                            GRAND TOTAL
-                                        </span>
-
-                                        <small>
-                                            Amount Payable
-                                        </small>
-
-                                    </div>
-
-                                    <strong>
-                                        {{ grandTotal | currency:'INR' }}
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =====================================================
-                 BILL ACTIONS
-            ====================================================== -->
-            <div class="bill-actions">
-
-                <div class="bill-action-left">
-
-                    <span class="secure-billing">
-                        <i class="fa fa-shield-alt"></i>
-                        Secure Billing
-                    </span>
-
-                </div>
-
-
-                <div class="bill-action-right">
-
-                    <button type="button" class="btn pos-back-btn" (click)="goBack()">
-
-                        <i class="fa fa-arrow-left"></i>
-                        Back
-
-                    </button>
-
-
-                    <button type="button" class="btn print-invoice-btn" *ngIf="orderSummary?._id">
-
-                        <i class="fa fa-print"></i>
-                        Print Invoice
-
-                    </button>
-
-
-                    <button type="submit" class="btn-create">
-
-                        <i class="fa fa-check-circle"></i>
-                        Create Order
-
-                    </button>
-
-                </div>
-
+      <section class="pos-section product-entry-section">
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-number">01</span>
+
+            <div>
+              <h3>Add Product</h3>
+              <p>Search SKU and add jewellery to the bill</p>
             </div>
+          </div>
 
-
+          <span class="section-badge"> PRODUCT ENTRY </span>
         </div>
 
-    </form>
+        <div class="product-entry-box">
+          <!-- SKU -->
+          <div class="sku-search-area">
+            <label class="pos-label"> Search SKU / Product </label>
 
+            <ng-select
+              class="bill-select"
+              [items]="filteredVariants"
+              bindLabel="sku"
+              bindValue="_id"
+              [searchable]="true"
+              [clearable]="true"
+              [virtualScroll]="true"
+              appendTo="body"
+              formControlName="variant"
+              placeholder="Enter SKU or search product"
+              (open)="loadAllSkus()"
+              (search)="onSearch($event)"
+              (change)="onVariantChange()"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div class="sku-option">
+                  <div class="sku-option-main">
+                    <strong>{{ item.sku }}</strong>
+                  </div>
+
+                  <div class="sku-option-info">
+                    {{ item.product.name }}
+                    <span>•</span>
+                    {{ item.metalPurity }}
+                  </div>
+                </div>
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <!-- QTY -->
+          <div class="quantity-area">
+            <label class="pos-label"> Qty </label>
+
+            <input
+              type="number"
+              min="1"
+              class="form-control qty-box"
+              formControlName="quantity"
+            />
+          </div>
+
+          <!-- ADD -->
+          <div class="add-product-area">
+            <label class="pos-label invisible"> Add </label>
+
+            <button
+              class="btn add-product-btn"
+              type="button"
+              (click)="addItem()"
+              [disabled]="
+                !selectedProduct ||
+                !selectedVariant ||
+                orderForm.get('quantity')?.invalid
+              "
+            >
+              <i class="fa fa-plus"></i>
+              <span>Add Item</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+                 SELECTED PRODUCT PREVIEW
+            ====================================================== -->
+      <section class="selected-product-section" *ngIf="selectedProduct">
+        <div class="selected-product-header">
+          <div>
+            <span class="mini-label"> SELECTED PRODUCT </span>
+
+            <h3>
+              {{ selectedProduct.name || "Jewellery Item" }}
+            </h3>
+          </div>
+
+          <span class="selected-badge"> READY TO BILL </span>
+        </div>
+
+        <div class="selected-product-content">
+          <!-- IMAGE -->
+          <div class="selected-product-image">
+            <img
+              [src]="
+                selectedProduct.images?.[0] || 'assets/Images/no-image.png'
+              "
+              alt="Product"
+              class="product-preview-image"
+            />
+          </div>
+
+          <!-- DETAILS -->
+          <div class="product-information">
+            <div class="product-info-item">
+              <span class="info-label"> Product Type </span>
+
+              <strong>
+                {{ selectedProduct.productType || "-" }}
+              </strong>
+            </div>
+
+            <ng-container *ngIf="selectedVariant">
+              <div class="product-info-item">
+                <span class="info-label"> SKU </span>
+
+                <strong class="sku-value">
+                  {{ selectedVariant.sku || "-" }}
+                </strong>
+              </div>
+
+              <div class="product-info-item">
+                <span class="info-label"> Purity </span>
+
+                <strong>
+                  {{ selectedVariant.metalPurity || "-" }}
+                </strong>
+              </div>
+
+              <div class="product-info-item">
+                <span class="info-label"> Metal </span>
+
+                <strong>
+                  {{ selectedVariant.metalType || "-" }}
+                </strong>
+              </div>
+
+              <div class="product-info-item">
+                <span class="info-label"> Net Weight </span>
+
+                <strong> {{ selectedVariant.netWeight || "-" }} g </strong>
+              </div>
+
+              <div class="product-info-item">
+                <span class="info-label"> Size </span>
+
+                <strong>
+                  {{ selectedVariant.size || "-" }}
+                </strong>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+                 ORDER ITEMS / CART
+            ====================================================== -->
+      <section class="pos-section cart-section">
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-number"> 02 </span>
+
+            <div>
+              <h3>Order Items</h3>
+
+              <p>Products added to the current bill</p>
+            </div>
+          </div>
+
+          <div class="cart-count">
+            <span>
+              {{ cartItems.length }}
+            </span>
+
+            Items
+          </div>
+        </div>
+
+        <div class="cart-table-wrapper">
+          <table class="table pos-cart-table">
+            <thead>
+              <tr>
+                <th class="serial-column">#</th>
+
+                <th class="image-column">Item</th>
+
+                <th>Product</th>
+
+                <th>Variant / SKU</th>
+
+                <th class="qty-column">Qty</th>
+
+                <th class="amount-column">Metal Value</th>
+
+                <th class="amount-column">GST</th>
+
+                <th class="total-column">Total</th>
+
+                <th class="action-column">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                *ngFor="let item of cartItems; let i = index"
+                class="cart-row"
+              >
+                <!-- NUMBER -->
+                <td class="serial-cell">
+                  {{ i + 1 }}
+                </td>
+
+                <!-- IMAGE -->
+                <td class="item-image-cell">
+                  <div class="table-product-image">
+                    <img [src]="item.image" alt="Product" />
+                  </div>
+                </td>
+
+                <!-- PRODUCT -->
+                <td class="product-name-cell">
+                  <strong>
+                    {{ item.productName }}
+                  </strong>
+                </td>
+
+                <!-- VARIANT -->
+                <td class="variant-cell">
+                  <span class="variant-chip">
+                    {{ item.variantName }}
+                  </span>
+                </td>
+
+                <!-- QTY -->
+                <td class="qty-cell">
+                  <span class="qty-value">
+                    {{ item.quantity }}
+                  </span>
+                </td>
+
+                <!-- METAL VALUE -->
+                <td class="amount-cell">
+                  {{ item.metalValue | currency: "INR" }}
+                </td>
+
+                <!-- GST -->
+                <td class="gst-cell">
+                  <strong>
+                    {{ item.gstAmount | currency: "INR" }}
+                  </strong>
+
+                  <small> {{ item.gstPercentage }}% </small>
+                </td>
+
+                <!-- TOTAL -->
+                <td class="total-cell">
+                  <strong>
+                    {{ item.totalPrice | currency: "INR" }}
+                  </strong>
+                </td>
+
+                <!-- ACTION -->
+                <td class="action-cell">
+                  <div class="item-actions">
+                    <button
+                      class="item-action view"
+                      type="button"
+                      title="View"
+                      (click)="viewItem(item)"
+                    >
+                      <i class="fa fa-eye"></i>
+                    </button>
+
+                    <button
+                      class="item-action delete"
+                      type="button"
+                      title="Remove"
+                      (click)="removeItem(i)"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- EMPTY -->
+              <tr *ngIf="cartItems.length == 0">
+                <td colspan="9" class="empty-cart">
+                  <div class="empty-cart-content">
+                    <div class="empty-cart-icon">
+                      <i class="fa fa-shopping-bag"></i>
+                    </div>
+
+                    <strong> No Products Added </strong>
+
+                    <span>
+                      Search an SKU above to add products to this bill
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- =====================================================
+                 CHECKOUT SECTION
+            ====================================================== -->
+      <section class="checkout-section">
+        <div class="section-heading checkout-heading">
+          <div class="section-heading-left">
+            <span class="section-number"> 03 </span>
+
+            <div>
+              <h3>Checkout</h3>
+
+              <p>Customer, payment and final bill details</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 checkout-grid">
+          <!-- =================================================
+                         CUSTOMER
+                    ================================================== -->
+          <div class="col-xl-4 col-lg-4">
+            <div class="checkout-card customer-card">
+              <div class="checkout-card-header">
+                <div class="checkout-icon">
+                  <i class="fa fa-user"></i>
+                </div>
+
+                <div>
+                  <h4>Customer Details</h4>
+
+                  <span> Direct customer information </span>
+                </div>
+              </div>
+
+              <div class="checkout-card-body">
+                <div class="customer-field">
+                  <label> Customer Name </label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="customerName"
+                    placeholder="Enter customer name"
+                  />
+                  <div
+                    class="text-danger small mt-1"
+                    *ngIf="
+                      orderForm.get('customerName')?.touched &&
+                      orderForm.get('customerName')?.invalid
+                    "
+                  >
+                    Customer name is required.
+                  </div>
+                </div>
+
+                <div class="customer-field">
+                  <label> Phone Number </label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="customerPhone"
+                    placeholder="Enter mobile number"
+                  />
+
+                  <div
+                    class="text-danger small mt-1"
+                    *ngIf="
+                      orderForm.get('customerPhone')?.touched &&
+                      orderForm.get('customerPhone')?.invalid
+                    "
+                  >
+                    Mobile number is required.
+                  </div>
+                </div>
+
+                <div class="customer-field">
+                  <label> Email </label>
+
+                  <input
+                    type="email"
+                    class="form-control"
+                    formControlName="customerEmail"
+                    placeholder="Enter email address"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================================
+                         PAYMENT
+                    ================================================== -->
+          <div class="col-xl-4 col-lg-4">
+            <div class="checkout-card payment-card">
+              <div class="checkout-card-header">
+                <div class="checkout-icon payment-icon">
+                  <i class="fa fa-credit-card"></i>
+                </div>
+
+                <div>
+                  <h4>Payment Details</h4>
+
+                  <span> Select payment method </span>
+                </div>
+              </div>
+
+              <div class="checkout-card-body">
+                <div class="payment-field">
+                  <label> Payment Method </label>
+
+                  <select
+                    class="form-select payment-select"
+                    formControlName="paymentMethod"
+                  >
+                    <option value="CASH">Cash</option>
+
+                    <option value="UPI">UPI</option>
+
+                    <option value="CARD">Card</option>
+                  </select>
+                </div>
+
+                <div class="payment-field">
+                  <label> Billing Notes </label>
+
+                  <textarea
+                    rows="4"
+                    class="form-control notes-box"
+                    formControlName="notes"
+                    placeholder="Add notes if required..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================================
+                         ORDER SUMMARY
+                    ================================================== -->
+          <div class="col-xl-4 col-lg-4">
+            <div class="checkout-card summary-card">
+              <div class="checkout-card-header summary-header">
+                <div class="checkout-icon summary-icon">
+                  <i class="fa fa-file-invoice-dollar"></i>
+                </div>
+
+                <div>
+                  <h4>Bill Summary</h4>
+
+                  <span> Final payable amount </span>
+                </div>
+              </div>
+
+              <div class="summary-body">
+                <div class="summary-row">
+                  <span> Sub Total </span>
+
+                  <strong>
+                    {{ subTotal | currency: "INR" }}
+                  </strong>
+                </div>
+
+                <div class="summary-row">
+                  <span> Discount </span>
+
+                  <strong class="discount-value">
+                    {{ discount | currency: "INR" }}
+                  </strong>
+                </div>
+
+                <div class="summary-row">
+                  <span> GST </span>
+
+                  <strong>
+                    {{ gst | currency: "INR" }}
+                  </strong>
+                </div>
+
+                <div class="summary-row">
+                  <span> Shipping </span>
+
+                  <strong> ₹0.00 </strong>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="grand-total-row">
+                  <div>
+                    <span> GRAND TOTAL </span>
+
+                    <small> Amount Payable </small>
+                  </div>
+
+                  <strong>
+                    {{ grandTotal | currency: "INR" }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+                 BILL ACTIONS
+            ====================================================== -->
+      <div class="bill-actions">
+        <div class="bill-action-left">
+          <span class="secure-billing">
+            <i class="fa fa-shield-alt"></i>
+            Secure Billing
+          </span>
+        </div>
+
+        <div class="bill-action-right">
+          <button type="button" class="btn pos-back-btn" (click)="goBack()">
+            <i class="fa fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button
+            type="button"
+            class="btn print-invoice-btn"
+            *ngIf="invoicePdfUrl"
+            (click)="printInvoice()"
+          >
+            <i class="fa fa-print"></i>
+            Print Invoice
+          </button>
+
+          <button
+            type="submit"
+            class="btn-create"
+            [disabled]="
+              isSubmitting ||
+              orderForm.get('customerName')?.invalid ||
+              orderForm.get('customerPhone')?.invalid ||
+              orderForm.get('customerEmail')?.invalid ||
+              !cartItems.length
+            "
+          >
+            <i
+              class="fa"
+              [ngClass]="
+                isSubmitting ? 'fa-spinner fa-spin' : 'fa-check-circle'
+              "
+            >
+            </i>
+
+            {{ isSubmitting ? "Creating Order..." : "Create Order" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

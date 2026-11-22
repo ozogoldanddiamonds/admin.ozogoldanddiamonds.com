@@ -1,746 +1,902 @@
 <div class="shipment-page container-fluid p-4">
+  <h2>Shipment Management</h2>
 
-    <h2>Shipment Management</h2>
+  <div *ngIf="loading">Loading order details...</div>
 
-    <div *ngIf="loading">
-        Loading order details...
+  <div *ngIf="order && !loading">
+    <!-- ORDER & DELIVERY DETAILS -->
+    <div class="row order-delivery-section g-3">
+      <!-- ORDER DETAILS -->
+      <div class="col-lg-6 col-12">
+        <div class="card details-card h-100">
+          <div class="details-card-header">
+            <div class="details-icon order-icon">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+
+            <div>
+              <h2>Order Details</h2>
+              <h4>Order and payment information</h4>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-item">
+              <span>Order Number</span>
+              <strong>{{ order.orderNumber || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Customer Name</span>
+              <strong>{{ order.addressSnapshot?.fullName || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Phone Number</span>
+              <strong>{{ order.addressSnapshot?.phone || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Payment Method</span>
+              <strong>{{ order.paymentMethod || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Payment Status</span>
+
+              <div class="detail-value">
+                <span
+                  class="status-pill"
+                  [ngClass]="
+                    order.paymentStatus?.toLowerCase() === 'paid'
+                      ? 'status-paid'
+                      : 'status-pending'
+                  "
+                >
+                  {{ order.paymentStatus || "N/A" }}
+                </span>
+
+                <span
+                  class="badge ms-2"
+                  [ngClass]="{
+                    'bg-success':
+                      order?.sequelShipment?.bookingStatus === 'BOOKED',
+                    'bg-warning text-dark':
+                      order?.sequelShipment?.bookingStatus === 'PENDING',
+                    'bg-danger':
+                      order?.sequelShipment?.bookingStatus === 'FAILED' ||
+                      order?.sequelShipment?.bookingStatus === 'CANCELLED',
+                    'bg-secondary':
+                      !order?.sequelShipment?.bookingStatus ||
+                      order?.sequelShipment?.bookingStatus === 'NOT_BOOKED',
+                  }"
+                >
+                  {{ order?.sequelShipment?.bookingStatus || "NOT_BOOKED" }}
+                </span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <span>Total Amount</span>
+              <strong class="amount-value">
+                ₹{{ order.totalAmount | number: "1.2-2" }}
+              </strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELIVERY DETAILS -->
+      <div class="col-lg-6 col-12">
+        <div class="card details-card h-100">
+          <div class="details-card-header">
+            <div class="details-icon address-icon">
+              <i class="fa-solid fa-truck"></i>
+            </div>
+
+            <div>
+              <h2>Delivery Details</h2>
+              <h4>Customer shipping address</h4>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-item">
+              <span>Receiver Name</span>
+              <strong>{{ order.addressSnapshot?.fullName || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Phone Number</span>
+              <strong>{{ order.addressSnapshot?.phone || "N/A" }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Address Line 1</span>
+              <strong>{{
+                order.addressSnapshot?.addressLine1 || "N/A"
+              }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Address Line 2</span>
+              <strong>{{
+                order.addressSnapshot?.addressLine2 || "N/A"
+              }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>City / State</span>
+              <strong>
+                {{ order.addressSnapshot?.city || "N/A" }},
+                {{ order.addressSnapshot?.state || "N/A" }}
+              </strong>
+            </div>
+
+            <div class="detail-item">
+              <span>PIN Code</span>
+              <strong>
+                {{
+                  order?.address?.pincode ||
+                    order?.addressSnapshot?.postalCode ||
+                    order?.addressSnapshot?.pincode ||
+                    "N/A"
+                }}
+              </strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Country</span>
+              <strong>{{ order.addressSnapshot?.country || "N/A" }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="order && !loading">
+    <!-- PRODUCTS -->
 
+    <div class="card p-3 mb-3">
+      <h4>Order Products</h4>
 
-        <!-- ORDER & DELIVERY DETAILS -->
-        <div class="row order-delivery-section g-3">
+      <div *ngFor="let item of order.items" class="border-bottom py-2">
+        <strong>
+          {{ item.productSnapshot?.name }}
+        </strong>
 
-            <!-- ORDER DETAILS -->
-            <div class="col-lg-6 col-12">
+        <p>SKU: {{ item.variantSnapshot?.sku }}</p>
 
-                <div class="card details-card h-100">
+        <p>Quantity: {{ item.quantity }}</p>
 
-                    <div class="details-card-header">
-                        <div class="details-icon order-icon">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
+        <p>
+          Product Gross Weight:
+          {{ item.variantSnapshot?.grossWeight }} g
+        </p>
 
-                        <div>
-                            <h2>Order Details</h2>
-                            <h4>Order and payment information</h4>
-                        </div>
-                    </div>
+        <p>
+          Product Net Weight:
+          {{ item.variantSnapshot?.netWeight }} g
+        </p>
+        <p>
+          <strong>Price:</strong>
+          ₹{{ item.totalPrice }}
+        </p>
+      </div>
+    </div>
 
-                    <div class="details-grid">
+    <!-- Shipment Information -->
+    <div class="card shadow-sm mb-4" *ngIf="order?.sequelShipment as shipment">
+      <div
+        class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
+      >
+        <h5 class="mb-0">
+          <i class="bi bi-truck me-2"></i>
+          Shipment Information
+        </h5>
 
-                        <div class="detail-item">
-                            <span>Order Number</span>
-                            <strong>{{ order.orderNumber || 'N/A' }}</strong>
-                        </div>
+        <div
+          class="d-flex flex-wrap gap-2"
+          *ngIf="shipment.bookingStatus === 'BOOKED'"
+        >
+          <a
+            *ngIf="shipment.trackingLink"
+            [href]="shipment.trackingLink"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary btn-sm"
+          >
+            <i class="bi bi-geo-alt me-1"></i>
+            Track Shipment
+          </a>
 
-                        <div class="detail-item">
-                            <span>Customer Name</span>
-                            <strong>{{ order.addressSnapshot?.fullName || 'N/A' }}</strong>
-                        </div>
+          <a
+            *ngIf="shipment.docketPrint"
+            [href]="shipment.docketPrint"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline-success btn-sm"
+          >
+            <i class="bi bi-printer me-1"></i>
+            Download Docket
+          </a>
 
-                        <div class="detail-item">
-                            <span>Phone Number</span>
-                            <strong>{{ order.addressSnapshot?.phone || 'N/A' }}</strong>
-                        </div>
+          <button
+            *ngIf="canCancelShipment()"
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="cancelShipment()"
+            [disabled]="cancelLoading"
+          >
+            <i class="bi bi-x-circle me-1"></i>
+            {{ cancelLoading ? "Cancelling..." : "Cancel Shipment" }}
+          </button>
+        </div>
+      </div>
 
-                        <div class="detail-item">
-                            <span>Payment Method</span>
-                            <strong>{{ order.paymentMethod || 'N/A' }}</strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Payment Status</span>
-
-                            <div class="detail-value">
-
-                                <span class="status-pill" [ngClass]="order.paymentStatus?.toLowerCase() === 'paid'
-                ? 'status-paid' : 'status-pending'">
-
-                                    {{ order.paymentStatus || 'N/A' }}
-
-                                </span>
-
-                                <span class="badge ms-2" [ngClass]="{
-                'bg-success': order?.sequelShipment?.bookingStatus === 'BOOKED',
-                'bg-warning text-dark': order?.sequelShipment?.bookingStatus === 'PENDING',
-                'bg-danger': order?.sequelShipment?.bookingStatus === 'FAILED' || order?.sequelShipment?.bookingStatus === 'CANCELLED',
-                'bg-secondary': !order?.sequelShipment?.bookingStatus || order?.sequelShipment?.bookingStatus === 'NOT_BOOKED'
-              }">
-
-                                    {{ order?.sequelShipment?.bookingStatus || 'NOT_BOOKED' }}
-
-                                </span>
-
-                            </div>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Total Amount</span>
-                            <strong class="amount-value">
-                                ₹{{ order.totalAmount | number:'1.2-2' }}
-                            </strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DELIVERY DETAILS -->
-            <div class="col-lg-6 col-12">
-
-                <div class="card details-card h-100">
-
-                    <div class="details-card-header">
-
-                        <div class="details-icon address-icon">
-                            <i class="fa-solid fa-truck"></i>
-                        </div>
-
-                        <div>
-                            <h2>Delivery Details</h2>
-                            <h4>Customer shipping address</h4>
-                        </div>
-
-                    </div>
-
-                    <div class="details-grid">
-
-                        <div class="detail-item">
-                            <span>Receiver Name</span>
-                            <strong>{{ order.addressSnapshot?.fullName || 'N/A' }}</strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Phone Number</span>
-                            <strong>{{ order.addressSnapshot?.phone || 'N/A' }}</strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Address Line 1</span>
-                            <strong>{{ order.addressSnapshot?.addressLine1 || 'N/A' }}</strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Address Line 2</span>
-                            <strong>{{ order.addressSnapshot?.addressLine2 || 'N/A' }}</strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>City / State</span>
-                            <strong>
-                                {{ order.addressSnapshot?.city || 'N/A' }},
-                                {{ order.addressSnapshot?.state || 'N/A' }}
-                            </strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>PIN Code</span>
-                            <strong>
-                                {{
-                                order?.address?.pincode ||
-                                order?.addressSnapshot?.postalCode ||
-                                order?.addressSnapshot?.pincode ||
-                                'N/A'
-                                }}
-                            </strong>
-                        </div>
-
-                        <div class="detail-item">
-                            <span>Country</span>
-                            <strong>{{ order.addressSnapshot?.country || 'N/A' }}</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+      <div class="card-body">
+        <!-- Cancellation Information -->
+        <div
+          *ngIf="shipment.bookingStatus === 'CANCELLED'"
+          class="alert alert-danger mb-4"
+        >
+          <strong>
+            <i class="bi bi-x-circle me-1"></i>
+            Shipment Cancelled
+          </strong>
+          <p class="mb-0 mt-1" *ngIf="shipment.docketNumber">
+            Docket: {{ shipment.docketNumber }}
+          </p>
+          <p class="mb-0" *ngIf="shipment.cancelReason">
+            Reason: {{ shipment.cancelReason }}
+          </p>
         </div>
 
+        <!-- Booking Details -->
+        <h6 class="fw-bold mb-3">Booking Details</h6>
 
-
-
-
-        <!-- PRODUCTS -->
-
-        <div class="card p-3 mb-3">
-
-            <h4>Order Products</h4>
-
-            <div *ngFor="let item of order.items" class="border-bottom py-2">
-
-                <strong>
-                    {{ item.productSnapshot?.name }}
-                </strong>
-
-                <p>
-                    SKU: {{ item.variantSnapshot?.sku }}
-                </p>
-
-                <p>
-                    Quantity: {{ item.quantity }}
-                </p>
-
-                <p>
-                    Product Gross Weight:
-                    {{ item.variantSnapshot?.grossWeight }} g
-                </p>
-
-                <p>
-                    Product Net Weight:
-                    {{ item.variantSnapshot?.netWeight }} g
-                </p>
-                <p>
-                    <strong>Price:</strong>
-                    ₹{{ item.totalPrice }}
-                </p>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="text-muted small">Courier Partner</label>
+            <div class="fw-semibold">
+              {{ order.courierPartner || "Sequel247" }}
             </div>
+          </div>
 
+          <div class="col-md-4">
+            <label class="text-muted small">Docket Number</label>
+            <div class="fw-semibold">
+              {{ shipment.docketNumber || "N/A" }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="text-muted small">BRN Number</label>
+            <div class="fw-semibold">
+              {{ shipment.brn || "N/A" }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="text-muted small">Shipment Status</label>
+            <div class="fw-semibold">
+              {{ shipment.shipmentStatus || "N/A" }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="text-muted small">Estimated Delivery</label>
+            <div class="fw-semibold">
+              {{ shipment.estimatedDelivery || "N/A" }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="text-muted small">Booking Date</label>
+            <div class="fw-semibold">
+              {{
+                shipment.bookedAt
+                  ? (shipment.bookedAt | date: "dd-MM-yyyy hh:mm a")
+                  : "N/A"
+              }}
+            </div>
+          </div>
         </div>
 
-        <!-- Shipment Information -->
-        <div class="card shadow-sm mb-4" *ngIf="order?.sequelShipment as shipment">
+        <!-- Booking Error -->
+        <div class="alert alert-danger mt-3 mb-0" *ngIf="shipment.bookingError">
+          <strong>Booking Error:</strong>
+          {{ shipment.bookingError }}
+        </div>
 
-            <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <h5 class="mb-0">
-                    <i class="bi bi-truck me-2"></i>
-                    Shipment Information
-                </h5>
+        <hr class="my-4" *ngIf="shipment.packages?.length" />
 
-                <div class="d-flex flex-wrap gap-2" *ngIf="shipment.bookingStatus === 'BOOKED'">
-                    <a *ngIf="shipment.trackingLink" [href]="shipment.trackingLink" target="_blank"
-                        rel="noopener noreferrer" class="btn btn-primary btn-sm">
-                        <i class="bi bi-geo-alt me-1"></i>
-                        Track Shipment
-                    </a>
+        <!-- Package Details -->
+        <div *ngIf="shipment.packages?.length">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">Package Details</h6>
 
-                    <a *ngIf="shipment.docketPrint" [href]="shipment.docketPrint" target="_blank"
-                        rel="noopener noreferrer" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-printer me-1"></i>
-                        Download Docket
-                    </a>
+            <span class="badge bg-info text-dark">
+              {{ shipment.packages.length }} Package(s)
+            </span>
+          </div>
 
-                    <button *ngIf="canCancelShipment()" type="button" class="btn btn-outline-danger btn-sm"
-                        (click)="cancelShipment()" [disabled]="cancelLoading">
-                        <i class="bi bi-x-circle me-1"></i>
-                        {{ cancelLoading ? 'Cancelling...' : 'Cancel Shipment' }}
-                    </button>
-                </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Box Number</th>
+                  <th>Lock Number</th>
+                  <th>Sequel Barcode</th>
+                  <th>Sequel Lock Number</th>
+                  <th>Dimensions (cm)</th>
+                  <th>Gross Weight (g)</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let box of shipment.packages; let i = index">
+                  <td>{{ i + 1 }}</td>
+
+                  <td>{{ box.boxNumber || "N/A" }}</td>
+
+                  <td>{{ box.lockNumber || "N/A" }}</td>
+
+                  <td>
+                    <span class="fw-semibold">
+                      {{ box.sequelBarcode || "N/A" }}
+                    </span>
+                  </td>
+
+                  <td>
+                    {{ box.sequelLockNumber || "N/A" }}
+                  </td>
+
+                  <td>
+                    {{ box.length }} × {{ box.breadth }} ×
+                    {{ box.height }}
+                  </td>
+
+                  <td>{{ box.grossWeight || "N/A" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          class="alert alert-info mt-3 mb-0"
+          *ngIf="!shipment.packages?.length"
+        >
+          No package details available.
+        </div>
+
+        <!-- Shipment Tracking -->
+        <div class="shipment-tracking mt-4">
+          <!-- Header -->
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"
+          >
+            <div>
+              <h6 class="fw-bold mb-1">
+                <i class="bi bi-geo-alt me-1"></i>
+                Shipment Tracking
+              </h6>
+              <small class="text-muted">
+                Live tracking updates from Sequel247
+              </small>
             </div>
 
-            <div class="card-body">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="getShipmentTracking()"
+              [disabled]="
+                trackingLoading || shipment.bookingStatus !== 'BOOKED'
+              "
+            >
+              <i
+                class="bi bi-arrow-clockwise me-1"
+                [class.spin]="trackingLoading"
+              ></i>
 
-                <!-- Cancellation Information -->
-                <div *ngIf="shipment.bookingStatus === 'CANCELLED'" class="alert alert-danger mb-4">
-                    <strong>
-                        <i class="bi bi-x-circle me-1"></i>
-                        Shipment Cancelled
-                    </strong>
-                    <p class="mb-0 mt-1" *ngIf="shipment.docketNumber">
-                        Docket: {{ shipment.docketNumber }}
-                    </p>
-                    <p class="mb-0" *ngIf="shipment.cancelReason">
-                        Reason: {{ shipment.cancelReason }}
-                    </p>
+              {{ trackingLoading ? "Checking..." : "Refresh Tracking" }}
+            </button>
+          </div>
+
+          <!-- Loading -->
+          <div
+            *ngIf="trackingLoading && !trackingData"
+            class="alert alert-light border small"
+          >
+            <i class="bi bi-hourglass-split me-1"></i>
+            Fetching shipment tracking details...
+          </div>
+
+          <!-- Tracking Data -->
+          <div *ngIf="trackingData as tracking">
+            <!-- Summary Cards -->
+            <div class="row g-2 mb-3">
+              <div class="col-md-4 col-6">
+                <div class="tracking-summary-card">
+                  <small>Shipment Status</small>
+                  <div class="d-flex align-items-center gap-2 mt-1">
+                    <span class="tracking-status-dot"></span>
+                    <strong>{{ tracking.shipmentStatus || "N/A" }}</strong>
+                  </div>
                 </div>
+              </div>
 
-                <!-- Booking Details -->
-                <h6 class="fw-bold mb-3">Booking Details</h6>
-
-                <div class="row g-3">
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">Courier Partner</label>
-                        <div class="fw-semibold">
-                            {{ order.courierPartner || 'Sequel247' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">Docket Number</label>
-                        <div class="fw-semibold">
-                            {{ shipment.docketNumber || 'N/A' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">BRN Number</label>
-                        <div class="fw-semibold">
-                            {{ shipment.brn || 'N/A' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">Shipment Status</label>
-                        <div class="fw-semibold">
-                            {{ shipment.shipmentStatus || 'N/A' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">Estimated Delivery</label>
-                        <div class="fw-semibold">
-                            {{ shipment.estimatedDelivery || 'N/A' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="text-muted small">Booking Date</label>
-                        <div class="fw-semibold">
-                            {{ shipment.bookedAt ? (shipment.bookedAt | date:'dd-MM-yyyy hh:mm a') : 'N/A' }}
-                        </div>
-                    </div>
-
+              <div class="col-md-4 col-6">
+                <div class="tracking-summary-card">
+                  <small>Docket Number</small>
+                  <strong class="d-block mt-1">
+                    {{ tracking.docketNumber || "N/A" }}
+                  </strong>
                 </div>
+              </div>
 
-                <!-- Booking Error -->
-                <div class="alert alert-danger mt-3 mb-0" *ngIf="shipment.bookingError">
-
-                    <strong>Booking Error:</strong>
-                    {{ shipment.bookingError }}
-
+              <div class="col-md-4 col-6">
+                <div class="tracking-summary-card">
+                  <small>BRN Number</small>
+                  <strong class="d-block mt-1">
+                    {{ tracking.brn || "N/A" }}
+                  </strong>
                 </div>
+              </div>
+            </div>
 
-                <hr class="my-4" *ngIf="shipment.packages?.length">
+            <!-- Shipment Information -->
+            <div class="tracking-info-card mb-3">
+              <div class="tracking-section-title">Shipment Information</div>
 
-                <!-- Package Details -->
-                <div *ngIf="shipment.packages?.length">
+              <div class="table-responsive">
+                <table class="table tracking-info-table mb-0">
+                  <tbody>
+                    <tr>
+                      <th>Order Number</th>
+                      <td>{{ tracking.orderNumber || "N/A" }}</td>
+                    </tr>
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold mb-0">Package Details</h6>
+                    <tr>
+                      <th>Docket Number</th>
+                      <td>{{ tracking.docketNumber || "N/A" }}</td>
+                    </tr>
 
-                        <span class="badge bg-info text-dark">
-                            {{ shipment.packages.length }} Package(s)
+                    <tr>
+                      <th>BRN Number</th>
+                      <td>{{ tracking.brn || "N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                      <th>Shipment Status</th>
+                      <td>
+                        <span class="tracking-status-badge">
+                          {{ tracking.shipmentStatus || "N/A" }}
                         </span>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle">
-
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Box Number</th>
-                                    <th>Lock Number</th>
-                                    <th>Sequel Barcode</th>
-                                    <th>Sequel Lock Number</th>
-                                    <th>Dimensions (cm)</th>
-                                    <th>Gross Weight (g)</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr *ngFor="let box of shipment.packages; let i = index">
-
-                                    <td>{{ i + 1 }}</td>
-
-                                    <td>{{ box.boxNumber || 'N/A' }}</td>
-
-                                    <td>{{ box.lockNumber || 'N/A' }}</td>
-
-                                    <td>
-                                        <span class="fw-semibold">
-                                            {{ box.sequelBarcode || 'N/A' }}
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        {{ box.sequelLockNumber || 'N/A' }}
-                                    </td>
-
-                                    <td>
-                                        {{ box.length }} ×
-                                        {{ box.breadth }} ×
-                                        {{ box.height }}
-                                    </td>
-
-                                    <td>{{ box.grossWeight || 'N/A' }}</td>
-
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-
-                </div>
-
-                <div class="alert alert-info mt-3 mb-0" *ngIf="!shipment.packages?.length">
-
-                    No package details available.
-
-                </div>
-
-
-                <!-- Shipment Tracking -->
-                <div class="shipment-tracking mt-4">
-
-                    <!-- Header -->
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-
-                        <div>
-                            <h6 class="fw-bold mb-1">
-                                <i class="bi bi-geo-alt me-1"></i>
-                                Shipment Tracking
-                            </h6>
-                            <small class="text-muted">
-                                Live tracking updates from Sequel247
-                            </small>
-                        </div>
-
-                        <button type="button" class="btn btn-primary btn-sm" (click)="getShipmentTracking()"
-                            [disabled]="trackingLoading || shipment.bookingStatus !== 'BOOKED'">
-
-                            <i class="bi bi-arrow-clockwise me-1" [class.spin]="trackingLoading"></i>
-
-                            {{ trackingLoading ? 'Checking...' : 'Refresh Tracking' }}
-
-                        </button>
-
-                    </div>
-
-                    <!-- Loading -->
-                    <div *ngIf="trackingLoading && !trackingData" class="alert alert-light border small">
-                        <i class="bi bi-hourglass-split me-1"></i>
-                        Fetching shipment tracking details...
-                    </div>
-
-                    <!-- Tracking Data -->
-                    <div *ngIf="trackingData as tracking">
-
-                        <!-- Summary Cards -->
-                        <div class="row g-2 mb-3">
-
-                            <div class="col-md-4 col-6">
-                                <div class="tracking-summary-card">
-                                    <small>Shipment Status</small>
-                                    <div class="d-flex align-items-center gap-2 mt-1">
-                                        <span class="tracking-status-dot"></span>
-                                        <strong>{{ tracking.shipmentStatus || 'N/A' }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-6">
-                                <div class="tracking-summary-card">
-                                    <small>Docket Number</small>
-                                    <strong class="d-block mt-1">
-                                        {{ tracking.docketNumber || 'N/A' }}
-                                    </strong>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-6">
-                                <div class="tracking-summary-card">
-                                    <small>BRN Number</small>
-                                    <strong class="d-block mt-1">
-                                        {{ tracking.brn || 'N/A' }}
-                                    </strong>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Shipment Information -->
-                        <div class="tracking-info-card mb-3">
-
-                            <div class="tracking-section-title">
-                                Shipment Information
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table tracking-info-table mb-0">
-
-                                    <tbody>
-
-                                        <tr>
-                                            <th>Order Number</th>
-                                            <td>{{ tracking.orderNumber || 'N/A' }}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Docket Number</th>
-                                            <td>{{ tracking.docketNumber || 'N/A' }}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>BRN Number</th>
-                                            <td>{{ tracking.brn || 'N/A' }}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Shipment Status</th>
-                                            <td>
-                                                <span class="tracking-status-badge">
-                                                    {{ tracking.shipmentStatus || 'N/A' }}
-                                                </span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Estimated Delivery</th>
-                                            <td>
-                                                {{ tracking.estimatedDelivery || 'Not available' }}
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Geography</th>
-                                            <td>{{ tracking.geography || 'N/A' }}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Total Packages</th>
-                                            <td>{{ tracking.noOfPackages || 'N/A' }}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th>Last Checked</th>
-                                            <td>
-                                                {{ tracking.lastTrackedAt
-                                                ? (tracking.lastTrackedAt | date:'dd-MM-yyyy hh:mm a')
-                                                : 'N/A' }}
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-                            </div>
-
-                        </div>
-
-                        <!-- Tracking History -->
-                        <div class="tracking-history-card">
-
-                            <div class="tracking-section-title d-flex justify-content-between align-items-center">
-                                <span>Tracking History</span>
-
-                                <span class="tracking-count">
-                                    {{ tracking.tracking?.length || 0 }} Events
-                                </span>
-                            </div>
-
-                            <div class="p-3" *ngIf="tracking.tracking?.length; else noTrackingEvents">
-
-                                <div class="tracking-timeline">
-
-                                    <div class="tracking-event" *ngFor="let event of tracking.tracking; let i = index">
-
-                                        <div class="tracking-timeline-indicator">
-
-                                            <div class="tracking-dot"></div>
-
-                                            <div class="tracking-line" *ngIf="i !== tracking.tracking.length - 1">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="tracking-event-content">
-
-                                            <div
-                                                class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-
-                                                <div class="fw-semibold">
-                                                    {{ event.description || 'Shipment Update' }}
-                                                </div>
-
-                                                <span class="tracking-event-code" *ngIf="event.code">
-                                                    {{ event.code }}
-                                                </span>
-
-                                            </div>
-
-                                            <div class="text-muted small mt-2">
-                                                <i class="bi bi-geo-alt me-1"></i>
-                                                {{ event.location || 'Location unavailable' }}
-                                            </div>
-
-                                            <div class="text-muted small mt-1">
-                                                <i class="bi bi-clock me-1"></i>
-                                                {{ event.date_time || 'Time unavailable' }}
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <ng-template #noTrackingEvents>
-                                <div class="alert alert-light border small m-3">
-                                    No tracking events available from Sequel247.
-                                </div>
-                            </ng-template>
-
-                        </div>
-
-                    </div>
-
-                    <!-- No tracking data -->
-                    <div *ngIf="trackingChecked && !trackingData && !trackingLoading" class="alert alert-warning small">
-                        <i class="bi bi-exclamation-circle me-1"></i>
-                        Tracking information is currently unavailable.
-                    </div>
-
-                    <!-- Initial state -->
-                    <div *ngIf="!trackingChecked && !trackingLoading && !trackingData"
-                        class="alert alert-light border small">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Click Refresh Tracking to fetch shipment details.
-                    </div>
-
-                </div>
-
-
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th>Estimated Delivery</th>
+                      <td>
+                        {{ tracking.estimatedDelivery || "Not available" }}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th>Geography</th>
+                      <td>{{ tracking.geography || "N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                      <th>Total Packages</th>
+                      <td>{{ tracking.noOfPackages || "N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                      <th>Last Checked</th>
+                      <td>
+                        {{
+                          tracking.lastTrackedAt
+                            ? (tracking.lastTrackedAt
+                              | date: "dd-MM-yyyy hh:mm a")
+                            : "N/A"
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+
+            <!-- Tracking History -->
+            <div class="tracking-history-card">
+              <div
+                class="tracking-section-title d-flex justify-content-between align-items-center"
+              >
+                <span>Tracking History</span>
+
+                <span class="tracking-count">
+                  {{ tracking.tracking?.length || 0 }} Events
+                </span>
+              </div>
+
+              <div
+                class="p-3"
+                *ngIf="tracking.tracking?.length; else noTrackingEvents"
+              >
+                <div class="tracking-timeline">
+                  <div
+                    class="tracking-event"
+                    *ngFor="let event of tracking.tracking; let i = index"
+                  >
+                    <div class="tracking-timeline-indicator">
+                      <div class="tracking-dot"></div>
+
+                      <div
+                        class="tracking-line"
+                        *ngIf="i !== tracking.tracking.length - 1"
+                      ></div>
+                    </div>
+
+                    <div class="tracking-event-content">
+                      <div
+                        class="d-flex justify-content-between align-items-start flex-wrap gap-2"
+                      >
+                        <div class="fw-semibold">
+                          {{ event.description || "Shipment Update" }}
+                        </div>
+
+                        <span class="tracking-event-code" *ngIf="event.code">
+                          {{ event.code }}
+                        </span>
+                      </div>
+
+                      <div class="text-muted small mt-2">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        {{ event.location || "Location unavailable" }}
+                      </div>
+
+                      <div class="text-muted small mt-1">
+                        <i class="bi bi-clock me-1"></i>
+                        {{ event.date_time || "Time unavailable" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noTrackingEvents>
+                <div class="alert alert-light border small m-3">
+                  No tracking events available from Sequel247.
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <!-- No tracking data -->
+          <div
+            *ngIf="trackingChecked && !trackingData && !trackingLoading"
+            class="alert alert-warning small"
+          >
+            <i class="bi bi-exclamation-circle me-1"></i>
+            Tracking information is currently unavailable.
+          </div>
+
+          <!-- Initial state -->
+          <div
+            *ngIf="!trackingChecked && !trackingLoading && !trackingData"
+            class="alert alert-light border small"
+          >
+            <i class="bi bi-info-circle me-1"></i>
+            Click Refresh Tracking to fetch shipment details.
+          </div>
         </div>
 
-    </div>
+        <!-- POD DOWNLOAD -->
+        <div
+          class="card mt-3"
+          *ngIf="order?.sequelShipment?.bookingStatus === 'BOOKED'"
+        >
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="bi bi-file-earmark-pdf me-2"></i>
+              Proof of Delivery (POD)
+            </h5>
+          </div>
 
+          <div class="card-body">
+            <p class="text-muted">
+              Download the shipment Proof of Delivery document using the
+              shipment pickup date range.
+            </p>
+
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label class="form-label">From Date</label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="podFromDate"
+                />
+              </div>
+
+              <div class="col-md-5 mb-3">
+                <label class="form-label">To Date</label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="podToDate"
+                />
+              </div>
+
+              <div class="col-md-2 d-flex align-items-end mb-3">
+                <button
+                  type="button"
+                  class="btn btn-primary w-100"
+                  (click)="downloadPOD()"
+                  [disabled]="podLoading"
+                >
+                  <span
+                    *ngIf="podLoading"
+                    class="spinner-border spinner-border-sm me-1"
+                  >
+                  </span>
+
+                  <i *ngIf="!podLoading" class="bi bi-download me-1"> </i>
+
+                  {{ podLoading ? "Fetching..." : "Download POD" }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="card shadow-sm mb-3" *ngIf="order && !loading">
-    <div class="card-body">
+  <div class="card-body">
+    <div
+      class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"
+    >
+      <h5 class="mb-0">Package Details</h5>
+      <span class="badge bg-info text-dark">
+        {{ boxes.length }} Package(s) in form
+      </span>
+    </div>
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-            <h5 class="mb-0">Package Details</h5>
-            <span class="badge bg-info text-dark">
-                {{ boxes.length }} Package(s) in form
-            </span>
-        </div>
+    <div
+      class="alert alert-warning py-2"
+      *ngIf="
+        order?.sequelShipment?.bookingStatus === 'PENDING' ||
+        order?.sequelShipment?.bookingStatus === 'FAILED'
+      "
+    >
+      Shipment booking is {{ order?.sequelShipment?.bookingStatus }}. Verify the
+      previous booking with Sequel247 before attempting another booking.
+    </div>
 
-        <div class="alert alert-warning py-2"
-            *ngIf="order?.sequelShipment?.bookingStatus === 'PENDING' || order?.sequelShipment?.bookingStatus === 'FAILED'">
-            Shipment booking is {{ order?.sequelShipment?.bookingStatus }}. Verify the previous booking with Sequel247
-            before attempting another booking.
-        </div>
+    <div
+      class="alert alert-secondary py-2"
+      *ngIf="
+        order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+        !isCreatingNewShipment
+      "
+    >
+      This previous shipment was cancelled. Its docket is read-only. Use
+      <strong>Create New Shipment</strong> to enter fresh package details.
+    </div>
 
-        <div class="alert alert-secondary py-2"
-            *ngIf="order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment">
-            This previous shipment was cancelled. Its docket is read-only. Use <strong>Create New Shipment</strong> to
-            enter fresh package details.
-        </div>
+    <div
+      class="alert alert-info py-2"
+      *ngIf="
+        order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+        isCreatingNewShipment
+      "
+    >
+      Creating a new shipment for this paid order. Enter fresh package details
+      below. The previous cancelled docket remains unchanged until the backend
+      archives it.
+    </div>
 
-        <div class="alert alert-info py-2"
-            *ngIf="order?.sequelShipment?.bookingStatus === 'CANCELLED' && isCreatingNewShipment">
-            Creating a new shipment for this paid order. Enter fresh package details below. The previous cancelled
-            docket remains unchanged until the backend archives it.
-        </div>
+    <form [formGroup]="shipmentForm">
+      <div formArrayName="boxes">
+        <div
+          class="border rounded p-3 mb-3"
+          *ngFor="let box of boxes.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0">Box {{ i + 1 }}</h6>
 
-        <form [formGroup]="shipmentForm">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              (click)="removeBox(i)"
+              [disabled]="
+                boxes.length === 1 ||
+                order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                  !isCreatingNewShipment)
+              "
+            >
+              Remove
+            </button>
+          </div>
 
-            <div formArrayName="boxes">
-
-                <div class="border rounded p-3 mb-3" *ngFor="let box of boxes.controls; let i = index"
-                    [formGroupName]="i">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="mb-0">Box {{ i + 1 }}</h6>
-
-                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeBox(i)"
-                            [disabled]="boxes.length === 1 || order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)">
-                            Remove
-                        </button>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-3">
-                            <label>Box Number</label>
-                            <input type="text" class="form-control" formControlName="boxNumber"
-                                placeholder="Enter box number"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label>Lock Number</label>
-                            <input type="text" class="form-control" formControlName="lockNumber"
-                                placeholder="Enter lock number"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label>Length</label>
-                            <input type="number" min="1" step="0.01" class="form-control" formControlName="length"
-                                placeholder="Length"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label>Breadth</label>
-                            <input type="number" min="1" step="0.01" class="form-control" formControlName="breadth"
-                                placeholder="Breadth"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label>Height</label>
-                            <input type="number" min="1" step="0.01" class="form-control" formControlName="height"
-                                placeholder="Height"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label>Gross Weight</label>
-                            <input type="number" min="1" step="0.01" class="form-control" formControlName="grossWeight"
-                                placeholder="Enter packed box weight"
-                                [readonly]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)" />
-                        </div>
-
-                    </div>
-
+          <div class="row">
+            <h4>Add Delivery Box Details</h4>
+            <div class="col-8">
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label>Box Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="boxNumber"
+                    placeholder="Enter box number"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
                 </div>
 
+                <div class="col-6 mb-3">
+                  <label>Lock Number</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="lockNumber"
+                    placeholder="Enter lock number"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Length</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    class="form-control"
+                    formControlName="length"
+                    placeholder="Length"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Breadth</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    class="form-control"
+                    formControlName="breadth"
+                    placeholder="Breadth"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Height</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    class="form-control"
+                    formControlName="height"
+                    placeholder="Height"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label>Gross Weight</label>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    class="form-control"
+                    formControlName="grossWeight"
+                    placeholder="Enter packed box weight"
+                    [readonly]="
+                      order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+                      (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+                        !isCreatingNewShipment)
+                    "
+                  />
+                </div>
+              </div>
             </div>
+            <div class="col-4">
+              <div class="box_sample">
+                <img src="../../../assets/Images/generated-image.jpg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <button type="button" class="btn btn-outline-primary" (click)="addBox()"
-                [disabled]="order?.sequelShipment?.bookingStatus === 'BOOKED' || (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)">
-                + Add Another Box
-            </button>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addBox()"
+        [disabled]="
+          order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+          (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+            !isCreatingNewShipment)
+        "
+      >
+        + Add Another Box
+      </button>
 
-            <hr />
+      <hr />
 
-            <button type="button" class="btn btn-success" (click)="savePackageDetails()" [disabled]="
-    order?.sequelShipment?.bookingStatus === 'BOOKED' ||
-    (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)
-  ">
-                Save Package Details
-            </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="savePackageDetails()"
+        [disabled]="
+          order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+          (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+            !isCreatingNewShipment)
+        "
+      >
+        Save Package Details
+      </button>
 
-            <button type="button" class="btn btn-primary ms-2" (click)="bookShipment()" [disabled]="
-    !order?.sequelShipment?.packages?.length ||
-    order?.sequelShipment?.bookingStatus === 'BOOKED' ||
-    order?.sequelShipment?.bookingStatus === 'PENDING' ||
-    order?.sequelShipment?.bookingStatus === 'FAILED' ||
-    (order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment)
-  ">
-
-                {{
-                order?.sequelShipment?.bookingStatus === 'BOOKED'
-                ? 'Shipment Booked'
-                : order?.sequelShipment?.bookingStatus === 'PENDING'
-                ? 'Booking Pending'
-                : order?.sequelShipment?.bookingStatus === 'FAILED'
-                ? 'Verification Required'
-                : order?.sequelShipment?.bookingStatus === 'CANCELLED' && !isCreatingNewShipment
-                ? 'Shipment Cancelled'
-                : order?.sequelShipment?.bookingStatus === 'CANCELLED' && isCreatingNewShipment
-                ? 'Book New Shipment'
-                : 'Book Shipment'
-                }}
-
-            </button>
-
-
-        </form>
-
-    </div>
+      <button
+        type="button"
+        class="btn btn-primary ms-2"
+        (click)="bookShipment()"
+        [disabled]="
+          !order?.sequelShipment?.packages?.length ||
+          order?.sequelShipment?.bookingStatus === 'BOOKED' ||
+          order?.sequelShipment?.bookingStatus === 'PENDING' ||
+          order?.sequelShipment?.bookingStatus === 'FAILED' ||
+          (order?.sequelShipment?.bookingStatus === 'CANCELLED' &&
+            !isCreatingNewShipment)
+        "
+      >
+        {{
+          order?.sequelShipment?.bookingStatus === "BOOKED"
+            ? "Shipment Booked"
+            : order?.sequelShipment?.bookingStatus === "PENDING"
+              ? "Booking Pending"
+              : order?.sequelShipment?.bookingStatus === "FAILED"
+                ? "Verification Required"
+                : order?.sequelShipment?.bookingStatus === "CANCELLED" &&
+                    !isCreatingNewShipment
+                  ? "Shipment Cancelled"
+                  : order?.sequelShipment?.bookingStatus === "CANCELLED" &&
+                      isCreatingNewShipment
+                    ? "Book New Shipment"
+                    : "Book Shipment"
+        }}
+      </button>
+    </form>
+  </div>
 </div>

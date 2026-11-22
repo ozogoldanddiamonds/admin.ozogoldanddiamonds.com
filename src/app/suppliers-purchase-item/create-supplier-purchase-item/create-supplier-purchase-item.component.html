@@ -1,929 +1,682 @@
 <div class="container-fluid">
-
-    <div class="row">
-
-        <div class="col-md-12">
-
-            <div class="title-section">
-
-                <h2>
-                    Create Supplier Purchase Item
-                </h2>
-
-            </div>
-
-        </div>
-
+  <div class="row">
+    <div class="col-md-12">
+      <div class="title-section">
+        <h2>Create Supplier Purchase Item</h2>
+      </div>
     </div>
+  </div>
 
-
-    <div class="row">
-
-        <div class="category-card">
-
-            <form
-                [formGroup]="supplierPurchaseItemForm"
-                (ngSubmit)="onSubmit()"
-            >
-
-                <div class="form-layout">
-
-
-                    <!-- =====================================================
+  <div class="row">
+    <div class="category-card">
+      <form [formGroup]="supplierPurchaseItemForm" (ngSubmit)="onSubmit()">
+        <div class="form-layout">
+          <!-- =====================================================
                          LEFT SECTION
                     ====================================================== -->
 
-                    <div class="left-section">
-
-
-                        <!-- =================================================
+          <div class="left-section">
+            <!-- =================================================
                              SUPPLIER PURCHASE DETAILS
                         ================================================== -->
 
-                        <div class="row">
+            <div class="row">
+              <!-- SUPPLIER PURCHASE -->
 
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Supplier Purchase
+                    <span class="text-danger">*</span>
+                  </label>
 
-                            <!-- SUPPLIER PURCHASE -->
+                  <select
+                    class="form-control"
+                    formControlName="purchase"
+                    (change)="onPurchaseChange()"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('purchase')?.touched &&
+                      supplierPurchaseItemForm.get('purchase')?.invalid
+                    "
+                  >
+                    <option value="">Select Supplier Purchase</option>
 
-                            <div class="col-4">
+                    <option
+                      *ngFor="let purchase of purchases"
+                      [value]="purchase._id"
+                    >
+                      {{ purchase.invoiceNumber }}
+                      -
+                      {{ purchase.supplier?.name }}
+                      -
+                      {{ purchase.invoiceDate | date: "dd-MM-yyyy" }}
+                      - ₹{{ purchase.totalAmount }}
+                    </option>
+                  </select>
 
-                                <div class="form-group">
+                  <!-- Required -->
 
-                                    <label>
-                                        Supplier Purchase
-                                        <span class="text-danger">*</span>
-                                    </label>
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('purchase')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('purchase')
+                        ?.hasError('required')
+                    "
+                  >
+                    Supplier purchase is required.
+                  </div>
+                </div>
+              </div>
 
-                                    <select
-                                        class="form-control"
-                                        formControlName="purchase"
-                                        (change)="onPurchaseChange()"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('purchase')?.touched &&
-                                            supplierPurchaseItemForm.get('purchase')?.invalid
-                                        "
-                                    >
+              <!-- SUPPLIER -->
 
-                                        <option value="">
-                                            Select Supplier Purchase
-                                        </option>
+              <div class="col-4">
+                <div class="form-group">
+                  <label> Supplier </label>
 
-                                        <option
-                                            *ngFor="let purchase of purchases"
-                                            [value]="purchase._id"
-                                        >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="selectedPurchase?.supplier?.name || '-'"
+                    readonly
+                  />
+                </div>
+              </div>
 
-                                            {{ purchase.invoiceNumber }}
-                                            -
-                                            {{ purchase.supplier?.name }}
-                                            -
-                                            {{ purchase.invoiceDate | date:'dd-MM-yyyy' }}
-                                            -
-                                            ₹{{ purchase.totalAmount }}
+              <!-- INVOICE NUMBER -->
 
-                                        </option>
+              <div class="col-4">
+                <div class="form-group">
+                  <label> Invoice Number </label>
 
-                                    </select>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="selectedPurchase?.invoiceNumber || '-'"
+                    readonly
+                  />
+                </div>
+              </div>
 
-                                    <!-- Required -->
+              <!-- SUPPLIER PRODUCT CODE -->
 
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('purchase')?.touched &&
-                                            supplierPurchaseItemForm.get('purchase')?.hasError('required')
-                                        "
-                                    >
-                                        Supplier purchase is required.
-                                    </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Supplier Product Code
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="supplierProductCode"
+                    placeholder="Enter Supplier Product Code"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('supplierProductCode')
+                        ?.touched &&
+                      supplierPurchaseItemForm.get('supplierProductCode')
+                        ?.invalid
+                    "
+                  />
 
-                            </div>
+                  <!-- Required -->
 
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('supplierProductCode')
+                        ?.touched &&
+                      supplierPurchaseItemForm
+                        .get('supplierProductCode')
+                        ?.hasError('required')
+                    "
+                  >
+                    Supplier product code is required.
+                  </div>
+                </div>
+              </div>
 
-                            <!-- SUPPLIER -->
+              <!-- BATCH NUMBER -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Batch Number
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="batchNumber"
+                    placeholder="Enter Batch Number"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('batchNumber')?.touched &&
+                      supplierPurchaseItemForm.get('batchNumber')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Supplier
-                                    </label>
+                  <!-- Required -->
 
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        [value]="
-                                            selectedPurchase
-                                                ?.supplier
-                                                ?.name || '-'
-                                        "
-                                        readonly
-                                    >
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('batchNumber')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('batchNumber')
+                        ?.hasError('required')
+                    "
+                  >
+                    Batch number is required.
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                                </div>
-
-                            </div>
-
-
-                            <!-- INVOICE NUMBER -->
-
-                            <div class="col-4">
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Invoice Number
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        [value]="
-                                            selectedPurchase
-                                                ?.invoiceNumber || '-'
-                                        "
-                                        readonly
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- SUPPLIER PRODUCT CODE -->
-
-                            <div class="col-4">
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Supplier Product Code
-                                        <span class="text-danger">*</span>
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="supplierProductCode"
-                                        placeholder="Enter Supplier Product Code"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('supplierProductCode')?.touched &&
-                                            supplierPurchaseItemForm.get('supplierProductCode')?.invalid
-                                        "
-                                    >
-
-                                    <!-- Required -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('supplierProductCode')?.touched &&
-                                            supplierPurchaseItemForm.get('supplierProductCode')?.hasError('required')
-                                        "
-                                    >
-                                        Supplier product code is required.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- BATCH NUMBER -->
-
-                            <div class="col-4">
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Batch Number
-                                        <span class="text-danger">*</span>
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="batchNumber"
-                                        placeholder="Enter Batch Number"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('batchNumber')?.touched &&
-                                            supplierPurchaseItemForm.get('batchNumber')?.invalid
-                                        "
-                                    >
-
-                                    <!-- Required -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('batchNumber')?.touched &&
-                                            supplierPurchaseItemForm.get('batchNumber')?.hasError('required')
-                                        "
-                                    >
-                                        Batch number is required.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- =================================================
+            <!-- =================================================
                              PRODUCT MANAGEMENT
                         ================================================== -->
 
-                        <div class="row mt-3">
+            <div class="row mt-3">
+              <div class="col-12">
+                <h2>Product Management</h2>
+              </div>
 
-                            <div class="col-12">
-
-                                <h2>
-                                    Product Management
-                                </h2>
-
-                            </div>
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  PRODUCT
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Product
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <ng-select
+                    class="product-select"
+                    [items]="products"
+                    bindLabel="name"
+                    bindValue="_id"
+                    formControlName="product"
+                    placeholder="Search / Select Product"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [closeOnSelect]="true"
+                    (change)="onProductChange()"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('product')?.touched &&
+                      supplierPurchaseItemForm.get('product')?.invalid
+                    "
+                  >
+                    <!-- PRODUCT OPTION -->
 
-                                    <label>
-                                        Product
-                                        <span class="text-danger">*</span>
-                                    </label>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{ item.name }}
+                    </ng-template>
 
-                                    <ng-select
-                                        class="product-select"
-                                        [items]="products"
-                                        bindLabel="name"
-                                        bindValue="_id"
-                                        formControlName="product"
-                                        placeholder="Search / Select Product"
-                                        [searchable]="true"
-                                        [clearable]="true"
-                                        [closeOnSelect]="true"
-                                        (change)="onProductChange()"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('product')?.touched &&
-                                            supplierPurchaseItemForm.get('product')?.invalid
-                                        "
-                                    >
+                    <!-- PRODUCT NOT FOUND -->
 
-                                        <!-- PRODUCT OPTION -->
+                    <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                      <div class="product-not-found">
+                        <strong> Product not found </strong>
 
-                                        <ng-template
-                                            ng-option-tmp
-                                            let-item="item"
-                                        >
+                        <div *ngIf="searchTerm">
+                          "{{ searchTerm }}" product available ledu.
+                        </div>
 
-                                            {{ item.name }}
+                        <button
+                          type="button"
+                          class="btn btn-primary add-product-btn"
+                          (click)="addNewProduct(searchTerm)"
+                        >
+                          + Add Product
+                        </button>
+                      </div>
+                    </ng-template>
+                  </ng-select>
 
-                                        </ng-template>
+                  <!-- Required -->
 
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('product')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('product')
+                        ?.hasError('required')
+                    "
+                  >
+                    Product is required.
+                  </div>
+                </div>
+              </div>
 
-                                        <!-- PRODUCT NOT FOUND -->
-
-                                        <ng-template
-                                            ng-notfound-tmp
-                                            let-searchTerm="searchTerm"
-                                        >
-
-                                            <div class="product-not-found">
-
-                                                <strong>
-                                                    Product not found
-                                                </strong>
-
-                                                <div *ngIf="searchTerm">
-
-                                                    "{{ searchTerm }}"
-                                                    product available ledu.
-
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-primary add-product-btn"
-                                                    (click)="addNewProduct(searchTerm)"
-                                                >
-
-                                                    + Add Product
-
-                                                </button>
-
-                                            </div>
-
-                                        </ng-template>
-
-                                    </ng-select>
-
-
-                                    <!-- Required -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('product')?.touched &&
-                                            supplierPurchaseItemForm.get('product')?.hasError('required')
-                                        "
-                                    >
-                                        Product is required.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  PRODUCT VARIANT
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Product Variant
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <select
+                    class="form-control"
+                    formControlName="variantId"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('variantId')?.touched &&
+                      supplierPurchaseItemForm.get('variantId')?.invalid
+                    "
+                  >
+                    <option value="">Select Variant</option>
 
-                                    <label>
-                                        Product Variant
-                                        <span class="text-danger">*</span>
-                                    </label>
+                    <option
+                      *ngFor="let variant of variants"
+                      [value]="variant._id"
+                    >
+                      {{
+                        variant.name ||
+                          variant.variantName ||
+                          variant.sku ||
+                          variant._id
+                      }}
+                    </option>
+                  </select>
 
-                                    <select
-                                        class="form-control"
-                                        formControlName="variantId"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('variantId')?.touched &&
-                                            supplierPurchaseItemForm.get('variantId')?.invalid
-                                        "
-                                    >
+                  <!-- Required -->
 
-                                        <option value="">
-                                            Select Variant
-                                        </option>
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('variantId')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('variantId')
+                        ?.hasError('required')
+                    "
+                  >
+                    Product variant is required.
+                  </div>
+                </div>
+              </div>
 
-                                        <option
-                                            *ngFor="let variant of variants"
-                                            [value]="variant._id"
-                                        >
-
-                                            {{
-                                                variant.name
-                                                || variant.variantName
-                                                || variant.sku
-                                                || variant._id
-                                            }}
-
-                                        </option>
-
-                                    </select>
-
-
-                                    <!-- Required -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('variantId')?.touched &&
-                                            supplierPurchaseItemForm.get('variantId')?.hasError('required')
-                                        "
-                                    >
-                                        Product variant is required.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  QUANTITY
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Quantity
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="quantity"
+                    min="1"
+                    placeholder="Enter Quantity"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('quantity')?.touched &&
+                      supplierPurchaseItemForm.get('quantity')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Quantity
-                                        <span class="text-danger">*</span>
-                                    </label>
+                  <!-- Required -->
 
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        formControlName="quantity"
-                                        min="1"
-                                        placeholder="Enter Quantity"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('quantity')?.touched &&
-                                            supplierPurchaseItemForm.get('quantity')?.invalid
-                                        "
-                                    >
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('quantity')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('quantity')
+                        ?.hasError('required')
+                    "
+                  >
+                    Quantity is required.
+                  </div>
 
+                  <!-- Minimum -->
 
-                                    <!-- Required -->
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('quantity')?.touched &&
+                      supplierPurchaseItemForm.get('quantity')?.hasError('min')
+                    "
+                  >
+                    Quantity must be greater than 0.
+                  </div>
+                </div>
+              </div>
 
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('quantity')?.touched &&
-                                            supplierPurchaseItemForm.get('quantity')?.hasError('required')
-                                        "
-                                    >
-                                        Quantity is required.
-                                    </div>
-
-
-                                    <!-- Minimum -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('quantity')?.touched &&
-                                            supplierPurchaseItemForm.get('quantity')?.hasError('min')
-                                        "
-                                    >
-                                        Quantity must be greater than 0.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  PURCHASE PRICE
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Purchase Price
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="purchasePrice"
+                    min="0"
+                    placeholder="Enter Purchase Price"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                      supplierPurchaseItemForm.get('purchasePrice')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Purchase Price
-                                        <span class="text-danger">*</span>
-                                    </label>
+                  <!-- Required -->
 
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        formControlName="purchasePrice"
-                                        min="0"
-                                        placeholder="Enter Purchase Price"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
-                                            supplierPurchaseItemForm.get('purchasePrice')?.invalid
-                                        "
-                                    >
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('purchasePrice')
+                        ?.hasError('required')
+                    "
+                  >
+                    Purchase price is required.
+                  </div>
 
+                  <!-- Minimum -->
 
-                                    <!-- Required -->
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('purchasePrice')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('purchasePrice')
+                        ?.hasError('min')
+                    "
+                  >
+                    Purchase price cannot be negative.
+                  </div>
+                </div>
+              </div>
 
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
-                                            supplierPurchaseItemForm.get('purchasePrice')?.hasError('required')
-                                        "
-                                    >
-                                        Purchase price is required.
-                                    </div>
-
-
-                                    <!-- Minimum -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('purchasePrice')?.touched &&
-                                            supplierPurchaseItemForm.get('purchasePrice')?.hasError('min')
-                                        "
-                                    >
-                                        Purchase price cannot be negative.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  DISCOUNT
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label> Discount </label>
 
-                                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="discount"
+                    min="0"
+                    placeholder="Enter Discount"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('discount')?.touched &&
+                      supplierPurchaseItemForm.get('discount')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Discount
-                                    </label>
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('discount')?.touched &&
+                      supplierPurchaseItemForm.get('discount')?.hasError('min')
+                    "
+                  >
+                    Discount cannot be negative.
+                  </div>
+                </div>
+              </div>
 
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        formControlName="discount"
-                                        min="0"
-                                        placeholder="Enter Discount"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('discount')?.touched &&
-                                            supplierPurchaseItemForm.get('discount')?.invalid
-                                        "
-                                    >
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('discount')?.touched &&
-                                            supplierPurchaseItemForm.get('discount')?.hasError('min')
-                                        "
-                                    >
-                                        Discount cannot be negative.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  TAX
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label> Tax </label>
 
-                                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="tax"
+                    min="0"
+                    placeholder="Enter Tax"
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('tax')?.touched &&
+                      supplierPurchaseItemForm.get('tax')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Tax
-                                    </label>
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('tax')?.touched &&
+                      supplierPurchaseItemForm.get('tax')?.hasError('min')
+                    "
+                  >
+                    Tax cannot be negative.
+                  </div>
+                </div>
+              </div>
 
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        formControlName="tax"
-                                        min="0"
-                                        placeholder="Enter Tax"
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('tax')?.touched &&
-                                            supplierPurchaseItemForm.get('tax')?.invalid
-                                        "
-                                    >
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('tax')?.touched &&
-                                            supplierPurchaseItemForm.get('tax')?.hasError('min')
-                                        "
-                                    >
-                                        Tax cannot be negative.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  TOTAL AMOUNT
                             ================================================== -->
 
-                            <div class="col-4">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>
+                    Total Amount
+                    <span class="text-danger">*</span>
+                  </label>
 
-                                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalAmount"
+                    min="0"
+                    readonly
+                    [class.is-invalid]="
+                      supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                      supplierPurchaseItemForm.get('totalAmount')?.invalid
+                    "
+                  />
 
-                                    <label>
-                                        Total Amount
-                                        <span class="text-danger">*</span>
-                                    </label>
+                  <!-- Required -->
 
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        formControlName="totalAmount"
-                                        min="0"
-                                        readonly
-                                        [class.is-invalid]="
-                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
-                                            supplierPurchaseItemForm.get('totalAmount')?.invalid
-                                        "
-                                    >
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('totalAmount')
+                        ?.hasError('required')
+                    "
+                  >
+                    Total amount is required.
+                  </div>
 
+                  <!-- Minimum -->
 
-                                    <!-- Required -->
+                  <div
+                    class="validation-message"
+                    *ngIf="
+                      supplierPurchaseItemForm.get('totalAmount')?.touched &&
+                      supplierPurchaseItemForm
+                        .get('totalAmount')
+                        ?.hasError('min')
+                    "
+                  >
+                    Total amount cannot be negative.
+                  </div>
+                </div>
+              </div>
 
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
-                                            supplierPurchaseItemForm.get('totalAmount')?.hasError('required')
-                                        "
-                                    >
-                                        Total amount is required.
-                                    </div>
-
-
-                                    <!-- Minimum -->
-
-                                    <div
-                                        class="validation-message"
-                                        *ngIf="
-                                            supplierPurchaseItemForm.get('totalAmount')?.touched &&
-                                            supplierPurchaseItemForm.get('totalAmount')?.hasError('min')
-                                        "
-                                    >
-                                        Total amount cannot be negative.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
+              <!-- =================================================
                                  ADD VARIANT BUTTON
                             ================================================== -->
 
-                            <div class="col-12">
+              <div class="col-12">
+                <div class="product-actions">
+                  <button
+                    type="button"
+                    class="add-variant-btn"
+                    (click)="addProductVariant()"
+                  >
+                    + Add Product Variant
+                  </button>
+                </div>
+              </div>
+            </div>
 
-                                <div class="product-actions">
-
-                                    <button
-                                        type="button"
-                                        class="add-variant-btn"
-                                        (click)="addProductVariant()"
-                                    >
-
-                                        + Add Product Variant
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- =====================================================
+            <!-- =====================================================
                              ADDED PRODUCT VARIANTS
                         ====================================================== -->
 
-                        <div
-                            class="row mt-4"
-                            *ngIf="supplierPurchaseItems.length > 0"
+            <div class="row mt-4" *ngIf="supplierPurchaseItems.length > 0">
+              <div class="col-12">
+                <div
+                  class="added-products-section"
+                  *ngIf="supplierPurchaseItems.length > 0"
+                >
+                  <h3>Added Products</h3>
+
+                  <div class="table-responsive">
+                    <table class="added-products-table">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+
+                          <th>Variant</th>
+
+                          <th>Quantity</th>
+
+                          <th>Purchase Price</th>
+
+                          <th>Discount</th>
+
+                          <th>Tax</th>
+
+                          <th>Total Amount</th>
+
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let item of supplierPurchaseItems;
+                            let i = index
+                          "
                         >
+                          <td class="product-name">
+                            {{ item.productName }}
+                          </td>
 
-                            <div class="col-12">
+                          <td class="variant-name">
+                            {{ item.variantName }}
+                          </td>
 
-                                <div
-                                    class="added-products-section"
-                                    *ngIf="supplierPurchaseItems.length > 0"
-                                >
+                          <td class="quantity-cell">
+                            {{ item.quantity }}
+                          </td>
 
-                                    <h3>
-                                        Added Products
-                                    </h3>
+                          <td>₹{{ item.purchasePrice }}</td>
 
-                                    <div class="table-responsive">
+                          <td>₹{{ item.discount }}</td>
 
-                                        <table class="added-products-table">
+                          <td>{{ item.tax }}%</td>
 
-                                            <thead>
+                          <td class="amount-cell">₹{{ item.totalAmount }}</td>
 
-                                                <tr>
+                          <td>
+                            <button
+                              type="button"
+                              class="remove-variant-btn"
+                              (click)="removeProductVariant(i)"
+                              [disabled]="isSaving"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                                                    <th>
-                                                        Product
-                                                    </th>
-
-                                                    <th>
-                                                        Variant
-                                                    </th>
-
-                                                    <th>
-                                                        Quantity
-                                                    </th>
-
-                                                    <th>
-                                                        Purchase Price
-                                                    </th>
-
-                                                    <th>
-                                                        Discount
-                                                    </th>
-
-                                                    <th>
-                                                        Tax
-                                                    </th>
-
-                                                    <th>
-                                                        Total Amount
-                                                    </th>
-
-                                                    <th>
-                                                        Action
-                                                    </th>
-
-                                                </tr>
-
-                                            </thead>
-
-
-                                            <tbody>
-
-                                                <tr
-                                                    *ngFor="
-                                                        let item of supplierPurchaseItems;
-                                                        let i = index
-                                                    "
-                                                >
-
-                                                    <td class="product-name">
-
-                                                        {{ item.productName }}
-
-                                                    </td>
-
-
-                                                    <td class="variant-name">
-
-                                                        {{ item.variantName }}
-
-                                                    </td>
-
-
-                                                    <td class="quantity-cell">
-
-                                                        {{ item.quantity }}
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        ₹{{ item.purchasePrice }}
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        ₹{{ item.discount }}
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        {{ item.tax }}%
-
-                                                    </td>
-
-
-                                                    <td class="amount-cell">
-
-                                                        ₹{{ item.totalAmount }}
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        <button
-                                                            type="button"
-                                                            class="remove-variant-btn"
-                                                            (click)="removeProductVariant(i)"
-                                                            [disabled]="isSaving"
-                                                        >
-
-                                                            Remove
-
-                                                        </button>
-
-                                                    </td>
-
-                                                </tr>
-
-                                            </tbody>
-
-                                        </table>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- =====================================================
+            <!-- =====================================================
                              NOTES
                         ====================================================== -->
 
-                        <div class="row mt-3">
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="form-group">
+                  <label> Notes </label>
 
-                            <div class="col-12">
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Notes
-                                    </label>
-
-                                    <textarea
-                                        class="form-control"
-                                        formControlName="notes"
-                                        rows="3"
-                                        placeholder="Enter Notes"
-                                    ></textarea>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
+                  <textarea
+                    class="form-control"
+                    formControlName="notes"
+                    rows="3"
+                    placeholder="Enter Notes"
+                  ></textarea>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-
-
-                <!-- =========================================================
+        <!-- =========================================================
                      BUTTONS
                 ========================================================== -->
 
-                <div class="button-group">
+        <div class="button-group">
+          <!-- SAVE -->
 
+          <button
+            type="submit"
+            class="btn-create"
+            [disabled]="isSaving || supplierPurchaseItems.length === 0"
+          >
+            <span
+              *ngIf="isSaving"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
 
-                    <!-- SAVE -->
+            {{ isSaving ? "Saving..." : "Save" }}
+          </button>
 
-                    <button
-                        type="submit"
-                        class="btn-create"
-                        [disabled]="
-                            isSaving ||
-                            supplierPurchaseItems.length === 0
-                        "
-                    >
+          <!-- BACK -->
 
-                        <span
-                            *ngIf="isSaving"
-                            class="spinner-border spinner-border-sm me-2"
-                            role="status"
-                            aria-hidden="true"
-                        ></span>
-
-                        {{ isSaving ? 'Saving...' : 'Save' }}
-
-                    </button>
-
-
-
-                    <!-- BACK -->
-
-                    <button
-                        type="button"
-                        class="btn-back"
-                        (click)="goBack()"
-                        [disabled]="isSaving"
-                    >
-
-                        Back
-
-                    </button>
-
-
-                </div>
-
-
-            </form>
-
+          <button
+            type="button"
+            class="btn-back"
+            (click)="goBack()"
+            [disabled]="isSaving"
+          >
+            Back
+          </button>
         </div>
-
+      </form>
     </div>
-
+  </div>
 </div>

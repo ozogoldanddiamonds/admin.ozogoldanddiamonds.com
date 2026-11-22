@@ -10,13 +10,13 @@ import { ViewOrderItemComponent } from 'src/app/View-dialog-Controllers/view-ord
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.component.html',
-  styleUrls: ['./create-order.component.css']
+  styleUrls: ['./create-order.component.css'],
 })
 export class CreateOrderComponent implements OnInit {
   selectedProduct: any = null;
+
   allVariants: any[] = [];
   filteredVariants: any[] = [];
-
   selectedVariant: any = null;
 
   orderForm!: FormGroup;
@@ -25,409 +25,445 @@ export class CreateOrderComponent implements OnInit {
   orderSummary: any = {};
 
   variants: any[] = [];
-
   cartItems: any[] = [];
 
   subTotal = 0;
-
   discount = 0;
-
   gst = 0;
-
   grandTotal = 0;
 
+  // Order processing
+  isSubmitting = false;
+
+  // Invoice
+  invoicePdfUrl: string | null = null;
+
+  // WhatsApp status
+  whatsappInvoiceStatus: string | null = null;
+  whatsappInvoiceError: string | null = null;
+
   constructor(
-
     private fb: FormBuilder,
-
     private productService: ProductService,
-
     private orderService: OrderService,
     public router: Router,
-
     private dialog: MatDialog,
-    private alert: AlertService
-
-  ) { }
+    private alert: AlertService,
+  ) {}
 
   ngOnInit(): void {
-
     this.orderForm = this.fb.group({
-
       customerName: ['', Validators.required],
 
-      customerPhone: ['', Validators.required],
+      customerPhone: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+      ],
 
-      customerEmail: [''],
-
-      // product: ['', Validators.required],
+      customerEmail: ['', Validators.email],
 
       variant: ['', Validators.required],
 
-      quantity: [1, Validators.required],
+      quantity: [1, [Validators.required, Validators.min(1)]],
 
       paymentMethod: ['CASH', Validators.required],
 
-      notes: ['']
-
+      notes: [''],
     });
 
     this.getProducts();
-
   }
 
   // ===========================
   // GET PRODUCTS
   // ===========================
 
-  getProducts() {
-
+  getProducts(): void {
     this.productService.getAllProducts().subscribe({
-
       next: (res: any) => {
-
-        this.products = res.data;
+        this.products = res.data || [];
 
         this.allVariants = [];
 
         this.products.forEach((product: any) => {
-
-          product.variants.forEach((variant: any) => {
-
+          (product.variants || []).forEach((variant: any) => {
             this.allVariants.push({
-
               ...structuredClone(variant),
 
-              product: structuredClone(product)
-
+              product: structuredClone(product),
             });
-
           });
-
         });
+      },
 
-      }
+      error: (err: any) => {
+        console.error('Get Products Error:', err);
 
+        this.alert.error('Unable to load products');
+      },
     });
-
   }
-  loadAllSkus() {
 
+  // ===========================
+  // LOAD ALL SKUS
+  // ===========================
+
+  loadAllSkus(): void {
     this.filteredVariants = [...this.allVariants];
-
   }
-  onVariantChange() {
 
+  // ===========================
+  // VARIANT CHANGE
+  // ===========================
+
+  onVariantChange(): void {
     const variantId = this.orderForm.value.variant;
 
-    const selected = this.allVariants.find(
-      (x: any) => x._id == variantId
-    );
+    const selected = this.allVariants.find((x: any) => x._id === variantId);
 
-    if (!selected) return;
+    if (!selected) {
+      this.selectedProduct = null;
+      this.selectedVariant = null;
+
+      return;
+    }
 
     this.selectedVariant = selected;
 
     this.selectedProduct = selected.product;
-    console.log(this.selectedVariant); // 👈 check here
-
-  }
-  // getProducts() {
-
-  //   this.productService.getAllProducts().subscribe({
-
-  //     next: (res: any) => {
-
-
-  //       this.products = res.data;
-
-  //     }
-
-  //   });
-
-  // }
-
-  // ===========================
-  // GET VARIANTS
-  // ===========================
-
-  getVariants() {
-
-    const productId = this.orderForm.value.product;
-
-    this.selectedProduct = this.products.find(
-      (x: any) => x._id === productId
-    );
-
-    if (this.selectedProduct) {
-
-      this.variants = this.selectedProduct.variants;
-
-      this.selectedVariant = null;
-
-      this.orderForm.patchValue({
-        variant: ""
-      });
-
-    }
-
-  }
-  getVariantDetails() {
-
-    const variantId = this.orderForm.value.variant;
-
-    this.selectedVariant = this.variants.find(
-      (x: any) => x._id === variantId
-    );
-
   }
 
   // ===========================
   // ADD ITEM
   // ===========================
 
-  addItem() {
+  addItem(): void {
     const product = this.selectedProduct;
-
     const variant = this.selectedVariant;
 
-    // const product = this.products.find(
-    //   (x: any) => x._id == this.orderForm.value.product
-    // );
-
-    // const variant = this.variants.find(
-    //   (x: any) => x._id == this.orderForm.value.variant
-    // );
-
     if (!product || !variant) {
+      this.alert.error('Please select a product and variant');
+
       return;
     }
 
-    const qty = this.orderForm.value.quantity;
+    const qty = Number(this.orderForm.value.quantity);
 
-    this.orderService.calculatePrice({
+    if (!Number.isInteger(qty) || qty < 1) {
+      this.alert.error('Please enter a valid quantity');
 
-      product: product._id,
+      return;
+    }
 
-      variant: variant._id,
+    this.orderService
+      .calculatePrice({
+        product: product._id,
+        variant: variant._id,
+        quantity: qty,
+      })
+      .subscribe({
+        next: (res: any) => {
+          if (!res.success || !res.data) {
+            this.alert.error('Unable to calculate product price');
 
-      quantity: qty
+            return;
+          }
 
-    }).subscribe({
+          this.cartItems.push({
+            product: product._id,
+            variant: variant._id,
 
-      next: (res: any) => {
+            productDetails: structuredClone(product),
+            variantDetails: structuredClone(variant),
 
-        this.cartItems.push({
+            productName: product.name,
+            variantName: variant.sku,
 
-          product: product._id,
-          variant: variant._id,
-          productDetails: structuredClone(product),
+            image: product.images?.[0] || null,
 
-          variantDetails: structuredClone(variant),
-          // productDetails: product,      // 👈 Complete Product
-          // variantDetails: variant,      // 👈 Complete Variant
+            quantity: qty,
 
-          productName: product.name,
-          variantName: variant.sku,
+            metalValue: res.data.goldValue,
+            makingCharge: res.data.makingCharge,
+            gstAmount: res.data.gstAmount,
 
-          image: product.images?.[0],
+            gstPercentage: res.data.gstPercentage || 0,
 
-          quantity: qty,
+            unitPrice: res.data.unitPrice,
+            totalPrice: res.data.totalPrice,
+          });
 
-          metalValue: res.data.goldValue,
-          makingCharge: res.data.makingCharge,
-          gstAmount: res.data.gstAmount,
+          this.calculateTotal();
 
-          unitPrice: res.data.unitPrice,
-          totalPrice: res.data.totalPrice
+          // Reset only product selection fields
+          this.orderForm.patchValue({
+            variant: '',
+            quantity: 1,
+          });
 
-        });
+          this.selectedProduct = null;
+          this.selectedVariant = null;
+        },
 
-        this.calculateTotal();
+        error: (err: any) => {
+          console.error('Calculate Price Error:', err);
 
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-      }
-
-    });
-
+          this.alert.error(err?.error?.message || 'Price calculation failed');
+        },
+      });
   }
 
   // ===========================
   // REMOVE ITEM
   // ===========================
 
-  removeItem(index: number) {
-
+  removeItem(index: number): void {
     this.cartItems.splice(index, 1);
 
     this.calculateTotal();
-
   }
 
   // ===========================
   // TOTAL
   // ===========================
 
-  calculateTotal() {
-
+  calculateTotal(): void {
     this.subTotal = 0;
 
     this.cartItems.forEach((item: any) => {
-
-      this.subTotal += Number(item.totalPrice);
-
+      this.subTotal += Number(item.totalPrice) || 0;
     });
 
-    // Discount
     this.discount = 0;
 
-    // GST (3%)
-    this.gst = this.subTotal * 0.03;
+    this.gst = this.cartItems.reduce(
+      (total: number, item: any) =>
+        total + (Number(item.gstAmount) || 0) * Number(item.quantity),
+      0,
+    );
 
-    // Grand Total = SubTotal - Discount + GST
     this.grandTotal = this.subTotal - this.discount + this.gst;
-
   }
 
   // ===========================
   // CREATE ORDER
   // ===========================
 
-  createOrder() {
+  createOrder(): void {
+    if (this.isSubmitting) {
+      return;
+    }
+
+    const customerName = this.orderForm.get('customerName');
+    const customerPhone = this.orderForm.get('customerPhone');
+    const customerEmail = this.orderForm.get('customerEmail');
+    const paymentMethodControl = this.orderForm.get('paymentMethod');
+
+    if (
+      customerName?.invalid ||
+      customerPhone?.invalid ||
+      customerEmail?.invalid ||
+      paymentMethodControl?.invalid
+    ) {
+      customerName?.markAsTouched();
+      customerPhone?.markAsTouched();
+      customerEmail?.markAsTouched();
+      paymentMethodControl?.markAsTouched();
+
+      this.alert.error('Please enter valid customer details');
+
+      return;
+    }
+
+    if (!this.cartItems.length) {
+      this.alert.error('Please add at least one product');
+
+      return;
+    }
+
     const role = localStorage.getItem('role');
     const adminId = localStorage.getItem('adminId');
 
+    if (!['BRANCH', 'SUB_BRANCH'].includes(role || '')) {
+      this.alert.error('Invalid branch user');
+
+      return;
+    }
+
+    if (!adminId) {
+      this.alert.error('Admin session not found. Please login again.');
+
+      return;
+    }
+
+    const paymentMethod = this.orderForm.value.paymentMethod;
+
+    // Staff must confirm actual payment receipt.
+    const paymentConfirmed = window.confirm(
+      `Please confirm that the customer has paid ₹${this.grandTotal.toFixed(2)} through ${paymentMethod}. Continue creating the order?`,
+    );
+
+    if (!paymentConfirmed) {
+      return;
+    }
 
     const body = {
       orderSource: role,
 
-      branch: role === 'BRANCH'
-        ? adminId
-        : localStorage.getItem('branchId'),
+      branch: role === 'BRANCH' ? adminId : localStorage.getItem('branchId'),
 
-      subBranch: role === 'SUB_BRANCH'
-        ? adminId
-        : null,
+      subBranch: role === 'SUB_BRANCH' ? adminId : null,
 
       createdBy: adminId,
 
-
       customerDetails: {
+        name: this.orderForm.value.customerName.trim(),
 
-        name: this.orderForm.value.customerName,
+        phone: this.orderForm.value.customerPhone.trim(),
 
-        phone: this.orderForm.value.customerPhone,
-
-        email: this.orderForm.value.customerEmail
-
+        email: this.orderForm.value.customerEmail?.trim() || '',
       },
 
-      paymentMethod:
+      paymentMethod,
 
-        this.orderForm.value.paymentMethod,
+      items: this.cartItems.map((item: any) => ({
+        product: item.product,
 
-      items: this.cartItems,
+        variant: item.variant,
 
-      notes: this.orderForm.value.notes
+        quantity: Number(item.quantity),
+      })),
 
+      notes: this.orderForm.value.notes,
     };
 
-    this.orderService.createOrder(body)
+    this.isSubmitting = true;
 
-      .subscribe({
+    this.orderService.createOrder(body).subscribe({
+      next: (res: any) => {
+        if (!res.success || !res.data) {
+          this.alert.error('Order creation failed');
 
-        next: (res: any) => {
+          this.isSubmitting = false;
 
-          console.log(res);
-
-          this.orderSummary = res.data;
-
-          this.cartItems = res.data.items;
-
-          this.subTotal = res.data.subTotal;
-
-          this.discount = res.data.discountAmount;
-
-          this.gst = res.data.gstAmount;
-
-          this.grandTotal = res.data.totalAmount;
-
-          this.alert.success("Order Created Successfully");
-          // Optional: Reset Form
-          this.orderForm.reset({
-            paymentMethod: 'CASH',
-            quantity: 1
-          });
-
-          this.cartItems = [];
-          this.variants = [];
-          this.selectedProduct = null;
-          this.selectedVariant = null;
-
-          this.calculateTotal();
-
-          // Optional Navigation
-          // this.router.navigate(['/admin/orders']);
-
-        },
-
-        error: (err: any) => {
-
-          console.log(err);
-
-          this.alert.error(
-
-            err?.error?.message ||
-
-            "Failed To Create Order"
-
-          );
-
+          return;
         }
 
-      });
-  }
-  goBack() {
-    this.router.navigate(['/admin/order-list']);
-  }
-  // search sku
-  onSearch(event: any) {
+        this.orderSummary = res.data;
 
+        this.invoicePdfUrl = res.data.invoicePdfUrl || null;
+
+        this.whatsappInvoiceStatus = res.data.whatsappInvoiceStatus || null;
+
+        this.whatsappInvoiceError = res.data.whatsappInvoiceError || null;
+
+        this.cartItems = res.data.items || [];
+
+        this.subTotal = Number(res.data.subTotal) || 0;
+
+        this.discount = Number(res.data.discountAmount) || 0;
+
+        this.gst = Number(res.data.gstAmount) || 0;
+
+        this.grandTotal = Number(res.data.totalAmount) || 0;
+
+        this.alert.success('Order Created Successfully');
+
+        // Reset customer and product form
+        this.orderForm.reset({
+          customerName: '',
+          customerPhone: '',
+          customerEmail: '',
+          variant: '',
+          quantity: 1,
+          paymentMethod: 'CASH',
+          notes: '',
+        });
+
+        // Keep order summary for invoice printing
+        this.cartItems = [];
+
+        this.selectedProduct = null;
+        this.selectedVariant = null;
+
+        this.variants = [];
+
+        this.calculateTotal();
+
+        this.isSubmitting = false;
+      },
+
+      error: (err: any) => {
+        console.error('Create Order Error:', err);
+
+        this.alert.error(err?.error?.message || 'Failed to create order');
+
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  // ===========================
+  // PRINT INVOICE
+  // ===========================
+
+  printInvoice(): void {
+    if (!this.invoicePdfUrl) {
+      this.alert.error('Invoice PDF is not available');
+
+      return;
+    }
+
+    window.open(this.invoicePdfUrl, '_blank', 'noopener,noreferrer');
+  }
+
+  // ===========================
+  // BACK
+  // ===========================
+
+  goBack(): void {
+    const role = localStorage.getItem('role');
+
+    const routeMap: Record<string, string> = {
+      ADMIN: '/admin/order-list',
+      BRANCH: '/BRANCH/order-list',
+      SUB_BRANCH: '/SUB_BRANCH/order-list',
+    };
+
+    this.router.navigate([routeMap[role || 'ADMIN'] || '/admin/order-list']);
+  }
+
+  // ===========================
+  // SKU SEARCH
+  // ===========================
+
+  onSearch(event: any): void {
     const term = event.term?.trim().toLowerCase();
 
     if (!term) {
-
-      // Search empty ayithe anni SKUs chupinchu
       this.filteredVariants = [...this.allVariants];
-      return;
 
+      return;
     }
 
-    this.filteredVariants = this.allVariants.filter((x: any) =>
-      x.sku.toLowerCase().includes(term)
+    this.filteredVariants = this.allVariants.filter(
+      (x: any) =>
+        (x.sku || '').toLowerCase().includes(term) ||
+        (x.product?.name || '').toLowerCase().includes(term),
     );
-
   }
-  viewItem(item: any) {
 
+  // ===========================
+  // VIEW ITEM
+  // ===========================
+
+  viewItem(item: any): void {
     this.dialog.open(ViewOrderItemComponent, {
-
       width: '700px',
 
       data: item,
 
-      disableClose: true
-
+      disableClose: true,
     });
-
   }
-
 }
-
-
-

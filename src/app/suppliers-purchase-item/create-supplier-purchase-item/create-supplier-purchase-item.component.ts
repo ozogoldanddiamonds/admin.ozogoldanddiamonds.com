@@ -10,17 +10,14 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-supplier-purchase-item',
   templateUrl: './create-supplier-purchase-item.component.html',
-  styleUrls: ['./create-supplier-purchase-item.component.css']
+  styleUrls: ['./create-supplier-purchase-item.component.css'],
 })
 export class CreateSupplierPurchaseItemComponent implements OnInit {
-
-
   // =====================================================
   // FORM
   // =====================================================
 
   supplierPurchaseItemForm!: FormGroup;
-
 
   // =====================================================
   // PURCHASES
@@ -28,13 +25,11 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
   purchases: any[] = [];
 
-
   // =====================================================
   // PRODUCTS
   // =====================================================
 
   products: any[] = [];
-
 
   // =====================================================
   // VARIANTS
@@ -42,13 +37,11 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
   variants: any[] = [];
 
-
   // =====================================================
   // SELECTED PURCHASE
   // =====================================================
 
   selectedPurchase: any = null;
-
 
   // =====================================================
   // ADDED PRODUCT VARIANTS
@@ -56,13 +49,11 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
   supplierPurchaseItems: any[] = [];
 
-
   // =====================================================
   // LOADING
   // =====================================================
 
   isLoading = false;
-
 
   // =====================================================
   // SAVING
@@ -70,36 +61,26 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
   isSaving = false;
 
-
   constructor(
-
     private fb: FormBuilder,
 
-    private supplierPurchaseService:
-      SupplierPurchaseService,
+    private supplierPurchaseService: SupplierPurchaseService,
 
-    private supplierPurchaseItemService:
-      SupplierPurchaseItemsService,
+    private supplierPurchaseItemService: SupplierPurchaseItemsService,
 
-    private productService:
-      ProductService,
+    private productService: ProductService,
 
     private router: Router,
 
-    private alert: AlertService
-
-  ) { }
-
-
+    private alert: AlertService,
+  ) {}
 
   // =====================================================
   // INIT
   // =====================================================
 
   ngOnInit(): void {
-
     this.initializeForm();
-
 
     // ================================================
     // GET PURCHASES
@@ -107,350 +88,160 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
     this.getAllSupplierPurchases();
 
-
     // ================================================
     // GET PRODUCTS
     // ================================================
 
     this.getAllProducts();
 
-
     // ================================================
     // CALCULATE TOTAL
     // ================================================
 
-    this.supplierPurchaseItemForm
-      .valueChanges
-      .subscribe(() => {
-
-        this.calculateTotal();
-
-      });
-
+    this.supplierPurchaseItemForm.valueChanges.subscribe(() => {
+      this.calculateTotal();
+    });
   }
-
-
 
   // =====================================================
   // INITIALIZE FORM
   // =====================================================
 
   initializeForm(): void {
+    this.supplierPurchaseItemForm = this.fb.group({
+      // ==========================================
+      // PURCHASE
+      // ==========================================
 
-    this.supplierPurchaseItemForm =
-      this.fb.group({
+      purchase: ['', Validators.required],
 
-        // ==========================================
-        // PURCHASE
-        // ==========================================
+      // ==========================================
+      // PRODUCT
+      // ==========================================
 
-        purchase: [
+      product: ['', Validators.required],
 
-          '',
+      // ==========================================
+      // VARIANT
+      // ==========================================
 
-          Validators.required
+      variantId: ['', Validators.required],
 
-        ],
+      // ==========================================
+      // QUANTITY
+      // ==========================================
 
+      quantity: [1, [Validators.required, Validators.min(1)]],
 
-        // ==========================================
-        // PRODUCT
-        // ==========================================
+      // ==========================================
+      // PURCHASE PRICE
+      // ==========================================
 
-        product: [
+      purchasePrice: [0, [Validators.required, Validators.min(0)]],
 
-          '',
+      // ==========================================
+      // SUPPLIER PRODUCT CODE
+      // ==========================================
 
-          Validators.required
+      supplierProductCode: ['', Validators.required],
 
-        ],
+      // ==========================================
+      // BATCH NUMBER
+      // ==========================================
 
+      batchNumber: ['', Validators.required],
 
-        // ==========================================
-        // VARIANT
-        // ==========================================
+      // ==========================================
+      // DISCOUNT
+      // ==========================================
 
-        variantId: [
+      discount: [0, [Validators.min(0)]],
 
-          '',
+      // ==========================================
+      // TAX
+      // ==========================================
 
-          Validators.required
+      tax: [0, [Validators.min(0)]],
 
-        ],
+      // ==========================================
+      // TOTAL AMOUNT
+      // ==========================================
 
+      totalAmount: [0, [Validators.required, Validators.min(0)]],
 
-        // ==========================================
-        // QUANTITY
-        // ==========================================
+      // ==========================================
+      // NOTES
+      // ==========================================
 
-        quantity: [
-
-          1,
-
-          [
-
-            Validators.required,
-
-            Validators.min(1)
-
-          ]
-
-        ],
-
-
-        // ==========================================
-        // PURCHASE PRICE
-        // ==========================================
-
-        purchasePrice: [
-
-          0,
-
-          [
-
-            Validators.required,
-
-            Validators.min(0)
-
-          ]
-
-        ],
-
-
-        // ==========================================
-        // SUPPLIER PRODUCT CODE
-        // ==========================================
-
-        supplierProductCode: [
-
-          '',
-
-          Validators.required
-
-        ],
-
-
-        // ==========================================
-        // BATCH NUMBER
-        // ==========================================
-
-        batchNumber: [
-
-          '',
-
-          Validators.required
-
-        ],
-
-
-        // ==========================================
-        // DISCOUNT
-        // ==========================================
-
-        discount: [
-
-          0,
-
-          [
-
-            Validators.min(0)
-
-          ]
-
-        ],
-
-
-        // ==========================================
-        // TAX
-        // ==========================================
-
-        tax: [
-
-          0,
-
-          [
-
-            Validators.min(0)
-
-          ]
-
-        ],
-
-
-        // ==========================================
-        // TOTAL AMOUNT
-        // ==========================================
-
-        totalAmount: [
-
-          0,
-
-          [
-
-            Validators.required,
-
-            Validators.min(0)
-
-          ]
-
-        ],
-
-
-        // ==========================================
-        // NOTES
-        // ==========================================
-
-        notes: [
-
-          ''
-
-        ]
-
-      });
-
+      notes: [''],
+    });
   }
-
-
 
   // =====================================================
   // GET ALL SUPPLIER PURCHASES
   // =====================================================
 
   getAllSupplierPurchases(): void {
+    this.supplierPurchaseService.getAllSupplierPurchases().subscribe({
+      next: (response: any) => {
+        console.log(response, 'supplier purchases');
 
-    this.supplierPurchaseService
-      .getAllSupplierPurchases()
-      .subscribe({
+        this.purchases = response?.data || [];
+      },
 
-        next: (response: any) => {
+      error: (error: any) => {
+        console.error(error);
 
-          console.log(
-            response,
-            'supplier purchases'
-          );
+        this.purchases = [];
 
-
-          this.purchases =
-            response?.data || [];
-
-        },
-
-
-        error: (error: any) => {
-
-          console.error(
-            error
-          );
-
-
-          this.purchases = [];
-
-          this.alert.error(
-
-            error?.error?.message ||
-
-            'Failed to load supplier purchases'
-
-          );
-
-        }
-
-      });
-
+        this.alert.error(
+          error?.error?.message || 'Failed to load supplier purchases',
+        );
+      },
+    });
   }
-
-
 
   // =====================================================
   // GET ALL PRODUCTS
   // =====================================================
 
   getAllProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (response: any) => {
+        console.log(response, 'products');
 
-    this.productService
-      .getAllProducts()
-      .subscribe({
+        this.products = response?.data || [];
 
-        next: (response: any) => {
+        console.log('Product List:', this.products);
+      },
 
-          console.log(
-            response,
-            'products'
-          );
+      error: (error: any) => {
+        console.error(error);
 
+        this.products = [];
 
-          this.products =
-            response?.data || [];
-
-
-          console.log(
-            'Product List:',
-            this.products
-          );
-
-        },
-
-
-        error: (error: any) => {
-
-          console.error(
-            error
-          );
-
-
-          this.products = [];
-
-
-          this.alert.error(
-
-            error?.error?.message ||
-
-            'Failed to load products'
-
-          );
-
-        }
-
-      });
-
+        this.alert.error(error?.error?.message || 'Failed to load products');
+      },
+    });
   }
-
-
 
   // =====================================================
   // PURCHASE CHANGE
   // =====================================================
 
   onPurchaseChange(): void {
-
-    const purchaseId =
-
-      this.supplierPurchaseItemForm
-        .get('purchase')
-        ?.value;
-
+    const purchaseId = this.supplierPurchaseItemForm.get('purchase')?.value;
 
     // ================================================
     // FIND PURCHASE
     // ================================================
 
     this.selectedPurchase =
-
       this.purchases.find(
-
-        purchase =>
-
-          String(purchase._id) ===
-          String(purchaseId)
-
+        (purchase) => String(purchase._id) === String(purchaseId),
       ) || null;
 
-
-    console.log(
-      this.selectedPurchase,
-      'selected purchase'
-    );
-
+    console.log(this.selectedPurchase, 'selected purchase');
 
     // ================================================
     // IMPORTANT
@@ -462,30 +253,17 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     // same supplier purchase.
     // ================================================
 
-    if (
-      this.supplierPurchaseItems.length > 0
-    ) {
-
+    if (this.supplierPurchaseItems.length > 0) {
       this.supplierPurchaseItems = [];
-
     }
-
   }
-
-
 
   // =====================================================
   // PRODUCT CHANGE
   // =====================================================
 
   onProductChange(): void {
-
-    const productId =
-
-      this.supplierPurchaseItemForm
-        .get('product')
-        ?.value;
-
+    const productId = this.supplierPurchaseItemForm.get('product')?.value;
 
     // ================================================
     // RESET VARIANTS
@@ -493,409 +271,205 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
     this.variants = [];
 
-
-    this.supplierPurchaseItemForm
-      .get('variantId')
-      ?.setValue(
-        '',
-        {
-          emitEvent: false
-        }
-      );
-
+    this.supplierPurchaseItemForm.get('variantId')?.setValue('', {
+      emitEvent: false,
+    });
 
     // ================================================
     // NO PRODUCT
     // ================================================
 
     if (!productId) {
-
       return;
-
     }
-
 
     // ================================================
     // FIND PRODUCT
     // ================================================
 
-    const selectedProduct =
-
-      this.products.find(
-
-        product =>
-
-          String(product._id) ===
-          String(productId)
-
-      );
-
-
-    console.log(
-      selectedProduct,
-      'selected product'
+    const selectedProduct = this.products.find(
+      (product) => String(product._id) === String(productId),
     );
 
+    console.log(selectedProduct, 'selected product');
 
     // ================================================
     // LOAD VARIANTS
     // ================================================
 
-    if (
-      selectedProduct &&
-      Array.isArray(
-        selectedProduct.variants
-      )
-    ) {
-
-      this.variants =
-        selectedProduct.variants;
-
+    if (selectedProduct && Array.isArray(selectedProduct.variants)) {
+      this.variants = selectedProduct.variants;
     }
 
-
-    console.log(
-      this.variants,
-      'product variants'
-    );
-
+    console.log(this.variants, 'product variants');
   }
-
-
 
   // =====================================================
   // CALCULATE TOTAL
   // =====================================================
 
   calculateTotal(): void {
-
     const quantity =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('quantity')
-          ?.value
-
-      ) || 0;
-
+      Number(this.supplierPurchaseItemForm.get('quantity')?.value) || 0;
 
     const purchasePrice =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('purchasePrice')
-          ?.value
-
-      ) || 0;
-
+      Number(this.supplierPurchaseItemForm.get('purchasePrice')?.value) || 0;
 
     const discount =
+      Number(this.supplierPurchaseItemForm.get('discount')?.value) || 0;
 
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('discount')
-          ?.value
-
-      ) || 0;
-
-
-    const tax =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('tax')
-          ?.value
-
-      ) || 0;
-
+    const tax = Number(this.supplierPurchaseItemForm.get('tax')?.value) || 0;
 
     // ================================================
     // BASE AMOUNT
     // ================================================
 
-    const baseAmount =
-
-      quantity *
-      purchasePrice;
-
+    const baseAmount = quantity * purchasePrice;
 
     // ================================================
     // AFTER DISCOUNT
     // ================================================
 
-    const afterDiscount =
+    const afterDiscount = Math.max(
+      baseAmount - discount,
 
-      Math.max(
-
-        baseAmount -
-        discount,
-
-        0
-
-      );
-
+      0,
+    );
 
     // ================================================
     // TAX
     // ================================================
 
-    const taxAmount =
-
-      afterDiscount *
-      (tax / 100);
-
+    const taxAmount = afterDiscount * (tax / 100);
 
     // ================================================
     // FINAL TOTAL
     // ================================================
 
-    const totalAmount =
-
-      afterDiscount +
-      taxAmount;
-
+    const totalAmount = afterDiscount + taxAmount;
 
     // ================================================
     // PATCH TOTAL
     // ================================================
 
-    this.supplierPurchaseItemForm
-      .get('totalAmount')
-      ?.setValue(
+    this.supplierPurchaseItemForm.get('totalAmount')?.setValue(
+      Number(totalAmount.toFixed(2)),
 
-        Number(
-          totalAmount.toFixed(2)
-        ),
-
-        {
-          emitEvent: false
-        }
-
-      );
-
+      {
+        emitEvent: false,
+      },
+    );
   }
-
-
 
   // =====================================================
   // ADD PRODUCT + VARIANT
   // =====================================================
 
   addProductVariant(): void {
-
     // ================================================
     // VALIDATE PURCHASE
     // ================================================
 
-    const purchaseId =
-
-      this.supplierPurchaseItemForm
-        .get('purchase')
-        ?.value;
-
+    const purchaseId = this.supplierPurchaseItemForm.get('purchase')?.value;
 
     if (!purchaseId) {
-
-      this.alert.error(
-        'Please select supplier purchase'
-      );
+      this.alert.error('Please select supplier purchase');
 
       return;
-
     }
-
 
     // ================================================
     // VALIDATE PRODUCT
     // ================================================
 
-    const productId =
-
-      this.supplierPurchaseItemForm
-        .get('product')
-        ?.value;
-
+    const productId = this.supplierPurchaseItemForm.get('product')?.value;
 
     if (!productId) {
-
-      this.alert.error(
-        'Please select product'
-      );
+      this.alert.error('Please select product');
 
       return;
-
     }
-
 
     // ================================================
     // VALIDATE VARIANT
     // ================================================
 
-    const variantId =
-
-      this.supplierPurchaseItemForm
-        .get('variantId')
-        ?.value;
-
+    const variantId = this.supplierPurchaseItemForm.get('variantId')?.value;
 
     if (!variantId) {
-
-      this.alert.error(
-        'Please select product variant'
-      );
+      this.alert.error('Please select product variant');
 
       return;
-
     }
-
 
     // ================================================
     // VALIDATE OTHER FIELDS
     // ================================================
 
-    const quantity =
+    const quantity = Number(
+      this.supplierPurchaseItemForm.get('quantity')?.value,
+    );
 
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('quantity')
-          ?.value
-
-      );
-
-
-    if (
-      !Number.isFinite(quantity) ||
-      quantity < 1
-    ) {
-
-      this.alert.error(
-        'Valid quantity is required'
-      );
+    if (!Number.isFinite(quantity) || quantity < 1) {
+      this.alert.error('Valid quantity is required');
 
       return;
-
     }
 
+    const purchasePrice = Number(
+      this.supplierPurchaseItemForm.get('purchasePrice')?.value,
+    );
 
-    const purchasePrice =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('purchasePrice')
-          ?.value
-
-      );
-
-
-    if (
-      !Number.isFinite(purchasePrice) ||
-      purchasePrice < 0
-    ) {
-
-      this.alert.error(
-        'Valid purchase price is required'
-      );
+    if (!Number.isFinite(purchasePrice) || purchasePrice < 0) {
+      this.alert.error('Valid purchase price is required');
 
       return;
-
     }
 
-
-    const supplierProductCode =
-
-      this.supplierPurchaseItemForm
-        .get('supplierProductCode')
-        ?.value
-        ?.trim();
-
+    const supplierProductCode = this.supplierPurchaseItemForm
+      .get('supplierProductCode')
+      ?.value?.trim();
 
     if (!supplierProductCode) {
-
-      this.alert.error(
-        'Supplier Product Code is required'
-      );
+      this.alert.error('Supplier Product Code is required');
 
       return;
-
     }
 
-
-    const batchNumber =
-
-      this.supplierPurchaseItemForm
-        .get('batchNumber')
-        ?.value
-        ?.trim();
-
+    const batchNumber = this.supplierPurchaseItemForm
+      .get('batchNumber')
+      ?.value?.trim();
 
     if (!batchNumber) {
-
-      this.alert.error(
-        'Batch Number is required'
-      );
+      this.alert.error('Batch Number is required');
 
       return;
-
     }
-
 
     // ================================================
     // DISCOUNT
     // ================================================
 
     const discount =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('discount')
-          ?.value
-
-      ) || 0;
-
+      Number(this.supplierPurchaseItemForm.get('discount')?.value) || 0;
 
     if (discount < 0) {
-
-      this.alert.error(
-        'Discount cannot be negative'
-      );
+      this.alert.error('Discount cannot be negative');
 
       return;
-
     }
-
 
     // ================================================
     // TAX
     // ================================================
 
-    const tax =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('tax')
-          ?.value
-
-      ) || 0;
-
+    const tax = Number(this.supplierPurchaseItemForm.get('tax')?.value) || 0;
 
     if (tax < 0) {
-
-      this.alert.error(
-        'Tax cannot be negative'
-      );
+      this.alert.error('Tax cannot be negative');
 
       return;
-
     }
-
 
     // ================================================
     // TOTAL
@@ -903,71 +477,36 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
     this.calculateTotal();
 
-
     const totalAmount =
-
-      Number(
-
-        this.supplierPurchaseItemForm
-          .get('totalAmount')
-          ?.value
-
-      ) || 0;
-
+      Number(this.supplierPurchaseItemForm.get('totalAmount')?.value) || 0;
 
     // ================================================
     // FIND PRODUCT
     // ================================================
 
-    const selectedProduct =
-
-      this.products.find(
-
-        product =>
-
-          String(product._id) ===
-          String(productId)
-
-      );
-
+    const selectedProduct = this.products.find(
+      (product) => String(product._id) === String(productId),
+    );
 
     if (!selectedProduct) {
-
-      this.alert.error(
-        'Selected product not found'
-      );
+      this.alert.error('Selected product not found');
 
       return;
-
     }
-
 
     // ================================================
     // FIND VARIANT
     // ================================================
 
-    const selectedVariant =
-
-      this.variants.find(
-
-        variant =>
-
-          String(variant._id) ===
-          String(variantId)
-
-      );
-
+    const selectedVariant = this.variants.find(
+      (variant) => String(variant._id) === String(variantId),
+    );
 
     if (!selectedVariant) {
-
-      this.alert.error(
-        'Selected product variant not found'
-      );
+      this.alert.error('Selected product variant not found');
 
       return;
-
     }
-
 
     // ================================================
     // DUPLICATE CHECK
@@ -980,145 +519,82 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     //
     // ================================================
 
-    const duplicateItem =
-
-      this.supplierPurchaseItems.find(
-
-        item =>
-
-          String(item.purchase) ===
-          String(purchaseId)
-
-          &&
-
-          String(item.product) ===
-          String(productId)
-
-          &&
-
-          String(item.variantId) ===
-          String(variantId)
-
-      );
-
+    const duplicateItem = this.supplierPurchaseItems.find(
+      (item) =>
+        String(item.purchase) === String(purchaseId) &&
+        String(item.product) === String(productId) &&
+        String(item.variantId) === String(variantId),
+    );
 
     if (duplicateItem) {
-
       this.alert.error(
-
-        'This product variant is already added to this purchase'
-
+        'This product variant is already added to this purchase',
       );
 
       return;
-
     }
-
 
     // ================================================
     // PRODUCT NAME
     // ================================================
 
     const productName =
-
-      selectedProduct.name ||
-
-      selectedProduct.productName ||
-
-      'Product';
-
+      selectedProduct.name || selectedProduct.productName || 'Product';
 
     // ================================================
     // VARIANT NAME
     // ================================================
 
     const variantName =
-
       selectedVariant.name ||
-
       selectedVariant.variantName ||
-
       selectedVariant.sku ||
-
       selectedVariant._id;
-
 
     // ================================================
     // CREATE LOCAL ITEM
     // ================================================
 
     const item = {
-
       // IDs
-      purchase:
-        purchaseId,
+      purchase: purchaseId,
 
-      product:
-        productId,
+      product: productId,
 
-      variantId:
-        variantId,
-
+      variantId: variantId,
 
       // Display data
-      productName:
-        productName,
+      productName: productName,
 
-      variantName:
-        variantName,
-
+      variantName: variantName,
 
       // Item data
-      quantity:
-        quantity,
+      quantity: quantity,
 
-      purchasePrice:
-        purchasePrice,
+      purchasePrice: purchasePrice,
 
-      supplierProductCode:
-        supplierProductCode,
+      supplierProductCode: supplierProductCode,
 
-      batchNumber:
-        batchNumber,
+      batchNumber: batchNumber,
 
-      discount:
-        discount,
+      discount: discount,
 
-      tax:
-        tax,
+      tax: tax,
 
-      totalAmount:
-        totalAmount,
+      totalAmount: totalAmount,
 
-      notes:
-        this.supplierPurchaseItemForm
-          .get('notes')
-          ?.value
-          ?.trim() || ''
-
+      notes: this.supplierPurchaseItemForm.get('notes')?.value?.trim() || '',
     };
-
 
     // ================================================
     // ADD TO ARRAY
     // ================================================
 
-    this.supplierPurchaseItems.push(
-      item
-    );
+    this.supplierPurchaseItems.push(item);
 
+    console.log('Added Supplier Purchase Item:', item);
 
-    console.log(
-      'Added Supplier Purchase Item:',
-      item
-    );
-
-
-    console.log(
-      'All Supplier Purchase Items:',
-      this.supplierPurchaseItems
-    );
-
+    console.log('All Supplier Purchase Items:', this.supplierPurchaseItems);
 
     // ================================================
     // RESET ITEM-LEVEL FIELDS
@@ -1133,110 +609,48 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
 
     this.resetProductVariantFields();
 
-
     // ================================================
     // SUCCESS MESSAGE
     // ================================================
 
-    this.alert.success(
-      'Product variant added successfully'
-    );
-
+    this.alert.success('Product variant added successfully');
   }
-
-
 
   // =====================================================
   // RESET PRODUCT / VARIANT FIELDS
   // =====================================================
 
   resetProductVariantFields(): void {
-
     this.supplierPurchaseItemForm.patchValue({
-
-      product:
-        '',
-
-      variantId:
-        '',
-
-      quantity:
-        1,
-
-      purchasePrice:
-        0,
-
-      supplierProductCode:
-        '',
-
-      batchNumber:
-        '',
-
-      discount:
-        0,
-
-      tax:
-        0,
-
-      totalAmount:
-        0,
-
-      notes:
-        ''
-
+      // product: '',
+      // variantId: '',
+      quantity: 1,
+      purchasePrice: 0,
+      discount: 0,
+      tax: 0,
+      totalAmount: 0,
     });
 
-
     this.variants = [];
-
   }
-
-
 
   // =====================================================
   // REMOVE PRODUCT VARIANT
   // =====================================================
 
-  removeProductVariant(
-    index: number
-  ): void {
-
-    if (
-      index < 0 ||
-      index >=
-      this.supplierPurchaseItems.length
-    ) {
-
+  removeProductVariant(index: number): void {
+    if (index < 0 || index >= this.supplierPurchaseItems.length) {
       return;
-
     }
 
+    this.supplierPurchaseItems.splice(index, 1);
 
-    this.supplierPurchaseItems.splice(
-      index,
-      1
-    );
+    console.log('Removed item index:', index);
 
+    console.log('Remaining items:', this.supplierPurchaseItems);
 
-    console.log(
-      'Removed item index:',
-      index
-    );
-
-
-    console.log(
-      'Remaining items:',
-      this.supplierPurchaseItems
-    );
-
-
-    this.alert.success(
-      'Product variant removed'
-    );
-
+    this.alert.success('Product variant removed');
   }
-
-
 
   // =====================================================
   // SUBMIT ALL ITEMS
@@ -1247,42 +661,31 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
   // =====================================================
 
   onSubmit(): void {
-
     // ================================================
     // MARK ALL FIELDS AS TOUCHED
     // ================================================
 
     this.supplierPurchaseItemForm.markAllAsTouched();
 
-
     // ================================================
     // PURCHASE VALIDATION
     // ================================================
 
-    const purchaseId =
-      this.supplierPurchaseItemForm
-        .get('purchase')
-        ?.value;
-
+    const purchaseId = this.supplierPurchaseItemForm.get('purchase')?.value;
 
     if (!purchaseId) {
-
       this.isSaving = false;
 
-      this.alert.error(
-        'Please select supplier purchase'
-      );
+      this.alert.error('Please select supplier purchase');
 
       return;
     }
-
 
     // ================================================
     // FORM VALIDATION
     // ================================================
 
     if (this.supplierPurchaseItemForm.invalid) {
-
       // IMPORTANT:
       // Do not show spinner when validation fails
       this.isSaving = false;
@@ -1290,24 +693,17 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
       return;
     }
 
-
     // ================================================
     // ITEMS VALIDATION
     // ================================================
 
-    if (
-      this.supplierPurchaseItems.length === 0
-    ) {
-
+    if (this.supplierPurchaseItems.length === 0) {
       this.isSaving = false;
 
-      this.alert.error(
-        'Please add at least one product variant'
-      );
+      this.alert.error('Please add at least one product variant');
 
       return;
     }
-
 
     // ================================================
     // PREVENT DOUBLE SUBMIT
@@ -1317,7 +713,6 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
       return;
     }
 
-
     // ================================================
     // START LOADING
     // ================================================
@@ -1325,137 +720,73 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
     // Only now start spinner
     this.isSaving = true;
 
-
     // ================================================
     // CREATE PAYLOADS
     // ================================================
 
-    const requests =
-      this.supplierPurchaseItems.map(
-        item => {
+    const requests = this.supplierPurchaseItems.map((item) => {
+      return {
+        purchase: item.purchase,
 
-          return {
+        product: item.product,
 
-            purchase:
-              item.purchase,
+        variantId: item.variantId,
 
-            product:
-              item.product,
+        quantity: Number(item.quantity),
 
-            variantId:
-              item.variantId,
+        purchasePrice: Number(item.purchasePrice),
 
-            quantity:
-              Number(
-                item.quantity
-              ),
+        supplierProductCode: item.supplierProductCode?.trim() || '',
 
-            purchasePrice:
-              Number(
-                item.purchasePrice
-              ),
+        batchNumber: item.batchNumber?.trim() || '',
 
-            supplierProductCode:
-              item.supplierProductCode
-                ?.trim() || '',
+        discount: Number(item.discount) || 0,
 
-            batchNumber:
-              item.batchNumber
-                ?.trim() || '',
+        tax: Number(item.tax) || 0,
 
-            discount:
-              Number(
-                item.discount
-              ) || 0,
+        totalAmount: Number(item.totalAmount),
 
-            tax:
-              Number(
-                item.tax
-              ) || 0,
+        notes: item.notes?.trim() || '',
+      };
+    });
 
-            totalAmount:
-              Number(
-                item.totalAmount
-              ),
-
-            notes:
-              item.notes
-                ?.trim() || ''
-
-          };
-
-        }
-      );
-
-
-    console.log(
-      'All Supplier Purchase Item Payloads:',
-      requests
-    );
-
+    console.log('All Supplier Purchase Item Payloads:', requests);
 
     // ================================================
     // CREATE ITEMS ONE BY ONE
     // ================================================
 
-    this.createItemsSequentially(
-      requests,
-      0
-    );
-
+    this.createItemsSequentially(requests, 0);
   }
-
-
 
   // =====================================================
   // CREATE ITEMS SEQUENTIALLY
   // =====================================================
 
-  createItemsSequentially(
-    items: any[],
-    index: number
-  ): void {
-
+  createItemsSequentially(items: any[], index: number): void {
     // ================================================
     // ALL ITEMS CREATED
     // ================================================
 
-    if (
-      index >= items.length
-    ) {
-
+    if (index >= items.length) {
       this.isSaving = false;
 
-
       this.alert.success(
-
-        `${items.length} supplier purchase item(s) created successfully`
-
+        `${items.length} supplier purchase item(s) created successfully`,
       );
 
-
-      this.router.navigate([
-        '/admin/supplier-purchase-item'
-      ]);
-
+      this.router.navigate(['/admin/supplier-purchase-item']);
 
       return;
-
     }
 
-
-    const item =
-      items[index];
-
+    const item = items[index];
 
     console.log(
-
       `Creating item ${index + 1} of ${items.length}`,
 
-      item
-
+      item,
     );
-
 
     // ================================================
     // CREATE API
@@ -1466,128 +797,78 @@ export class CreateSupplierPurchaseItemComponent implements OnInit {
       .createSupplierPurchaseItem(item)
 
       .subscribe({
-
         next: (response: any) => {
-
           console.log(
-
             `Created item ${index + 1}`,
 
-            response
-
+            response,
           );
-
 
           // ==========================================
           // CREATE NEXT ITEM
           // ==========================================
 
           this.createItemsSequentially(
-
             items,
 
-            index + 1
-
+            index + 1,
           );
-
         },
 
-
         error: (error: any) => {
-
           console.error(
-
             `Failed to create item ${index + 1}`,
 
-            error
-
+            error,
           );
-
 
           this.isSaving = false;
 
-
           Swal.fire({
-
             icon: 'error',
 
             title: 'Failed',
 
             text:
-
               error?.error?.message ||
-
-              `Failed to create product item ${index + 1}`
-
+              `Failed to create product item ${index + 1}`,
           });
-
-        }
-
+        },
       });
-
   }
-
-
 
   // =====================================================
   // ADD NEW PRODUCT
   // =====================================================
 
-  addNewProduct(
-    searchTerm: string
-  ): void {
-
-    if (
-      !searchTerm?.trim()
-    ) {
-
+  addNewProduct(searchTerm: string): void {
+    if (!searchTerm?.trim()) {
       return;
-
     }
 
-
     console.log(
-
       searchTerm,
 
-      'product to add'
-
+      'product to add',
     );
 
-
     this.router.navigate(
-
       ['/admin/create-product'],
 
       {
-
         queryParams: {
-
-          name:
-            searchTerm.trim(),
-          returnUrl: '/admin/create-supplier-purchase-item'
-
-        }
-
-      }
-
+          name: searchTerm.trim(),
+          returnUrl: '/admin/create-supplier-purchase-item',
+        },
+      },
     );
-
   }
-
-
 
   // =====================================================
   // BACK
   // =====================================================
 
   goBack(): void {
-
-    this.router.navigate([
-
-      '/admin/supplier-purchase-item'
-
-    ]);
-
+    this.router.navigate(['/admin/supplier-purchase-item']);
   }
 }

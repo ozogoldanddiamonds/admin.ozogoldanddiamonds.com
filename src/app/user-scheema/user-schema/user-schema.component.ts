@@ -11,21 +11,18 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-user-schema',
   templateUrl: './user-schema.component.html',
-  styleUrls: ['./user-schema.component.css']
+  styleUrls: ['./user-schema.component.css'],
 })
 export class UserSchemaComponent implements OnInit, AfterViewInit {
-
   displayedColumns: string[] = [
-
     'sno',
 
     'user',
+    'phone',
 
     'scheme',
 
     'schemeAmount',
-
-    
 
     'nextDueDate',
 
@@ -35,65 +32,48 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
 
     'createdAt',
 
-    'actions'
-
+    'actions',
   ];
 
   userSchemeList: any[] = [];
 
-  dataSource =
-    new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
   constructor(
-
     private userSchemeService: UserscheemaService,
 
     private dialog: MatDialog,
 
-    private router: Router
-
-  ) { }
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
-
     this.getAllUserSchemes();
 
     this.dataSource.filterPredicate = (
-
       data: any,
 
-      filter: string
-
+      filter: string,
     ) => {
-
       const search = (
-
         (data.user?.name || '') +
-
         ' ' +
-
+        (data.user?.phone || '') +
+        ' ' +
         (data.schemeName || '') +
-
         ' ' +
-
         (data.status || '')
-
       ).toLowerCase();
 
       return search.includes(filter);
-
     };
-
   }
 
   ngAfterViewInit(): void {
-
-    this.dataSource.paginator =
-      this.paginator;
-
+    this.dataSource.paginator = this.paginator;
   }
 
   // ==========================
@@ -101,30 +81,20 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
   // ==========================
 
   getAllUserSchemes() {
-
     this.userSchemeService
       .getAllUserSchemes()
 
       .subscribe({
-
         next: (res: any) => {
+          this.userSchemeList = res.data;
 
-          this.userSchemeList =
-            res.data;
-
-          this.dataSource.data =
-            this.userSchemeList;
-
+          this.dataSource.data = this.userSchemeList;
         },
 
         error: (err: any) => {
-
           console.log(err);
-
-        }
-
+        },
       });
-
   }
 
   // ==========================
@@ -132,22 +102,13 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
   // ==========================
 
   applyFilter(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
 
-    const value = (
-
-      event.target as HTMLInputElement
-
-    ).value;
-
-    this.dataSource.filter =
-      value.trim().toLowerCase();
+    this.dataSource.filter = value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
-
       this.dataSource.paginator.firstPage();
-
     }
-
   }
 
   // ==========================
@@ -155,15 +116,7 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
   // ==========================
 
   editUserScheme(id: string) {
-
-    this.router.navigate([
-
-      '/admin/user-scheema-update',
-
-      id
-
-    ]);
-
+    this.router.navigate(['/admin/user-scheema-update', id]);
   }
 
   // ==========================
@@ -171,21 +124,15 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
   // ==========================
 
   viewUserScheme(element: any) {
-
     this.dialog.open(
-
       ViewUserscheemaComponent,
 
       {
-
         width: '900px',
 
-        data: element
-
-      }
-
+        data: element,
+      },
     );
-
   }
 
   // ==========================
@@ -193,9 +140,7 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
   // ==========================
 
   deleteUserScheme(id: string) {
-
     Swal.fire({
-
       title: 'Delete User Scheme?',
 
       text: 'This action cannot be undone.',
@@ -208,14 +153,10 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
 
       cancelButtonText: 'Cancel',
 
-      confirmButtonColor: '#640101'
-
+      confirmButtonColor: '#640101',
     }).then((result) => {
-
       if (!result.isConfirmed) {
-
         return;
-
       }
 
       this.userSchemeService
@@ -223,11 +164,8 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
         .deleteUserScheme(id)
 
         .subscribe({
-
           next: (res: any) => {
-
             Swal.fire({
-
               icon: 'success',
 
               title: 'Deleted',
@@ -236,42 +174,26 @@ export class UserSchemaComponent implements OnInit, AfterViewInit {
 
               timer: 1500,
 
-              showConfirmButton: false
-
+              showConfirmButton: false,
             });
 
             this.getAllUserSchemes();
-
           },
 
           error: (err: any) => {
-
             Swal.fire({
-
               icon: 'error',
 
               title: 'Error',
 
-              text:
-
-                err.error?.message ||
-
-                'Delete Failed'
-
+              text: err.error?.message || 'Delete Failed',
             });
-
-          }
-
+          },
         });
-
     });
-
   }
 
   // ==========================
   // Status
   // ==========================
-
- 
-
 }

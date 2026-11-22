@@ -86,31 +86,38 @@ import { CustomDesignListComponent } from './custom-design/custom-design-list/cu
 import { MetaKeyWordsComponent } from './meta-key-words/meta-key-words.component';
 import { MetaKeyWordsUpsertComponent } from './meta-key-words-upsert/meta-key-words-upsert.component';
 import { OrderShipmentComponent } from './sequel-shipment-management/order-shipment/order-shipment.component';
+import { RoleGuard } from './auth/role.guard';
+import { MainBranchOrdersComponent } from './main-branch-orders/main-branch-orders.component';
+import { SubBranchesOrdersComponent } from './sub-branches-orders/sub-branches-orders.component';
 
 const routes: Routes = [
-
   // First screen
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: '',
     redirectTo: '/login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   // Dashboard Layout
   {
     path: 'admin',
     component: DashboardComponent,
+    canActivate: [RoleGuard],
+    canActivateChild: [RoleGuard],
+    data: {
+      roles: ['BRANCH', 'SUPER_ADMIN'],
+    },
     children: [
       {
         path: 'dashboard',
-        component: HomeComponent
+        component: HomeComponent,
       },
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
       },
 
       { path: 'Gold-list', component: GoldListComponent },
@@ -129,7 +136,6 @@ const routes: Routes = [
       { path: 'update-coupon/:id', component: CouponUpdateComponent },
       { path: 'get-all-review', component: ReviewComponent },
 
-
       { path: 'category', component: CategoryComponent },
       { path: 'create-category', component: CreateCategoryComponent },
       { path: 'update-category/:id', component: UpdateCategoryComponent },
@@ -137,157 +143,203 @@ const routes: Routes = [
       { path: 'create-subcategory', component: CreateSubcategoryComponent },
       { path: 'update-subcategory/:id', component: UpdateSubcategoryComponent },
       { path: 'subsubcategory', component: SubSubCategoryListComponent },
-      { path: 'Create-subsubcategory', component: SubSubCategoryCreateComponent },
-      { path: 'update-subsubcategory/:id', component: SubSubCategoryUpdateComponent },
+      {
+        path: 'Create-subsubcategory',
+        component: SubSubCategoryCreateComponent,
+      },
+      {
+        path: 'update-subsubcategory/:id',
+        component: SubSubCategoryUpdateComponent,
+      },
       { path: 'product', component: ProductListComponent },
       { path: 'create-product', component: ProductCreateComponent },
       { path: 'edit-product/:id', component: ProductUpdateComponent },
       { path: 'address', component: AddressComponent },
-      { path: "banners", component: ListBannerComponent },
-      { path: "create-banner", component: CreateBannerComponent },
-      { path: "update-banner/:id", component: UpdateBannerComponent },
-      { path: "user", component: UserListComponent },
-      { path: "order-list", component: ListOrderComponent },
-      { path: "order-shipment/:id", component: OrderShipmentComponent },
-      { path: "Order-create", component: CreateOrderComponent },
+      { path: 'banners', component: ListBannerComponent },
+      { path: 'create-banner', component: CreateBannerComponent },
+      { path: 'update-banner/:id', component: UpdateBannerComponent },
+      { path: 'user', component: UserListComponent },
+      { path: 'order-list', component: ListOrderComponent },
+      { path: 'main-branch-orders', component: MainBranchOrdersComponent },
+      { path: 'sub-branches-orders', component: SubBranchesOrdersComponent },
+      { path: 'order-shipment/:id', component: OrderShipmentComponent },
+      { path: 'Order-create', component: CreateOrderComponent },
       { path: 'view-order/:id', component: OrderViewDialogComponent },
-      { path: "Ads", component: AdsListComponent },
-      { path: "Ads-create", component: CreateAdsComponent },
+      { path: 'Ads', component: AdsListComponent },
+      { path: 'Ads-create', component: CreateAdsComponent },
 
-      { path: "update-Ads/:id/:section", component: AdsUpdateComponent },
-      { path: "subbranch", component: SubBranchComponent },
-      { path: "subranch-list", component: SubBranchListComponent },
+      { path: 'update-Ads/:id/:section', component: AdsUpdateComponent },
+      { path: 'subbranch', component: SubBranchComponent },
+      { path: 'subranch-list', component: SubBranchListComponent },
       { path: 'update-subbranch/:id', component: SubBranchUpdateComponent },
       { path: 'employee-list', component: EmployeeListComponent },
       { path: 'employee-create', component: EmployeeCreateComponent },
       { path: 'employee-update/:id', component: EmployeeUpdateComponent },
       { path: 'meta-key-words', component: MetaKeyWordsComponent },
-      { path: 'meta-key-words-upsert/:id', component: MetaKeyWordsUpsertComponent },
-      { path: 'assign-products/:subBranchId', component: AssignedProductsComponent },
+      {
+        path: 'meta-key-words-upsert/:id',
+        component: MetaKeyWordsUpsertComponent,
+      },
+      {
+        path: 'assign-products/:subBranchId',
+        component: AssignedProductsComponent,
+      },
       { path: 'supplier-list', component: SuppliersListComponent },
       { path: 'create-supplier', component: CreateSuppliersComponent },
       { path: 'update-supplier/:id', component: UpdateSuppliersComponent },
-      { path: 'view-supplier-details/:id', component: ViewSupplierDetailsComponent },
+      {
+        path: 'view-supplier-details/:id',
+        component: ViewSupplierDetailsComponent,
+      },
 
-      { path: 'supplier-purchase-list', component: SupplierPurchaseListComponent },
-      { path: 'add-supplier-purchase', component: AddSupplierPurchaseComponent },
-      { path: 'update-supplier-purchase/:id', component: UpdateSupplierPurchaseComponent },
+      {
+        path: 'supplier-purchase-list',
+        component: SupplierPurchaseListComponent,
+      },
+      {
+        path: 'add-supplier-purchase',
+        component: AddSupplierPurchaseComponent,
+      },
+      {
+        path: 'update-supplier-purchase/:id',
+        component: UpdateSupplierPurchaseComponent,
+      },
 
-      { path: 'supplier-purchase-item', component: SupplierPurchaseItemComponent },
-      { path: 'create-supplier-purchase-item', component: CreateSupplierPurchaseItemComponent },
-      { path: 'update-supplier-purchase-item/:purchaseId/:itemId', component: UpdateSupplierPurchaseItemComponent },
+      {
+        path: 'supplier-purchase-item',
+        component: SupplierPurchaseItemComponent,
+      },
+      {
+        path: 'create-supplier-purchase-item',
+        component: CreateSupplierPurchaseItemComponent,
+      },
+      {
+        path: 'update-supplier-purchase-item/:purchaseId/:itemId',
+        component: UpdateSupplierPurchaseItemComponent,
+      },
 
       { path: 'gold-smith-list', component: MakersListComponent },
       { path: 'create-gold-smith', component: CreateMakersComponent },
       { path: 'update-gold-smith/:id', component: UpadateMakersComponent },
 
-      { path: 'gold-smiths-production-list', component: MakersProductionListComponent },
-      { path: 'create-gold-smiths-production', component: CreateMakersProductionComponent },
-      { path: 'update-gold-smiths-production/:id', component: UpdateMakersProductionComponent },
+      {
+        path: 'gold-smiths-production-list',
+        component: MakersProductionListComponent,
+      },
+      {
+        path: 'create-gold-smiths-production',
+        component: CreateMakersProductionComponent,
+      },
+      {
+        path: 'update-gold-smiths-production/:id',
+        component: UpdateMakersProductionComponent,
+      },
 
-      { path: 'gold-smith-production-item-list', component: MakersProductionItemListComponent },
-      { path: 'create-gold-smith-production-item', component: CreateMakersProductionItemComponent },
-      { path: 'update-gold-smith-production-item/:id', component: UpdateMakersProductionItemComponent },
+      {
+        path: 'gold-smith-production-item-list',
+        component: MakersProductionItemListComponent,
+      },
+      {
+        path: 'create-gold-smith-production-item',
+        component: CreateMakersProductionItemComponent,
+      },
+      {
+        path: 'update-gold-smith-production-item/:id',
+        component: UpdateMakersProductionItemComponent,
+      },
 
-      { path: "scheme-list", component: ListSchemaComponent },
-      { path: "CreateScheema", component: CreateScheemaComponent },
+      { path: 'scheme-list', component: ListSchemaComponent },
+      { path: 'CreateScheema', component: CreateScheemaComponent },
       { path: 'edit-scheme/:id', component: UpdateScheemaComponent },
-      { path: "user-scheema-list", component: UserSchemaComponent },
-      { path: "user-scheema-Create", component: CreateUserscheemaComponent },
-      { path: "user-scheema-update/:id", component: UpdateUserscheemaComponent },
+      { path: 'user-scheema-list', component: UserSchemaComponent },
+      { path: 'user-scheema-Create', component: CreateUserscheemaComponent },
+      {
+        path: 'user-scheema-update/:id',
+        component: UpdateUserscheemaComponent,
+      },
       { path: 'view-scheme/:id', component: ViewScheemaComponent },
-      { path: "userpayment-scheema-list", component: SchemaPaymentListComponent },
-      { path: "sizechat-list", component: SizeChatListComponent },
-      { path: "update-size-chart/:id", component: SizeChatUpdateComponent },
-      { path: "create-sizechat", component: SizeChatCreateComponent },
-      { path: "brand-list", component: BrandComponent },
-      { path: "brand-create", component: BrandCreateComponent },
+      {
+        path: 'userpayment-scheema-list',
+        component: SchemaPaymentListComponent,
+      },
+      { path: 'sizechat-list', component: SizeChatListComponent },
+      { path: 'update-size-chart/:id', component: SizeChatUpdateComponent },
+      { path: 'create-sizechat', component: SizeChatCreateComponent },
+      { path: 'brand-list', component: BrandComponent },
+      { path: 'brand-create', component: BrandCreateComponent },
       { path: 'update-brand/:id', component: BrandUpdateComponent },
       { path: 'custom-desigen-list', component: CustomDesignListComponent },
-      { path: "brand-list", component: BrandComponent },
-      { path: "brand-create", component: BrandCreateComponent },
+      { path: 'brand-list', component: BrandComponent },
+      { path: 'brand-create', component: BrandCreateComponent },
       { path: 'update-brand/:id', component: BrandUpdateComponent },
-
-
-
-
-
-
-
-
-
-
 
       {
         path: 'product/:subBranchId',
-        component: ProductListComponent
-      }
-
-
-
-
-    ]
+        component: ProductListComponent,
+      },
+    ],
   },
   {
     path: 'SUB_BRANCH',
     component: SubBranchSidebarComponent,
+    canActivate: [RoleGuard],
+    canActivateChild: [RoleGuard],
+    data: {
+      roles: ['SUB_BRANCH'],
+    },
     children: [
-
       {
         path: 'dashboard',
-        component: SubbranchDashboardComponent
+        component: SubbranchDashboardComponent,
       },
       { path: 'metal-list', component: MetalListComponent },
 
-
       {
         path: 'AssignedProducts',
-        component: AssignedProductsComponent
+        component: AssignedProductsComponent,
       },
       // Category
       {
         path: 'category',
-        component: CategoryComponent
+        component: CategoryComponent,
       },
 
       // Sub Category
       {
         path: 'list_subcategory',
-        component: SubCategoryListComponent
+        component: SubCategoryListComponent,
       },
 
       // Sub Sub Category
       {
         path: 'subsubcategory',
-        component: SubSubCategoryListComponent
+        component: SubSubCategoryListComponent,
       },
 
       {
         path: 'view-order/:id',
-        component: OrderViewDialogComponent
+        component: OrderViewDialogComponent,
       },
       {
         path: 'order-list',
-        component: ListOrderComponent
+        component: ListOrderComponent,
       },
 
       {
         path: 'Order-create',
-        component: CreateOrderComponent
+        component: CreateOrderComponent,
       },
 
       {
         path: 'stones-list',
-        component: StonesListComponent
+        component: StonesListComponent,
       },
-      { path: "Profile", component: ProfileComponent }
-
-    ]
-  }
-
+      { path: 'Profile', component: ProfileComponent },
+    ],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

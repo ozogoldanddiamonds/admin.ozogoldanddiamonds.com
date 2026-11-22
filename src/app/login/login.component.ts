@@ -7,7 +7,7 @@ import { AlertService } from '../Services/alert.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   role: string = '';
@@ -20,27 +20,19 @@ export class LoginComponent implements OnInit {
   authForm!: FormGroup;
 
   constructor(
-
     private router: Router,
 
     private fb: FormBuilder,
     private alertService: AlertService,
 
-    private authService: AdminLoginService
-
+    private authService: AdminLoginService,
   ) {
-
     this.initializeForm();
-
   }
   ngOnInit(): void {
-    this.role =
-      localStorage.getItem('role') || '';
+    this.role = localStorage.getItem('role') || '';
 
-    console.log(
-      'ROLE =>',
-      this.role
-    );
+    console.log('ROLE =>', this.role);
   }
 
   // =====================
@@ -48,27 +40,13 @@ export class LoginComponent implements OnInit {
   // =====================
 
   initializeForm(): void {
+    this.authForm = this.fb.group({
+      name: [''],
+      role: [''],
+      email: ['', [Validators.required, Validators.email]],
 
-    this.authForm =
-      this.fb.group({
-
-        name: [''],
-        role: [''],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.email
-          ]
-        ],
-
-        password: [
-          '',
-          Validators.required
-        ]
-
-      });
-
+      password: ['', Validators.required],
+    });
   }
 
   // =====================
@@ -76,58 +54,33 @@ export class LoginComponent implements OnInit {
   // =====================
 
   signupForm(): void {
-
-    this.isLogin =
-      !this.isLogin;
+    this.isLogin = !this.isLogin;
 
     if (this.isLogin) {
-
-      this.authForm
-        .get('name')
-        ?.clearValidators();
-
+      this.authForm.get('name')?.clearValidators();
+    } else {
+      this.authForm.get('name')?.setValidators(Validators.required);
     }
 
-    else {
-
-      this.authForm
-        .get('name')
-        ?.setValidators(
-          Validators.required
-        );
-
-    }
-
-    this.authForm
-      .get('name')
-      ?.updateValueAndValidity();
-
+    this.authForm.get('name')?.updateValueAndValidity();
   }
   togglePassword() {
-
-    this.showPassword =
-      !this.showPassword;
-
+    this.showPassword = !this.showPassword;
   }
 
   // =====================
   // SUBMIT
   // =====================
   onSubmit(): void {
-
     // ==========================================
     // ROLE VALIDATION
     // ==========================================
 
     if (!this.selectedRole) {
-
-      this.alertService.error(
-        'Please Select Role'
-      );
+      this.alertService.error('Please Select Role');
 
       return;
     }
-
 
     // ==========================================
     // START LOADING
@@ -135,178 +88,107 @@ export class LoginComponent implements OnInit {
 
     this.isSaving = true;
 
-
     const loginData = {
-
       email: this.authForm.value.email,
 
-      password: this.authForm.value.password
-
+      password: this.authForm.value.password,
     };
-
 
     // ==========================================
     // LOGIN API
     // ==========================================
 
-    this.authService.login(loginData)
-      .subscribe({
+    this.authService.login(loginData).subscribe({
+      next: (res: any) => {
+        console.log(res);
 
-        next: (res: any) => {
+        console.log('SELECTED ROLE =>', this.selectedRole);
 
-          console.log(res);
-
-          console.log(
-            'SELECTED ROLE =>',
-            this.selectedRole
-          );
-
-          console.log(
-            'API ROLE =>',
-            res.role
-          );
-
-
-          // ==========================================
-          // ROLE VALIDATION
-          // ==========================================
-
-          if (
-            this.selectedRole !== res.role
-          ) {
-
-            this.isSaving = false;
-
-            this.alertService.error(
-              'Selected Role Not Matched'
-            );
-
-            return;
-          }
-
-
-          // ==========================================
-          // SAVE LOGIN DATA
-          // ==========================================
-
-          localStorage.setItem(
-            'token',
-            res.token
-          );
-
-          localStorage.setItem(
-            'role',
-            res.role
-          );
-
-          localStorage.setItem(
-            'name',
-            res.name
-          );
-
-          localStorage.setItem(
-            'email',
-            res.email
-          );
-
-          localStorage.setItem(
-            'adminId',
-            res._id
-          );
-
-
-          // ==========================================
-          // NAVIGATION
-          // ==========================================
-
-          if (res.role === 'BRANCH') {
-
-            this.router.navigate([
-              '/admin/dashboard'
-            ]);
-
-          }
-
-          else if (res.role === 'SUB_BRANCH') {
-
-            this.router.navigate([
-              '/SUB_BRANCH/dashboard'
-            ]);
-
-          }
-
-          else {
-
-            this.isSaving = false;
-
-            this.alertService.error(
-              'Invalid User Role'
-            );
-
-          }
-
-        },
-
+        console.log('API ROLE =>', res.role);
 
         // ==========================================
-        // ERROR
+        // ROLE VALIDATION
         // ==========================================
 
-        error: (err) => {
-
+        if (this.selectedRole !== res.role) {
           this.isSaving = false;
 
-          this.alertService.error(
-            err.error?.message ||
-            'Something went wrong'
-          );
+          this.alertService.error('Selected Role Not Matched');
 
+          return;
         }
 
-      });
+        // ==========================================
+        // SAVE LOGIN DATA
+        // ==========================================
 
+        localStorage.setItem('token', res.token);
+
+        localStorage.setItem('role', res.role);
+
+        localStorage.setItem('name', res.name);
+
+        localStorage.setItem('email', res.email);
+
+        localStorage.setItem('adminId', res._id);
+
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+
+        this.isSaving = false;
+
+        if (res.role === 'BRANCH') {
+          this.router.navigateByUrl('/admin/dashboard');
+        } else if (res.role === 'SUB_BRANCH') {
+          this.router.navigateByUrl('/SUB_BRANCH/dashboard');
+        } else {
+          this.alertService.error('Invalid User Role');
+
+          localStorage.clear();
+        }
+      },
+
+      // ==========================================
+      // ERROR
+      // ==========================================
+
+      error: (err) => {
+        this.isSaving = false;
+
+        this.alertService.error(err.error?.message || 'Something went wrong');
+      },
+    });
   }
   // =====================
   // FORGOT PASSWORD
   // =====================
 
   forgotPassword(): void {
-
     const email = this.authForm.value.email;
 
     if (!email) {
-
-      this.alertService.error(
-        'Please enter your email'
-      );
+      this.alertService.error('Please enter your email');
 
       return;
     }
 
-    this.authService
-      .forgotPassword(email)
-      .subscribe({
+    this.authService.forgotPassword(email).subscribe({
+      next: (response: any) => {
+        this.alertService.success(
+          response.message || 'Reset link sent successfully',
+        );
+      },
 
-        next: (response: any) => {
-
-          this.alertService.success(
-            response.message ||
-            'Reset link sent successfully'
-          );
-
-        },
-
-        error: (error) => {
-
-          this.alertService.error(
-            error?.error?.message ||
-            'Something went wrong'
-          );
-
-        }
-
-      });
-
+      error: (error) => {
+        this.alertService.error(
+          error?.error?.message || 'Something went wrong',
+        );
+      },
+    });
   }
-
 }
