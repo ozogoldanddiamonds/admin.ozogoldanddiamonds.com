@@ -9,24 +9,20 @@ import { SupplierPurchaseItemsService } from 'src/app/Services/supplier-purchase
 @Component({
   selector: 'app-supplier-purchase-item',
   templateUrl: './supplier-purchase-item.component.html',
-  styleUrls: ['./supplier-purchase-item.component.css']
+  styleUrls: ['./supplier-purchase-item.component.css'],
 })
 export class SupplierPurchaseItemComponent implements OnInit {
-
-
   // =========================
   // ROLE
   // =========================
 
   role: string = '';
 
-
   // =========================
   // TABLE COLUMNS
   // =========================
 
   displayedColumns: string[] = [
-
     'sno',
 
     'supplier',
@@ -35,7 +31,7 @@ export class SupplierPurchaseItemComponent implements OnInit {
 
     'product',
 
-    'variantId',
+    'variants',
 
     'quantity',
 
@@ -53,18 +49,14 @@ export class SupplierPurchaseItemComponent implements OnInit {
 
     'status',
 
-    'actions'
-
+    'actions',
   ];
-
 
   // =========================
   // DATA SOURCE
   // =========================
 
-  dataSource =
-    new MatTableDataSource<any>();
-
+  dataSource = new MatTableDataSource<any>();
 
   // =========================
   // PAGINATOR
@@ -73,7 +65,6 @@ export class SupplierPurchaseItemComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-
   // =========================
   // SORT
   // =========================
@@ -81,177 +72,117 @@ export class SupplierPurchaseItemComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-
   // =========================
   // DATA
   // =========================
 
   supplierPurchaseItems: any[] = [];
 
-
   constructor(
-    private supplierPurchaseItemService:
-      SupplierPurchaseItemsService,
+    private supplierPurchaseItemService: SupplierPurchaseItemsService,
 
     private router: Router,
 
-    public authService:
-      AdminLoginService
-  ) { }
+    public authService: AdminLoginService,
+  ) {}
 
   // =========================
   // INIT
   // =========================
 
   ngOnInit(): void {
-
     this.role = localStorage.getItem('role') || '';
 
-
-    console.log(
-      'ROLE =>',
-      this.role
-    );
-
+    console.log('ROLE =>', this.role);
 
     this.getAllSupplierPurchaseItems();
-
   }
-
 
   // =========================
   // GET ALL ITEMS
   // =========================
 
   getAllSupplierPurchaseItems(): void {
+    this.supplierPurchaseItemService.getAllSupplierPurchaseItems().subscribe({
+      next: (response: any) => {
+        console.log(response, 'supplier purchase items');
 
-    this.supplierPurchaseItemService
-      .getAllSupplierPurchaseItems()
-      .subscribe({
+        this.supplierPurchaseItems = response.data || [];
 
-        next: (response: any) => {
+        this.dataSource.data = this.supplierPurchaseItems;
 
-          console.log(
-            response,
-            'supplier purchase items'
-          );
+        // =========================
+        // PAGINATOR
+        // =========================
 
+        this.dataSource.paginator = this.paginator;
 
-          this.supplierPurchaseItems =
-            response.data || [];
+        // =========================
+        // SORT
+        // =========================
 
+        this.dataSource.sort = this.sort;
 
-          this.dataSource.data =
-            this.supplierPurchaseItems;
+        // =========================
+        // CUSTOM SEARCH
+        // =========================
 
+        this.dataSource.filterPredicate = (
+          data: any,
+          filter: string,
+        ): boolean => {
+          const searchText = [
+            // Supplier
+            data.purchase?.supplier?.name,
 
-          // =========================
-          // PAGINATOR
-          // =========================
+            // Invoice
+            data.purchase?.invoiceNumber,
 
-          this.dataSource.paginator =
-            this.paginator;
+            // Product
+            data.product?.name,
 
+            // Variant ID
+            data.variantId,
 
-          // =========================
-          // SORT
-          // =========================
+            // Quantity
+            data.quantity,
 
-          this.dataSource.sort =
-            this.sort;
+            // Purchase Price
+            data.purchasePrice,
 
+            // Discount
+            data.discount,
 
-          // =========================
-          // CUSTOM SEARCH
-          // =========================
+            // Tax
+            data.tax,
 
-          this.dataSource.filterPredicate =
-            (
-              data: any,
-              filter: string
-            ): boolean => {
+            // Total
+            data.totalAmount,
 
-              const searchText = [
+            // Payment Status
+            data.purchase?.paymentStatus,
 
-                // Supplier
-                data.purchase
-                  ?.supplier
-                  ?.name,
+            // Purchase Status
+            data.purchase?.status,
+          ]
+            .filter((value) => value !== undefined && value !== null)
+            .join(' ')
+            .toLowerCase();
 
-                // Invoice
-                data.purchase
-                  ?.invoiceNumber,
+          return searchText.includes(filter);
+        };
+      },
 
-                // Product
-                data.product
-                  ?.name,
-
-                // Variant ID
-                data.variantId,
-
-                // Quantity
-                data.quantity,
-
-                // Purchase Price
-                data.purchasePrice,
-
-                // Discount
-                data.discount,
-
-                // Tax
-                data.tax,
-
-                // Total
-                data.totalAmount,
-
-                // Payment Status
-                data.purchase
-                  ?.paymentStatus,
-
-                // Purchase Status
-                data.purchase
-                  ?.status
-
-              ]
-                .filter(
-                  value =>
-                    value !== undefined &&
-                    value !== null
-                )
-                .join(' ')
-                .toLowerCase();
-
-
-              return searchText.includes(
-                filter
-              );
-
-            };
-
-        },
-
-
-        error: (error) => {
-
-          console.error(
-            error
-          );
-
-        }
-
-      });
-
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
-
-
-
   viewSupplierPurchaseItem(element: any): void {
-
     console.log('VIEW ELEMENT:', element);
 
-    const purchaseId =
-      element.purchase?._id;
+    const purchaseId = element.purchase?._id;
 
     if (!purchaseId) {
       console.error('Purchase ID not found');
@@ -259,18 +190,13 @@ export class SupplierPurchaseItemComponent implements OnInit {
     }
 
     this.router.navigate(
-      [
-        '/admin/update-supplier-purchase-item',
-        purchaseId,
-        element._id
-      ],
+      ['/admin/update-supplier-purchase-item', purchaseId, element._id],
       {
         queryParams: {
-          mode: 'view'
-        }
-      }
+          mode: 'view',
+        },
+      },
     );
-
   }
   // =========================
   // EDIT
@@ -292,7 +218,7 @@ export class SupplierPurchaseItemComponent implements OnInit {
     this.router.navigate([
       '/admin/update-supplier-purchase-item',
       purchaseId,
-      itemId
+      itemId,
     ]);
   }
 
@@ -300,34 +226,25 @@ export class SupplierPurchaseItemComponent implements OnInit {
   // SEARCH
   // =========================
 
-  applyFilter(
-    event: Event
-  ): void {
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
 
-    const filterValue =
-      (
-        event.target as HTMLInputElement
-      ).value;
-
-
-    this.dataSource.filter =
-      filterValue
-        .trim()
-        .toLowerCase();
-
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     // =========================
     // FIRST PAGE
     // =========================
 
-    if (
-      this.dataSource.paginator
-    ) {
-
-      this.dataSource.paginator
-        .firstPage();
-
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
+  }
 
+  getVariantSize(element: any): string {
+    const variant = element?.product?.variants?.find(
+      (v: any) => v._id === element?.variantId,
+    );
+
+    return variant?.size || '-';
   }
 }

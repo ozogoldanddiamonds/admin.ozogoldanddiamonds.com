@@ -274,18 +274,13 @@
                       supplierPurchaseItemForm.get('variantId')?.invalid
                     "
                   >
-                    <option value="">Select Variant</option>
+                    <option value="">Select Variant Size</option>
 
                     <option
                       *ngFor="let variant of variants"
                       [value]="variant._id"
                     >
-                      {{
-                        variant.name ||
-                          variant.variantName ||
-                          variant.sku ||
-                          variant._id
-                      }}
+                      {{ variant.size || variant.sku || variant._id }}
                     </option>
                   </select>
 
