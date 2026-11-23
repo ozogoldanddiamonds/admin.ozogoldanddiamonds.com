@@ -434,11 +434,24 @@ export class MakersProductionItemListComponent
     });
   }
 
-  getVariantSize(element: any): string {
-    const variant = element?.product?.variants?.find(
-      (v: any) => v._id === element?.variantId,
+  getVariantSize(row: any): string {
+    const variants = row?.product?.variants || [];
+
+    const variantId = String(row?.variantId?._id || row?.variantId || '');
+
+    console.log('Production ID:', row?._id);
+    console.log('Selected Variant ID:', variantId);
+    console.log(
+      'Available Variant IDs:',
+      variants.map((v: any) => String(v?._id)),
     );
 
-    return variant?.size || '-';
+    const variant = variants.find((v: any) => String(v?._id) === variantId);
+
+    if (!variant) {
+      return '-';
+    }
+
+    return `Size: ${variant.size} | ${variant.metalPurity} | ${variant.metalColor}`;
   }
 }
