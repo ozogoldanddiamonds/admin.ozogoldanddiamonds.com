@@ -13,7 +13,7 @@
 }
 
 .logo_card span {
-  color: #fff;
+  color: var(--red-color);
   font-size: 16px;
   font-weight: 700;
   margin-top: 10px;
@@ -1110,7 +1110,7 @@
 
   overflow: hidden;
 
-  background: rgba(255, 255, 255, 0.08) !important;
+  background:#ffffff !important;
 
   border: 1px solid rgba(255, 255, 255, 0.18);
 
@@ -1546,4 +1546,14 @@
   transform: translateX(0) scale(1.03);
 
   border-radius: 12px;
+}
+
+.trademark {
+  font-size: 9px;
+  font-weight: 600;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 2px;
+  position: relative;
+  top: -2px;
 }
