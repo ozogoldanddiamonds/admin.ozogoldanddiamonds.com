@@ -30,10 +30,12 @@ export class ListOrderComponent implements OnInit {
     'amount',
     'date',
     'shipment',
+    'invoice',
     'actions',
   ];
 
   dataSource = new MatTableDataSource<any>();
+  invoiceLoadingIds = new Set<string>();
 
   selectedOrderIds: string[] = [];
 
@@ -432,6 +434,54 @@ export class ListOrderComponent implements OnInit {
           );
         },
       });
+    });
+  }
+  downloadInvoice(row: any): void {
+    const userId = typeof row.user === 'object' ? row.user?._id : row.user;
+
+    const orderId = row._id;
+
+    if (!userId || !orderId) {
+      alert('User ID or Order ID not found');
+      return;
+    }
+
+    if (this.invoiceLoadingIds.has(orderId)) {
+      return;
+    }
+
+    this.invoiceLoadingIds.add(orderId);
+
+    this.orderService.downloadInvoice(userId, orderId).subscribe({
+      next: (blob: Blob) => {
+        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+
+        const url = window.URL.createObjectURL(pdfBlob);
+
+        const link = document.createElement('a');
+
+        link.href = url;
+
+        link.download = `${row.invoiceNumber || row.orderNumber || 'Invoice'}.pdf`;
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(url);
+
+        this.invoiceLoadingIds.delete(orderId);
+      },
+
+      error: (error) => {
+        console.error('Invoice Download Error:', error);
+
+        this.invoiceLoadingIds.delete(orderId);
+
+        alert('Invoice generation failed. Please try again.');
+      },
     });
   }
 }

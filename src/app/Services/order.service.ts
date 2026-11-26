@@ -156,4 +156,10 @@ export class OrderService {
   verifyPosRazorpayPayment(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/pos/verify-razorpay-payment`, data);
   }
+
+  downloadInvoice(userId: string, orderId: string) {
+    return this.http.get(`${this.apiUrl}/download/${userId}/${orderId}`, {
+      responseType: 'blob',
+    });
+  }
 }

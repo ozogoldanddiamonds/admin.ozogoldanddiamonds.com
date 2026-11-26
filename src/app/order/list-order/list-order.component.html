@@ -250,6 +250,31 @@
           </span>
         </td>
       </ng-container>
+      <!-- Invoice Download -->
+
+      <ng-container matColumnDef="invoice">
+        <th mat-header-cell *matHeaderCellDef>Invoice</th>
+
+        <td mat-cell *matCellDef="let row">
+          <button
+            class="invoice-btn"
+            [disabled]="invoiceLoadingIds.has(row._id) || !row.user"
+            (click)="downloadInvoice(row)"
+            title="Download Invoice"
+          >
+            <i
+              class="fa"
+              [ngClass]="
+                invoiceLoadingIds.has(row._id)
+                  ? 'fa-spinner fa-spin'
+                  : 'fa-file-pdf-o'
+              "
+            ></i>
+
+            {{ invoiceLoadingIds.has(row._id) ? "Generating..." : "Invoice" }}
+          </button>
+        </td>
+      </ng-container>
 
       <!-- Actions -->
 
